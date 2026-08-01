@@ -1,0 +1,16 @@
+{
+  "transitionType": "shatterWipe",
+  "component": "ShatterWipe.jsx",
+  "description": "Splits the outgoing/incoming scene into a grid of tiles that fly apart from the center outward (or reassemble inward), each tile with its own rotation and a distance-based stagger, for a 'shatter' cut instead of a plain crossfade.",
+  "defaultDurationInFrames": 22,
+  "consumes": {
+    "outgoingSceneStyles": false,
+    "incomingSceneStyles": false,
+    "carriedAssets": false
+  },
+  "params": {
+    "cols": { "type": "number", "default": 6 },
+    "rows": { "type": "number", "default": 4 },
+    "throwDistance": { "type": "number", "default": 220, "description": "px the farthest tile travels at full scatter" }
+  }
+}

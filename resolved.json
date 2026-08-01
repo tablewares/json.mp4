@@ -1,0 +1,249 @@
+{
+  "projectId": "example-project",
+  "config": {
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "defaultSceneDurationInFrames": 90
+  },
+  "audioOverlay": [
+    {
+      "id": "voiceover",
+      "start": 0,
+      "end": 8.5,
+      "path": "audio/voiceover.mp3"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene-001",
+      "durationInFrames": 81,
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "titleText",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/video-framework/src/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Why most AI videos look like slideshows"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 115.19999999999999,
+            "top": 108,
+            "transformOrigin": "0% 0%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 72,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "left",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 81,
+            "enterAtFrame": 0,
+            "exitAtFrame": 73
+          }
+        },
+        {
+          "id": "heroImage",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/video-framework/src/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "",
+            "alt": "hero"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 32,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "timing": {
+            "durationInFrames": 81,
+            "enterAtFrame": 4,
+            "exitAtFrame": 81
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": {
+        "type": "slideContinuity",
+        "durationInFrames": 24,
+        "componentPath": "/home/tablewares/video-framework/src/transitions/slideContinuity/SlideContinuity.jsx",
+        "props": {
+          "carryAssetId": "heroImage",
+          "carryFrom": {
+            "position": "absolute",
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "carryTo": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
+          }
+        }
+      }
+    },
+    {
+      "id": "scene-002",
+      "durationInFrames": 167,
+      "background": "#161B26",
+      "assets": [
+        {
+          "id": "heroImage",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/video-framework/src/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg",
+            "alt": "hero"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
+          },
+          "timing": {
+            "durationInFrames": 167,
+            "enterAtFrame": 0,
+            "exitAtFrame": 167
+          }
+        },
+        {
+          "id": "bodyText",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/video-framework/src/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Because they resolve every asset independently, with no shared registry and no continuity."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 904.8,
+            "top": 772,
+            "transformOrigin": "100% 100%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
+              "fontWeight": 400,
+              "lineHeight": 1.4,
+              "colorToken": "main2",
+              "color": "#8B93A7"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "right",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 167,
+            "enterAtFrame": 17,
+            "exitAtFrame": 159
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "slideContinuity",
+        "durationInFrames": 24,
+        "componentPath": "/home/tablewares/video-framework/src/transitions/slideContinuity/SlideContinuity.jsx",
+        "props": {
+          "carryAssetId": "heroImage",
+          "carryFrom": {
+            "position": "absolute",
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "carryTo": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
+          }
+        }
+      },
+      "transitionOut": null
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "assetType": "TextBlock",
+  "component": "TextBlock.jsx",
+  "description": "A single block of text with its own entrance/exit animation.",
+  "defaultSize": { "width": 900, "height": 200 },
+  "defaultStyle": {
+    "typography": "heading1",
+    "backgroundColorToken": "transparent",
+    "easing": "gentleSpring"
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": ["text"],
+    "properties": {
+      "text": { "type": "string" }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "typography": { "type": "string" },
+      "backgroundColorToken": { "type": "string" },
+      "easing": { "type": "string" },
+      "align": { "type": "string", "enum": ["left", "center", "right"] }
+    }
+  }
+}

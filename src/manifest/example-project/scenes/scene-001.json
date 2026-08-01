@@ -1,0 +1,30 @@
+{
+  "id": "scene-001",
+  "narrationRef": "n1",
+  "background": "shade1",
+  "transitionOut": {
+    "type": "slideContinuity",
+    "durationInFrames": 24,
+    "params": { "carryAssetId": "heroImage" }
+  },
+  "assets": [
+    {
+      "id": "titleText",
+      "assetType": "TextBlock",
+      "anchor": { "position": "top-left", "offsetXPercent": 6, "offsetYPercent": 10 },
+      "contentOverride": { "text": "Why most AI videos look like slideshows" },
+      "styleOverride": { "typography": "heading1", "align": "left" },
+      "enterAt": 0,
+      "exitAt": 0.9
+    },
+    {
+      "id": "heroImage",
+      "assetType": "ImageReveal",
+      "anchor": { "position": "right", "offsetXPercent": -8, "offsetYPercent": 0 },
+      "contentOverride": { "src": "", "alt": "hero" },
+      "styleOverride": { "borderRadius": 32, "revealDirection": "left-to-right", "width": 640, "height": 640 },
+      "enterAt": 0.05,
+      "exitAt": 1
+    }
+  ]
+}

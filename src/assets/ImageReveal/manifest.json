@@ -1,0 +1,27 @@
+{
+  "assetType": "ImageReveal",
+  "component": "ImageReveal.jsx",
+  "description": "An image that reveals with a clip-path wipe and settles with a slight scale-in.",
+  "defaultSize": { "width": 640, "height": 640 },
+  "defaultStyle": {
+    "borderRadius": 24,
+    "easing": "gentleSpring",
+    "revealDirection": "left-to-right"
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": ["src"],
+    "properties": {
+      "src": { "type": "string" },
+      "alt": { "type": "string" }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "borderRadius": { "type": "number" },
+      "easing": { "type": "string" },
+      "revealDirection": { "type": "string", "enum": ["left-to-right", "top-to-bottom", "center-out"] }
+    }
+  }
+}

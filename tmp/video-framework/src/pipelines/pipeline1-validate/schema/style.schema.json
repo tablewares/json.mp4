@@ -1,0 +1,42 @@
+{
+  "$id": "style.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["colors", "typography", "spacing"],
+  "properties": {
+    "colors": {
+      "type": "object",
+      "description": "standardized token registry, e.g. shade1/shade2, main1/main2, accentBg",
+      "additionalProperties": { "type": "string", "pattern": "^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$" }
+    },
+    "typography": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["fontFamily", "fontSize", "fontWeight"],
+        "properties": {
+          "fontFamily": { "type": "string" },
+          "fontSize": { "type": "number" },
+          "fontWeight": { "type": "number" },
+          "lineHeight": { "type": "number" },
+          "colorToken": { "type": "string" }
+        }
+      }
+    },
+    "spacing": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "easing": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "damping": { "type": "number" },
+          "mass": { "type": "number" },
+          "stiffness": { "type": "number" }
+        }
+      }
+    }
+  }
+}
