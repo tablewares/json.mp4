@@ -48,7 +48,6 @@ export async function generateTtsTiming(entries, fullTranscript) {
   }
 
   const workDir = defaultWorkDir();
-  console.log('workdir', workDir);
   const audioPath = path.join(workDir, `voiceover.mp3`);
 
   // 1) Single-pass synthesis of the whole transcript.

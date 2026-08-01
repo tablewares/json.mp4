@@ -1,0 +1,25 @@
+{
+  "id": "{{SCENE_ID}}",
+  "narrationRef": "{{NARRATION_REF}}",
+  "background": "{{BACKGROUND_TOKEN}}",
+  "assets": [
+    {
+      "id": "{{ASSET_ID}}",
+      "assetType": "{{ASSET_TYPE}}",
+      "anchor": {
+        "position": "{{POSITION}}",
+        "offsetXPercent": null,
+        "offsetYPercent": null
+      },
+      "contentOverride": {
+        "text": "{{TEXT}}"
+      },
+      "styleOverride": {
+        "typography": "{{TYPOGRAPHY_TOKEN}}",
+        "align": "{{ALIGN}}"
+      },
+      "enterAt": null,
+      "exitAt": null
+    }
+  ]
+}

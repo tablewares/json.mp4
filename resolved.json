@@ -168,15 +168,15 @@
         },
         {
           "id": "bodyText",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/video-framework/src/assets/TextBlock/TextBlock.jsx",
+          "assetType": "KineticText",
+          "componentPath": "/home/tablewares/video-framework/src/assets/KineticText/KineticText.jsx",
           "content": {
             "text": "Because they resolve every asset independently, with no shared registry and no continuity."
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 904.8,
-            "top": 772,
+            "left": 704.8,
+            "top": 712,
             "transformOrigin": "100% 100%"
           },
           "resolvedStyle": {
@@ -188,15 +188,16 @@
               "colorToken": "main2",
               "color": "#8B93A7"
             },
-            "backgroundColorToken": "#00000000",
             "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
             },
+            "staggerFrames": 6,
+            "wordPopScale": 1.15,
             "align": "right",
-            "width": 900,
-            "height": 200
+            "width": 1100,
+            "height": 260
           },
           "timing": {
             "durationInFrames": 167,

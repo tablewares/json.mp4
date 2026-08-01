@@ -2,6 +2,11 @@
   "id": "scene-002",
   "narrationRef": "n2",
   "background": "shade2",
+  "transitionOut": {
+    "type": "shatterWipe",
+    "durationInFrames": 24
+  },
+
   "assets": [
     {
       "id": "heroImage",
@@ -14,7 +19,7 @@
     },
     {
       "id": "bodyText",
-      "assetType": "TextBlock",
+      "assetType": "KineticText",
       "anchor": { "position": "bottom-right", "offsetXPercent": -6, "offsetYPercent": -10 },
       "contentOverride": { "text": "Because they resolve every asset independently, with no shared registry and no continuity." },
       "styleOverride": { "typography": "body1", "align": "right" },

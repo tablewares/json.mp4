@@ -42,7 +42,6 @@ export async function alignAudioWords(
   const venvPython = isWindows
     ? path.join(venv, "Scripts", "python.exe")
     : path.join(venv, "bin", "python");
-  console.log('venvPython', venvPython)
   const pythonBin = existsSync(venvPython) ? venvPython : "python";
 
   await execFileAsync(

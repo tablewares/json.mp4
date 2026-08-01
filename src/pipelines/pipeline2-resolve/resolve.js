@@ -22,6 +22,8 @@ export async function resolveProject(manifestPath) {
   const { manifest, config, styles, scenes } = validateProject(manifestPath);
   const assetRegistry = loadAssetRegistry();
   const transitionRegistry = loadTransitionRegistry();
+  console.log("assetregistry", assetRegistry)
+  console.log("transitionregistry", transitionRegistry)
 
   const timingById = manifest.narration
     ? await resolveNarrationTiming(manifest.narration.entries, manifest.narration.fullTranscript, config.fps)
@@ -135,7 +137,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const manifestPath = process.argv[2] ?? path.join(__dirname, "../../manifest/example-project/manifest.json");
   const outPath = process.argv[3] ?? path.join(__dirname, "../../../resolved.json");
   const resolved = await resolveProject(manifestPath);
-  console.log("resolved", resolved)
   fs.writeFileSync(outPath, JSON.stringify(resolved, null, 2));
   console.log(`Resolved scene graph written to ${outPath}`);
 }

@@ -1,0 +1,42 @@
+{
+  "colors": {
+    "shade1": "{{COLOR}}",
+    "shade2": "{{COLOR}}",
+    "main1": "{{COLOR}}",
+    "main2": "{{COLOR}}",
+    "accentBg": "{{COLOR}}",
+    "transparent": "#00000000"
+  },
+  "typography": {
+    "heading1": {
+      "fontFamily": "{{FONT_FAMILY}}",
+      "fontSize": null,
+      "fontWeight": null,
+      "lineHeight": null,
+      "colorToken": "{{COLOR_TOKEN}}"
+    },
+    "body1": {
+      "fontFamily": "{{FONT_FAMILY}}",
+      "fontSize": null,
+      "fontWeight": null,
+      "lineHeight": null,
+      "colorToken": "{{COLOR_TOKEN}}"
+    }
+  },
+  "spacing": {
+    "sceneMargin": null,
+    "gutter": null
+  },
+  "easing": {
+    "gentleSpring": {
+      "damping": null,
+      "mass": null,
+      "stiffness": null
+    },
+    "snappySpring": {
+      "damping": null,
+      "mass": null,
+      "stiffness": null
+    }
+  }
+}

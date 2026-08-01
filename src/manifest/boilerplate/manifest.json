@@ -1,0 +1,28 @@
+{
+  "projectId": "{{PROJECT_ID}}",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "narration": {
+    "entries": [
+      {
+        "id": "{{NARRATION_ID}}",
+        "text": "{{NARRATION_TEXT}}"
+      }
+    ],
+    "fullTranscript": "{{FULL_TRANSCRIPT}}"
+  },
+  "audioOverlay": [
+    {
+      "id": "{{AUDIO_ID}}",
+      "start": null,
+      "end": null,
+      "path": "{{AUDIO_PATH}}"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "{{SCENE_ID}}",
+      "path": "scenes/{{SCENE_FILE}}"
+    }
+  ]
+}
