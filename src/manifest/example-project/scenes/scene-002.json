@@ -11,9 +11,9 @@
     {
       "id": "heroImage",
       "assetType": "ImageReveal",
-      "anchor": { "position": "top-left", "offsetXPercent": 8, "offsetYPercent": 12 },
+      "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": 0 },
       "contentOverride": { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg", "alt": "hero" },
-      "styleOverride": { "borderRadius": 16, "revealDirection": "left-to-right", "width": 420, "height": 420 },
+      "styleOverride": { "borderRadius": 0, "revealDirection": "left-to-right", "width": 1920, "height": 1080 },
       "enterAt": 0,
       "exitAt": 1
     },

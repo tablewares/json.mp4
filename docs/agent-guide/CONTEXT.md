@@ -23,6 +23,9 @@ not everything.
   token-vs-literal, registry pattern). Read once; these are the "why".
 - `recipes/` — worked, copy-pasteable patterns for common scene shapes.
   Grows over time as the project accumulates real usage.
+- `lessons-learned.md` — what broke end-to-end and the streamlined 5-minute
+  render path. Read before bootstrapping a new project; every item there cost a
+  real debug cycle.
 
 ## The 30-second mental model
 

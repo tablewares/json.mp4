@@ -1,44 +1,77 @@
-import React from "react";
-import { Audio, Sequence, staticFile } from "remotion";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Audio, Sequence, staticFile, useVideoConfig } from "remotion";
+import { getAudioDurationInSeconds } from "@remotion/media-utils";
+import { delayRender, continueRender, cancelRender } from "remotion";
 
 /**
- * Converts [{ id, start, end, path }] (seconds) into frame-accurate Remotion
- * <Sequence><Audio/></Sequence> elements. Remotion composites these directly
- * during render — there is no separate mux step.
+ * Loads an audio track, probes its duration, and creates a
+ * frame-accurate Remotion <Sequence><Audio /></Sequence>.
  *
- * @param {{id:string, start:number, end:number, path:string}[]} tracks
- * @param {number} fps
+ * The audio starts at 0 and runs for its actual duration.
  */
+export function AudioOverlay() {
+  const { fps } = useVideoConfig();
 
+  const audioPath = "audio/hardcoded_voice.wav";
+  const src = staticFile(audioPath);
 
-export function AudioOverlay({ fps = 30 }) {
-  // Hardcoded audio track details
-  const hardcodedTrack = {
-    id: "hardcoded-tts-voice",
-    start: 0, // start time in seconds
-    end: 5,   // duration in seconds
-    path: "audio/hardcoded_voice.wav",
-  };
+  const [duration, setDuration] = useState(null);
 
-  const src = staticFile(hardcodedTrack.path);
-
-  // Hardcode preloading / downloading audio on component mount
   useEffect(() => {
-    const audioElement = new window.Audio();
-    audioElement.src = src;
-    audioElement.preload = "auto";
+    const handle = delayRender("Loading audio and probing duration");
+
+    let cancelled = false;
+
+    const loadAudio = async () => {
+      try {
+        // Fetch/download the audio so it is available before probing.
+        const response = await fetch(src);
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to download audio: ${response.status} ${response.statusText}`
+          );
+        }
+
+        const blob = await response.blob();
+
+        // Create a local URL for the downloaded audio.
+        const blobUrl = URL.createObjectURL(blob);
+
+        try {
+          // Probe the actual audio duration in seconds.
+          const seconds = await getAudioDurationInSeconds(blobUrl);
+
+          if (!cancelled) {
+            setDuration(seconds);
+            continueRender(handle);
+          }
+        } finally {
+          URL.revokeObjectURL(blobUrl);
+        }
+      } catch (error) {
+        cancelRender(handle, error);
+      }
+    };
+
+    loadAudio();
+
+    return () => {
+      cancelled = true;
+    };
   }, [src]);
 
-  const from = Math.round(hardcodedTrack.start * fps);
-  const durationInFrames = Math.round((hardcodedTrack.end - hardcodedTrack.start) * fps);
+  if (duration === null) {
+    return null;
+  }
+
+  const durationInFrames = Math.ceil(duration * fps);
 
   return (
     <Sequence
-      key={hardcodedTrack.id}
-      from={from}
+      from={0}
       durationInFrames={durationInFrames}
-      name={`audio-${hardcodedTrack.id}`}
+      name="audio-hardcoded-tts-voice"
     >
       <Audio src={src} />
     </Sequence>

@@ -1,0 +1,46 @@
+{
+  "id": "scene-002",
+  "narrationRef": "n2",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "heroImage",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "https://images.unsplash.com/photo-1518770660439-4636190488ff4?w=1920&q=80",
+        "alt": "circuit board macro"
+      },
+      "styleOverride": {
+        "borderRadius": 0,
+        "revealDirection": "center-out",
+        "width": 1920,
+        "height": 1080
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "caption",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 32
+      },
+      "contentOverride": {
+        "text": "Resolved assets. Continuity built in. Render in minutes."
+      },
+      "styleOverride": {
+        "typography": "body1",
+        "align": "center"
+      },
+      "enterAt": 0.18,
+      "exitAt": 0.95
+    }
+  ]
+}

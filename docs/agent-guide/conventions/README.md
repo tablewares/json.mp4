@@ -14,3 +14,13 @@ These are the invariants. If you find yourself fighting one, that's
 usually a sign you're missing an existing escape hatch the framework
 already supports — check the relevant reference file before inventing a
 new shape.
+
+## Known gotchas (not invariants, but worth reading once)
+
+- `../lessons-learned.md` section 2: the implicit `default` transition is
+  unregistered at render time due to a `component`-vs-`main` field mismatch in
+  `Composition.jsx` discovery. Always set an explicit `transitionOut` of a
+  convention-conforming type on non-final scenes until that's patched.
+- `../lessons-learned.md` section 1: narration routes through a local Kyutai
+  TTS server. Omit the `narration` block entirely for silent, deterministic
+  iteration; scenes fall back to `config.defaultSceneDurationInFrames`.

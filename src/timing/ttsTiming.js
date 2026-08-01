@@ -4,9 +4,16 @@
  * single seam the rest of the framework talks to, so swapping TTS providers
  * never touches pipeline2 or the renderer.
  *
+ * TTS is the single source of truth for timing. The provider returns:
+ *   - per-entry { id, start, end } (seconds) — where each narration entry
+ *     actually starts/ends in the synthesized audio
+ *   - totalDuration — the real synthesized audio length (seconds); this drives
+ *     audioOverlay so the manifest never hand-authors a clip length
+ *   - audioPath — the file TTS actually produced; the renderer plays this
+ *
  * Expected external signature (adjust the import below to the real module):
  *   generateTtsTiming(entries: {id, text}[], fullTranscript: string)
- *     => Promise<{ id: string, start: number, end: number }[]>   // seconds
+ *     => Promise<{ timing, totalDuration, audioPath }>  // or a bare array
  */
 import { generateTtsTiming } from "../../external/tts-provider.js"; // TODO: point at the real existing TTS module
 
@@ -14,20 +21,24 @@ import { generateTtsTiming } from "../../external/tts-provider.js"; // TODO: poi
  * @param {{id: string, text: string}[]} entries
  * @param {string} fullTranscript
  * @param {number} fps
- * @returns {Promise<Record<string, {startFrame:number, endFrame:number, durationInFrames:number, startSeconds:number, endSeconds:number}>>}
+ * @returns {Promise<{
+ *   byId: Record<string, {startFrame:number, endFrame:number, durationInFrames:number, startSeconds:number, endSeconds:number}>,
+ *   totalDuration: number|null,  // seconds; null when the provider didn't report it
+ *   audioPath: string|null,       // path TTS produced (relative to public/); null when N/A
+ * }>}
  */
 export async function resolveNarrationTiming(entries, fullTranscript, fps) {
   const result = await generateTtsTiming(entries, fullTranscript);
   // Back-compat: provider may return a bare array (timing only) or a structured
   // `{ timing, totalDuration, audioPath }`. Either way we need the timing array.
   const timing = Array.isArray(result) ? result : result.timing;
-  const totalDuration = Array.isArray(result) ? null : result.totalDuration;
+  const totalDuration = Array.isArray(result) ? null : result.totalDuration ?? null;
   const byId = {};
   for (const { id, start, end } of timing) {
     if (end <= start) {
       throw new Error(`TTS timing for "${id}" has non-positive duration (start=${start}, end=${end})`);
     }
-    console.log(`Timing for "${id}": start=${start}, end=${end}`);
+    console.log(`Timing for "${id}": start=${start}s end=${end}s (frames ${Math.round(start * fps)}–${Math.round(end * fps)})`);
     byId[id] = {
       startSeconds: start,
       endSeconds: end,
@@ -37,17 +48,17 @@ export async function resolveNarrationTiming(entries, fullTranscript, fps) {
     };
   }
 
-  // Expose total synthesized duration (seconds) so the resolver can reconcile
-  // the manifest's `audioOverlay` end time against the real audio length.
-  if (totalDuration != null) byId.__totalDuration = totalDuration;
-  return byId;
+  return { byId, totalDuration };
 }
 
 /**
  * Given a scene's narrationRef and the resolved timing map, returns the frame
  * budget the scene (and therefore its assets + transitions) must resolve
- * within. Throws early rather than letting an animation silently run past
- * its audio.
+ * within — the narration entry's actual TTS window, never a calculated default.
+ * Throws early rather than letting an animation silently run past its audio.
+ *
+ * @param {string} narrationRef
+ * @param {Record<string, {startFrame:number, endFrame:number, durationInFrames:number, startSeconds:number, endSeconds:number}>} timingById
  */
 export function sceneTimingBudget(narrationRef, timingById) {
   const t = timingById[narrationRef];

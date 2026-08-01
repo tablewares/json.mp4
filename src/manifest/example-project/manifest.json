@@ -9,9 +9,7 @@
     ],
     "fullTranscript": "Why most AI videos look like slideshows. Because they resolve every asset independently, with no shared registry and no continuity."
   },
-  "audioOverlay": [
-    { "id": "voiceover", "start": 0, "end": 8.5, "path": "audio/voiceover.mp3" }
-  ],
+  
   "scenes": [
     { "id": "scene-001", "path": "scenes/scene-001.json" },
     { "id": "scene-002", "path": "scenes/scene-002.json" }

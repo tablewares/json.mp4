@@ -1,0 +1,29 @@
+{
+  "id": "scene-001",
+  "narrationRef": "n1",
+  "background": "shade1",
+  "transitionOut": { "type": "shatterWipe", "durationInFrames": 20 },
+  "assets": [
+    {
+      "id": "headline",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": -4
+      },
+      "contentOverride": {
+        "text": "The new way to ship video."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "center",
+        "easing": "snappySpring",
+        "staggerFrames": 5,
+        "wordPopScale": 1.2
+      },
+      "enterAt": 0,
+      "exitAt": 0.85
+    }
+  ]
+}
