@@ -1,0 +1,12 @@
+{
+  "projectId": "finance-project",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "audioOverlay": [],
+  "scenes": [
+    {
+      "id": "scene-market",
+      "path": "scenes/scene-market.json"
+    }
+  ]
+}

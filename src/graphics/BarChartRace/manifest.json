@@ -1,0 +1,137 @@
+{
+  "assetType": "BarChartRace",
+  "component": "BarChartRace.jsx",
+  "description": "Animated vertical bar chart for finance metrics — revenue, AUM, quarterly results. Bars grow from 0 to their value over the asset's enter window, each on a short staggered spring; the numeric label above each bar counts from 0 to its value in lockstep so the figure visibly ticks up with the rise. Optional sort (asc|desc) lays the chart out small→large or large→small.",
+  "defaultSize": {
+    "width": 1400,
+    "height": 520
+  },
+  "defaultStyle": {
+    "typography": "body1",
+    "easing": "gentleSpring",
+    "canvasFill": "#161B26",
+    "borderLine": "transparent",
+    "borderRadius": 24,
+    "axisPad": 64,
+    "axisLine": "#2A3142",
+    "labelBandPad": 72,
+    "barFill": "#3D7BFD",
+    "barWidth": 96,
+    "barRadius": 12,
+    "valueFill": "#F5F7FA",
+    "labelFill": "#8B93A7",
+    "valueFormat": "currency",
+    "staggerFrames": 6,
+    "sortByValue": null
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": [
+      "bars"
+    ],
+    "properties": {
+      "bars": {
+        "type": "array",
+        "minItems": 1,
+        "description": "Bars of { label, value, fillStyle? }. value drives bar height + count-up label.",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "label",
+            "value"
+          ],
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Category label under the bar"
+            },
+            "value": {
+              "type": "number",
+              "description": "Magnitude; sets bar height + count-up target"
+            },
+            "fillStyle": {
+              "type": "string",
+              "description": "Per-bar override hex; falls back to styleOverride.barFill"
+            }
+          }
+        }
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "typography": {
+        "type": "string",
+        "description": "typography token (fontFamily + color feed labels; sizes derive from typography.fontSize)"
+      },
+      "easing": {
+        "type": "string",
+        "description": "easing token for the bar grow spring"
+      },
+      "canvasFill": {
+        "type": "string",
+        "description": "raw hex for the chart canvas"
+      },
+      "borderLine": {
+        "type": "string",
+        "description": "raw hex for the canvas border; 'transparent' for none"
+      },
+      "borderRadius": {
+        "type": "number"
+      },
+      "axisPad": {
+        "type": "number",
+        "description": "internal padding around the plot in px"
+      },
+      "axisLine": {
+        "type": "string",
+        "description": "raw hex for the baseline (set 'transparent' to hide)"
+      },
+      "labelBandPad": {
+        "type": "number",
+        "description": "px reserved under the plot for category labels"
+      },
+      "barFill": {
+        "type": "string",
+        "description": "raw hex default bar fill (per-bar fillStyle wins)"
+      },
+      "barWidth": {
+        "type": "number"
+      },
+      "barRadius": {
+        "type": "number"
+      },
+      "valueFill": {
+        "type": "string",
+        "description": "raw hex for the count-up value label"
+      },
+      "labelFill": {
+        "type": "string",
+        "description": "raw hex for the category label"
+      },
+      "valueFormat": {
+        "type": "string",
+        "enum": [
+          "currency",
+          "number",
+          "compact"
+        ],
+        "description": "currency=$X | number=plain grouped | compact=$1.2B/$3.4M"
+      },
+      "staggerFrames": {
+        "type": "number",
+        "description": "target frames between bar starts; auto-shrunk to fit the timing budget"
+      },
+      "sortByValue": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "description": "lay bars out small→large (asc) or large→small (desc). Omit to keep content order"
+      }
+    }
+  }
+}

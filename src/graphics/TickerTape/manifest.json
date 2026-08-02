@@ -1,0 +1,110 @@
+{
+  "assetType": "TickerTape",
+  "component": "TickerTape.jsx",
+  "contentOverrideSchema": {
+    "properties": {
+      "tickers": {
+        "description": "Rows of { symbol, price, change }. `change` is signed and colors the row.",
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "change": {
+              "description": "Signed change since last close; >=0 green, <0 red",
+              "type": "number"
+            },
+            "price": {
+              "description": "Current price, rendered to 2 decimals",
+              "type": "number"
+            },
+            "symbol": {
+              "description": "Ticker symbol, e.g. 'AAPL'",
+              "type": "string"
+            }
+          },
+          "required": [
+            "symbol",
+            "price"
+          ],
+          "type": "object"
+        },
+        "minItems": 1,
+        "type": "array"
+      }
+    },
+    "required": [
+      "tickers"
+    ],
+    "type": "object"
+  },
+  "defaultSize": {
+    "height": 96,
+    "width": 1600
+  },
+  "defaultStyle": {
+    "borderLine": "#3D7BFD",
+    "borderRadius": 16,
+    "downFill": "#EA3943",
+    "easing": "gentleSpring",
+    "glyphGap": 16,
+    "scrollPxPerSec": 90,
+    "showChangeArrow": true,
+    "symbolGap": 56,
+    "trackFill": "#161B26",
+    "trackHeight": 96,
+    "typography": "body1",
+    "upFill": "#16C784"
+  },
+  "description": "A horizontally scrolling market ticker tape — the canonical finance graphic. Renders content.tickers (each { symbol, price, change }) as a seamless marquee that scrolls for the asset's full timing window; change colors each price green/red and each symbol gets a short staggered pop so the row feels live.",
+  "styleOverrideSchema": {
+    "properties": {
+      "borderLine": {
+        "description": "raw hex for the track border; 'transparent' allowed",
+        "type": "string"
+      },
+      "borderRadius": {
+        "type": "number"
+      },
+      "downFill": {
+        "description": "raw hex for negative change",
+        "type": "string"
+      },
+      "easing": {
+        "description": "easing token for the enter clip-wipe",
+        "type": "string"
+      },
+      "glyphGap": {
+        "description": "px gap between symbol/price/change within one ticker",
+        "type": "number"
+      },
+      "scrollPxPerSec": {
+        "description": "leftward scroll speed in px/sec, fps-independent",
+        "type": "number"
+      },
+      "showChangeArrow": {
+        "description": "show ▲/▼ next to the change figure",
+        "type": "boolean"
+      },
+      "symbolGap": {
+        "description": "px gap between successive tickers in the marquee",
+        "type": "number"
+      },
+      "trackFill": {
+        "description": "raw hex for the track background; raw literal (key deliberately contains no 'color' so it skips token resolution)",
+        "type": "string"
+      },
+      "trackHeight": {
+        "description": "track height in px; override defaultSize.height by setting styleOverride.height too",
+        "type": "number"
+      },
+      "typography": {
+        "description": "typography token for symbol text (price/change derive their own sizes from it)",
+        "type": "string"
+      },
+      "upFill": {
+        "description": "raw hex for positive change",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  }
+}

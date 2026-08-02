@@ -1,0 +1,49 @@
+{
+  "colors": {
+    "shade1": "#0B0E14",
+    "shade2": "#161B26",
+    "main1": "#F5F7FA",
+    "main2": "#8B93A7",
+    "accentBg": "#3D7BFD",
+    "transparent": "#00000000"
+  },
+  "typography": {
+    "heading1": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": 72,
+      "fontWeight": 700,
+      "lineHeight": 1.1,
+      "colorToken": "main1"
+    },
+    "body1": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": 34,
+      "fontWeight": 400,
+      "lineHeight": 1.4,
+      "colorToken": "main1"
+    },
+    "caption1": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": 28,
+      "fontWeight": 600,
+      "lineHeight": 1.2,
+      "colorToken": "main1"
+    }
+  },
+  "spacing": {
+    "sceneMargin": 96,
+    "gutter": 32
+  },
+  "easing": {
+    "gentleSpring": {
+      "damping": 16,
+      "mass": 0.7,
+      "stiffness": 110
+    },
+    "snappySpring": {
+      "damping": 12,
+      "mass": 0.4,
+      "stiffness": 180
+    }
+  }
+}

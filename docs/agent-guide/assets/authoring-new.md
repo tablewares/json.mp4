@@ -85,3 +85,70 @@ the project's style registry without the scene having to pass anything.
 2. Add a row to `using-assets.md`'s shipped-assets table.
 3. If the asset needs richer usage notes, add `<AssetName>.md` in this
    folder and link it from `using-assets.md`.
+
+## Multiple asset roots
+
+The framework scans one or more *asset roots*, not just `src/assets/`.
+Every asset root has the same shape — a directory whose immediate
+subfolders are `<AssetName>/manifest.json + <AssetName>.jsx` pairs — and
+the registries on both sides of the render pipeline (Node-side resolve and
+webpack-side render) union every root into one lookup keyed by folder
+name.
+
+Defaults: asset roots = `["src/assets"]`, transition roots =
+`["src/transitions"]`. A folder name (the `assetType` / `transitionType`
+string scenes reference) **must be unique across every root** — a
+duplicate throws at load (`Duplicate assetType "..."` from
+`assetRegistry.js`, `Duplicate assetType "..."` / `Duplicate
+transitionType "..."` from `Composition.jsx`). The error names the
+colliding type so the offending folder is easy to find.
+
+### Adding a new asset root
+
+Both registries must learn the new root or resolve and render disagree.
+
+1. **Node side (pipeline1 + pipeline2)** —
+   `src/registry/assetRegistry.js`. Pass the new roots explicitly:
+
+   ```js
+   import { loadAssetRegistry, loadTransitionRegistry } from "../../registry/assetRegistry.js";
+
+   // string or array; relative paths resolve against assetRegistry.js
+   const assetRegistry = loadAssetRegistry(["../assets", "../custom-assets"]);
+   const transitionRegistry = loadTransitionRegistry(["../transitions", "../custom-transitions"]);
+   ```
+
+   `DEFAULT_ASSET_ROOTS` / `DEFAULT_TRANSITION_ROOTS` (exported from the
+   same module) are the roots used when no argument is passed; edit them
+   to change the project-wide default. Callers that already use the
+   no-arg form (`loadAssetRegistry()`) pick the new default up
+   automatically.
+
+2. **Webpack side (pipeline3)** —
+   `src/pipelines/pipeline3-render/Composition.jsx`. Webpack's
+   `require.context` needs a literal base directory at compile time, so
+   each root gets its own triple in `ASSET_ROOT_CONTEXTS` /
+   `TRANSITION_ROOT_CONTEXTS`:
+
+   ```jsx
+   const ASSET_ROOT_CONTEXTS = [
+     [require.context("../../assets", true, /\/manifest\.json$/),
+      require.context("../../assets", true, /\.(jsx|tsx|js|ts)$/), "src/assets"],
+     // new root — the two require.context base paths MUST be literal strings:
+     [require.context("../../custom-assets", true, /\/manifest\.json$/),
+      require.context("../../custom-assets", true, /\.(jsx|tsx|js|ts)$/), "src/custom-assets"],
+   ];
+   ```
+
+   The label string is the `rootLabel` surfaced in load-time errors. Do
+   not parameterize the directory through a variable — webpack must see
+   the literal to inline the context module.
+
+### Manifest field contract (both sides read the same fields)
+
+`assetType` / `transitionType` is the registry key (falls back to folder
+name if absent). `component` is the entry filename, e.g. `"TextBlock.jsx"`.
+Older render code read `manifest.name` / `manifest.main`, which never
+existed on the shipped manifests — both registries now read the real
+fields and throw at load if `manifest.component` points at a file that
+isn't in its root's module context.

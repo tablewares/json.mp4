@@ -6,52 +6,104 @@ import { AudioOverlay } from "../../audio/overlay.jsx";
 // ==========================================
 // 1. WEBPACK DYNAMIC REGISTRY DISCOVERY
 // ==========================================
+//
+// The renderer discovers every asset + transition the same way pipeline2 does
+// on the Node side (src/registry/assetRegistry.js): scan one or more root
+// directories, and each immediate subfolder carrying a manifest.json becomes a
+// registry entry keyed by the folder name. Webpack's require.context needs a
+// literal base directory at compile time, so each asset/transition root gets
+// its own pair of require.context calls below (arrayed in ASSET_ROOT_CONTEXTS
+// / TRANSITION_ROOT_CONTEXTS). To add a new root, add one
+// [manifestCtx, moduleCtx, label] triple whose two require.context calls use
+// the new literal base directory. A folder name (assetType / transitionType)
+// must be unique across every root or the duplicate throws at module load.
+//
+// Manifest field contract (kept identical to the Node registry):
+//   assetType / transitionType — registry key (falls back to folder name)
+//   component                  — entry filename, e.g. "TextBlock.jsx"
+//
+// NOTE: prior versions used manifest.name / manifest.main, which never existed
+// on the shipped manifests; both are now corrected to the real fields.
 
-// --- 1A. ASSET REGISTRY DISCOVERY (Code-split via React.lazy) ---
-const assetManifestContext = require.context("../../assets", true, /\/manifest\.json$/);
-const assetModuleContext = require.context("../../assets", true, /\.(jsx|tsx|js|ts)$/);
+const ASSET_ROOT_CONTEXTS = [
+  // [manifestContext, moduleContext, rootLabel]
+  [require.context("../../assets", true, /\/manifest\.json$/), require.context("../../assets", true, /\.(jsx|tsx|js|ts)$/), "src/assets"],
+  // `src/graphics/` is the second shipped asset root — the Node-side
+  // registry (assetRegistry.js DEFAULT_ASSET_ROOTS) already unions it in,
+  // so the webpack side must mirror that root or resolve and render disagree
+  // (an assetType resolved from graphics on the Node side would throw
+  // "No renderer registered for assetType" at render). Same shape as assets:
+  // <Name>/manifest.json + <Name>.jsx, keyed by folder name.
+  [require.context("../../graphics", true, /\/manifest\.json$/), require.context("../../graphics", true, /\.(jsx|tsx|js|ts)$/), "src/graphics"],
+];
+
+const TRANSITION_ROOT_CONTEXTS = [
+  [require.context("../../transitions", true, /\/manifest\.json$/), require.context("../../transitions", true, /\.(jsx|tsx|js|ts)$/), "src/transitions"],
+];
 
 const ASSET_COMPONENTS = {};
 
-assetManifestContext.keys().forEach((manifestKey) => {
-  const manifest = assetManifestContext(manifestKey);
-  // Extract folder name from key path (e.g., './TextBlock/manifest.json' -> 'TextBlock')
-  const folderName = manifestKey.split("/")[1]; 
-  const assetType = manifest.name || folderName;
-  const entryFile = manifest.main || `${folderName}.jsx`;
+ASSET_ROOT_CONTEXTS.forEach(([manifestCtx, moduleCtx, rootLabel]) => {
+  manifestCtx.keys().forEach((manifestKey) => {
+    const manifest = manifestCtx(manifestKey);
+    const folderName = manifestKey.split("/")[1];
+    const assetType = manifest.assetType || folderName;
+    // manifest.component is the real field — fall back to "<Folder>.jsx" only
+    // if an old manifest is missing it.
+    const entryFile = manifest.component || `${folderName}.jsx`;
+    const componentRelativePath = `./${folderName}/${entryFile}`;
 
-  const componentRelativePath = `./${folderName}/${entryFile}`;
-
-  ASSET_COMPONENTS[assetType] = lazy(() =>
-    Promise.resolve(assetModuleContext(componentRelativePath)).then((m) => ({
-      default: m[assetType] || m.default,
-    }))
-  );
+    if (!moduleCtx.keys().includes(componentRelativePath)) {
+      throw new Error(
+        `Asset "${assetType}" (${rootLabel}): manifest.component "${entryFile}" not found under ${rootLabel}/${folderName}`
+      );
+    }
+    if (Object.prototype.hasOwnProperty.call(ASSET_COMPONENTS, assetType)) {
+      throw new Error(
+        `Duplicate assetType "${assetType}" — already registered from another root. ` +
+          `Folder names must be unique across all asset roots.`
+      );
+    }
+    ASSET_COMPONENTS[assetType] = lazy(() =>
+      Promise.resolve(moduleCtx(componentRelativePath)).then((m) => ({
+        default: m[assetType] || m.default,
+      }))
+    );
+  });
 });
 
 // --- 1B. TRANSITION PRESENTATION REGISTRY DISCOVERY (Synchronous) ---
-const transitionManifestContext = require.context("../../transitions", true, /\/manifest\.json$/);
-const transitionModuleContext = require.context("../../transitions", true, /\.(jsx|tsx|js|ts)$/);
-
+// Same multi-root pattern as assets above. A transition presentation module is
+// loaded synchronously (not lazy) because TransitionSeries needs the
+// presentation function at first render.
 const TRANSITION_PRESENTATIONS = {};
 
-transitionManifestContext.keys().forEach((manifestKey) => {
-  const manifest = transitionManifestContext(manifestKey);
-  // Extract folder name from key path (e.g., './slideContinuity/manifest.json' -> 'slideContinuity')
-  const folderName = manifestKey.split("/")[1];
-  const transitionType = manifest.name || folderName;
+TRANSITION_ROOT_CONTEXTS.forEach(([manifestCtx, moduleCtx, rootLabel]) => {
+  manifestCtx.keys().forEach((manifestKey) => {
+    const manifest = manifestCtx(manifestKey);
+    const folderName = manifestKey.split("/")[1];
+    const transitionType = manifest.transitionType || folderName;
+    // manifest.component is the real field — ucfirst folder name only as fallback.
+    const defaultFileName =
+      folderName.charAt(0).toUpperCase() + folderName.slice(1) + ".jsx";
+    const entryFile = manifest.component || defaultFileName;
+    const transitionRelativePath = `./${folderName}/${entryFile}`;
 
-  // Derive default filename matching standard camelCase / PascalCase conventions
-  const defaultFileName = folderName.charAt(0).toUpperCase() + folderName.slice(1) + ".jsx";
-  const entryFile = manifest.main || defaultFileName;
-
-  const transitionRelativePath = `./${folderName}/${entryFile}`;
-
-  if (transitionModuleContext.keys().includes(transitionRelativePath)) {
-    const mod = transitionModuleContext(transitionRelativePath);
-    // Support named export matching transitionType, named export matching folderName, or default export
+    if (!moduleCtx.keys().includes(transitionRelativePath)) {
+      throw new Error(
+        `Transition "${transitionType}" (${rootLabel}): manifest.component "${entryFile}" not found under ${rootLabel}/${folderName}`
+      );
+    }
+    if (Object.prototype.hasOwnProperty.call(TRANSITION_PRESENTATIONS, transitionType)) {
+      throw new Error(
+        `Duplicate transitionType "${transitionType}" — already registered from another root. ` +
+          `Folder names must be unique across all transition roots.`
+      );
+    }
+    const mod = moduleCtx(transitionRelativePath);
+    // Support named export matching transitionType, named export matching folderName, or default export.
     TRANSITION_PRESENTATIONS[transitionType] = mod[transitionType] || mod[folderName] || mod.default;
-  }
+  });
 });
 
 // ==========================================
