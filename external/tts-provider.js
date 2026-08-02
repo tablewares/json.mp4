@@ -18,9 +18,14 @@ import path from "node:path";
 
 import { synthesizeVoice } from "../pocket_tts/kyutai_tts.js";
 import { alignAudioWords, alignStoryboardToTranscript } from "../pocket_tts/whisperAlign.mjs";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function defaultWorkDir() {
-  const dir = path.join(os.tmpdir(), "video-framework-tts");
+  const dir = path.join(`${__dirname}`, "..","public", "audio");
   if (!existsSync(dir)) {
     // Best-effort; if it races with another caller that's fine.
     mkdir(dir, { recursive: true }).catch(() => {});
@@ -48,7 +53,7 @@ export async function generateTtsTiming(entries, fullTranscript) {
   }
 
   const workDir = defaultWorkDir();
-  const audioPath = path.join(workDir, `voiceover.mp3`);
+  const audioPath = path.join(workDir, `hardcoded_voice.wav`);
 
   // 1) Single-pass synthesis of the whole transcript.
   const { durationSec: totalDuration } = await synthesizeVoice({
