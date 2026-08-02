@@ -6,18 +6,18 @@
     "height": 1080,
     "defaultSceneDurationInFrames": 90
   },
-  "audioOverlay": [],
+  "audioOverlay": [
+    {
+      "id": "voiceover",
+      "start": 0,
+      "end": 8.5,
+      "path": "audio/voiceover.mp3"
+    }
+  ],
   "scenes": [
     {
       "id": "scene-001",
-      "durationInFrames": 105,
-      "ttsWindow": {
-        "narrationRef": "n1",
-        "startSeconds": 0,
-        "endSeconds": 2.7,
-        "startFrame": 0,
-        "endFrame": 81
-      },
+      "durationInFrames": 81,
       "background": "#0B0E14",
       "assets": [
         {
@@ -53,7 +53,7 @@
             "height": 200
           },
           "timing": {
-            "durationInFrames": 105,
+            "durationInFrames": 81,
             "enterAtFrame": 0,
             "exitAtFrame": 73
           }
@@ -63,28 +63,28 @@
           "assetType": "ImageReveal",
           "componentPath": "/home/tablewares/video-framework/src/assets/ImageReveal/ImageReveal.jsx",
           "content": {
-            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg",
+            "src": "",
             "alt": "hero"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 0,
-            "top": 0,
-            "transformOrigin": "50% 50%"
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%"
           },
           "resolvedStyle": {
-            "borderRadius": 0,
+            "borderRadius": 32,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
             "revealDirection": "left-to-right",
-            "width": 1920,
-            "height": 1080
+            "width": 640,
+            "height": 640
           },
           "timing": {
-            "durationInFrames": 105,
+            "durationInFrames": 81,
             "enterAtFrame": 4,
             "exitAtFrame": 81
           }
@@ -99,47 +99,40 @@
           "carryAssetId": "heroImage",
           "carryFrom": {
             "position": "absolute",
-            "left": 0,
-            "top": 0,
-            "transformOrigin": "50% 50%",
-            "borderRadius": 0,
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
             "revealDirection": "left-to-right",
-            "width": 1920,
-            "height": 1080
+            "width": 640,
+            "height": 640
           },
           "carryTo": {
             "position": "absolute",
-            "left": 0,
-            "top": 0,
-            "transformOrigin": "50% 50%",
-            "borderRadius": 0,
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
+            "borderRadius": 16,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
             "revealDirection": "left-to-right",
-            "width": 1920,
-            "height": 1080
+            "width": 420,
+            "height": 420
           }
         }
       }
     },
     {
       "id": "scene-002",
-      "durationInFrames": 153,
-      "ttsWindow": {
-        "narrationRef": "n2",
-        "startSeconds": 2.7,
-        "endSeconds": 7.8,
-        "startFrame": 81,
-        "endFrame": 234
-      },
+      "durationInFrames": 167,
       "background": "#161B26",
       "assets": [
         {
@@ -152,25 +145,25 @@
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 0,
-            "top": 0,
-            "transformOrigin": "50% 50%"
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%"
           },
           "resolvedStyle": {
-            "borderRadius": 0,
+            "borderRadius": 16,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
             "revealDirection": "left-to-right",
-            "width": 1920,
-            "height": 1080
+            "width": 420,
+            "height": 420
           },
           "timing": {
-            "durationInFrames": 153,
+            "durationInFrames": 167,
             "enterAtFrame": 0,
-            "exitAtFrame": 153
+            "exitAtFrame": 167
           }
         },
         {
@@ -207,9 +200,9 @@
             "height": 260
           },
           "timing": {
-            "durationInFrames": 153,
-            "enterAtFrame": 15,
-            "exitAtFrame": 145
+            "durationInFrames": 167,
+            "enterAtFrame": 17,
+            "exitAtFrame": 159
           }
         }
       ],
@@ -221,33 +214,33 @@
           "carryAssetId": "heroImage",
           "carryFrom": {
             "position": "absolute",
-            "left": 0,
-            "top": 0,
-            "transformOrigin": "50% 50%",
-            "borderRadius": 0,
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
             "revealDirection": "left-to-right",
-            "width": 1920,
-            "height": 1080
+            "width": 640,
+            "height": 640
           },
           "carryTo": {
             "position": "absolute",
-            "left": 0,
-            "top": 0,
-            "transformOrigin": "50% 50%",
-            "borderRadius": 0,
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
+            "borderRadius": 16,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
             "revealDirection": "left-to-right",
-            "width": 1920,
-            "height": 1080
+            "width": 420,
+            "height": 420
           }
         }
       },

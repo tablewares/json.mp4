@@ -29,15 +29,15 @@
     },
     "audioOverlay": {
       "type": "array",
-      "description": "final mixed audio tracks to place over the render; start/end optional when narration owns timing",
+      "description": "final mixed audio tracks to place over the render",
       "items": {
         "type": "object",
-        "required": ["id", "path"],
+        "required": ["id", "start", "end", "path"],
         "additionalProperties": false,
         "properties": {
           "id": { "type": "string" },
-          "start": { "type": "number", "description": "seconds; optional (TTS-derived when narration present)" },
-          "end": { "type": "number", "description": "seconds; optional (TTS-derived when narration present)" },
+          "start": { "type": "number" },
+          "end": { "type": "number" },
           "path": { "type": "string" }
         }
       }

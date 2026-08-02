@@ -16,10 +16,9 @@ export async function synthesizeVoice({ text, filename = "hardcoded_voice.wav", 
   const formData = new FormData();
   formData.append("text", text);
   formData.append("voice_url", selectedVoice);
-  formData.append("temperature", "0.67");
-  formData.append("lsd_decode_steps", "3");
-  formData.append("eos_threshold", "-6");
-  formData.append("frames_after_eos", "10");
+  formData.append("temperature", "0.8");
+  formData.append("lsd_decode_steps", "5");
+  formData.append("eos_threshold", "0");
 
   const res = await fetch(url, {
     method: "POST",
@@ -35,7 +34,7 @@ export async function synthesizeVoice({ text, filename = "hardcoded_voice.wav", 
 
   // Define server path in public folder & relative web path
   const relativePath = `audio/${filename}`;
-  const outPath = path.join("..", "public", relativePath);
+  const outPath = path.join(process.cwd(), "public", relativePath);
 
   // Ensure public/audio directory exists
   await mkdir(path.dirname(outPath), { recursive: true });
