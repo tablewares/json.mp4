@@ -1,51 +1,608 @@
 {
-  "projectId": "example-project",
+  "projectId": "packet-journey",
   "config": {
     "fps": 30,
     "width": 1920,
     "height": 1080,
-    "defaultSceneDurationInFrames": 90
+    "defaultSceneDurationInFrames": 150
   },
-  "audioOverlay": [
-    {
-      "id": "voiceover",
-      "start": 0,
-      "end": 8.5,
-      "path": "audio/voiceover.mp3"
-    }
-  ],
+  "audioOverlay": [],
   "scenes": [
     {
-      "id": "scene-001",
-      "durationInFrames": 106,
-      "ttsWindow": {
-        "narrationRef": "n1",
-        "startSeconds": 0,
-        "endSeconds": 2.736,
-        "startFrame": 0,
-        "endFrame": 82
-      },
-      "background": "#0B0E14",
-      "assets": [
+      "id": "scene-hook",
+      "durationInFrames": 150,
+      "effects": [
         {
-          "id": "titleText",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "id": "shatter-thud",
+          "kind": "sfx",
+          "frame": 146,
+          "durationInFrames": null,
+          "path": "audio/sfx.mp3",
+          "volume": 0.9
+        },
+        {
+          "id": "shatter-flash",
+          "kind": "visual",
+          "assetType": "ImageReveal",
           "content": {
-            "text": "Why most AI videos look like slideshows"
+            "src": "assets/destination.png",
+            "alt": ""
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 115.19999999999999,
+            "left": 0,
+            "top": 0,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 0,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "center-out",
+            "width": 1920,
+            "height": 1080
+          },
+          "timing": {
+            "durationInFrames": 10,
+            "enterAtFrame": 150,
+            "exitAtFrame": 150
+          }
+        }
+      ],
+      "ttsWindow": null,
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "kicker",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "A PACKET JOURNEY"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 237.6,
+            "transformOrigin": "0% 0%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 24,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "colorToken": "accentBg",
+              "color": "#3D7BFD"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "left",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 0,
+            "exitAtFrame": 135,
+            "words": null
+          }
+        },
+        {
+          "id": "headline",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "One bit. The whole internet."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 510,
+            "top": 396.8,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "center",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 8,
+            "exitAtFrame": 138,
+            "words": null
+          }
+        },
+        {
+          "id": "subline",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "What happens in the 42 milliseconds between send and arrive?"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 510,
+            "top": 504.79999999999995,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
+              "fontWeight": 400,
+              "lineHeight": 1.35,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "center",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 18,
+            "exitAtFrame": 138,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": {
+        "type": "shatterWipe",
+        "durationInFrames": 22,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/shatterWipe/ShatterWipe.jsx",
+        "props": {
+          "cols": 6,
+          "rows": 4,
+          "throwDistance": 220
+        }
+      }
+    },
+    {
+      "id": "scene-globe",
+      "durationInFrames": 150,
+      "effects": [],
+      "ttsWindow": null,
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "kicker2",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "01 / The network is a globe"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 153.6,
             "top": 108,
             "transformOrigin": "0% 0%"
           },
           "resolvedStyle": {
             "typography": {
               "fontFamily": "Inter, sans-serif",
-              "fontSize": 72,
+              "fontSize": 24,
               "fontWeight": 700,
               "lineHeight": 1.1,
+              "colorToken": "accentBg",
+              "color": "#3D7BFD"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "left",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 0,
+            "exitAtFrame": 135,
+            "words": null
+          }
+        },
+        {
+          "id": "globeImg",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/network.png",
+            "alt": "A globe of network nodes joined by glowing edges, with a bright packet arc bridging two nodes."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 600,
+            "top": 180,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 24,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "center-out",
+            "width": 720,
+            "height": 720
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 8,
+            "exitAtFrame": 143,
+            "words": null
+          }
+        },
+        {
+          "id": "globeSub",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Your packet does not teleport. It hops."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 510,
+            "top": 988,
+            "transformOrigin": "50% 100%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 56,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "center",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 53,
+            "exitAtFrame": 143,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "shatterWipe",
+        "durationInFrames": 22,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/shatterWipe/ShatterWipe.jsx",
+        "props": {
+          "cols": 6,
+          "rows": 4,
+          "throwDistance": 220
+        }
+      },
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "scene-race",
+      "durationInFrames": 150,
+      "effects": [],
+      "ttsWindow": null,
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "raceKicker",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "02 / Per-hop latency"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 86.4,
+            "transformOrigin": "0% 0%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 24,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "colorToken": "accentBg",
+              "color": "#3D7BFD"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "left",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 0,
+            "exitAtFrame": 143,
+            "words": null
+          }
+        },
+        {
+          "id": "raceBars",
+          "assetType": "BarChartRace",
+          "componentPath": "/home/tablewares/json.mp4/studio/graphics/BarChartRace/BarChartRace.jsx",
+          "content": {
+            "bars": [
+              {
+                "label": "WiFi airtime",
+                "value": 1.2,
+                "fillStyle": "#3D7BFD"
+              },
+              {
+                "label": "Home router",
+                "value": 0.6,
+                "fillStyle": "#3D7BFD"
+              },
+              {
+                "label": "ISP edge",
+                "value": 4.4,
+                "fillStyle": "#FFD166"
+              },
+              {
+                "label": "Backbone hop",
+                "value": 11.8,
+                "fillStyle": "#16C784"
+              },
+              {
+                "label": "Transit",
+                "value": 18,
+                "fillStyle": "#C04CFD"
+              },
+              {
+                "label": "Cloud edge",
+                "value": 5,
+                "fillStyle": "#FFD166"
+              },
+              {
+                "label": "Data center",
+                "value": 1,
+                "fillStyle": "#3D7BFD"
+              }
+            ]
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 210,
+            "top": 292.4,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
+              "fontWeight": 400,
+              "lineHeight": 1.35,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "canvasFill": "#161B26",
+            "borderLine": "transparent",
+            "borderRadius": 24,
+            "axisPad": 72,
+            "axisLine": "#2A3142",
+            "labelBandPad": 88,
+            "barFill": "#3D7BFD",
+            "barWidth": 120,
+            "barRadius": 14,
+            "valueFill": "#F5F7FA",
+            "labelFill": "#8B93A7",
+            "valueFormat": "number",
+            "staggerFrames": 7,
+            "sortByValue": "desc",
+            "width": 1500,
+            "height": 560
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 6,
+            "exitAtFrame": 147,
+            "words": null
+          }
+        },
+        {
+          "id": "raceNote",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Milliseconds per hop. The backbone carries the weight."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 510,
+            "top": 966.4000000000001,
+            "transformOrigin": "50% 100%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 28,
+              "fontWeight": 600,
+              "lineHeight": 1.2,
+              "colorToken": "main2",
+              "color": "#8B93A7"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "center",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 60,
+            "exitAtFrame": 147,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "scene-arrive",
+      "durationInFrames": 150,
+      "effects": [],
+      "ttsWindow": null,
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "arriveKicker",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "03 / It arrives"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": -142.80000000000007,
+            "top": 172.8,
+            "transformOrigin": "50% 0%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 24,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "colorToken": "accentBg",
+              "color": "#3D7BFD"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "left",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 0,
+            "exitAtFrame": 135,
+            "words": null
+          }
+        },
+        {
+          "id": "dockImg",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/destination.png",
+            "alt": "Server rack landing dock with LEDs lit and an arrival beam."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 1091.2,
+            "top": 216,
+            "transformOrigin": "100% 0%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 24,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 560,
+            "height": 560
+          },
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 6,
+            "exitAtFrame": 143,
+            "words": null
+          }
+        },
+        {
+          "id": "arriveHead",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "42 ms later."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 1117.6,
+            "transformOrigin": "0% 100%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
               "colorToken": "main1",
               "color": "#F5F7FA"
             },
@@ -60,274 +617,57 @@
             "height": 200
           },
           "timing": {
-            "durationInFrames": 106,
-            "enterAtFrame": 0,
-            "exitAtFrame": 74,
+            "durationInFrames": 150,
+            "enterAtFrame": 18,
+            "exitAtFrame": 143,
             "words": null
           }
         },
         {
-          "id": "heroImage",
-          "assetType": "ImageReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "id": "arriveSub",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
           "content": {
-            "src": "",
-            "alt": "hero"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1126.4,
-            "top": 220,
-            "transformOrigin": "100% 50%"
-          },
-          "resolvedStyle": {
-            "borderRadius": 32,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
-          },
-          "timing": {
-            "durationInFrames": 106,
-            "enterAtFrame": 4,
-            "exitAtFrame": 82,
-            "words": null
-          }
-        }
-      ],
-      "transitionIn": null,
-      "transitionOut": {
-        "type": "slideContinuity",
-        "durationInFrames": 24,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
-        "props": {
-          "carryAssetId": "heroImage",
-          "carryFrom": {
-            "position": "absolute",
-            "left": 1126.4,
-            "top": 220,
-            "transformOrigin": "100% 50%",
-            "borderRadius": 32,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
-          },
-          "carryTo": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 129.6,
-            "transformOrigin": "0% 0%",
-            "borderRadius": 16,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 420,
-            "height": 420
-          }
-        }
-      }
-    },
-    {
-      "id": "scene-002",
-      "durationInFrames": 159,
-      "ttsWindow": {
-        "narrationRef": "n2",
-        "startSeconds": 2.736,
-        "endSeconds": 8.04,
-        "startFrame": 82,
-        "endFrame": 241
-      },
-      "background": "#161B26",
-      "assets": [
-        {
-          "id": "heroImage",
-          "assetType": "ImageReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
-          "content": {
-            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg",
-            "alt": "hero"
+            "text": "Seven hops. One packet. The internet, every time you blink."
           },
           "resolvedPosition": {
             "position": "absolute",
             "left": 153.6,
-            "top": 129.6,
-            "transformOrigin": "0% 0%"
-          },
-          "resolvedStyle": {
-            "borderRadius": 16,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 420,
-            "height": 420
-          },
-          "timing": {
-            "durationInFrames": 159,
-            "enterAtFrame": 0,
-            "exitAtFrame": 159,
-            "words": null
-          }
-        },
-        {
-          "id": "bodyText",
-          "assetType": "KineticText",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
-          "content": {
-            "text": "Because they resolve every asset independently, with no shared registry and no continuity."
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 704.8,
-            "top": 712,
-            "transformOrigin": "100% 100%"
+            "top": 1009.5999999999999,
+            "transformOrigin": "0% 100%"
           },
           "resolvedStyle": {
             "typography": {
               "fontFamily": "Inter, sans-serif",
               "fontSize": 36,
               "fontWeight": 400,
-              "lineHeight": 1.4,
-              "colorToken": "main2",
-              "color": "#8B93A7"
+              "lineHeight": 1.35,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
             },
+            "backgroundColorToken": "#00000000",
             "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
             },
-            "staggerFrames": 6,
-            "wordPopScale": 1.15,
-            "useNarrationTiming": true,
-            "align": "right",
-            "width": 1100,
-            "height": 260
+            "align": "left",
+            "width": 900,
+            "height": 200
           },
           "timing": {
-            "durationInFrames": 159,
-            "enterAtFrame": 0,
-            "exitAtFrame": 151,
-            "words": [
-              {
-                "word": "Because",
-                "startFrame": 19,
-                "endFrame": 26
-              },
-              {
-                "word": "they",
-                "startFrame": 27,
-                "endFrame": 31
-              },
-              {
-                "word": "resolve",
-                "startFrame": 32,
-                "endFrame": 42
-              },
-              {
-                "word": "every",
-                "startFrame": 47,
-                "endFrame": 52
-              },
-              {
-                "word": "asset",
-                "startFrame": 57,
-                "endFrame": 65
-              },
-              {
-                "word": "independently,",
-                "startFrame": 67,
-                "endFrame": 85
-              },
-              {
-                "word": "with",
-                "startFrame": 89,
-                "endFrame": 93
-              },
-              {
-                "word": "no",
-                "startFrame": 95,
-                "endFrame": 99
-              },
-              {
-                "word": "shared",
-                "startFrame": 100,
-                "endFrame": 108
-              },
-              {
-                "word": "registry",
-                "startFrame": 109,
-                "endFrame": 123
-              },
-              {
-                "word": "and",
-                "startFrame": 124,
-                "endFrame": 127
-              },
-              {
-                "word": "no",
-                "startFrame": 128,
-                "endFrame": 131
-              },
-              {
-                "word": "continuity.",
-                "startFrame": 133,
-                "endFrame": 148
-              }
-            ]
+            "durationInFrames": 150,
+            "enterAtFrame": 38,
+            "exitAtFrame": 143,
+            "words": null
           }
         }
       ],
       "transitionIn": {
-        "type": "slideContinuity",
-        "durationInFrames": 24,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
-        "props": {
-          "carryAssetId": "heroImage",
-          "carryFrom": {
-            "position": "absolute",
-            "left": 1126.4,
-            "top": 220,
-            "transformOrigin": "100% 50%",
-            "borderRadius": 32,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
-          },
-          "carryTo": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 129.6,
-            "transformOrigin": "0% 0%",
-            "borderRadius": 16,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 420,
-            "height": 420
-          }
-        }
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
       },
       "transitionOut": null
     }

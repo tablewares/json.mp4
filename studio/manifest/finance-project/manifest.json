@@ -7,6 +7,11 @@
     {
       "id": "scene-market",
       "path": "scenes/scene-market.json"
+    },
+    {
+      "id": "scene-market2",
+      "path": "scenes/scene-market01.json"
+
     }
   ]
 }

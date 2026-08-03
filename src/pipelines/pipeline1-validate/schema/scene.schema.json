@@ -2,7 +2,7 @@
   "$id": "scene.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "narrationRef", "assets"],
+  "required": ["id", "assets"],
   "properties": {
     "id": { "type": "string" },
     "narrationRef": {
@@ -49,15 +49,50 @@
         { "type": "object" }
       ]
     },
-    "transitionRef": {
-      "type": "object",
-      "required": ["type"],
-      "additionalProperties": false,
-      "properties": {
-        "type": { "type": "string", "description": "'default' or a folder name under src/transitions" },
-        "durationInFrames": { "type": "number" },
-        "params": { "type": "object" }
+"transitionRef": {
+  "type": "object",
+  "required": ["type"],
+  "additionalProperties": false,
+  "properties": {
+    "type": { "type": "string", "description": "'default' or a folder name under src/transitions" },
+    "durationInFrames": { "type": "number" },
+    "params": { "type": "object" },
+    "effects": {
+      "type": "array",
+      "description": "Optional. Per-render SFX/visual effects anchored to THIS scene's own resolved ending frame (scene.durationInFrames, after TTS + transition padding). offsetPercent: 0 = exactly the scene's last frame; negative = earlier (e.g. -10 fires at 90% of the scene's length); positive = later, into the overlap the outgoing transition eats into (clamped to the scene's own duration). Omit entirely for scenes with no boundary effects.",
+      "items": {
+        "type": "object",
+        "required": ["kind", "offsetPercent"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "type": "string", "enum": ["sfx", "visual"] },
+          "offsetPercent": { "type": "number" },
+          "durationInFrames": {
+            "type": "number",
+            "description": "sfx: omit to let the clip play its natural length. visual: how long the effect asset stays mounted (default 30)."
+          },
+          "path": { "type": "string", "description": "sfx only: audio file path relative to public/" },
+          "volume": { "type": "number", "description": "sfx only: 0-1, default 1" },
+          "assetType": { "type": "string", "description": "visual only: must match a registered assetType" },
+          "anchor": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "position": {
+                "type": "string",
+                "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]
+              },
+              "offsetXPercent": { "type": "number", "default": 0 },
+              "offsetYPercent": { "type": "number", "default": 0 }
+            }
+          },
+          "contentOverride": { "type": "object" },
+          "styleOverride": { "type": "object" }
+        }
       }
     }
   }
+}
+}
 }

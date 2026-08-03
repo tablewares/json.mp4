@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { AbsoluteFill } from "remotion";
+import { AbsoluteFill, Sequence, Audio, staticFile } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { AudioOverlay } from "../../audio/overlay.jsx";
 import registryManifest from "../../../studio/generated/registry.generated.json";
@@ -74,7 +74,57 @@ const TRANSITION_PRESENTATIONS = {};
 for (const [transitionType, entry] of Object.entries(registryManifest.transitions)) {
   const moduleCtx = TRANSITION_ROOT_CONTEXTS[entry.rootIndex];
   const mod = resolveComponentModule(moduleCtx, entry, transitionType, "Transition");
-  TRANSITION_PRESENTATIONS[transitionType] = mod[transitionType] || mod[entry.folderName] || mod.default;
+  // The shipping convention: each transition .jsx exports a factory named after
+  // the transition type (e.g. `shatterWipe`, `slideContinuity`). `mod[<type>]`
+  // covers those. The `default` transition breaks the convention: its folder/
+  // type is "default", but its exported factory is `defaultTransition` (matching
+  // its file `DefaultTransition.jsx`), because `default` is a reserved ESM
+  // export slot — `mod["default"]` / `mod.default` read the (absent) default
+  // export, not the named factory. So also try a lookup key derived from the
+  // component file's basename with a lowercased first character; that yields
+  // the matching factory for every shipped transition including `default`.
+  const fileExportName = entry.entryFile.replace(/\.(jsx|tsx|js|ts)$/, "");
+  const fileExportNameLowerFirst = fileExportName.charAt(0).toLowerCase() + fileExportName.slice(1);
+  const presentationFn =
+    mod[transitionType] || mod[entry.folderName] || mod[fileExportNameLowerFirst] || mod.default;
+  if (!presentationFn) {
+    throw new Error(
+      `Transition "${transitionType}": no exported factory found. Looked for named exports ` +
+        `"${transitionType}", "${entry.folderName}", "${fileExportNameLowerFirst}" ` +
+        `(derived from ${entry.entryFile}) and a default export in folder "${entry.folderName}".`
+    );
+  }
+  TRANSITION_PRESENTATIONS[transitionType] = presentationFn;
+}
+
+
+function SceneEffectLayer({ effect }) {
+  if (effect.kind === "sfx") {
+    return (
+      <Sequence
+        from={effect.frame}
+        durationInFrames={effect.durationInFrames ?? undefined}
+        name={`sfx-${effect.id}`}
+      >
+        <Audio src={staticFile(effect.path)} volume={effect.volume ?? 1} />
+      </Sequence>
+    );
+  }
+
+  const AssetComponent = ASSET_COMPONENTS[effect.assetType];
+  if (!AssetComponent) {
+    throw new Error(`No renderer registered for effect assetType "${effect.assetType}"`);
+  }
+  return (
+    <Suspense fallback={null}>
+      <AssetComponent
+        resolvedPosition={effect.resolvedPosition}
+        resolvedStyle={effect.resolvedStyle}
+        content={effect.content}
+        timing={effect.timing}
+      />
+    </Suspense>
+  );
 }
 
 // ==========================================
@@ -100,13 +150,16 @@ function SceneLayer({ scene }) {
           </Suspense>
         );
       })}
+      {(scene.effects ?? []).map((effect) => (
+        <SceneEffectLayer key={effect.id} effect={effect} />
+      ))}
     </AbsoluteFill>
   );
 }
 
 export function VideoComposition({ resolvedGraph }) {
   const { scenes, audioOverlay, config } = resolvedGraph;
-
+  
   return (
     <AbsoluteFill>
       <TransitionSeries>

@@ -1,0 +1,8 @@
+  local-rag:
+    command: npx
+    args: [-y, @shinpr/mcp-local-rag]
+    env: 
+      RAG_STORAGE_PATH: ./rag_data,
+      EMBEDDING_MODEL: all-MiniLM-L6-v2,
+      CHUNK_SIZE: 1000,
+      CHUNK_OVERLAP: 200

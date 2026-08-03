@@ -16,7 +16,7 @@
       "id": "globeImg",
       "assetType": "ImageReveal",
       "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": 0 },
-      "contentOverride": { "src": "/home/tablewares/json.mp4/public/assets/network.png", "alt": "A globe of network nodes joined by glowing edges, with a bright packet arc bridging two nodes." },
+      "contentOverride": { "src": "assets/network.png", "alt": "A globe of network nodes joined by glowing edges, with a bright packet arc bridging two nodes." },
       "styleOverride": { "revealDirection": "center-out", "easing": "gentleSpring", "width": 720, "height": 720 },
       "enterAt": 0.05,
       "exitAt": 0.95

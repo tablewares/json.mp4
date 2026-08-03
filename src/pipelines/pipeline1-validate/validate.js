@@ -76,7 +76,7 @@ export function validateProject(manifestPath) {
         `Validation failed: manifest.scenes entry id "${id}" does not match scene file id "${scene.id}" in ${relPath}`
       );
     }
-    if (manifest.narration) {
+    if (manifest.narration && scene.narrationRef !== undefined) {
       const known = new Set(manifest.narration.entries.map((e) => e.id));
       if (!known.has(scene.narrationRef)) {
         throw new Error(

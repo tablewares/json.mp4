@@ -15,7 +15,7 @@
       "id": "dockImg",
       "assetType": "ImageReveal",
       "anchor": { "position": "top-right", "offsetXPercent": -14, "offsetYPercent": 20 },
-      "contentOverride": { "src": "/home/tablewares/json.mp4/public/assets/destination.png", "alt": "Server rack landing dock with LEDs lit and an arrival beam." },
+      "contentOverride": { "src": "assets/destination.png", "alt": "Server rack landing dock with LEDs lit and an arrival beam." },
       "styleOverride": { "revealDirection": "left-to-right", "easing": "gentleSpring", "width": 560, "height": 560 },
       "enterAt": 0.04,
       "exitAt": 0.95

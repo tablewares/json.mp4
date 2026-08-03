@@ -6,7 +6,7 @@ import { loadAssetRegistry, loadTransitionRegistry, getAsset } from "../../regis
 import { resolveColorToken, resolveAssetStyle } from "../../registry/styleRegistry.js";
 import { resolveAnchor } from "../../templating/anchor.js";
 import { resolveNarrationTiming, sceneTimingBudget } from "../../timing/ttsTiming.js";
-
+import { resolveEffectFrame } from "../../timing/effectTiming.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
@@ -30,7 +30,7 @@ export async function resolveProject(manifestPath) {
   const { manifest, config, styles, scenes } = validateProject(manifestPath);
   const assetRegistry = loadAssetRegistry();
   const transitionRegistry = loadTransitionRegistry();
-
+  console.log("manifest",JSON.stringify(manifest));
   const hasNarration = Boolean(manifest.narration);
   let timingById = {};
   let ttsTotalDuration = null;
@@ -38,7 +38,7 @@ export async function resolveProject(manifestPath) {
   // whether a KineticText asset's own content.text is word-for-word the
   // scene's narration before trusting real word timestamps for it.
   const narrationTextById = {};
-
+  console.log("hasnarration", hasNarration)
   if (hasNarration) {
     const tts = await resolveNarrationTiming(
       manifest.narration.entries,
@@ -78,6 +78,13 @@ export async function resolveProject(manifestPath) {
       transitionRegistry,
     );
     incoming.transitionIn = outgoing.transitionOut;
+        outgoing.effects = resolveTransitionEffects(
+      scenes[i].transitionOut?.effects,
+      outgoing,
+      styles,
+      assetRegistry,
+      { width: config.width, height: config.height },
+    );
   }
 
   // audioOverlay: TTS is the source of truth. When narration produced a real
@@ -99,6 +106,62 @@ export async function resolveProject(manifestPath) {
     audioOverlay,
     scenes: resolvedScenes,
   };
+}
+
+/**
+ * Resolves a scene's transitionOut.effects into render-ready entries.
+ * Entirely optional — returns [] when the scene has no authored effects, so
+ * pre-existing manifests need no changes.
+ *
+ * `kind: "sfx"` carries a frame + path/volume for an <Audio> Sequence.
+ * `kind: "visual"` is resolved through the same asset registry/anchor/style
+ * pipeline every scene asset uses, so any existing asset type can be dropped
+ * in as a boundary effect with no new rendering code.
+ */
+function resolveTransitionEffects(effectsSpec, outgoingScene, styles, assetRegistry, compositionSize) {
+  if (!Array.isArray(effectsSpec) || effectsSpec.length === 0) return [];
+
+  return effectsSpec.map((effect, i) => {
+    const frame = resolveEffectFrame(effect.offsetPercent ?? 0, outgoingScene.durationInFrames);
+
+    if (effect.kind === "sfx") {
+      return {
+        id: effect.id ?? `sfx-${i}`,
+        kind: "sfx",
+        frame,
+        durationInFrames: effect.durationInFrames ?? null,
+        path: effect.path,
+        volume: effect.volume ?? 1,
+      };
+    }
+
+    const { manifest: assetManifest } = getAsset(assetRegistry, effect.assetType);
+    const size = {
+      width: effect.styleOverride?.width ?? assetManifest.defaultSize.width,
+      height: effect.styleOverride?.height ?? assetManifest.defaultSize.height,
+    };
+    const anchor = effect.anchor ?? { position: "center", offsetXPercent: 0, offsetYPercent: 0 };
+    const resolvedPosition = resolveAnchor(anchor, compositionSize, size);
+    const resolvedStyle = {
+      ...resolveAssetStyle(styles, assetManifest, effect.styleOverride),
+      ...size,
+    };
+    const durationInFrames = effect.durationInFrames ?? 30;
+
+    return {
+      id: effect.id ?? `fx-${i}`,
+      kind: "visual",
+      assetType: effect.assetType,
+      content: effect.contentOverride ?? {},
+      resolvedPosition,
+      resolvedStyle,
+      timing: {
+        durationInFrames,
+        enterAtFrame: frame,
+        exitAtFrame: Math.min(frame + durationInFrames, outgoingScene.durationInFrames),
+      },
+    };
+  });
 }
 
 function resolveKineticWordTimings(assetSpec, assetManifest, sceneWords, narrationText) {
@@ -177,6 +240,7 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, narrat
   return {
     id: scene.id,
     durationInFrames: sceneDurationInFrames,
+    effects: [],
     ttsWindow: hasNarration
       ? {
           narrationRef: scene.narrationRef,
@@ -228,5 +292,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const outPath = process.argv[3] ?? path.join(__dirname, "../../../studio/resolved.json");
   const resolved = await resolveProject(manifestPath);
   fs.writeFileSync(outPath, JSON.stringify(resolved, null, 2));
+  console.log("done")
   // log.info(`Resolved scene graph written to ${outPath}`);
 }
