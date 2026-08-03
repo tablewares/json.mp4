@@ -115,5 +115,7 @@
         }
       ]
     }
-  ]
+  ],
+  "totalDuration": 8.04,
+  "audioPath": "audio/hardcoded_voice.wav"
 }

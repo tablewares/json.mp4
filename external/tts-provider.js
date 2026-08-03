@@ -42,7 +42,11 @@ function defaultWorkDir() {
  * @param {string} fullTranscript  Concatenation of entries' text (same string
  *   that gets synthesized; the caller owns the join policy so it matches
  *   whatever was fed to the storyboard).
- * @returns {Promise<{id: string, start: number, end: number}[]>}
+ * @returns {Promise<{
+ *   timing: {id: string, start: number, end: number, words: {word: string, start: number, end: number}[]}[],
+ *   totalDuration: number,          // seconds — the synthesized audio's real length
+ *   audioPath: string,             // path relative to public/ so Remotion's staticFile() can play it
+ * }>}
  */
 import fs from "fs";
 import crypto from "crypto";
@@ -54,6 +58,36 @@ function computeCacheKey(entries, fullTranscript) {
     entries: entries.map((e) => ({ id: e.id, text: e.text })),
   });
   return crypto.createHash("sha256").update(payload).digest("hex");
+}
+
+// Convert an absolute filesystem path that lives under <repo>/public/ into a
+// path relative to public/ (e.g. "/abs/.../public/audio/foo.wav" →
+// "audio/foo.wav"). Remotion's staticFile() only accepts the relative form.
+function toPublicRelative(absPath) {
+  const idx = absPath.replace(/\\/g, "/").indexOf("public/");
+  if (idx < 0) throw new Error(`TTS audio path is not under public/: ${absPath}`);
+  return absPath.slice(idx + "public/".length);
+}
+
+// Probe an audio file's duration in seconds via ffprobe. Used to backfill
+// `totalDuration` when an older cache record (from before the provider
+// returned { totalDuration, audioPath }) is loaded and the synthesized wav
+// still lives on disk. Returns null if ffprobe is unavailable or the file
+// is missing so callers can fall back gracefully.
+import { execFileSync } from "node:child_process";
+function probeAudioDurationSeconds(absPath) {
+  try {
+    if (!fs.existsSync(absPath)) return null;
+    const out = execFileSync(
+      "ffprobe",
+      ["-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", absPath],
+      { encoding: "utf-8" },
+    ).trim();
+    const n = parseFloat(out);
+    return Number.isFinite(n) ? n : null;
+  } catch {
+    return null;
+  }
 }
 
 export async function generateTtsTiming(entries, fullTranscript) {
@@ -68,13 +102,41 @@ export async function generateTtsTiming(entries, fullTranscript) {
   const cacheKey = computeCacheKey(entries, fullTranscript);
   const cachePath = path.join(workDir, `tts_cache_${cacheKey}.json`);
   const audioPath = path.join(workDir, `hardcoded_voice.wav`);
+  const audioPathRelative = toPublicRelative(audioPath);
 
-  // 0) Check cache: return previous timing output if cache file exists
+  // 0) Check cache: return previous timing output if cache file exists.
+  // The cache stores the full { timing, totalDuration, audioPath } record so
+  // a cache hit still carries enough for resolve.js to build audioOverlay
+  // without re-synthesizing. Records written by older provider versions only
+  // had { hash, timing } — backfill totalDuration by probing the existing
+  // synthesized wav on disk (the cache implies it was written) and persist
+  // the upgraded record so the next hit is clean.
   if (fs.existsSync(cachePath)) {
     try {
       const cached = JSON.parse(fs.readFileSync(cachePath, "utf-8"));
       console.log(`[tts-provider] Cache hit for key: ${cacheKey}`);
-      return cached.timing;
+      let totalDuration = cached.totalDuration;
+      if (totalDuration == null) {
+        totalDuration = probeAudioDurationSeconds(audioPath);
+      }
+      if (!cached.totalDuration || !cached.audioPath) {
+        try {
+          fs.writeFileSync(
+            cachePath,
+            JSON.stringify(
+              { hash: cacheKey, timing: cached.timing, totalDuration, audioPath: cached.audioPath ?? audioPathRelative },
+              null,
+              2,
+            ),
+            "utf-8",
+          );
+        } catch {}
+      }
+      return {
+        timing: cached.timing,
+        totalDuration,
+        audioPath: cached.audioPath ?? audioPathRelative,
+      };
     } catch (e) {
       console.warn("[tts-provider] Cache read failed, re-computing...", e);
     }
@@ -152,16 +214,14 @@ export async function generateTtsTiming(entries, fullTranscript) {
     }
   }
 
-  // 5) Save cache record before returning
+  // 5) Save cache record before returning — store the full record so a later
+  // cache hit still carries totalDuration + audioPath without re-synthesizing.
+  const cacheRecord = { hash: cacheKey, timing, totalDuration, audioPath: audioPathRelative };
   try {
-    fs.writeFileSync(
-      cachePath,
-      JSON.stringify({ hash: cacheKey, timing }, null, 2),
-      "utf-8"
-    );
+    fs.writeFileSync(cachePath, JSON.stringify(cacheRecord, null, 2), "utf-8");
   } catch (err) {
     console.warn("[tts-provider] Failed to write cache file:", err);
   }
 
-  return timing;
+  return { timing, totalDuration, audioPath: audioPathRelative };
 }

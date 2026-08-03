@@ -98,19 +98,16 @@ for (const [transitionType, entry] of Object.entries(registryManifest.transition
 }
 
 
+// Renders a single VISUAL transition effect (kind: "visual") inside the
+// scene's TransitionSeries.Sequence — visual effects are part of the scene's
+// rasterized image, so they composite fine here. SFX effects (kind: "sfx")
+// are NOT handled here — Composition renders those at the composition root
+// (see the SFX block below the TransitionSeries in VideoComposition) because
+// <Audio> nested inside <TransitionSeries.Sequence> is silently dropped:
+// TransitionSeries rasterizes each Sequence's visual children to an offscreen
+// image and composites only that image, bypassing the live DOM tree that
+// <Audio> needs to be discovered in.
 function SceneEffectLayer({ effect }) {
-  if (effect.kind === "sfx") {
-    return (
-      <Sequence
-        from={effect.frame}
-        durationInFrames={effect.durationInFrames ?? undefined}
-        name={`sfx-${effect.id}`}
-      >
-        <Audio src={staticFile(effect.path)} volume={effect.volume ?? 1} />
-      </Sequence>
-    );
-  }
-
   const AssetComponent = ASSET_COMPONENTS[effect.assetType];
   if (!AssetComponent) {
     throw new Error(`No renderer registered for effect assetType "${effect.assetType}"`);
@@ -150,16 +147,42 @@ function SceneLayer({ scene }) {
           </Suspense>
         );
       })}
-      {(scene.effects ?? []).map((effect) => (
-        <SceneEffectLayer key={effect.id} effect={effect} />
-      ))}
+      {(scene.effects ?? [])
+        .filter((effect) => effect.kind !== "sfx")
+        .map((effect) => (
+          <SceneEffectLayer key={effect.id} effect={effect} />
+        ))}
     </AbsoluteFill>
   );
 }
 
 export function VideoComposition({ resolvedGraph }) {
   const { scenes, audioOverlay, config } = resolvedGraph;
-  
+  // Only mount <AudioOverlay> when the resolved graph actually has tracks.
+  // pipeline2 returns audioOverlay: [] for projects with no narration and no
+  // manifest audioOverlay (e.g. packet-journey) — in that case we render no
+  // audio container at all, so there is no risk of a stray hardcoded voice
+  // bleeding into a silent project. <AudioOverlay> also independently no-ops
+  // on an empty array, but skipping it here keeps the component tree honest
+  // and lets the rest of the tree short-circuit one <Sequence> probe.
+  const hasAudioOverlay = Array.isArray(audioOverlay) && audioOverlay.length > 0;
+
+  // Absolute composition-frame at which each scene starts. TransitionSeries
+  // lays scenes out end-to-end but eats each transition's durationInFrames as
+  // overlap between adjacent scenes, so scene[i]'s start =
+  //   sum(durations[0..i-1]) - sum(transitionOut.durationInFrames[0..i-1]).
+  // This mirrors totalDurationInFrames in src/index.jsx and is needed to place
+  // root-level SFX <Sequence>s (see comment below the TransitionSeries) at the
+  // composition frame that lines up with the effect's scene-local frame.
+  const sceneStartFrames = {};
+  {
+    let acc = 0;
+    for (const scene of scenes) {
+      sceneStartFrames[scene.id] = acc;
+      const overlap = scene.transitionOut?.durationInFrames ?? 0;
+      acc += scene.durationInFrames - overlap;
+    }
+  }
   return (
     <AbsoluteFill>
       <TransitionSeries>
@@ -186,7 +209,32 @@ export function VideoComposition({ resolvedGraph }) {
           );
         })}
       </TransitionSeries>
-      <AudioOverlay tracks={audioOverlay} fps={config.fps} />
+      {hasAudioOverlay && <AudioOverlay tracks={audioOverlay} fps={config.fps} />}
+      {/* SFX effects must live at the composition ROOT, not inside
+          <TransitionSeries.Sequence>. TransitionSeries rasterizes each
+          Sequence's visual children to an offscreen image and composites
+          only that image across the cut — audio nested inside the Sequence
+          is dropped because <Audio> is processed by walking the live DOM
+          tree, which TransitionSeries bypasses for non-active scenes. So we
+          lift every `kind: "sfx"` effect out of SceneLayer, compute its
+          absolute composition-frame start (scene start frame + effect's
+          scene-local frame), and render it as a top-level <Sequence><Audio>.
+          Visual effects stay inside SceneLayer — they ARE part of the
+          rasterized image, so they render fine there. */}
+      {scenes.flatMap((scene) =>
+        (scene.effects ?? [])
+          .filter((e) => e.kind === "sfx")
+          .map((effect) => (
+            <Sequence
+              key={`sfx-${scene.id}-${effect.id}`}
+              from={sceneStartFrames[scene.id] + effect.frame}
+              durationInFrames={effect.durationInFrames ?? undefined}
+              name={`sfx-${effect.id}`}
+            >
+              <Audio src={staticFile(effect.path)} volume={effect.volume ?? 1} />
+            </Sequence>
+          )),
+      )}
     </AbsoluteFill>
   );
 }

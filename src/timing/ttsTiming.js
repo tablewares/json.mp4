@@ -22,15 +22,19 @@ import { generateTtsTiming } from "../../external/tts-provider.js"; // TODO: poi
  * @param {string} fullTranscript
  * @param {number} fps
  * @returns {Promise<{
- *   byId: Record<string, {startFrame:number, endFrame:number, durationInFrames:number, startSeconds:number, endSeconds:number}>,
+ *   byId: Record<string, {startFrame:number, endFrame:number, durationInFrames:number, startSeconds:number, endSeconds:number, words: {word:string, startFrame:number, endFrame:number}[]}>,
  *   totalDuration: number|null,  // seconds; null when the provider didn't report it
- *   audioPath: string|null,       // path TTS produced (relative to public/); null when N/A
+ *   audioPath: string|null,       // path TTS produced, relative to public/; null when N/A
  * }>}
  */
 export async function resolveNarrationTiming(entries, fullTranscript, fps) {
   const result = await generateTtsTiming(entries, fullTranscript);
+  // The provider returns { timing, totalDuration, audioPath }. Tolerate the
+  // legacy bare-array shape too (no totalDuration/audioPath) so a provider
+  // upgrade isn't a hard break.
   const timing = Array.isArray(result) ? result : result.timing;
   const totalDuration = Array.isArray(result) ? null : result.totalDuration ?? null;
+  const audioPath = Array.isArray(result) ? null : result.audioPath ?? null;
   const byId = {};
   for (const { id, start, end, words } of timing) {
     if (end <= start) {
@@ -57,7 +61,7 @@ export async function resolveNarrationTiming(entries, fullTranscript, fps) {
     };
   }
 
-  return { byId, totalDuration };
+  return { byId, totalDuration, audioPath };
 }
 
 // sceneTimingBudget unchanged

@@ -9,7 +9,7 @@
     {
       "id": "shatter-thud",
       "kind": "sfx",
-      "offsetPercent": -3,
+      "offsetPercent": -10,
       "path": "audio/sfx.mp3",
       "volume": 0.9
     },
@@ -20,7 +20,7 @@
       "durationInFrames": 10,
       "assetType": "ImageReveal",
       "anchor": { "position": "center" },
-      "contentOverride": { "src": "assets/destination.png", "alt": "" },
+      "contentOverride": { "src": "assets/white.avif", "alt": "" },
       "styleOverride": { "width": 1920, "height": 1080, "borderRadius": 0, "revealDirection": "center-out" }
     }
   ]

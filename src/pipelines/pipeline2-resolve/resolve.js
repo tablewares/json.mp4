@@ -34,6 +34,7 @@ export async function resolveProject(manifestPath) {
   const hasNarration = Boolean(manifest.narration);
   let timingById = {};
   let ttsTotalDuration = null;
+  let ttsAudioPath = null;
   // Narration entry text, keyed by id — needed so pipeline2 can check
   // whether a KineticText asset's own content.text is word-for-word the
   // scene's narration before trusting real word timestamps for it.
@@ -47,6 +48,7 @@ export async function resolveProject(manifestPath) {
     );
     timingById = tts.byId;
     ttsTotalDuration = tts.totalDuration;
+    ttsAudioPath = tts.audioPath;
     for (const entry of manifest.narration.entries) {
       narrationTextById[entry.id] = entry.text;
     }
@@ -90,15 +92,28 @@ export async function resolveProject(manifestPath) {
   // audioOverlay: TTS is the source of truth. When narration produced a real
   // audio file + duration, that overrides any hand-authored manifest entry —
   // the manifest's start/end was always just a placeholder for exactly this.
-  const audioOverlay = hasNarration && ttsTotalDuration != null
+  // The TTS provider returns audioPath relative to public/ (so Remotion's
+  // staticFile() accepts it) and totalDuration as the synthesized audio's
+  // real length in seconds. Without narration we just pass the manifest's
+  // audioOverlay through verbatim — each entry already carries its own path
+  // (required by manifest.schema.json), so AudioOverlay has a real source
+  // per track. Empty/missing audioOverlay resolves to [] — the renderer
+  // then skips mounting <AudioOverlay> entirely (see Composition.jsx).
+  const audioOverlay = hasNarration && ttsTotalDuration != null && ttsAudioPath
     ? [
         {
           id: "voiceover",
           start: 0,
           end: ttsTotalDuration,
+          path: ttsAudioPath,
         },
       ]
-    : manifest.audioOverlay ?? [];
+    : (manifest.audioOverlay ?? []).map((t) => ({
+        id: t.id,
+        start: t.start,
+        end: t.end,
+        path: t.path,
+      }));
 
   return {
     projectId: manifest.projectId,

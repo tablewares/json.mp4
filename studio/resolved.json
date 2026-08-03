@@ -15,7 +15,7 @@
         {
           "id": "shatter-thud",
           "kind": "sfx",
-          "frame": 146,
+          "frame": 135,
           "durationInFrames": null,
           "path": "audio/sfx.mp3",
           "volume": 0.9
@@ -25,7 +25,7 @@
           "kind": "visual",
           "assetType": "ImageReveal",
           "content": {
-            "src": "assets/destination.png",
+            "src": "assets/white.avif",
             "alt": ""
           },
           "resolvedPosition": {

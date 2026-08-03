@@ -23,7 +23,6 @@ not everything.
   token-vs-literal, registry pattern). Read once; these are the "why".
 - `recipes/` — worked, copy-pasteable patterns for common scene shapes.
   Grows over time as the project accumulates real usage.
-- `images/` - contains the skill for how to get urls for images to put into scenes. 
 
 ## The 30-second mental model
 
