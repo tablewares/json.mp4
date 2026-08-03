@@ -1,13 +1,38 @@
+// src/pipelines/pipeline1-validate/validate.js
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
+import { decode as decodeToon } from "@toon-format/toon"; // verify exact package/import name on npm before installing — see note below
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-function loadJson(p) {
-  return JSON.parse(fs.readFileSync(p, "utf-8"));
+/**
+ * Loads a manifest/config/scene/style file as a plain JS object, regardless
+ * of whether it's authored as JSON or TOON. This is the ONLY place format
+ * detection happens. Everything downstream — Ajv validation in this file,
+ * resolveProject/resolveScene in pipeline2, Composition.jsx in pipeline3 —
+ * only ever sees a plain object and has no idea which format the file was
+ * written in.
+ *
+ * TOON is decoded HERE, not in pipeline2, because validateProject runs Ajv
+ * against the decoded object before resolveProject does anything else —
+ * decoding has to happen before schema validation, not after it.
+ */
+function loadStructuredFile(p) {
+  const raw = fs.readFileSync(p, "utf-8");
+  const ext = path.extname(p).toLowerCase();
+  if (ext === ".toon") {
+    try {
+      // Replace non-breaking spaces (\u00A0) with normal spaces (\u0020)
+      const sanitized = raw.replace(/\u00a0/g, " ");
+      return decodeToon(sanitized);
+    } catch (e) {
+      throw new Error(`Failed to decode TOON file ${p}: ${e.message}`);
+    }
+  }
+  return JSON.parse(raw);
 }
 
 function buildAjv() {
@@ -15,7 +40,7 @@ function buildAjv() {
   addFormats(ajv);
   const schemaDir = path.join(__dirname, "schema");
   for (const file of fs.readdirSync(schemaDir)) {
-    ajv.addSchema(loadJson(path.join(schemaDir, file)));
+    ajv.addSchema(loadStructuredFile(path.join(schemaDir, file)));
   }
   return ajv;
 }
@@ -27,30 +52,24 @@ function fail(context, errors) {
   throw new Error(`Validation failed in ${context}:\n${message}`);
 }
 
-/**
- * Validates a project's manifest + every scene file it points at + its style
- * registry. Throws with a precise, file-scoped error on the first failure.
- * On success, returns { manifest, manifestDir, scenes, styles } — raw
- * (unresolved) data, ready for pipeline2.
- */
 export function validateProject(manifestPath) {
   const ajv = buildAjv();
   const manifestDir = path.dirname(manifestPath);
 
-  const manifest = loadJson(manifestPath);
+  const manifest = loadStructuredFile(manifestPath);
   const validateManifest = ajv.getSchema("manifest.schema.json");
   if (!validateManifest(manifest)) fail(`${manifestPath} `, validateManifest.errors);
 
-  const styles = loadJson(path.join(manifestDir, manifest.styles));
+  const styles = loadStructuredFile(path.join(manifestDir, manifest.styles));
   const validateStyles = ajv.getSchema("style.schema.json");
   if (!validateStyles(styles)) fail(`${manifest.styles} `, validateStyles.errors);
 
-  const config = loadJson(path.join(manifestDir, manifest.config));
+  const config = loadStructuredFile(path.join(manifestDir, manifest.config));
 
   const validateScene = ajv.getSchema("scene.schema.json");
   const scenes = manifest.scenes.map(({ id, path: relPath }) => {
     const scenePath = path.join(manifestDir, relPath);
-    const scene = loadJson(scenePath);
+    const scene = loadStructuredFile(scenePath);
     if (!validateScene(scene)) fail(`${relPath} `, validateScene.errors);
     if (scene.id !== id) {
       throw new Error(
@@ -71,9 +90,8 @@ export function validateProject(manifestPath) {
   return { manifest, manifestDir, config, styles, scenes };
 }
 
-// CLI usage: node validate.js path/to/manifest.json
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const manifestPath = process.argv[2] ?? path.join(__dirname, "../../../studio/manifest/example-project/manifest.json");
+  const manifestPath = process.argv[2] ?? path.join(__dirname, "../../../studio/manifest/example-project/manifest.toon");
   const result = validateProject(manifestPath);
   console.log(`OK: ${result.scenes.length} scene(s) validated for project "${result.manifest.projectId}"`);
 }

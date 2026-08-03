@@ -11,13 +11,13 @@
     "generate:registry": "node src/registry/generateRegistryManifest.js",
     "prebuild": "npm run generate:registry",
     "build": "npm run validate && npm run prebuild && npm run resolve && npm run render"
-
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",
     "@remotion/media-utils": "^4.0.0",
     "@remotion/renderer": "^4.0.0",
     "@remotion/transitions": "^4.0.0",
+    "@toon-format/toon": "^4.1.0",
     "ajv": "^8.20.0",
     "ajv-formats": "^2.1.1",
     "react": "^18.2.0",

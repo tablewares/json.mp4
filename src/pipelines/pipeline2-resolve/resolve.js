@@ -224,7 +224,7 @@ function buildTransitionBundle(transitionSpec, outgoingScene, incomingScene, tra
 
 // CLI usage: node resolve.js path/to/manifest.json [output.json]
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const manifestPath = process.argv[2] ?? path.join(__dirname, "../../../studio/manifest/example-project/manifest.json");
+  const manifestPath = process.argv[2] ?? path.join(__dirname, "../../../studio/manifest/example-project/manifest.toon");
   const outPath = process.argv[3] ?? path.join(__dirname, "../../../studio/resolved.json");
   const resolved = await resolveProject(manifestPath);
   fs.writeFileSync(outPath, JSON.stringify(resolved, null, 2));

@@ -1,0 +1,13 @@
+projectId: example-project
+config: config.toon
+styles: styles/theme.toon
+narration:
+  entries[2]{id,text}:
+    n1,Why most AI videos look like slideshows.
+    n2,"Because they resolve every asset independently, with no shared registry and no continuity."
+  fullTranscript: "Why most AI videos look like slideshows. Because they resolve every asset independently, with no shared registry and no continuity."
+audioOverlay[1]{id,start,end,path}:
+  voiceover,0,8.5,audio/voiceover.mp3
+scenes[2]{id,path}:
+  scene-001,scenes/scene-001.toon
+  scene-002,scenes/scene-002.toon
