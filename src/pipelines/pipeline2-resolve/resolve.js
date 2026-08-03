@@ -125,7 +125,6 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, narrat
     hasNarration && scene.narrationRef
       ? sceneTimingBudget(scene.narrationRef, timingById)
       : { durationInFrames: config.defaultSceneDurationInFrames ?? 90 };
-  console.log("timing", timing);
 
   const transitionPadding =
     !isLastScene && hasNarration && scene.narrationRef

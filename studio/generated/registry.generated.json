@@ -1,0 +1,54 @@
+{
+  "generatedAt": "2026-08-03T02:18:30.138Z",
+  "assetRoots": [
+    "../../studio/assets",
+    "../../studio/graphics"
+  ],
+  "transitionRoots": [
+    "../../studio/transitions"
+  ],
+  "assets": {
+    "ImageReveal": {
+      "folderName": "ImageReveal",
+      "entryFile": "ImageReveal.jsx",
+      "rootIndex": 0
+    },
+    "KineticText": {
+      "folderName": "KineticText",
+      "entryFile": "KineticText.jsx",
+      "rootIndex": 0
+    },
+    "TextBlock": {
+      "folderName": "TextBlock",
+      "entryFile": "TextBlock.jsx",
+      "rootIndex": 0
+    },
+    "BarChartRace": {
+      "folderName": "BarChartRace",
+      "entryFile": "BarChartRace.jsx",
+      "rootIndex": 1
+    },
+    "TickerTape": {
+      "folderName": "TickerTape",
+      "entryFile": "TickerTape.jsx",
+      "rootIndex": 1
+    }
+  },
+  "transitions": {
+    "default": {
+      "folderName": "default",
+      "entryFile": "DefaultTransition.jsx",
+      "rootIndex": 0
+    },
+    "shatterWipe": {
+      "folderName": "shatterWipe",
+      "entryFile": "ShatterWipe.jsx",
+      "rootIndex": 0
+    },
+    "slideContinuity": {
+      "folderName": "slideContinuity",
+      "entryFile": "SlideContinuity.jsx",
+      "rootIndex": 0
+    }
+  }
+}

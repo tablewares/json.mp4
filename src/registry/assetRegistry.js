@@ -4,12 +4,6 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Default asset + transition roots, relative to this file. Each entry is a
-// directory whose immediate subfolders are scanned for a manifest.json.
-// To add a new root, append its absolute-or-relative path here (or pass an
-// array to loadAssetRegistry / loadTransitionRegistry). Both registries are
-// the union of every root; a folder name (assetType / transitionType) must be
-// unique across all roots or scanFolders throws.
 const DEFAULT_ASSET_ROOTS = ["../../studio/assets", "../../studio/graphics"];
 const DEFAULT_TRANSITION_ROOTS = ["../../studio/transitions"];
 
@@ -18,11 +12,16 @@ function resolveRoot(root) {
 }
 
 /**
- * Scan one directory: every immediate subfolder that contains a manifest.json
- * becomes one entry keyed by the folder name. Returns a fresh {} — does not
- * mutate the accumulator.
+ * Scan one directory: every immediate subfolder with a manifest.json becomes
+ * one registry entry. `rootIndex` is this root's position in the roots array
+ * passed to scanFolders — it's the only piece of positional information the
+ * Webpack side needs, since require.context() must be given a literal
+ * directory per root and can't be driven by a variable at build time. That
+ * one constraint is why Composition.jsx still declares its own array of
+ * require.context() calls; everything else — parsing manifests, computing
+ * assetType/transitionType, duplicate-name detection — happens only here.
  */
-function scanFolder(dir, registry, rootLabel) {
+function scanFolder(dir, registry, rootLabel, rootIndex) {
   let names;
   try {
     names = fs.readdirSync(dir);
@@ -30,39 +29,48 @@ function scanFolder(dir, registry, rootLabel) {
     if (e.code === "ENOENT") return; // missing root is fine: nothing to scan
     throw e;
   }
-  console.log("scanfolder", dir)
   for (const name of names) {
     const folder = path.join(dir, name);
     if (!fs.statSync(folder).isDirectory()) continue;
     const manifestPath = path.join(folder, "manifest.json");
     if (!fs.existsSync(manifestPath)) continue;
     const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
-    if (registry[name]) {
+
+    // registry key = assetType/transitionType if declared, else folder name —
+    // this fallback rule now lives in exactly one place.
+    const key = manifest.assetType || manifest.transitionType || name;
+    const entryFile = manifest.component || `${name}.jsx`;
+
+    if (registry[key]) {
       throw new Error(
-        `Duplicate registry entry "${name}" found under "${rootLabel}" (${folder}). ` +
-          `Folder names (assetType / transitionType) must be unique across all roots. ` +
-          `Already registered from "${registry[name].root}".`
+        `Duplicate registry entry "${key}" found under "${rootLabel}" (${folder}). ` +
+          `Folder/type names must be unique across all roots. ` +
+          `Already registered from "${registry[key].root}".`
       );
     }
-    registry[name] = {
+    if (!fs.existsSync(path.join(folder, entryFile))) {
+      throw new Error(
+        `Registry entry "${key}" (${rootLabel}): manifest.component "${entryFile}" not found under ${folder}`
+      );
+    }
+
+    registry[key] = {
       manifest,
-      componentPath: path.join(folder, manifest.component),
+      folderName: name,
+      entryFile,
+      componentPath: path.join(folder, entryFile),
       root: rootLabel,
+      rootIndex,
     };
   }
 }
 
-/**
- * Scan multiple asset/transition roots and merge into one registry. A folder
- * name must be unique across all roots. Returns { Name: { manifest,
- * componentPath, root } }.
- */
 function scanFolders(roots, labelFor) {
   const registry = {};
-  for (const root of roots) {
+  roots.forEach((root, rootIndex) => {
     const abs = resolveRoot(root);
-    scanFolder(abs, registry, abs);
-  }
+    scanFolder(abs, registry, abs, rootIndex);
+  });
   return registry;
 }
 
@@ -71,20 +79,10 @@ function normalize(roots, fallback) {
   return Array.isArray(roots) ? roots : [roots];
 }
 
-/**
- * Asset registry — the union of every asset root. `roots` is one path or an
- * array of paths (relative paths resolve against this file). Defaults to
- * ["../assets"]. Result: { TextBlock: { manifest, componentPath, root }, ... }.
- */
 export function loadAssetRegistry(roots = DEFAULT_ASSET_ROOTS) {
   return scanFolders(normalize(roots, DEFAULT_ASSET_ROOTS), "asset");
 }
 
-/**
- * Transition registry — same shape/contract as loadAssetRegistry. Has the same
- * multi-root support so transition packs can live in their own directory.
- * Result: { default: {...}, slideContinuity: {...}, ... }.
- */
 export function loadTransitionRegistry(roots = DEFAULT_TRANSITION_ROOTS) {
   return scanFolders(normalize(roots, DEFAULT_TRANSITION_ROOTS), "transition");
 }

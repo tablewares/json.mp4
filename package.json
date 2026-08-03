@@ -7,8 +7,11 @@
     "validate": "node src/pipelines/pipeline1-validate/validate.js",
     "resolve": "node src/pipelines/pipeline2-resolve/resolve.js",
     "render": "node src/pipelines/pipeline3-render/render.js",
-    "build": "npm run validate && npm run resolve && npm run render",
-    "studio": "remotion studio src/index.jsx"
+    "studio": "remotion studio src/index.jsx",
+    "generate:registry": "node src/registry/generateRegistryManifest.js",
+    "prebuild": "npm run generate:registry",
+    "build": "npm run validate && npm run prebuild && npm run resolve && npm run render"
+
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",

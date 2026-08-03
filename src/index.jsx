@@ -1,7 +1,7 @@
 import React from "react";
 import { Composition, registerRoot } from "remotion";
 import { VideoComposition } from "./pipelines/pipeline3-render/Composition.jsx";
-import resolvedGraph from "../resolved.json" with { type: "json" };
+import resolvedGraph from "../studio/resolved.json" with { type: "json" };
 
 function totalDurationInFrames(graph) {
   // sum of scene durations minus the overlap each transition consumes

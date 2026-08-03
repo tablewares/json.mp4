@@ -1,0 +1,119 @@
+{
+  "hash": "1f84f06cc929c2e36700ee0727c0c2c8c89604d280c3baecac8b979c7301941f",
+  "timing": [
+    {
+      "id": "n1",
+      "start": 0,
+      "end": 2.736,
+      "words": [
+        {
+          "word": "Why",
+          "start": 0.592,
+          "end": 0.732
+        },
+        {
+          "word": "most",
+          "start": 0.793,
+          "end": 1.033
+        },
+        {
+          "word": "AI",
+          "start": 1.133,
+          "end": 1.354
+        },
+        {
+          "word": "videos",
+          "start": 1.394,
+          "end": 1.734
+        },
+        {
+          "word": "look",
+          "start": 1.774,
+          "end": 1.935
+        },
+        {
+          "word": "like",
+          "start": 1.955,
+          "end": 2.095
+        },
+        {
+          "word": "slideshows.",
+          "start": 2.135,
+          "end": 2.736
+        }
+      ]
+    },
+    {
+      "id": "n2",
+      "start": 2.736,
+      "end": 8.04,
+      "words": [
+        {
+          "word": "Because",
+          "start": 3.378,
+          "end": 3.618
+        },
+        {
+          "word": "they",
+          "start": 3.638,
+          "end": 3.758
+        },
+        {
+          "word": "resolve",
+          "start": 3.799,
+          "end": 4.139
+        },
+        {
+          "word": "every",
+          "start": 4.3,
+          "end": 4.48
+        },
+        {
+          "word": "asset",
+          "start": 4.62,
+          "end": 4.901
+        },
+        {
+          "word": "independently,",
+          "start": 4.961,
+          "end": 5.562
+        },
+        {
+          "word": "with",
+          "start": 5.702,
+          "end": 5.843
+        },
+        {
+          "word": "no",
+          "start": 5.903,
+          "end": 6.043
+        },
+        {
+          "word": "shared",
+          "start": 6.083,
+          "end": 6.324
+        },
+        {
+          "word": "registry",
+          "start": 6.364,
+          "end": 6.825
+        },
+        {
+          "word": "and",
+          "start": 6.865,
+          "end": 6.965
+        },
+        {
+          "word": "no",
+          "start": 7.005,
+          "end": 7.105
+        },
+        {
+          "word": "continuity.",
+          "start": 7.165,
+          "end": 7.686
+        }
+      ]
+    }
+  ]
+}

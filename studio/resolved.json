@@ -17,13 +17,13 @@
   "scenes": [
     {
       "id": "scene-001",
-      "durationInFrames": 103,
+      "durationInFrames": 106,
       "ttsWindow": {
         "narrationRef": "n1",
         "startSeconds": 0,
-        "endSeconds": 2.618,
+        "endSeconds": 2.736,
         "startFrame": 0,
-        "endFrame": 79
+        "endFrame": 82
       },
       "background": "#0B0E14",
       "assets": [
@@ -60,9 +60,9 @@
             "height": 200
           },
           "timing": {
-            "durationInFrames": 103,
+            "durationInFrames": 106,
             "enterAtFrame": 0,
-            "exitAtFrame": 71,
+            "exitAtFrame": 74,
             "words": null
           }
         },
@@ -92,9 +92,9 @@
             "height": 640
           },
           "timing": {
-            "durationInFrames": 103,
+            "durationInFrames": 106,
             "enterAtFrame": 4,
-            "exitAtFrame": 79,
+            "exitAtFrame": 82,
             "words": null
           }
         }
@@ -141,12 +141,12 @@
     },
     {
       "id": "scene-002",
-      "durationInFrames": 163,
+      "durationInFrames": 159,
       "ttsWindow": {
         "narrationRef": "n2",
-        "startSeconds": 2.618,
+        "startSeconds": 2.736,
         "endSeconds": 8.04,
-        "startFrame": 79,
+        "startFrame": 82,
         "endFrame": 241
       },
       "background": "#161B26",
@@ -177,9 +177,9 @@
             "height": 420
           },
           "timing": {
-            "durationInFrames": 163,
+            "durationInFrames": 159,
             "enterAtFrame": 0,
-            "exitAtFrame": 163,
+            "exitAtFrame": 159,
             "words": null
           }
         },
@@ -218,74 +218,74 @@
             "height": 260
           },
           "timing": {
-            "durationInFrames": 163,
+            "durationInFrames": 159,
             "enterAtFrame": 0,
-            "exitAtFrame": 155,
+            "exitAtFrame": 151,
             "words": [
               {
                 "word": "Because",
-                "startFrame": 14,
-                "endFrame": 20
+                "startFrame": 19,
+                "endFrame": 26
               },
               {
                 "word": "they",
-                "startFrame": 21,
-                "endFrame": 25
+                "startFrame": 27,
+                "endFrame": 31
               },
               {
                 "word": "resolve",
-                "startFrame": 26,
-                "endFrame": 36
+                "startFrame": 32,
+                "endFrame": 42
               },
               {
                 "word": "every",
-                "startFrame": 40,
-                "endFrame": 46
+                "startFrame": 47,
+                "endFrame": 52
               },
               {
                 "word": "asset",
-                "startFrame": 51,
-                "endFrame": 58
+                "startFrame": 57,
+                "endFrame": 65
               },
               {
                 "word": "independently,",
-                "startFrame": 60,
-                "endFrame": 78
+                "startFrame": 67,
+                "endFrame": 85
               },
               {
                 "word": "with",
-                "startFrame": 90,
-                "endFrame": 94
+                "startFrame": 89,
+                "endFrame": 93
               },
               {
                 "word": "no",
-                "startFrame": 96,
-                "endFrame": 100
+                "startFrame": 95,
+                "endFrame": 99
               },
               {
                 "word": "shared",
-                "startFrame": 101,
+                "startFrame": 100,
                 "endFrame": 108
               },
               {
                 "word": "registry",
-                "startFrame": 110,
-                "endFrame": 125
+                "startFrame": 109,
+                "endFrame": 123
               },
               {
                 "word": "and",
-                "startFrame": 126,
-                "endFrame": 129
+                "startFrame": 124,
+                "endFrame": 127
               },
               {
                 "word": "no",
-                "startFrame": 130,
-                "endFrame": 134
+                "startFrame": 128,
+                "endFrame": 131
               },
               {
                 "word": "continuity.",
-                "startFrame": 135,
-                "endFrame": 152
+                "startFrame": 133,
+                "endFrame": 148
               }
             ]
           }

@@ -44,6 +44,18 @@ function defaultWorkDir() {
  *   whatever was fed to the storyboard).
  * @returns {Promise<{id: string, start: number, end: number}[]>}
  */
+import fs from "fs";
+import crypto from "crypto";
+
+// Helper to derive a deterministic hash from input transcript and entries
+function computeCacheKey(entries, fullTranscript) {
+  const payload = JSON.stringify({
+    fullTranscript,
+    entries: entries.map((e) => ({ id: e.id, text: e.text })),
+  });
+  return crypto.createHash("sha256").update(payload).digest("hex");
+}
+
 export async function generateTtsTiming(entries, fullTranscript) {
   if (!Array.isArray(entries) || entries.length === 0) {
     throw new Error("generateTtsTiming() requires a non-empty entries array");
@@ -53,7 +65,20 @@ export async function generateTtsTiming(entries, fullTranscript) {
   }
 
   const workDir = defaultWorkDir();
+  const cacheKey = computeCacheKey(entries, fullTranscript);
+  const cachePath = path.join(workDir, `tts_cache_${cacheKey}.json`);
   const audioPath = path.join(workDir, `hardcoded_voice.wav`);
+
+  // 0) Check cache: return previous timing output if cache file exists
+  if (fs.existsSync(cachePath)) {
+    try {
+      const cached = JSON.parse(fs.readFileSync(cachePath, "utf-8"));
+      console.log(`[tts-provider] Cache hit for key: ${cacheKey}`);
+      return cached.timing;
+    } catch (e) {
+      console.warn("[tts-provider] Cache read failed, re-computing...", e);
+    }
+  }
 
   // 1) Single-pass synthesis of the whole transcript.
   const { durationSec: totalDuration } = await synthesizeVoice({
@@ -67,7 +92,8 @@ export async function generateTtsTiming(entries, fullTranscript) {
   if (!totalDuration || !Number.isFinite(totalDuration)) {
     throw new Error(`TTS synthesis returned invalid duration: ${totalDuration}`);
   }
-  console.log("audiopath", audioPath)
+  console.log("audiopath", audioPath);
+
   // 2) WhisperX word-level alignment of the combined audio.
   const transcriptWords = await alignAudioWords(audioPath, fullTranscript, {
     device: "cpu",
@@ -79,8 +105,7 @@ export async function generateTtsTiming(entries, fullTranscript) {
     throw new Error("WhisperX produced no word-level timing");
   }
   
-// 3) Align storyboard entries to transcript → cumulative end time per entry
-  //    + a real timestamp for every individual word.
+  // 3) Align storyboard entries to transcript → cumulative end time per entry
   const sceneVoiceoverTexts = entries.map((e) => e.text ?? "");
   let lowConfidence = null;
   const { sceneEndTimes, sceneWords } = alignStoryboardToTranscript(
@@ -92,7 +117,6 @@ export async function generateTtsTiming(entries, fullTranscript) {
   );
 
   if (lowConfidence) {
-    // eslint-disable-next-line no-console
     console.warn(
       `[tts-provider] low alignment confidence: ` +
       `${lowConfidence.matchedCount}/${lowConfidence.totalTokens} tokens ` +
@@ -103,10 +127,7 @@ export async function generateTtsTiming(entries, fullTranscript) {
 
   const clamp = (t) => Math.min(Math.max(t, 0), totalDuration);
 
-  // 4) Build per-entry {start, end, words} from cumulative end times. start
-  // of entry N = end of entry N-1 (0 for the first). Clamp the final end to
-  // the real synthesized duration so a WhisperX tail overhang can't extend
-  // past audio; word timestamps get the same clamp.
+  // 4) Build per-entry {start, end, words} from cumulative end times.
   const timing = [];
   let prevEnd = 0;
   for (let i = 0; i < entries.length; i += 1) {
@@ -129,6 +150,17 @@ export async function generateTtsTiming(entries, fullTranscript) {
     if (last.end < totalDuration - 0.05) {
       last.end = totalDuration;
     }
+  }
+
+  // 5) Save cache record before returning
+  try {
+    fs.writeFileSync(
+      cachePath,
+      JSON.stringify({ hash: cacheKey, timing }, null, 2),
+      "utf-8"
+    );
+  } catch (err) {
+    console.warn("[tts-provider] Failed to write cache file:", err);
   }
 
   return timing;
