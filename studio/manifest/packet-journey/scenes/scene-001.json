@@ -1,0 +1,34 @@
+{
+  "id": "scene-hook",
+  "background": "shade1",
+  "transitionOut": { "type": "shatterWipe", "durationInFrames": 22, "params": { "cols": 6, "rows": 4, "throwDistance": 220 } },
+  "assets": [
+    {
+      "id": "kicker",
+      "assetType": "TextBlock",
+      "anchor": { "position": "top-left", "offsetXPercent": 8, "offsetYPercent": 22 },
+      "contentOverride": { "text": "A PACKET JOURNEY" },
+      "styleOverride": { "typography": "kicker1", "align": "left" },
+      "enterAt": 0,
+      "exitAt": 0.9
+    },
+    {
+      "id": "headline",
+      "assetType": "TextBlock",
+      "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": -4 },
+      "contentOverride": { "text": "One bit. The whole internet." },
+      "styleOverride": { "typography": "heading1", "align": "center" },
+      "enterAt": 0.05,
+      "exitAt": 0.92
+    },
+    {
+      "id": "subline",
+      "assetType": "TextBlock",
+      "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": 6 },
+      "contentOverride": { "text": "What happens in the 42 milliseconds between send and arrive?" },
+      "styleOverride": { "typography": "body1", "align": "center" },
+      "enterAt": 0.12,
+      "exitAt": 0.92
+    }
+  ]
+}

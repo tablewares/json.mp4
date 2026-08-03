@@ -10,8 +10,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // array to loadAssetRegistry / loadTransitionRegistry). Both registries are
 // the union of every root; a folder name (assetType / transitionType) must be
 // unique across all roots or scanFolders throws.
-const DEFAULT_ASSET_ROOTS = ["../assets", "../graphics"];
-const DEFAULT_TRANSITION_ROOTS = ["../transitions"];
+const DEFAULT_ASSET_ROOTS = ["../../studio/assets", "../../studio/graphics"];
+const DEFAULT_TRANSITION_ROOTS = ["../../studio/transitions"];
 
 function resolveRoot(root) {
   return path.isAbsolute(root) ? root : path.join(__dirname, root);
@@ -30,6 +30,7 @@ function scanFolder(dir, registry, rootLabel) {
     if (e.code === "ENOENT") return; // missing root is fine: nothing to scan
     throw e;
   }
+  console.log("scanfolder", dir)
   for (const name of names) {
     const folder = path.join(dir, name);
     if (!fs.statSync(folder).isDirectory()) continue;

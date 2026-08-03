@@ -27,18 +27,18 @@ import { AudioOverlay } from "../../audio/overlay.jsx";
 
 const ASSET_ROOT_CONTEXTS = [
   // [manifestContext, moduleContext, rootLabel]
-  [require.context("../../assets", true, /\/manifest\.json$/), require.context("../../assets", true, /\.(jsx|tsx|js|ts)$/), "src/assets"],
-  // `src/graphics/` is the second shipped asset root — the Node-side
+  [require.context("../../../studio/assets", true, /\/manifest\.json$/), require.context("../../../studio/assets", true, /\.(jsx|tsx|js|ts)$/), "studio/assets"],
+  // `studio/graphics/` is the second shipped asset root — the Node-side
   // registry (assetRegistry.js DEFAULT_ASSET_ROOTS) already unions it in,
   // so the webpack side must mirror that root or resolve and render disagree
   // (an assetType resolved from graphics on the Node side would throw
   // "No renderer registered for assetType" at render). Same shape as assets:
   // <Name>/manifest.json + <Name>.jsx, keyed by folder name.
-  [require.context("../../graphics", true, /\/manifest\.json$/), require.context("../../graphics", true, /\.(jsx|tsx|js|ts)$/), "src/graphics"],
+  [require.context("../../../studio/graphics", true, /\/manifest\.json$/), require.context("../../../studio/graphics", true, /\.(jsx|tsx|js|ts)$/), "studio/graphics"],
 ];
 
 const TRANSITION_ROOT_CONTEXTS = [
-  [require.context("../../transitions", true, /\/manifest\.json$/), require.context("../../transitions", true, /\.(jsx|tsx|js|ts)$/), "src/transitions"],
+  [require.context("../../../studio/transitions", true, /\/manifest\.json$/), require.context("../../../studio/transitions", true, /\.(jsx|tsx|js|ts)$/), "studio/transitions"],
 ];
 
 const ASSET_COMPONENTS = {};

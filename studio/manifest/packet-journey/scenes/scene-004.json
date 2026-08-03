@@ -1,0 +1,42 @@
+{
+  "id": "scene-arrive",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "arriveKicker",
+      "assetType": "TextBlock",
+      "anchor": { "position": "top", "offsetXPercent": -34, "offsetYPercent": 16 },
+      "contentOverride": { "text": "03 / It arrives" },
+      "styleOverride": { "typography": "kicker1", "align": "left" },
+      "enterAt": 0,
+      "exitAt": 0.9
+    },
+    {
+      "id": "dockImg",
+      "assetType": "ImageReveal",
+      "anchor": { "position": "top-right", "offsetXPercent": -14, "offsetYPercent": 20 },
+      "contentOverride": { "src": "/home/tablewares/json.mp4/public/assets/destination.png", "alt": "Server rack landing dock with LEDs lit and an arrival beam." },
+      "styleOverride": { "revealDirection": "left-to-right", "easing": "gentleSpring", "width": 560, "height": 560 },
+      "enterAt": 0.04,
+      "exitAt": 0.95
+    },
+    {
+      "id": "arriveHead",
+      "assetType": "TextBlock",
+      "anchor": { "position": "bottom-left", "offsetXPercent": 8, "offsetYPercent": 22 },
+      "contentOverride": { "text": "42 ms later." },
+      "styleOverride": { "typography": "heading1", "align": "left" },
+      "enterAt": 0.12,
+      "exitAt": 0.95
+    },
+    {
+      "id": "arriveSub",
+      "assetType": "TextBlock",
+      "anchor": { "position": "bottom-left", "offsetXPercent": 8, "offsetYPercent": 12 },
+      "contentOverride": { "text": "Seven hops. One packet. The internet, every time you blink." },
+      "styleOverride": { "typography": "body1", "align": "left" },
+      "enterAt": 0.25,
+      "exitAt": 0.95
+    }
+  ]
+}

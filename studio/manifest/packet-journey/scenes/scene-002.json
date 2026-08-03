@@ -1,0 +1,34 @@
+{
+  "id": "scene-globe",
+  "background": "shade1",
+  "transitionOut": { "type": "default", "durationInFrames": 18 },
+  "assets": [
+    {
+      "id": "kicker2",
+      "assetType": "TextBlock",
+      "anchor": { "position": "top-left", "offsetXPercent": 8, "offsetYPercent": 10 },
+      "contentOverride": { "text": "01 / The network is a globe" },
+      "styleOverride": { "typography": "kicker1", "align": "left" },
+      "enterAt": 0,
+      "exitAt": 0.9
+    },
+    {
+      "id": "globeImg",
+      "assetType": "ImageReveal",
+      "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": 0 },
+      "contentOverride": { "src": "/home/tablewares/json.mp4/public/assets/network.png", "alt": "A globe of network nodes joined by glowing edges, with a bright packet arc bridging two nodes." },
+      "styleOverride": { "revealDirection": "center-out", "easing": "gentleSpring", "width": 720, "height": 720 },
+      "enterAt": 0.05,
+      "exitAt": 0.95
+    },
+    {
+      "id": "globeSub",
+      "assetType": "TextBlock",
+      "anchor": { "position": "bottom", "offsetXPercent": 0, "offsetYPercent": 10 },
+      "contentOverride": { "text": "Your packet does not teleport. It hops." },
+      "styleOverride": { "typography": "heading2", "align": "center" },
+      "enterAt": 0.35,
+      "exitAt": 0.95
+    }
+  ]
+}

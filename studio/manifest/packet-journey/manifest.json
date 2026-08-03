@@ -1,0 +1,1 @@
+{"projectId":"packet-journey","config":"config.json","styles":"styles/theme.json","scenes":[{"id":"scene-hook","path":"scenes/scene-001.json"},{"id":"scene-globe","path":"scenes/scene-002.json"},{"id":"scene-race","path":"scenes/scene-003.json"},{"id":"scene-arrive","path":"scenes/scene-004.json"}]}

@@ -1,0 +1,335 @@
+{
+  "projectId": "example-project",
+  "config": {
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "defaultSceneDurationInFrames": 90
+  },
+  "audioOverlay": [
+    {
+      "id": "voiceover",
+      "start": 0,
+      "end": 8.5,
+      "path": "audio/voiceover.mp3"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene-001",
+      "durationInFrames": 103,
+      "ttsWindow": {
+        "narrationRef": "n1",
+        "startSeconds": 0,
+        "endSeconds": 2.618,
+        "startFrame": 0,
+        "endFrame": 79
+      },
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "titleText",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Why most AI videos look like slideshows"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 115.19999999999999,
+            "top": 108,
+            "transformOrigin": "0% 0%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 72,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "left",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 103,
+            "enterAtFrame": 0,
+            "exitAtFrame": 71,
+            "words": null
+          }
+        },
+        {
+          "id": "heroImage",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "",
+            "alt": "hero"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 32,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "timing": {
+            "durationInFrames": 103,
+            "enterAtFrame": 4,
+            "exitAtFrame": 79,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": {
+        "type": "slideContinuity",
+        "durationInFrames": 24,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
+        "props": {
+          "carryAssetId": "heroImage",
+          "carryFrom": {
+            "position": "absolute",
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "carryTo": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
+          }
+        }
+      }
+    },
+    {
+      "id": "scene-002",
+      "durationInFrames": 163,
+      "ttsWindow": {
+        "narrationRef": "n2",
+        "startSeconds": 2.618,
+        "endSeconds": 8.04,
+        "startFrame": 79,
+        "endFrame": 241
+      },
+      "background": "#161B26",
+      "assets": [
+        {
+          "id": "heroImage",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg",
+            "alt": "hero"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
+          },
+          "timing": {
+            "durationInFrames": 163,
+            "enterAtFrame": 0,
+            "exitAtFrame": 163,
+            "words": null
+          }
+        },
+        {
+          "id": "bodyText",
+          "assetType": "KineticText",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
+          "content": {
+            "text": "Because they resolve every asset independently, with no shared registry and no continuity."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 704.8,
+            "top": 712,
+            "transformOrigin": "100% 100%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
+              "fontWeight": 400,
+              "lineHeight": 1.4,
+              "colorToken": "main2",
+              "color": "#8B93A7"
+            },
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "staggerFrames": 6,
+            "wordPopScale": 1.15,
+            "useNarrationTiming": true,
+            "align": "right",
+            "width": 1100,
+            "height": 260
+          },
+          "timing": {
+            "durationInFrames": 163,
+            "enterAtFrame": 0,
+            "exitAtFrame": 155,
+            "words": [
+              {
+                "word": "Because",
+                "startFrame": 14,
+                "endFrame": 20
+              },
+              {
+                "word": "they",
+                "startFrame": 21,
+                "endFrame": 25
+              },
+              {
+                "word": "resolve",
+                "startFrame": 26,
+                "endFrame": 36
+              },
+              {
+                "word": "every",
+                "startFrame": 40,
+                "endFrame": 46
+              },
+              {
+                "word": "asset",
+                "startFrame": 51,
+                "endFrame": 58
+              },
+              {
+                "word": "independently,",
+                "startFrame": 60,
+                "endFrame": 78
+              },
+              {
+                "word": "with",
+                "startFrame": 90,
+                "endFrame": 94
+              },
+              {
+                "word": "no",
+                "startFrame": 96,
+                "endFrame": 100
+              },
+              {
+                "word": "shared",
+                "startFrame": 101,
+                "endFrame": 108
+              },
+              {
+                "word": "registry",
+                "startFrame": 110,
+                "endFrame": 125
+              },
+              {
+                "word": "and",
+                "startFrame": 126,
+                "endFrame": 129
+              },
+              {
+                "word": "no",
+                "startFrame": 130,
+                "endFrame": 134
+              },
+              {
+                "word": "continuity.",
+                "startFrame": 135,
+                "endFrame": 152
+              }
+            ]
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "slideContinuity",
+        "durationInFrames": 24,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
+        "props": {
+          "carryAssetId": "heroImage",
+          "carryFrom": {
+            "position": "absolute",
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "carryTo": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
+          }
+        }
+      },
+      "transitionOut": null
+    }
+  ]
+}

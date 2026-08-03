@@ -1,0 +1,42 @@
+{
+  "id": "scene-race",
+  "background": "shade1",
+  "transitionOut": { "type": "default", "durationInFrames": 18 },
+  "assets": [
+    {
+      "id": "raceKicker",
+      "assetType": "TextBlock",
+      "anchor": { "position": "top-left", "offsetXPercent": 8, "offsetYPercent": 8 },
+      "contentOverride": { "text": "02 / Per-hop latency" },
+      "styleOverride": { "typography": "kicker1", "align": "left" },
+      "enterAt": 0,
+      "exitAt": 0.95
+    },
+    {
+      "id": "raceBars",
+      "assetType": "BarChartRace",
+      "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": 3 },
+      "contentOverride": { "bars": [
+        { "label": "WiFi airtime", "value": 1.2, "fillStyle": "#3D7BFD" },
+        { "label": "Home router",   "value": 0.6, "fillStyle": "#3D7BFD" },
+        { "label": "ISP edge",      "value": 4.4, "fillStyle": "#FFD166" },
+        { "label": "Backbone hop",  "value": 11.8, "fillStyle": "#16C784" },
+        { "label": "Transit",       "value": 18.0, "fillStyle": "#C04CFD" },
+        { "label": "Cloud edge",    "value": 5.0, "fillStyle": "#FFD166" },
+        { "label": "Data center",    "value": 1.0, "fillStyle": "#3D7BFD" }
+      ] },
+      "styleOverride": { "typography": "body1", "easing": "gentleSpring", "canvasFill": "#161B26", "borderLine": "transparent", "axisLine": "#2A3142", "axisPad": 72, "labelBandPad": 88, "barFill": "#3D7BFD", "barWidth": 120, "barRadius": 14, "valueFill": "#F5F7FA", "labelFill": "#8B93A7", "valueFormat": "number", "staggerFrames": 7, "sortByValue": "desc", "width": 1500, "height": 560 },
+      "enterAt": 0.04,
+      "exitAt": 0.98
+    },
+    {
+      "id": "raceNote",
+      "assetType": "TextBlock",
+      "anchor": { "position": "bottom", "offsetXPercent": 0, "offsetYPercent": 8 },
+      "contentOverride": { "text": "Milliseconds per hop. The backbone carries the weight." },
+      "styleOverride": { "typography": "caption1", "align": "center" },
+      "enterAt": 0.4,
+      "exitAt": 0.98
+    }
+  ]
+}

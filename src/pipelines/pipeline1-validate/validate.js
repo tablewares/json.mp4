@@ -73,7 +73,7 @@ export function validateProject(manifestPath) {
 
 // CLI usage: node validate.js path/to/manifest.json
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const manifestPath = process.argv[2] ?? path.join(__dirname, "../../manifest/example-project/manifest.json");
+  const manifestPath = process.argv[2] ?? path.join(__dirname, "../../../studio/manifest/example-project/manifest.json");
   const result = validateProject(manifestPath);
   console.log(`OK: ${result.scenes.length} scene(s) validated for project "${result.manifest.projectId}"`);
 }
