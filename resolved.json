@@ -17,7 +17,7 @@
         {
           "id": "title",
           "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/video-framework/src/assets/TextBlock/TextBlock.jsx",
+          "componentPath": "/home/tablewares/json.mp4/src/assets/TextBlock/TextBlock.jsx",
           "content": {
             "text": "Markets this quarter"
           },
@@ -49,13 +49,14 @@
           "timing": {
             "durationInFrames": 150,
             "enterAtFrame": 0,
-            "exitAtFrame": 143
+            "exitAtFrame": 143,
+            "words": null
           }
         },
         {
           "id": "subhead",
           "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/video-framework/src/assets/TextBlock/TextBlock.jsx",
+          "componentPath": "/home/tablewares/json.mp4/src/assets/TextBlock/TextBlock.jsx",
           "content": {
             "text": "Revenue lines and tape of the week."
           },
@@ -87,13 +88,14 @@
           "timing": {
             "durationInFrames": 150,
             "enterAtFrame": 5,
-            "exitAtFrame": 143
+            "exitAtFrame": 143,
+            "words": null
           }
         },
         {
           "id": "ticker",
           "assetType": "TickerTape",
-          "componentPath": "/home/tablewares/video-framework/src/graphics/TickerTape/TickerTape.jsx",
+          "componentPath": "/home/tablewares/json.mp4/src/graphics/TickerTape/TickerTape.jsx",
           "content": {
             "tickers": [
               {
@@ -169,13 +171,14 @@
           "timing": {
             "durationInFrames": 150,
             "enterAtFrame": 8,
-            "exitAtFrame": 150
+            "exitAtFrame": 150,
+            "words": null
           }
         },
         {
           "id": "bars",
           "assetType": "BarChartRace",
-          "componentPath": "/home/tablewares/video-framework/src/graphics/BarChartRace/BarChartRace.jsx",
+          "componentPath": "/home/tablewares/json.mp4/src/graphics/BarChartRace/BarChartRace.jsx",
           "content": {
             "bars": [
               {
@@ -240,7 +243,8 @@
           "timing": {
             "durationInFrames": 150,
             "enterAtFrame": 12,
-            "exitAtFrame": 150
+            "exitAtFrame": 150,
+            "words": null
           }
         }
       ],

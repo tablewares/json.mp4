@@ -23,7 +23,7 @@
       "anchor": { "position": "bottom-right", "offsetXPercent": -6, "offsetYPercent": -10 },
       "contentOverride": { "text": "Because they resolve every asset independently, with no shared registry and no continuity." },
       "styleOverride": { "typography": "body1", "align": "right" },
-      "enterAt": 0.1,
+      "enterAt": 0,
       "exitAt": 0.95
     }
   ]

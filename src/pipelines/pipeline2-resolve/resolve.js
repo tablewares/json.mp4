@@ -31,13 +31,13 @@ export async function resolveProject(manifestPath) {
   const assetRegistry = loadAssetRegistry();
   const transitionRegistry = loadTransitionRegistry();
 
-  // TTS is the timing source of truth. When narration is present we resolve
-  // the real per-entry window + synthesized audio duration/path; scenes are
-  // then FORCED into their TTS window. Without narration we fall back to the
-  // config default and trust whatever audioOverlay the manifest declared.
   const hasNarration = Boolean(manifest.narration);
   let timingById = {};
   let ttsTotalDuration = null;
+  // Narration entry text, keyed by id — needed so pipeline2 can check
+  // whether a KineticText asset's own content.text is word-for-word the
+  // scene's narration before trusting real word timestamps for it.
+  const narrationTextById = {};
 
   if (hasNarration) {
     const tts = await resolveNarrationTiming(
@@ -47,30 +47,23 @@ export async function resolveProject(manifestPath) {
     );
     timingById = tts.byId;
     ttsTotalDuration = tts.totalDuration;
-      // log.info(
-      //   `TTS timing resolved: ${Object.keys(timingById).length} entries, ` +
-      //     `totalDuration=${ttsTotalDuration}`,
-      // );
-  } else {
-    // log.info("No narration — scenes fall back to config.defaultSceneDurationInFrames");
+    for (const entry of manifest.narration.entries) {
+      narrationTextById[entry.id] = entry.text;
+    }
   }
 
-  // Pass 1: resolve each scene's own assets independently, forcing the scene
-  // timeline into its TTS window. A scene that hands off to a successor has
-  // its Sequence length padded by its outgoing transition's duration so that
-  // TransitionSeries' overlap consumes that padding — NOT the next scene's
-  // narration window — keeping every scene's start aligned with its TTS
-  // start frame and the composition total equal to the voiceover length.
   const resolvedScenes = scenes.map((scene, i) =>
     resolveScene(scene, {
       styles,
       assetRegistry,
       config,
       timingById,
+      narrationTextById,
       hasNarration,
       isLastScene: i === scenes.length - 1,
     }),
   );
+
 
   // Pass 2: now that every scene's assets are resolved, bundle transition
   // context that needs *both* the outgoing and incoming scene (continuity).
@@ -108,21 +101,32 @@ export async function resolveProject(manifestPath) {
   };
 }
 
-function resolveScene(scene, { styles, assetRegistry, config, timingById, hasNarration, isLastScene }) {
-  // Force this scene's timeline into its TTS narration window. When narration
-  // is the source of truth the entry MUST exist — falling back to a guessed
-  // default would silently desync the video from the voiceover.
+function resolveKineticWordTimings(assetSpec, assetManifest, sceneWords, narrationText) {
+  if (assetSpec.assetType !== "KineticText" || !sceneWords?.length || !narrationText) return null;
+
+  const useNarrationTiming =
+    assetSpec.styleOverride?.useNarrationTiming ?? assetManifest.defaultStyle?.useNarrationTiming ?? true;
+  if (!useNarrationTiming) return null;
+
+  const assetText = (assetSpec.contentOverride?.text ?? "").trim();
+  if (assetText !== narrationText.trim()) return null;
+
+  const assetWordCount = assetText.split(/\s+/).filter(Boolean).length;
+  if (assetWordCount !== sceneWords.length) return null;
+
+  return sceneWords.map((w) => ({ word: w.word, startFrame: w.startFrame, endFrame: w.endFrame }));
+}
+
+
+
+
+function resolveScene(scene, { styles, assetRegistry, config, timingById, narrationTextById, hasNarration, isLastScene }) {
   const timing =
     hasNarration && scene.narrationRef
       ? sceneTimingBudget(scene.narrationRef, timingById)
       : { durationInFrames: config.defaultSceneDurationInFrames ?? 90 };
-  console.log("timing", timing)
-  // The Sequence length Remotion plays for this scene. Asset animations are
-  // budgeted to the TTS window (`timing.durationInFrames`), but a scene that
-  // hands off to a successor is padded by its outgoing transition's duration
-  // so the transition cross-fade consumes that padding — not the next scene's
-  // narration window. This keeps scene2's start frame == its TTS startFrame
-  // and the rendered total == the synthesized audio length.
+  console.log("timing", timing);
+
   const transitionPadding =
     !isLastScene && hasNarration && scene.narrationRef
       ? scene.transitionOut?.durationInFrames ?? 0
@@ -130,6 +134,7 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, hasNar
   const sceneDurationInFrames = timing.durationInFrames + transitionPadding;
 
   const compositionSize = { width: config.width, height: config.height };
+  const narrationText = scene.narrationRef ? narrationTextById[scene.narrationRef] : null;
 
   const resolvedAssets = (scene.assets ?? []).map((assetSpec) => {
     const { manifest: assetManifest } = getAsset(assetRegistry, assetSpec.assetType);
@@ -146,15 +151,13 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, hasNar
         : undefined,
     };
 
-    // enterAt/exitAt are fractions of THIS scene's TTS window. They must
-    // resolve within [0, durationInFrames] — the TTS scene timeframe, not a
-    // calculated one. Clamp exit at the window so an asset never runs past
-    // the narration that defines the scene.
     const enterAtFrame = Math.round((assetSpec.enterAt ?? 0) * timing.durationInFrames);
     const exitAtFrame = Math.min(
       Math.round((assetSpec.exitAt ?? 1) * timing.durationInFrames),
       timing.durationInFrames,
     );
+
+    const wordTimings = resolveKineticWordTimings(assetSpec, assetManifest, timing.words, narrationText);
 
     return {
       id: assetSpec.id ?? `${assetSpec.assetType}-${Math.random().toString(36).slice(2, 8)}`,
@@ -167,6 +170,7 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, hasNar
         durationInFrames: sceneDurationInFrames,
         enterAtFrame,
         exitAtFrame,
+        words: wordTimings,
       },
     };
   });
@@ -174,8 +178,6 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, hasNar
   return {
     id: scene.id,
     durationInFrames: sceneDurationInFrames,
-    // Carry the TTS window that owns this scene so it's traceable downstream
-    // (timeline report, debugging) without re-deriving it.
     ttsWindow: hasNarration
       ? {
           narrationRef: scene.narrationRef,
@@ -187,7 +189,6 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, hasNar
       : null,
     background: scene.background ? resolveColorToken(styles, scene.background) : undefined,
     assets: resolvedAssets,
-    // transitionIn/transitionOut filled in during pass 2
     transitionIn: null,
     transitionOut: null,
   };

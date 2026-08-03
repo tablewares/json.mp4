@@ -138,7 +138,8 @@ function alignTokenSequences(aTokens, bTokens) {
  */
 export function alignStoryboardToTranscript(sceneVoiceoverTexts, transcriptWords, { onLowConfidence } = {}) {
   const sceneTokenCounts = sceneVoiceoverTexts.map((t) => tokenize(t).length);
-  const storyboardTokens = sceneVoiceoverTexts.flatMap((t) => tokenize(t)).map(normalizeToken);
+  const sceneTokensOriginal = sceneVoiceoverTexts.map((t) => tokenize(t));
+  const storyboardTokens = sceneTokensOriginal.flatMap((tokens) => tokens).map(normalizeToken);
   const transcriptTokens = transcriptWords.map((w) => normalizeToken(w.word));
 
   const matches = alignTokenSequences(storyboardTokens, transcriptTokens);
@@ -150,11 +151,9 @@ export function alignStoryboardToTranscript(sceneVoiceoverTexts, transcriptWords
   const matchMap = new Array(storyboardTokens.length).fill(-1);
   for (const { aIndex, bIndex } of matches) matchMap[aIndex] = bIndex;
 
-  // For a storyboard token with no direct transcript match (TTS mispronounced
-  // it, WhisperX misheard it, etc.), fall back to the nearest matched
-  // neighbor — preferring to look backward, since we want an "end of speech
-  // so far" boundary.
-  const resolveTime = (tokenIndex) => {
+  // Nearest-matched-neighbor lookup used for scene END boundaries (prefers
+  // looking backward — "end of speech so far").
+  const resolveEndTime = (tokenIndex) => {
     for (let k = tokenIndex; k >= 0; k -= 1) {
       if (matchMap[k] !== -1) return transcriptWords[matchMap[k]].end;
     }
@@ -164,16 +163,57 @@ export function alignStoryboardToTranscript(sceneVoiceoverTexts, transcriptWords
     return null;
   };
 
+  // Per-word timing for EVERY storyboard token. Matched tokens use
+  // WhisperX's own start/end; unmatched tokens (TTS mispronunciation,
+  // WhisperX miss, etc.) are pinned into the gap between their nearest
+  // matched neighbors so they still land somewhere sane in the timeline
+  // instead of being silently dropped.
+  const resolveWordTiming = (tokenIndex) => {
+    if (matchMap[tokenIndex] !== -1) {
+      const w = transcriptWords[matchMap[tokenIndex]];
+      return { start: w.start, end: w.end };
+    }
+    let back = null;
+    for (let k = tokenIndex - 1; k >= 0; k -= 1) {
+      if (matchMap[k] !== -1) {
+        back = transcriptWords[matchMap[k]];
+        break;
+      }
+    }
+    let fwd = null;
+    for (let k = tokenIndex + 1; k < matchMap.length; k += 1) {
+      if (matchMap[k] !== -1) {
+        fwd = transcriptWords[matchMap[k]];
+        break;
+      }
+    }
+    if (back && fwd) return { start: back.end, end: fwd.start };
+    if (back) return { start: back.end, end: back.end };
+    if (fwd) return { start: fwd.start, end: fwd.start };
+    return { start: 0, end: 0 };
+  };
+
   const sceneEndTimes = [];
+  const sceneWords = [];
   let cursor = 0;
   let lastEnd = 0;
-  for (const count of sceneTokenCounts) {
+  for (let s = 0; s < sceneTokenCounts.length; s += 1) {
+    const count = sceneTokenCounts[s];
+
+    const words = [];
+    for (let k = 0; k < count; k += 1) {
+      const tokenIndex = cursor + k;
+      const { start, end } = resolveWordTiming(tokenIndex);
+      words.push({ word: sceneTokensOriginal[s][k], start, end });
+    }
+    sceneWords.push(words);
+
     let endTime;
     if (count === 0) {
       endTime = lastEnd;
     } else {
       const lastTokenIdx = cursor + count - 1;
-      endTime = resolveTime(lastTokenIdx);
+      endTime = resolveEndTime(lastTokenIdx);
       if (endTime === null) endTime = lastEnd;
     }
     // Boundaries must be monotonically non-decreasing along the single
@@ -184,5 +224,5 @@ export function alignStoryboardToTranscript(sceneVoiceoverTexts, transcriptWords
     cursor += count;
   }
 
-  return sceneEndTimes;
+  return { sceneEndTimes, sceneWords };
 }

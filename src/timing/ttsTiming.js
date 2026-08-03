@@ -29,28 +29,38 @@ import { generateTtsTiming } from "../../external/tts-provider.js"; // TODO: poi
  */
 export async function resolveNarrationTiming(entries, fullTranscript, fps) {
   const result = await generateTtsTiming(entries, fullTranscript);
-  // Back-compat: provider may return a bare array (timing only) or a structured
-  // `{ timing, totalDuration, audioPath }`. Either way we need the timing array.
   const timing = Array.isArray(result) ? result : result.timing;
   const totalDuration = Array.isArray(result) ? null : result.totalDuration ?? null;
   const byId = {};
-  for (const { id, start, end } of timing) {
+  for (const { id, start, end, words } of timing) {
     if (end <= start) {
       throw new Error(`TTS timing for "${id}" has non-positive duration (start=${start}, end=${end})`);
     }
     console.log(`Timing for "${id}": start=${start}s end=${end}s (frames ${Math.round(start * fps)}–${Math.round(end * fps)})`);
+
+    // Word frames are relative to THIS entry's own start (frame 0 == scene's
+    // TTS start), i.e. the same frame space as enterAtFrame/exitAtFrame —
+    // so an asset can compare them directly with no extra offset math.
+    const wordFrames = (words ?? []).map((w) => ({
+      word: w.word,
+      startFrame: Math.round((w.start - start) * fps),
+      endFrame: Math.round((w.end - start) * fps),
+    }));
+
     byId[id] = {
       startSeconds: start,
       endSeconds: end,
       startFrame: Math.round(start * fps),
       endFrame: Math.round(end * fps),
       durationInFrames: Math.round((end - start) * fps),
+      words: wordFrames,
     };
   }
 
   return { byId, totalDuration };
 }
 
+// sceneTimingBudget unchanged
 /**
  * Given a scene's narrationRef and the resolved timing map, returns the frame
  * budget the scene (and therefore its assets + transitions) must resolve

@@ -3,27 +3,37 @@ import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 
 /**
  * Reveals `content.text` one word at a time. Unlike TextBlock (which animates
- * as a single unit), each word gets its own pop-in spring, staggered by
- * `resolvedStyle.staggerFrames`.
+ * as a single unit), each word gets its own pop-in spring.
  *
- * The stagger is auto-compressed against the asset's actual timing budget:
- * word count * requested stagger is never allowed to run past exitAtFrame.
- * This is the framework's "animations must resolve within the TTS-driven
- * timing" rule enforced locally, inside the asset itself, rather than left
- * to whoever authors the scene to get right by hand.
+ * Two timing modes, chosen automatically by pipeline2 (resolve.js):
+ *
+ *  - NARRATION-SYNCED (timing.words present): wired in only when this
+ *    asset's content.text is word-for-word identical to the scene's
+ *    narration text, so it's unambiguous which spoken word is which. Each
+ *    word pops at the real frame WhisperX measured it being spoken (clamped
+ *    to not start before enterAtFrame), so the caption reads in lockstep
+ *    with the voiceover instead of an artificial cadence.
+ *
+ *  - EVEN STAGGER (timing.words absent): the original behavior. Words pop on
+ *    a fixed resolvedStyle.staggerFrames cadence, auto-compressed against
+ *    the asset's actual timing budget so word count * stagger never runs
+ *    past exitAtFrame. Used when there's no narration, the text doesn't
+ *    match narration verbatim, or the author sets
+ *    styleOverride.useNarrationTiming: false.
  */
 export function KineticText({ resolvedPosition, resolvedStyle, content, timing }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const { durationInFrames, enterAtFrame = 0, exitAtFrame = durationInFrames } = timing;
+  const { durationInFrames, enterAtFrame = 0, exitAtFrame = durationInFrames, words: wordTimings } = timing;
 
   const words = (content.text ?? "").trim().split(/\s+/).filter(Boolean);
   const requestedStagger = resolvedStyle.staggerFrames ?? 6;
   const easingConfig = resolvedStyle.easing ?? { damping: 12, mass: 0.4, stiffness: 180 };
   const popScale = resolvedStyle.wordPopScale ?? 1.15;
 
-  // Reserve the last 40% of the enter->exit window as settle time so the
-  // final word isn't still popping in right as the exit fade starts.
+  const hasWordTimings = Array.isArray(wordTimings) && wordTimings.length === words.length;
+
+  // Even-stagger fallback budget (unused when hasWordTimings is true).
   const revealBudgetFrames = Math.max(1, (exitAtFrame - enterAtFrame) * 0.6);
   const effectiveStagger =
     words.length > 1 ? Math.min(requestedStagger, revealBudgetFrames / (words.length - 1)) : 0;
@@ -56,7 +66,10 @@ export function KineticText({ resolvedPosition, resolvedStyle, content, timing }
       }}
     >
       {words.map((word, i) => {
-        const wordStartFrame = enterAtFrame + i * effectiveStagger;
+        const wordStartFrame = hasWordTimings
+          ? Math.max(enterAtFrame, Math.min(wordTimings[i].startFrame, exitAtFrame))
+          : enterAtFrame + i * effectiveStagger;
+
         const progress = spring({ frame: frame - wordStartFrame, fps, config: easingConfig });
         const scale = interpolate(progress, [0, 0.6, 1], [0.4, popScale, 1]);
         const opacity = interpolate(progress, [0, 1], [0, 1], { extrapolateLeft: "clamp" });

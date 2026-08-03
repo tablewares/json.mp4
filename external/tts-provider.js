@@ -67,12 +67,9 @@ export async function generateTtsTiming(entries, fullTranscript) {
   if (!totalDuration || !Number.isFinite(totalDuration)) {
     throw new Error(`TTS synthesis returned invalid duration: ${totalDuration}`);
   }
-
+  console.log("audiopath", audioPath)
   // 2) WhisperX word-level alignment of the combined audio.
-  const transcriptWords = await alignAudioWords(audioPath, {
-    workDir,
-    model: "small",
-    language: "en",
+  const transcriptWords = await alignAudioWords(audioPath, fullTranscript, {
     device: "cpu",
   }).catch((err) => {
     throw new Error(`WhisperX alignment failed: ${err?.message || err}`);
@@ -81,11 +78,12 @@ export async function generateTtsTiming(entries, fullTranscript) {
   if (transcriptWords.length === 0) {
     throw new Error("WhisperX produced no word-level timing");
   }
-
-  // 3) Align storyboard entries to transcript → cumulative end time per entry.
+  
+// 3) Align storyboard entries to transcript → cumulative end time per entry
+  //    + a real timestamp for every individual word.
   const sceneVoiceoverTexts = entries.map((e) => e.text ?? "");
   let lowConfidence = null;
-  const sceneEndTimes = alignStoryboardToTranscript(
+  const { sceneEndTimes, sceneWords } = alignStoryboardToTranscript(
     sceneVoiceoverTexts,
     transcriptWords,
     {
@@ -94,7 +92,6 @@ export async function generateTtsTiming(entries, fullTranscript) {
   );
 
   if (lowConfidence) {
-    // Non-fatal: alignment proceeded with neighbor fallback, but surface it.
     // eslint-disable-next-line no-console
     console.warn(
       `[tts-provider] low alignment confidence: ` +
@@ -102,18 +99,27 @@ export async function generateTtsTiming(entries, fullTranscript) {
       `(${(lowConfidence.matchRatio * 100).toFixed(1)}%)`
     );
   }
-  console.log("sceneEndTimes:", sceneEndTimes); 
-  // 4) Build per-entry {start, end} from cumulative end times. start of entry
-  // N = end of entry N-1 (0 for the first). Clamp the final end to the real
-  // synthesized duration so a WhisperX tail overhang can't extend past audio.
+  console.log("sceneEndTimes:", sceneEndTimes);
+
+  const clamp = (t) => Math.min(Math.max(t, 0), totalDuration);
+
+  // 4) Build per-entry {start, end, words} from cumulative end times. start
+  // of entry N = end of entry N-1 (0 for the first). Clamp the final end to
+  // the real synthesized duration so a WhisperX tail overhang can't extend
+  // past audio; word timestamps get the same clamp.
   const timing = [];
   let prevEnd = 0;
   for (let i = 0; i < entries.length; i += 1) {
     const raw = sceneEndTimes[i] ?? 0;
     let end = Math.min(raw, totalDuration);
-    if (end < prevEnd) end = prevEnd; // monotonic guard (alignStoryboardToTranscript already does this, but be safe)
+    if (end < prevEnd) end = prevEnd; // monotonic guard
     const start = prevEnd;
-    timing.push({ id: entries[i].id, start, end });
+    const words = (sceneWords[i] ?? []).map((w) => ({
+      word: w.word,
+      start: clamp(w.start),
+      end: clamp(w.end),
+    }));
+    timing.push({ id: entries[i].id, start, end, words });
     prevEnd = end;
   }
 

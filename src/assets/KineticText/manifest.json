@@ -1,13 +1,14 @@
 {
   "assetType": "KineticText",
   "component": "KineticText.jsx",
-  "description": "Text that pops in one word at a time instead of fading in as a single block — for beats, emphasis, or narration-synced callouts. Word stagger auto-compresses to always resolve before the asset's exit, even with long copy.",
+  "description": "Text that pops in one word at a time instead of fading in as a single block — for beats, emphasis, or narration-synced callouts. When content.text is word-for-word identical to the scene's narration, each word pops at the real moment it's spoken (from TTS/WhisperX timing); otherwise falls back to an even stagger that auto-compresses to always resolve before the asset's exit.",
   "defaultSize": { "width": 1100, "height": 260 },
   "defaultStyle": {
     "typography": "heading1",
     "easing": "snappySpring",
     "staggerFrames": 6,
-    "wordPopScale": 1.15
+    "wordPopScale": 1.15,
+    "useNarrationTiming": true
   },
   "contentOverrideSchema": {
     "type": "object",
@@ -21,11 +22,15 @@
     "properties": {
       "typography": { "type": "string" },
       "easing": { "type": "string" },
-      "staggerFrames": { "type": "number", "description": "target frames between word starts; auto-shrunk to fit the timing budget" },
+      "staggerFrames": { "type": "number", "description": "fallback: target frames between word starts when narration-sync isn't used; auto-shrunk to fit the timing budget" },
       "wordPopScale": { "type": "number", "description": "overshoot scale each word pops past on the way in" },
       "align": { "type": "string", "enum": ["left", "center", "right"] },
       "backgroundColorToken": { "type": "string" },
-      "width": { "type": "number" }
+      "width": { "type": "number" },
+      "useNarrationTiming": {
+        "type": "boolean",
+        "description": "When true (default) and content.text exactly matches the scene's narration text, pop each word at its real spoken time instead of an even stagger. Set false to force the stagger even when the text matches."
+      }
     }
   }
 }
