@@ -2,7 +2,7 @@
 
 Goal: go from zero to a rendered `.mp4` with the smallest possible set of
 edits. Everything below is demonstrated in
-`src/manifest/example-project/` — open it side by side.
+`studio/manifest/example-project/` — open it side by side.
 
 ## The four files you author
 
@@ -86,9 +86,10 @@ only existing tokens — nothing invented:
 ```
 
 If `shade1` and `heading1` exist in `styles/theme.json` and `TextBlock`
-exists under `src/assets/`, the above validates and renders. Everything
-else the framework offers — narration-driven timing, transitions, image
-assets, continuity carries — is layered on top of this shape.
+exists under `studio/assets/` (or `studio/graphics/`), the above validates
+and renders. Everything else the framework offers — narration-driven timing,
+transitions, image assets, continuity carries — is layered on top of this
+shape.
 
 ## Next
 

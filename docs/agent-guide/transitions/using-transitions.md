@@ -1,6 +1,6 @@
 # Using a shipped transition
 
-Transitions live in `src/transitions/<Name>/` as a `manifest.json` + a
+Transitions live in `studio/transitions/<Name>/` as a `manifest.json` + a
 `<Name>.jsx` component. You reference one from a scene's `transitionOut`
 block. Omitting `transitionOut` selects `default`.
 
@@ -8,8 +8,9 @@ block. Omitting `transitionOut` selects `default`.
 
 | type | folder | one-line | consumes outgoing/incoming styles | carries an asset |
 |---|---|---|---|---|
-| `default` | `src/transitions/default/` | Fade + slight slide. Used when no continuity is requested | no | no |
-| `slideContinuity` | `src/transitions/slideContinuity/` | Carries a named asset's resolved color + position across the cut so it visually "becomes" the next scene's version of itself | yes / yes | yes (`params.carryAssetId`) |
+| `default` | `studio/transitions/default/` | Fade + slight slide. Used when no continuity is requested | no | no |
+| `shatterWipe` | `studio/transitions/shatterWipe/` | Splits outgoing/incoming into a grid of tiles that fly apart from center (or reassemble inward); `params` `cols`/`rows`/`throwDistance`. Carry-less cut, more polished than `default` | no | no |
+| `slideContinuity` | `studio/transitions/slideContinuity/` | Carries a named asset's resolved color + position across the cut so it visually "becomes" the next scene's version of itself | yes / yes | yes (`params.carryAssetId`) |
 
 As new transitions are added, append a row here.
 
@@ -28,7 +29,7 @@ As new transitions are added, append a row here.
 
 | key | required | notes |
 |---|---|---|
-| `type` | optional (default `"default"`) | Must match a folder under `src/transitions/`. Unknown type → falls back to `default` (silent). |
+| `type` | optional (default `"default"`) | Must match a folder under `studio/transitions/`. Unknown type → falls back to `default` (silent). |
 | `durationInFrames` | optional | Falls back to the transition manifest's `defaultDurationInFrames`. |
 | `params` | optional | Merge into the transition component's `props`. Asset-specific (see the transition's manifest `params`). |
 

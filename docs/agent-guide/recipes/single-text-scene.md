@@ -1,7 +1,7 @@
 # Recipe: single text scene
 
 The minimal renderable scene. One `TextBlock`, anchored top-left, using
-existing tokens. Adapted from `src/manifest/example-project/scenes/scene-001.json`
+existing tokens. Adapted from `studio/manifest/example-project/scenes/scene-001.toon`
 (stripped to essentials).
 
 ## Required project context

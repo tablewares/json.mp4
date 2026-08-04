@@ -1,7 +1,7 @@
 # Recipe: hero image + headline
 
 The workhorse layout: a headline on one side, a hero image revealed on
-the other. Adapted from `src/manifest/example-project/scenes/scene-001.json`.
+the other. Adapted from `studio/manifest/example-project/scenes/scene-001.toon`.
 
 ## Scene file
 

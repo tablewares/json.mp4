@@ -27,7 +27,7 @@ Source: `src/pipelines/pipeline2-resolve/resolve.js`
 
 | thrown text (paraphrased) | cause | fix |
 |---|---|---|
-| `Unknown assetType "X". Available: ...` | `assetType` in a scene's asset isn't a folder under `src/assets/` | fix the type name or add the asset (see `../assets/authoring-new.md`) |
+| `Unknown assetType "X". Available: ...` | `assetType` in a scene's asset isn't a folder under `studio/assets/` or `studio/graphics/` | fix the type name or add the asset (see `../assets/authoring-new.md`) |
 | `Unknown anchor position "X". Valid: ...` | `anchor.position` not one of the 9 anchors | use a valid position (see `../reference/asset-spec.md`) |
 | `Unknown color token "X". Known tokens: ...` | `background`, `backgroundColorToken`, or a typography `colorToken` not in `styles.colors` | add the token to `styles/theme.json` or use a literal |
 | `Unknown typography token "X"` | `styleOverride.typography` or `defaultStyle.typography` not in `styles.typography` | add the token or fix the name |
@@ -69,11 +69,47 @@ Source: `src/pipelines/pipeline2-resolve/resolve.js`
 Written to `resolved.json` at the repo root by default; pass a third CLI
 arg to control the output path.
 
+## Overlap warnings
+
+Resolve also emits `[overlap-warning]` lines via
+`src/pipelines/pipeline2-resolve/overlap_warn.js`. These are `console.warn`
+(exits 0), not errors — render still proceeds, but two assets visibly overlap
+on screen.
+
+A warning means both assets are on screen at the same time AND their resolved
+bounding rectangles intersect. Computation:
+
+- Per asset pair, take the temporal overlap window (`max(enterAtFrame)` to
+  `min(exitAtFrame)`); skip pairs that don't coexist in time.
+- Build a rect `{left, top, width, height}` per asset from `resolvedPosition`
+  + `resolvedStyle`.
+- If rects intersect AND timing overlaps → warn. Area/percent is informational.
+
+Root cause 9 in 10: `studio/assets/TextBlock/manifest.json` ships
+`defaultSize: { width: 900, height: 200 }`. A text asset whose `styleOverride`
+omits `width`/`height` gets a 900×200 box far larger than the actual text, so a
+short kicker anchored `top-left` swallows a centered headline.
+
+Fix: give the text asset explicit `styleOverride.width` + `height` matching the
+rendered text. The override propagates into `resolveAnchor`, so the box nudges
+with the asset. If boxes still overlap, nudge one asset's `offsetYPercent` (rarely
+`offsetXPercent`) by ±2–4 percent (signed % of the 1920×1080 composition). Then
+re-run resolve — validate does not check overlaps, only resolve does.
+
+Trap: tightening sizes can push the box off the 1920×1080 frame. After patching,
+check resolved `top`/`top+height` lie in `[0, 1080]` and `left`/`left+width`
+lie in `[0, 1920]`. For `bottom-left` anchored assets a *positive* y% pushes the
+anchor below the frame — use small **negative** `offsetYPercent` (e.g. -3 to -16).
+
+See the `json-to-mp4-overlap-warnings` skill for the Python rect model that
+catches second-order overlaps before re-running resolve, plus a worked
+`packet-journey` case.
+
 ## CLI
 
 ```bash
 node src/pipelines/pipeline2-resolve/resolve.js path/to/manifest.json [output.json]
 ```
 
-Default manifest = `src/manifest/example-project/manifest.json`.
+Default manifest = `studio/manifest/example-project/manifest.toon`.
 Default output = `resolved.json` at repo root.

@@ -8,7 +8,7 @@
       "assetType": "TextBlock",
       "anchor": { "position": "top-left", "offsetXPercent": 8, "offsetYPercent": 10 },
       "contentOverride": { "text": "01 / The network is a globe" },
-      "styleOverride": { "typography": "kicker1", "align": "left" },
+      "styleOverride": { "typography": "kicker1", "align": "left", "width": 400, "height": 40 },
       "enterAt": 0,
       "exitAt": 0.9
     },

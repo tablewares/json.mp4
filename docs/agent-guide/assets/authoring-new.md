@@ -1,8 +1,8 @@
 # Authoring a new asset
 
 Add a new visual primitive when no shipped asset fits. The framework has
-no switch statements — the asset registry scans `src/assets/` at
-resolve-time. A new asset is just a new folder.
+no switch statements — the asset registry scans `studio/assets/` (and
+`studio/graphics/`) at resolve-time. A new asset is just a new folder.
 
 Source: `src/registry/assetRegistry.js` (`scanFolder`)
         `src/registry/styleRegistry.js` (`resolveAssetStyle`)
@@ -10,7 +10,7 @@ Source: `src/registry/assetRegistry.js` (`scanFolder`)
 ## Required files
 
 ```
-src/assets/<AssetName>/
+studio/assets/<AssetName>/
   manifest.json     # contract: schemas + defaults
   <AssetName>.jsx   # the Remotion component
 ```
@@ -88,18 +88,18 @@ the project's style registry without the scene having to pass anything.
 
 ## Multiple asset roots
 
-The framework scans one or more *asset roots*, not just `src/assets/`.
+The framework scans one or more *asset roots*, not just `studio/assets/`.
 Every asset root has the same shape — a directory whose immediate
 subfolders are `<AssetName>/manifest.json + <AssetName>.jsx` pairs — and
 the registries on both sides of the render pipeline (Node-side resolve and
 webpack-side render) union every root into one lookup keyed by folder
 name.
 
-Defaults: asset roots = `["src/assets"]`, transition roots =
-`["src/transitions"]`. A folder name (the `assetType` / `transitionType`
-string scenes reference) **must be unique across every root** — a
-duplicate throws at load (`Duplicate assetType "..."` from
-`assetRegistry.js`, `Duplicate assetType "..."` / `Duplicate
+Defaults: asset roots = `["studio/assets", "studio/graphics"]`,
+transition roots = `["studio/transitions"]`. A folder name (the
+`assetType` / `transitionType` string scenes reference) **must be unique
+across every root** — a duplicate throws at load (`Duplicate assetType
+"..."` from `assetRegistry.js`, `Duplicate assetType "..."` / `Duplicate
 transitionType "..."` from `Composition.jsx`). The error names the
 colliding type so the offending folder is easy to find.
 

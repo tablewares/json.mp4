@@ -5,13 +5,13 @@ Add one when the shipped `default` / `slideContinuity` don't express the
 handoff you need. Same folder-scan discovery as assets — no registration
 code.
 
-Source: `src/registry/assetRegistry.js` (`scanFolder` over `src/transitions/`)
+Source: `src/registry/assetRegistry.js` (`scanFolder` over `studio/transitions/`)
         `src/pipelines/pipeline2-resolve/resolve.js` (`buildTransitionBundle`)
 
 ## Required files
 
 ```
-src/transitions/<Name>/
+studio/transitions/<Name>/
   manifest.json       # contract + what it consumes
   <Name>.jsx          # the Remotion presentation component
 ```
@@ -65,9 +65,9 @@ Your component morphs `carryFrom` → `carryTo` over
 (Remotion's transition presentation API) — use `useCurrentFrame()` within
 that window.
 
-When `consumes.carriedAssets` is false (e.g. `default`), the component
-just gets `...params` and `durationInFrames` — no asset snapshots. It
-performs a generic handoff (fade/slide/etc.).
+When `consumes.carriedAssets` is false (e.g. `default`, `shatterWipe`),
+the component just gets `...params` and `durationInFrames` — no asset
+snapshots. It performs a generic handoff (fade/slide/scatter/etc.).
 
 ## After authoring
 

@@ -23,18 +23,18 @@
     {
       "id": "arriveHead",
       "assetType": "TextBlock",
-      "anchor": { "position": "bottom-left", "offsetXPercent": 8, "offsetYPercent": 22 },
+      "anchor": { "position": "bottom-left", "offsetXPercent": 8, "offsetYPercent": -16 },
       "contentOverride": { "text": "42 ms later." },
-      "styleOverride": { "typography": "heading1", "align": "left" },
+      "styleOverride": { "typography": "heading1", "align": "left", "width": 600, "height": 120 },
       "enterAt": 0.12,
       "exitAt": 0.95
     },
     {
       "id": "arriveSub",
       "assetType": "TextBlock",
-      "anchor": { "position": "bottom-left", "offsetXPercent": 8, "offsetYPercent": 12 },
+      "anchor": { "position": "bottom-left", "offsetXPercent": 8, "offsetYPercent": -3 },
       "contentOverride": { "text": "Seven hops. One packet. The internet, every time you blink." },
-      "styleOverride": { "typography": "body1", "align": "left" },
+      "styleOverride": { "typography": "body1", "align": "left", "width": 1080, "height": 130 },
       "enterAt": 0.25,
       "exitAt": 0.95
     }

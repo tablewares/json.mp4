@@ -42,5 +42,5 @@ Source: `src/pipelines/pipeline1-validate/validate.js` (`validateProject`)
 node src/pipelines/pipeline1-validate/validate.js path/to/manifest.json
 ```
 
-Default manifest (no arg) = `src/manifest/example-project/manifest.json`.
+Default manifest (no arg) = `studio/manifest/example-project/manifest.toon`.
 Success prints `OK: N scene(s) validated for project "..."`.

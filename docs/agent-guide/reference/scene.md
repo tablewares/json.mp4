@@ -40,13 +40,13 @@ Source: `src/pipelines/pipeline1-validate/validate.js` (loads + id match)
 
 ```json
 {
-  "type": "slideContinuity",          // must exist under src/transitions/
+  "type": "slideContinuity",          // must exist under studio/transitions/
   "durationInFrames": 24,             // optional; falls back to manifest defaultDurationInFrames
   "params": { "carryAssetId": "heroImage" }
 }
 ```
 
-- ⛔ `type` must exist under `src/transitions/<Name>/`. Unknown type falls
+- ⛔ `type` must exist under `studio/transitions/<Name>/`. Unknown type falls
   back to `default` (not an error) unless you intend a specific one —
   check spelling.
 - ⛔ If the chosen transition's `manifest.consumes.carriedAssets` is true

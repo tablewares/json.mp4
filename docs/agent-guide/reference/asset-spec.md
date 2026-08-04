@@ -27,7 +27,7 @@ Source: `src/pipelines/pipeline2-resolve/resolve.js` (`resolveScene`)
 | key | required | type | notes |
 |---|---|---|---|
 | `id` | optional | string | Stable per scene. Used by transitions' `carryAssetId`. If omitted, a random `assetType-xxxxxx` id is generated — fine for non-carried assets, **never omit for an asset you intend to carry across a cut**. |
-| `assetType` | required | string | ⛔ Must match a folder name under `src/assets/`. Unknown → throw listing available types (`getAsset`). |
+| `assetType` | required | string | ⛔ Must match a folder name under `studio/assets/` or `studio/graphics/`. Unknown → throw listing available types (`getAsset`). |
 | `anchor` | required | object | See below. ⛔ `position` must be one of the 9 valid anchors. |
 | `contentOverride` | optional | object | Shape = the asset's `manifest.contentOverrideSchema`. ⛔ Missing a `required` field from that schema → validate throw. |
 | `styleOverride` | optional | object | Shape = the asset's `manifest.styleOverrideSchema`. Unknown fields silently ignored; missing fields fall back to manifest `defaultStyle`. |

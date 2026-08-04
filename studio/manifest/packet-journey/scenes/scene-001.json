@@ -31,25 +31,25 @@
       "assetType": "TextBlock",
       "anchor": { "position": "top-left", "offsetXPercent": 8, "offsetYPercent": 22 },
       "contentOverride": { "text": "A PACKET JOURNEY" },
-      "styleOverride": { "typography": "kicker1", "align": "left" },
+      "styleOverride": { "typography": "kicker1", "align": "left", "width": 240, "height": 40 },
       "enterAt": 0,
       "exitAt": 0.9
     },
     {
       "id": "headline",
       "assetType": "TextBlock",
-      "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": -4 },
+      "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": -8 },
       "contentOverride": { "text": "One bit. The whole internet." },
-      "styleOverride": { "typography": "heading1", "align": "center" },
+      "styleOverride": { "typography": "heading1", "align": "center", "width": 1380, "height": 120 },
       "enterAt": 0.05,
       "exitAt": 0.92
     },
     {
       "id": "subline",
       "assetType": "TextBlock",
-      "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": 6 },
+      "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": 10 },
       "contentOverride": { "text": "What happens in the 42 milliseconds between send and arrive?" },
-      "styleOverride": { "typography": "body1", "align": "center" },
+      "styleOverride": { "typography": "body1", "align": "center", "width": 1080, "height": 130 },
       "enterAt": 0.12,
       "exitAt": 0.92
     }

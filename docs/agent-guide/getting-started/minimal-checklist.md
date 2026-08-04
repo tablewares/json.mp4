@@ -52,8 +52,9 @@ here is cheaper than reading the throw text.
 
 - [ ] Each scene file's `id` matches the `id` declared in the
       `manifest.scenes[]` entry that points at it.
-- [ ] Every `assetType` exists under `src/assets/<AssetName>/`. Unknown
-      asset type → resolve-time throw listing the available ones.
+- [ ] Every `assetType` exists under `studio/assets/<AssetName>/` (or
+      `studio/graphics/<AssetName>/`). Unknown asset type →
+      resolve-time throw listing the available ones.
 - [ ] Every asset has an `anchor` with a valid `position`. The full set is
       in `../reference/scene.md` (and `src/templating/anchor.js`):
       `center | top | bottom | left | right | top-left | top-right |
@@ -63,7 +64,7 @@ here is cheaper than reading the throw text.
 
 ## Transitions (optional)
 
-- [ ] `scene.transitionOut.type` exists under `src/transitions/<Name>/`.
+- [ ] `scene.transitionOut.type` exists under `studio/transitions/<Name>/`.
       Omitting `transitionOut` selects `default`.
 - [ ] If the transition `manifest.consumes.carriedAssets` is true and you
       pass `params.carryAssetId`, that asset id must appear in BOTH this

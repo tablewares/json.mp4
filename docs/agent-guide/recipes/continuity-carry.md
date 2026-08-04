@@ -6,7 +6,7 @@ cutting and re-entering. This is the difference between "AI slideshow" and
 "video".
 
 Uses the `slideContinuity` transition. Adapted from
-`src/manifest/example-project/scenes/scene-001.json` → `scene-002.json`.
+`studio/manifest/example-project/scenes/scene-001.toon` → `scene-002.toon`.
 
 ## The contract
 

@@ -7,6 +7,7 @@ import { resolveColorToken, resolveAssetStyle } from "../../registry/styleRegist
 import { resolveAnchor } from "../../templating/anchor.js";
 import { resolveNarrationTiming, sceneTimingBudget } from "../../timing/ttsTiming.js";
 import { resolveEffectFrame } from "../../timing/effectTiming.js";
+import  { warnOnAssetOverlaps } from "./overlap_warn.js"
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
@@ -235,8 +236,7 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, narrat
     );
 
     const wordTimings = resolveKineticWordTimings(assetSpec, assetManifest, timing.words, narrationText);
-
-    return {
+   return {
       id: assetSpec.id ?? `${assetSpec.assetType}-${Math.random().toString(36).slice(2, 8)}`,
       assetType: assetSpec.assetType,
       componentPath: assetRegistry[assetSpec.assetType].componentPath,
@@ -251,6 +251,8 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, narrat
       },
     };
   });
+
+  warnOnAssetOverlaps(scene.id, resolvedAssets);
 
   return {
     id: scene.id,
