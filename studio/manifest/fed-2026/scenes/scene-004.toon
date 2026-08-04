@@ -1,0 +1,92 @@
+id: scene-market
+narrationRef: n4
+background: canvas
+transitionOut:
+  type: shatterWipe
+  durationInFrames: 22
+  params:
+    cols: 6
+    rows: 4
+    throwDistance: 220
+  effects[1]:
+    - id: market-thud
+      kind: sfx
+      offsetPercent: -8
+      path: audio/sfx.mp3
+      volume: 0.8
+assets[4]:
+  - id: marketKicker
+    assetType: TextBlock
+    anchor:
+      position: top-left
+      offsetXPercent: 8
+      offsetYPercent: 10
+    contentOverride:
+      text: "03 / The market reaction"
+    styleOverride:
+      typography: captionUppercase
+      align: left
+      easing: gentleSpring
+      width: 480
+      height: 50
+    enterAt: 0
+    exitAt: 0.9
+  - id: marketHead
+    assetType: TextBlock
+    anchor:
+      position: top
+      offsetXPercent: 0
+      offsetYPercent: 18
+    contentOverride:
+      text: "30yr yield at its highest since 2007."
+    styleOverride:
+      typography: displayLg
+      align: center
+      easing: gentleSpring
+      width: 1600
+      height: 160
+    enterAt: 0.06
+    exitAt: 0.92
+  - id: yieldChart
+    assetType: ImageReveal
+    anchor:
+      position: center
+      offsetXPercent: 0
+      offsetYPercent: 18
+    contentOverride:
+      src: assets/yield-curve-30yr.svg
+      alt: "30-year US Treasury yield climbing to 5.84 percent."
+    styleOverride:
+      revealDirection: left-to-right
+      easing: gentleSpring
+      borderRadius: 16
+      width: 1080
+      height: 540
+    enterAt: 0.22
+    exitAt: 0.95
+  - id: tickerStrip
+    assetType: TickerTape
+    anchor:
+      position: bottom
+      offsetXPercent: 0
+      offsetYPercent: 6
+    contentOverride:
+      tickers[5]{symbol,price,change}:
+        US30Y,5.84,0.09
+        US10Y,5.21,0.07
+        SPX,6128.40,-12.6
+        NDX,22840.5,-118.2
+        XLF,52.18,0.34
+    styleOverride:
+      typography: titleSm
+      easing: snappySpring
+      trackFill: "#efe9de"
+      borderLine: "#e6dfd8"
+      upFill: "#5db872"
+      downFill: "#c64545"
+      trackHeight: 100
+      scrollPxPerSec: 110
+      width: 1700
+      height: 100
+    enterAt: 0.4
+    exitAt: 0.95

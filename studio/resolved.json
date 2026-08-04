@@ -1,218 +1,54 @@
 {
-  "projectId": "render-demo-toon",
+  "projectId": "example-project",
   "config": {
     "fps": 30,
     "width": 1920,
     "height": 1080,
-    "defaultSceneDurationInFrames": 120
+    "defaultSceneDurationInFrames": 90
   },
-  "audioOverlay": [],
+  "audioOverlay": [
+    {
+      "id": "voiceover",
+      "start": 0,
+      "end": 8.04,
+      "path": "audio/hardcoded_voice.wav"
+    }
+  ],
   "scenes": [
     {
-      "id": "scene-hook",
-      "durationInFrames": 120,
-      "effects": [
-        {
-          "id": "shatter-thud",
-          "kind": "sfx",
-          "frame": 108,
-          "durationInFrames": null,
-          "path": "audio/sfx.mp3",
-          "volume": 0.9
-        },
-        {
-          "id": "shatter-flash",
-          "kind": "visual",
-          "assetType": "ImageReveal",
-          "content": {
-            "src": "assets/white.avif",
-            "alt": ""
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 0,
-            "top": 0,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "borderRadius": 0,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "center-out",
-            "width": 1920,
-            "height": 1080
-          },
-          "timing": {
-            "durationInFrames": 10,
-            "enterAtFrame": 120,
-            "exitAtFrame": 120
-          }
-        }
-      ],
-      "ttsWindow": null,
-      "background": "#0B0E14",
-      "assets": [
-        {
-          "id": "kicker",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "A TOON BOILERPLATE STORY"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 237.6,
-            "transformOrigin": "0% 0%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 24,
-              "fontWeight": 700,
-              "lineHeight": 1.1,
-              "colorToken": "accentBg",
-              "color": "#3D7BFD"
-            },
-            "backgroundColorToken": "#00000000",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "align": "left",
-            "width": 360,
-            "height": 40
-          },
-          "timing": {
-            "durationInFrames": 120,
-            "enterAtFrame": 0,
-            "exitAtFrame": 108,
-            "words": null
-          }
-        },
-        {
-          "id": "headline",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "One scene. Three transitions. Real layout."
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 270,
-            "top": 393.6,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 84,
-              "fontWeight": 800,
-              "lineHeight": 1.05,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "backgroundColorToken": "#00000000",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "align": "center",
-            "width": 1380,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 120,
-            "enterAtFrame": 6,
-            "exitAtFrame": 110,
-            "words": null
-          }
-        },
-        {
-          "id": "subline",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "Built from a toon boilerplate with multiple assets, transitions, and continuity."
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 360,
-            "top": 583,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 36,
-              "fontWeight": 400,
-              "lineHeight": 1.35,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "backgroundColorToken": "#00000000",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "align": "center",
-            "width": 1200,
-            "height": 130
-          },
-          "timing": {
-            "durationInFrames": 120,
-            "enterAtFrame": 14,
-            "exitAtFrame": 110,
-            "words": null
-          }
-        }
-      ],
-      "transitionIn": null,
-      "transitionOut": {
-        "type": "shatterWipe",
-        "durationInFrames": 22,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/shatterWipe/ShatterWipe.jsx",
-        "props": {
-          "cols": 6,
-          "rows": 4,
-          "throwDistance": 220
-        }
-      }
-    },
-    {
-      "id": "scene-globe",
-      "durationInFrames": 120,
+      "id": "scene-001",
+      "durationInFrames": 106,
       "effects": [],
-      "ttsWindow": null,
+      "ttsWindow": {
+        "narrationRef": "n1",
+        "startSeconds": 0,
+        "endSeconds": 2.736,
+        "startFrame": 0,
+        "endFrame": 82
+      },
       "background": "#0B0E14",
       "assets": [
         {
-          "id": "kicker2",
+          "id": "titleText",
           "assetType": "TextBlock",
           "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
           "content": {
-            "text": "01 / The boilerplate is a globe"
+            "text": "Why most AI videos look like slideshows"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 153.6,
-            "top": 86.4,
+            "left": 115.19999999999999,
+            "top": 108,
             "transformOrigin": "0% 0%"
           },
           "resolvedStyle": {
             "typography": {
               "fontFamily": "Inter, sans-serif",
-              "fontSize": 24,
+              "fontSize": 72,
               "fontWeight": 700,
               "lineHeight": 1.1,
-              "colorToken": "accentBg",
-              "color": "#3D7BFD"
+              "colorToken": "main1",
+              "color": "#F5F7FA"
             },
             "backgroundColorToken": "#00000000",
             "easing": {
@@ -221,13 +57,13 @@
               "stiffness": 110
             },
             "align": "left",
-            "width": 480,
-            "height": 40
+            "width": 900,
+            "height": 200
           },
           "timing": {
-            "durationInFrames": 120,
+            "durationInFrames": 106,
             "enterAtFrame": 0,
-            "exitAtFrame": 108,
+            "exitAtFrame": 74,
             "words": null
           }
         },
@@ -236,91 +72,138 @@
           "assetType": "ImageReveal",
           "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
           "content": {
-            "src": "assets/network.png",
-            "alt": "A globe of network nodes joined by glowing edges, with a bright packet arc bridging two nodes."
+            "src": "",
+            "alt": "hero"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 448,
+            "left": 1126.4,
             "top": 220,
-            "transformOrigin": "50% 50%"
+            "transformOrigin": "100% 50%"
           },
           "resolvedStyle": {
-            "borderRadius": 24,
+            "borderRadius": 32,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
-            "revealDirection": "center-out",
+            "revealDirection": "left-to-right",
             "width": 640,
             "height": 640
           },
           "timing": {
-            "durationInFrames": 120,
-            "enterAtFrame": 6,
-            "exitAtFrame": 114,
+            "durationInFrames": 106,
+            "enterAtFrame": 4,
+            "exitAtFrame": 82,
             "words": null
           }
-        },
-        {
-          "id": "globeSub",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "Your scene does not teleport. It carries."
-          },
-          "resolvedPosition": {
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": {
+        "type": "slideContinuity",
+        "durationInFrames": 24,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
+        "props": {
+          "carryAssetId": "heroImage",
+          "carryFrom": {
             "position": "absolute",
-            "left": 1206.4,
-            "top": 440,
-            "transformOrigin": "100% 50%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 56,
-              "fontWeight": 700,
-              "lineHeight": 1.1,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "backgroundColorToken": "#00000000",
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
-            "align": "right",
-            "width": 560,
-            "height": 200
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "carryTo": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
+          }
+        }
+      }
+    },
+    {
+      "id": "scene-002",
+      "durationInFrames": 159,
+      "effects": [],
+      "ttsWindow": {
+        "narrationRef": "n2",
+        "startSeconds": 2.736,
+        "endSeconds": 8.04,
+        "startFrame": 82,
+        "endFrame": 241
+      },
+      "background": "#161B26",
+      "assets": [
+        {
+          "id": "heroImage",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg",
+            "alt": "hero"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
           },
           "timing": {
-            "durationInFrames": 120,
-            "enterAtFrame": 42,
-            "exitAtFrame": 114,
+            "durationInFrames": 159,
+            "enterAtFrame": 0,
+            "exitAtFrame": 159,
             "words": null
           }
         },
         {
-          "id": "kineticStrip",
+          "id": "bodyText",
           "assetType": "KineticText",
           "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
           "content": {
-            "text": "Toon tokens anchors timing transitions registry resolve render"
+            "text": "Because they resolve every asset independently, with no shared registry and no continuity."
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 260,
-            "top": 1086.4,
-            "transformOrigin": "50% 100%"
+            "left": 704.8,
+            "top": 712,
+            "transformOrigin": "100% 100%"
           },
           "resolvedStyle": {
             "typography": {
               "fontFamily": "Inter, sans-serif",
-              "fontSize": 28,
-              "fontWeight": 600,
-              "lineHeight": 1.2,
+              "fontSize": 36,
+              "fontWeight": 400,
+              "lineHeight": 1.4,
               "colorToken": "main2",
               "color": "#8B93A7"
             },
@@ -329,224 +212,84 @@
               "mass": 0.4,
               "stiffness": 180
             },
-            "staggerFrames": 4,
-            "wordPopScale": 1.1,
+            "staggerFrames": 6,
+            "wordPopScale": 1.15,
             "useNarrationTiming": true,
-            "align": "center",
-            "width": 1400,
-            "height": 80
+            "align": "right",
+            "width": 1100,
+            "height": 260
           },
           "timing": {
-            "durationInFrames": 120,
-            "enterAtFrame": 24,
-            "exitAtFrame": 114,
-            "words": null
-          }
-        }
-      ],
-      "transitionIn": {
-        "type": "shatterWipe",
-        "durationInFrames": 22,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/shatterWipe/ShatterWipe.jsx",
-        "props": {
-          "cols": 6,
-          "rows": 4,
-          "throwDistance": 220
-        }
-      },
-      "transitionOut": {
-        "type": "slideContinuity",
-        "durationInFrames": 24,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
-        "props": {
-          "carryAssetId": "heroImage",
-          "carryFrom": {
-            "position": "absolute",
-            "left": 448,
-            "top": 220,
-            "transformOrigin": "50% 50%",
-            "borderRadius": 24,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "center-out",
-            "width": 640,
-            "height": 640
-          },
-          "carryTo": {
-            "position": "absolute",
-            "left": 1171.2,
-            "top": 216,
-            "transformOrigin": "100% 0%",
-            "borderRadius": 16,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 480,
-            "height": 480
-          }
-        }
-      }
-    },
-    {
-      "id": "scene-arrive",
-      "durationInFrames": 120,
-      "effects": [],
-      "ttsWindow": null,
-      "background": "#161B26",
-      "assets": [
-        {
-          "id": "arriveKicker",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "02 / It arrives"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 147.19999999999993,
-            "top": 172.8,
-            "transformOrigin": "50% 0%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 24,
-              "fontWeight": 700,
-              "lineHeight": 1.1,
-              "colorToken": "accentBg",
-              "color": "#3D7BFD"
-            },
-            "backgroundColorToken": "#00000000",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "align": "left",
-            "width": 320,
-            "height": 40
-          },
-          "timing": {
-            "durationInFrames": 120,
+            "durationInFrames": 159,
             "enterAtFrame": 0,
-            "exitAtFrame": 108,
-            "words": null
-          }
-        },
-        {
-          "id": "heroImage",
-          "assetType": "ImageReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
-          "content": {
-            "src": "assets/destination.png",
-            "alt": "Server rack landing dock with LEDs lit and an arrival beam."
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1171.2,
-            "top": 216,
-            "transformOrigin": "100% 0%"
-          },
-          "resolvedStyle": {
-            "borderRadius": 16,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 480,
-            "height": 480
-          },
-          "timing": {
-            "durationInFrames": 120,
-            "enterAtFrame": 5,
-            "exitAtFrame": 114,
-            "words": null
-          }
-        },
-        {
-          "id": "arriveHead",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "Scene rendered."
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 787.2,
-            "transformOrigin": "0% 100%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 84,
-              "fontWeight": 800,
-              "lineHeight": 1.05,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "backgroundColorToken": "#00000000",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "align": "left",
-            "width": 720,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 120,
-            "enterAtFrame": 14,
-            "exitAtFrame": 114,
-            "words": null
-          }
-        },
-        {
-          "id": "arriveSub",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "Three scenes, four asset types, two transition types, one boilerplate."
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 917.5999999999999,
-            "transformOrigin": "0% 100%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 36,
-              "fontWeight": 400,
-              "lineHeight": 1.35,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "backgroundColorToken": "#00000000",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "align": "left",
-            "width": 1080,
-            "height": 130
-          },
-          "timing": {
-            "durationInFrames": 120,
-            "enterAtFrame": 30,
-            "exitAtFrame": 114,
-            "words": null
+            "exitAtFrame": 151,
+            "words": [
+              {
+                "word": "Because",
+                "startFrame": 19,
+                "endFrame": 26
+              },
+              {
+                "word": "they",
+                "startFrame": 27,
+                "endFrame": 31
+              },
+              {
+                "word": "resolve",
+                "startFrame": 32,
+                "endFrame": 42
+              },
+              {
+                "word": "every",
+                "startFrame": 47,
+                "endFrame": 52
+              },
+              {
+                "word": "asset",
+                "startFrame": 57,
+                "endFrame": 65
+              },
+              {
+                "word": "independently,",
+                "startFrame": 67,
+                "endFrame": 85
+              },
+              {
+                "word": "with",
+                "startFrame": 89,
+                "endFrame": 93
+              },
+              {
+                "word": "no",
+                "startFrame": 95,
+                "endFrame": 99
+              },
+              {
+                "word": "shared",
+                "startFrame": 100,
+                "endFrame": 108
+              },
+              {
+                "word": "registry",
+                "startFrame": 109,
+                "endFrame": 123
+              },
+              {
+                "word": "and",
+                "startFrame": 124,
+                "endFrame": 127
+              },
+              {
+                "word": "no",
+                "startFrame": 128,
+                "endFrame": 131
+              },
+              {
+                "word": "continuity.",
+                "startFrame": 133,
+                "endFrame": 148
+              }
+            ]
           }
         }
       ],
@@ -558,24 +301,24 @@
           "carryAssetId": "heroImage",
           "carryFrom": {
             "position": "absolute",
-            "left": 448,
+            "left": 1126.4,
             "top": 220,
-            "transformOrigin": "50% 50%",
-            "borderRadius": 24,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
-            "revealDirection": "center-out",
+            "revealDirection": "left-to-right",
             "width": 640,
             "height": 640
           },
           "carryTo": {
             "position": "absolute",
-            "left": 1171.2,
-            "top": 216,
-            "transformOrigin": "100% 0%",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
             "borderRadius": 16,
             "easing": {
               "damping": 16,
@@ -583,8 +326,8 @@
               "stiffness": 110
             },
             "revealDirection": "left-to-right",
-            "width": 480,
-            "height": 480
+            "width": 420,
+            "height": 420
           }
         }
       },

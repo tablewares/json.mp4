@@ -1,0 +1,1096 @@
+{
+  "hash": "061d0d3bf7b4a4534368e67a6abaf3f024df7827eeff8044ea25bc02de3b6bc9",
+  "timing": [
+    {
+      "id": "n1",
+      "start": 0,
+      "end": 8.314,
+      "words": [
+        {
+          "word": "July",
+          "start": 0.451,
+          "end": 0.751
+        },
+        {
+          "word": "29,",
+          "start": 0.911,
+          "end": 1.412
+        },
+        {
+          "word": "2026.",
+          "start": 1.892,
+          "end": 2.372
+        },
+        {
+          "word": "The",
+          "start": 3.192,
+          "end": 3.272
+        },
+        {
+          "word": "Federal",
+          "start": 3.312,
+          "end": 3.592
+        },
+        {
+          "word": "Reserve",
+          "start": 3.632,
+          "end": 3.992
+        },
+        {
+          "word": "held",
+          "start": 4.032,
+          "end": 4.193
+        },
+        {
+          "word": "rates",
+          "start": 4.233,
+          "end": 4.453
+        },
+        {
+          "word": "at",
+          "start": 4.493,
+          "end": 4.873
+        },
+        {
+          "word": "three",
+          "start": 4.873,
+          "end": 5.293
+        },
+        {
+          "word": "and",
+          "start": 4.873,
+          "end": 5.293
+        },
+        {
+          "word": "a",
+          "start": 4.873,
+          "end": 5.293
+        },
+        {
+          "word": "half",
+          "start": 4.873,
+          "end": 5.293
+        },
+        {
+          "word": "to",
+          "start": 5.293,
+          "end": 5.613
+        },
+        {
+          "word": "three",
+          "start": 5.613,
+          "end": 7.114
+        },
+        {
+          "word": "and",
+          "start": 5.613,
+          "end": 7.114
+        },
+        {
+          "word": "three",
+          "start": 5.613,
+          "end": 7.114
+        },
+        {
+          "word": "quarter",
+          "start": 5.613,
+          "end": 7.114
+        },
+        {
+          "word": "percent.",
+          "start": 5.613,
+          "end": 7.114
+        },
+        {
+          "word": "A",
+          "start": 7.114,
+          "end": 7.154
+        },
+        {
+          "word": "hold",
+          "start": 7.194,
+          "end": 7.494
+        },
+        {
+          "word": "was",
+          "start": 7.574,
+          "end": 7.714
+        },
+        {
+          "word": "the",
+          "start": 7.754,
+          "end": 7.814
+        },
+        {
+          "word": "base",
+          "start": 7.854,
+          "end": 8.034
+        },
+        {
+          "word": "case.",
+          "start": 8.074,
+          "end": 8.314
+        }
+      ]
+    },
+    {
+      "id": "n2",
+      "start": 8.314,
+      "end": 18.158,
+      "words": [
+        {
+          "word": "What",
+          "start": 8.994,
+          "end": 9.134
+        },
+        {
+          "word": "surprised",
+          "start": 9.174,
+          "end": 9.555
+        },
+        {
+          "word": "the",
+          "start": 9.575,
+          "end": 9.635
+        },
+        {
+          "word": "market",
+          "start": 9.675,
+          "end": 9.915
+        },
+        {
+          "word": "was",
+          "start": 9.955,
+          "end": 10.055
+        },
+        {
+          "word": "the",
+          "start": 10.095,
+          "end": 10.175
+        },
+        {
+          "word": "vote.",
+          "start": 10.215,
+          "end": 10.435
+        },
+        {
+          "word": "Nine",
+          "start": 10.435,
+          "end": 11.315
+        },
+        {
+          "word": "to",
+          "start": 11.315,
+          "end": 11.395
+        },
+        {
+          "word": "three.",
+          "start": 11.395,
+          "end": 12.416
+        },
+        {
+          "word": "The",
+          "start": 12.416,
+          "end": 12.496
+        },
+        {
+          "word": "most",
+          "start": 12.536,
+          "end": 12.676
+        },
+        {
+          "word": "divided",
+          "start": 12.716,
+          "end": 13.096
+        },
+        {
+          "word": "committee",
+          "start": 13.136,
+          "end": 13.436
+        },
+        {
+          "word": "since",
+          "start": 13.476,
+          "end": 13.676
+        },
+        {
+          "word": "2016.",
+          "start": 13.816,
+          "end": 14.516
+        },
+        {
+          "word": "Three",
+          "start": 15.117,
+          "end": 15.317
+        },
+        {
+          "word": "policymakers",
+          "start": 15.317,
+          "end": 16.137
+        },
+        {
+          "word": "dissented,",
+          "start": 16.137,
+          "end": 16.597
+        },
+        {
+          "word": "calling",
+          "start": 16.857,
+          "end": 17.137
+        },
+        {
+          "word": "for",
+          "start": 17.177,
+          "end": 17.277
+        },
+        {
+          "word": "a",
+          "start": 17.317,
+          "end": 17.337
+        },
+        {
+          "word": "quarter-point",
+          "start": 17.337,
+          "end": 17.938
+        },
+        {
+          "word": "hike.",
+          "start": 17.938,
+          "end": 18.158
+        }
+      ]
+    },
+    {
+      "id": "n3",
+      "start": 18.158,
+      "end": 28.942,
+      "words": [
+        {
+          "word": "The",
+          "start": 18.738,
+          "end": 18.818
+        },
+        {
+          "word": "chair",
+          "start": 18.858,
+          "end": 19.078
+        },
+        {
+          "word": "called",
+          "start": 19.118,
+          "end": 19.318
+        },
+        {
+          "word": "it",
+          "start": 19.358,
+          "end": 19.418
+        },
+        {
+          "word": "a",
+          "start": 19.438,
+          "end": 19.478
+        },
+        {
+          "word": "review,",
+          "start": 19.538,
+          "end": 19.898
+        },
+        {
+          "word": "not",
+          "start": 20.078,
+          "end": 20.219
+        },
+        {
+          "word": "a",
+          "start": 20.259,
+          "end": 20.279
+        },
+        {
+          "word": "pause.",
+          "start": 20.339,
+          "end": 20.679
+        },
+        {
+          "word": "Now",
+          "start": 21.339,
+          "end": 21.459
+        },
+        {
+          "word": "read",
+          "start": 21.499,
+          "end": 21.639
+        },
+        {
+          "word": "the",
+          "start": 21.679,
+          "end": 21.759
+        },
+        {
+          "word": "statement",
+          "start": 21.779,
+          "end": 22.119
+        },
+        {
+          "word": "as",
+          "start": 22.179,
+          "end": 22.259
+        },
+        {
+          "word": "a",
+          "start": 22.299,
+          "end": 22.339
+        },
+        {
+          "word": "trader",
+          "start": 22.379,
+          "end": 22.659
+        },
+        {
+          "word": "would.",
+          "start": 22.699,
+          "end": 22.92
+        },
+        {
+          "word": "Target",
+          "start": 23.42,
+          "end": 23.74
+        },
+        {
+          "word": "range",
+          "start": 23.78,
+          "end": 24.08
+        },
+        {
+          "word": "unchanged.",
+          "start": 24.2,
+          "end": 24.76
+        },
+        {
+          "word": "Inflation",
+          "start": 25.46,
+          "end": 25.961
+        },
+        {
+          "word": "still",
+          "start": 26.021,
+          "end": 26.261
+        },
+        {
+          "word": "above",
+          "start": 26.301,
+          "end": 26.541
+        },
+        {
+          "word": "two",
+          "start": 26.541,
+          "end": 27.801
+        },
+        {
+          "word": "percent.",
+          "start": 26.541,
+          "end": 27.801
+        },
+        {
+          "word": "And",
+          "start": 27.801,
+          "end": 27.881
+        },
+        {
+          "word": "a",
+          "start": 27.921,
+          "end": 27.941
+        },
+        {
+          "word": "committee",
+          "start": 27.981,
+          "end": 28.282
+        },
+        {
+          "word": "that",
+          "start": 28.302,
+          "end": 28.422
+        },
+        {
+          "word": "won't",
+          "start": 28.442,
+          "end": 28.622
+        },
+        {
+          "word": "waver.",
+          "start": 28.662,
+          "end": 28.942
+        }
+      ]
+    },
+    {
+      "id": "n4",
+      "start": 28.942,
+      "end": 45.087,
+      "words": [
+        {
+          "word": "The",
+          "start": 29.622,
+          "end": 29.702
+        },
+        {
+          "word": "market",
+          "start": 29.742,
+          "end": 30.022
+        },
+        {
+          "word": "moved",
+          "start": 30.062,
+          "end": 30.322
+        },
+        {
+          "word": "within",
+          "start": 30.362,
+          "end": 30.622
+        },
+        {
+          "word": "minutes.",
+          "start": 30.662,
+          "end": 30.942
+        },
+        {
+          "word": "Stocks",
+          "start": 31.543,
+          "end": 31.863
+        },
+        {
+          "word": "fell.",
+          "start": 31.923,
+          "end": 32.163
+        },
+        {
+          "word": "The",
+          "start": 32.943,
+          "end": 33.043
+        },
+        {
+          "word": "thirty-year",
+          "start": 33.043,
+          "end": 33.583
+        },
+        {
+          "word": "Treasury",
+          "start": 33.583,
+          "end": 33.964
+        },
+        {
+          "word": "yield",
+          "start": 34.004,
+          "end": 34.284
+        },
+        {
+          "word": "jumped",
+          "start": 34.364,
+          "end": 34.584
+        },
+        {
+          "word": "to",
+          "start": 34.604,
+          "end": 34.704
+        },
+        {
+          "word": "its",
+          "start": 34.744,
+          "end": 34.844
+        },
+        {
+          "word": "highest",
+          "start": 34.864,
+          "end": 35.184
+        },
+        {
+          "word": "since",
+          "start": 35.224,
+          "end": 35.404
+        },
+        {
+          "word": "2007,",
+          "start": 35.444,
+          "end": 36.324
+        },
+        {
+          "word": "at",
+          "start": 36.745,
+          "end": 36.825
+        },
+        {
+          "word": "five",
+          "start": 36.825,
+          "end": 38.805
+        },
+        {
+          "word": "point",
+          "start": 36.825,
+          "end": 38.805
+        },
+        {
+          "word": "eight",
+          "start": 36.825,
+          "end": 38.805
+        },
+        {
+          "word": "four",
+          "start": 36.825,
+          "end": 38.805
+        },
+        {
+          "word": "percent.",
+          "start": 36.825,
+          "end": 38.805
+        },
+        {
+          "word": "Oil",
+          "start": 38.805,
+          "end": 38.965
+        },
+        {
+          "word": "rose.",
+          "start": 39.025,
+          "end": 39.285
+        },
+        {
+          "word": "The",
+          "start": 39.826,
+          "end": 39.906
+        },
+        {
+          "word": "dollar",
+          "start": 39.946,
+          "end": 40.246
+        },
+        {
+          "word": "softened.",
+          "start": 40.266,
+          "end": 40.686
+        },
+        {
+          "word": "Crypto",
+          "start": 41.046,
+          "end": 41.446
+        },
+        {
+          "word": "barely",
+          "start": 41.466,
+          "end": 41.766
+        },
+        {
+          "word": "moved.",
+          "start": 41.806,
+          "end": 42.106
+        },
+        {
+          "word": "The",
+          "start": 42.587,
+          "end": 42.687
+        },
+        {
+          "word": "long",
+          "start": 42.727,
+          "end": 42.947
+        },
+        {
+          "word": "end",
+          "start": 43.027,
+          "end": 43.127
+        },
+        {
+          "word": "is",
+          "start": 43.187,
+          "end": 43.267
+        },
+        {
+          "word": "doing",
+          "start": 43.307,
+          "end": 43.507
+        },
+        {
+          "word": "the",
+          "start": 43.547,
+          "end": 43.607
+        },
+        {
+          "word": "tightening",
+          "start": 43.647,
+          "end": 43.987
+        },
+        {
+          "word": "the",
+          "start": 44.027,
+          "end": 44.087
+        },
+        {
+          "word": "Fed",
+          "start": 44.127,
+          "end": 44.327
+        },
+        {
+          "word": "refused",
+          "start": 44.367,
+          "end": 44.767
+        },
+        {
+          "word": "to",
+          "start": 44.807,
+          "end": 44.867
+        },
+        {
+          "word": "do.",
+          "start": 44.907,
+          "end": 45.087
+        }
+      ]
+    },
+    {
+      "id": "n5",
+      "start": 45.087,
+      "end": 58.093,
+      "words": [
+        {
+          "word": "Here",
+          "start": 45.768,
+          "end": 45.908
+        },
+        {
+          "word": "are",
+          "start": 45.928,
+          "end": 46.008
+        },
+        {
+          "word": "the",
+          "start": 46.028,
+          "end": 46.108
+        },
+        {
+          "word": "numbers",
+          "start": 46.148,
+          "end": 46.408
+        },
+        {
+          "word": "that",
+          "start": 46.448,
+          "end": 46.568
+        },
+        {
+          "word": "matter.",
+          "start": 46.608,
+          "end": 46.868
+        },
+        {
+          "word": "The",
+          "start": 47.328,
+          "end": 47.428
+        },
+        {
+          "word": "thirty-year",
+          "start": 47.428,
+          "end": 47.948
+        },
+        {
+          "word": "at",
+          "start": 47.948,
+          "end": 48.008
+        },
+        {
+          "word": "five",
+          "start": 48.008,
+          "end": 49.969
+        },
+        {
+          "word": "point",
+          "start": 48.008,
+          "end": 49.969
+        },
+        {
+          "word": "eight",
+          "start": 48.008,
+          "end": 49.969
+        },
+        {
+          "word": "four.",
+          "start": 48.008,
+          "end": 49.969
+        },
+        {
+          "word": "September",
+          "start": 49.969,
+          "end": 50.409
+        },
+        {
+          "word": "hike",
+          "start": 50.449,
+          "end": 50.649
+        },
+        {
+          "word": "odds",
+          "start": 50.809,
+          "end": 51.01
+        },
+        {
+          "word": "near",
+          "start": 51.07,
+          "end": 51.23
+        },
+        {
+          "word": "one",
+          "start": 51.23,
+          "end": 52.67
+        },
+        {
+          "word": "in",
+          "start": 51.23,
+          "end": 52.67
+        },
+        {
+          "word": "three.",
+          "start": 51.23,
+          "end": 52.67
+        },
+        {
+          "word": "Tech",
+          "start": 52.67,
+          "end": 52.87
+        },
+        {
+          "word": "down",
+          "start": 52.91,
+          "end": 53.11
+        },
+        {
+          "word": "after",
+          "start": 53.19,
+          "end": 53.39
+        },
+        {
+          "word": "seven",
+          "start": 53.49,
+          "end": 53.771
+        },
+        {
+          "word": "of",
+          "start": 53.811,
+          "end": 53.871
+        },
+        {
+          "word": "the",
+          "start": 53.911,
+          "end": 53.971
+        },
+        {
+          "word": "last",
+          "start": 54.011,
+          "end": 54.271
+        },
+        {
+          "word": "eight",
+          "start": 54.331,
+          "end": 54.491
+        },
+        {
+          "word": "meetings.",
+          "start": 54.531,
+          "end": 54.851
+        },
+        {
+          "word": "Financials",
+          "start": 55.972,
+          "end": 56.432
+        },
+        {
+          "word": "earning",
+          "start": 56.512,
+          "end": 56.712
+        },
+        {
+          "word": "on",
+          "start": 56.772,
+          "end": 56.832
+        },
+        {
+          "word": "a",
+          "start": 56.872,
+          "end": 56.912
+        },
+        {
+          "word": "higher",
+          "start": 56.972,
+          "end": 57.212
+        },
+        {
+          "word": "net",
+          "start": 57.253,
+          "end": 57.413
+        },
+        {
+          "word": "interest",
+          "start": 57.453,
+          "end": 57.733
+        },
+        {
+          "word": "margin.",
+          "start": 57.773,
+          "end": 58.093
+        }
+      ]
+    },
+    {
+      "id": "n6",
+      "start": 58.093,
+      "end": 73.739,
+      "words": [
+        {
+          "word": "So",
+          "start": 58.733,
+          "end": 58.853
+        },
+        {
+          "word": "here",
+          "start": 58.933,
+          "end": 59.133
+        },
+        {
+          "word": "is",
+          "start": 59.193,
+          "end": 59.273
+        },
+        {
+          "word": "the",
+          "start": 59.293,
+          "end": 59.373
+        },
+        {
+          "word": "playbook.",
+          "start": 59.413,
+          "end": 59.794
+        },
+        {
+          "word": "Fade",
+          "start": 60.154,
+          "end": 60.394
+        },
+        {
+          "word": "the",
+          "start": 60.414,
+          "end": 60.474
+        },
+        {
+          "word": "tech",
+          "start": 60.534,
+          "end": 60.814
+        },
+        {
+          "word": "sell-the-news",
+          "start": 60.814,
+          "end": 61.434
+        },
+        {
+          "word": "tilt.",
+          "start": 61.434,
+          "end": 61.694
+        },
+        {
+          "word": "Tilt",
+          "start": 62.695,
+          "end": 62.915
+        },
+        {
+          "word": "long",
+          "start": 62.955,
+          "end": 63.175
+        },
+        {
+          "word": "financials",
+          "start": 63.215,
+          "end": 63.695
+        },
+        {
+          "word": "on",
+          "start": 63.735,
+          "end": 63.815
+        },
+        {
+          "word": "the",
+          "start": 63.835,
+          "end": 63.895
+        },
+        {
+          "word": "margin",
+          "start": 63.935,
+          "end": 64.235
+        },
+        {
+          "word": "tailwind.",
+          "start": 64.255,
+          "end": 64.695
+        },
+        {
+          "word": "Watch",
+          "start": 65.156,
+          "end": 65.396
+        },
+        {
+          "word": "the",
+          "start": 65.416,
+          "end": 65.496
+        },
+        {
+          "word": "thirty-year",
+          "start": 65.496,
+          "end": 66.016
+        },
+        {
+          "word": "for",
+          "start": 66.016,
+          "end": 66.136
+        },
+        {
+          "word": "the",
+          "start": 66.156,
+          "end": 66.216
+        },
+        {
+          "word": "real",
+          "start": 66.256,
+          "end": 66.456
+        },
+        {
+          "word": "tightening",
+          "start": 66.496,
+          "end": 66.856
+        },
+        {
+          "word": "signal.",
+          "start": 66.916,
+          "end": 67.256
+        },
+        {
+          "word": "Track",
+          "start": 67.877,
+          "end": 68.157
+        },
+        {
+          "word": "oil",
+          "start": 68.297,
+          "end": 68.497
+        },
+        {
+          "word": "and",
+          "start": 68.637,
+          "end": 68.737
+        },
+        {
+          "word": "the",
+          "start": 68.757,
+          "end": 68.837
+        },
+        {
+          "word": "dollar;",
+          "start": 68.857,
+          "end": 69.177
+        },
+        {
+          "word": "the",
+          "start": 69.597,
+          "end": 69.677
+        },
+        {
+          "word": "Iran",
+          "start": 69.717,
+          "end": 70.018
+        },
+        {
+          "word": "shock",
+          "start": 70.058,
+          "end": 70.338
+        },
+        {
+          "word": "sets",
+          "start": 70.378,
+          "end": 70.578
+        },
+        {
+          "word": "the",
+          "start": 70.618,
+          "end": 70.698
+        },
+        {
+          "word": "headline",
+          "start": 70.738,
+          "end": 71.078
+        },
+        {
+          "word": "risk.",
+          "start": 71.118,
+          "end": 71.378
+        },
+        {
+          "word": "And",
+          "start": 71.938,
+          "end": 72.038
+        },
+        {
+          "word": "keep",
+          "start": 72.078,
+          "end": 72.298
+        },
+        {
+          "word": "September",
+          "start": 72.318,
+          "end": 72.719
+        },
+        {
+          "word": "sixteenth",
+          "start": 72.719,
+          "end": 73.259
+        },
+        {
+          "word": "hedges",
+          "start": 73.259,
+          "end": 73.499
+        },
+        {
+          "word": "on.",
+          "start": 73.619,
+          "end": 73.739
+        }
+      ]
+    },
+    {
+      "id": "n7",
+      "start": 73.739,
+      "end": 76.52,
+      "words": [
+        {
+          "word": "Until",
+          "start": 74.459,
+          "end": 74.719
+        },
+        {
+          "word": "then,",
+          "start": 74.779,
+          "end": 74.979
+        },
+        {
+          "word": "trade",
+          "start": 75.28,
+          "end": 75.48
+        },
+        {
+          "word": "the",
+          "start": 75.5,
+          "end": 75.56
+        },
+        {
+          "word": "divergence.",
+          "start": 75.6,
+          "end": 76.08
+        }
+      ]
+    }
+  ],
+  "totalDuration": 76.52,
+  "audioPath": "audio/tts_061d0d3bf7b4a4534368e67a6abaf3f024df7827eeff8044ea25bc02de3b6bc9.wav"
+}

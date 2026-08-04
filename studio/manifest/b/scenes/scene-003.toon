@@ -1,0 +1,54 @@
+id: scene-code
+narrationRef: ""
+background: shade1
+assets[3]:
+  - id: kicker3
+    assetType: TextBlock
+    anchor:
+      position: top-left
+      offsetXPercent: 8
+      offsetYPercent: 10
+    contentOverride:
+      text: "03 / Drop-in components"
+    styleOverride:
+      typography: kicker1
+      align: left
+      width: 480
+      height: 40
+    enterAt: 0
+    exitAt: 0.9
+  - id: snippet
+    assetType: CodeBlock
+    anchor:
+      position: center
+      offsetXPercent: 0
+      offsetYPercent: -2
+    contentOverride:
+      code: "{\n  \"id\": \"heroStat\",\n  \"assetType\": \"NumberStat\",\n  \"anchor\": { \"position\": \"center\" },\n  \"contentOverride\": { \"value\": 42, \"label\": \"the answer\" },\n  \"styleOverride\": { \"valueFormat\": \"number\" }\n}"
+      language: json
+      highlightLines: [3, 5]
+    styleOverride:
+      fontSizePx: 30
+      staggerFrames: 3
+      showLineNumbers: true
+      showWindowChrome: true
+      accentFill: "#3D7BFD"
+      width: 1300
+      height: 620
+    enterAt: 0.08
+    exitAt: 1
+  - id: captionCode
+    assetType: TextBlock
+    anchor:
+      position: bottom
+      offsetXPercent: 0
+      offsetYPercent: -6
+    contentOverride:
+      text: "Same manifest -> validate -> resolve -> render pipeline."
+    styleOverride:
+      typography: caption1
+      align: center
+      width: 1100
+      height: 60
+    enterAt: 0.7
+    exitAt: 0.98

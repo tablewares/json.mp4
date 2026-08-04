@@ -10,7 +10,8 @@
     "studio": "remotion studio src/index.jsx",
     "generate:registry": "node src/registry/generateRegistryManifest.js",
     "prebuild": "npm run generate:registry",
-    "build": "npm run validate && npm run prebuild && npm run resolve && npm run render"
+    "build": "node scripts/render-project.mjs",
+    "build:help": "node scripts/render-project.mjs --help"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",

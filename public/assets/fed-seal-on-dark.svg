@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <!-- Fed-seal variant in on-dark cream (#faf9f5) for use over the surfaceDark code-window scene. Same id as fed-seal.svg; src swaps across the cut when carried by slideContinuity. -->
+  <g fill="none" stroke="#faf9f5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="120" cy="120" r="100" />
+    <circle cx="120" cy="120" r="84" />
+    <path d="M120 70 L120 130" />
+    <path d="M120 78 C92 76 70 88 52 108 C72 100 96 104 120 116" />
+    <path d="M120 78 C148 76 170 88 188 108 C168 100 144 104 120 116" />
+    <path d="M120 116 L120 150" />
+    <path d="M52 108 L40 118" />
+    <path d="M188 108 L200 118" />
+    <path d="M120 150 L104 168" />
+    <path d="M120 150 L120 172" />
+    <path d="M120 150 L136 168" />
+    <g fill="#cc785c" stroke="none">
+      <circle cx="120" cy="58" r="2.4" />
+      <circle cx="103" cy="60" r="2" />
+      <circle cx="137" cy="60" r="2" />
+      <circle cx="89" cy="66" r="1.8" />
+      <circle cx="151" cy="66" r="1.8" />
+      <circle cx="78" cy="76" r="1.6" />
+      <circle cx="162" cy="76" r="1.6" />
+    </g>
+    <path d="M92 132 L120 140 L148 132" />
+  </g>
+</svg>

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T01:06:43.897Z",
+  "generatedAt": "2026-08-04T04:03:07.250Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics"
@@ -8,6 +8,11 @@
     "../../studio/transitions"
   ],
   "assets": {
+    "CodeBlock": {
+      "folderName": "CodeBlock",
+      "entryFile": "CodeBlock.jsx",
+      "rootIndex": 0
+    },
     "ImageReveal": {
       "folderName": "ImageReveal",
       "entryFile": "ImageReveal.jsx",
@@ -16,6 +21,16 @@
     "KineticText": {
       "folderName": "KineticText",
       "entryFile": "KineticText.jsx",
+      "rootIndex": 0
+    },
+    "ListReveal": {
+      "folderName": "ListReveal",
+      "entryFile": "ListReveal.jsx",
+      "rootIndex": 0
+    },
+    "NumberStat": {
+      "folderName": "NumberStat",
+      "entryFile": "NumberStat.jsx",
       "rootIndex": 0
     },
     "TextBlock": {

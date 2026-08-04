@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Anthropic-style 4-spoke radial spike mark. Black on transparent. Brand wordmark prefix / content marker. Use ink #141413 on cream surfaces; swap to on-dark #faf9f5 by overriding via a second file or CSS filter at render. -->
+  <g fill="#141413" stroke="#141413" stroke-width="2.4" stroke-linecap="round">
+    <!-- 4 spokes radiating from center, each a tapered rounded line -->
+    <path d="M60 60 L60 8" />
+    <path d="M60 60 L60 112" />
+    <path d="M60 60 L8 60" />
+    <path d="M60 60 L112 60" />
+    <!-- Diagonal companion spokes (8-spoke read at small sizes) -->
+    <path d="M60 60 L24 24" />
+    <path d="M60 60 L96 24" />
+    <path d="M60 60 L24 96" />
+    <path d="M60 60 L96 96" />
+    <!-- Central hub -->
+    <circle cx="60" cy="60" r="7" fill="#141413" stroke="none" />
+  </g>
+</svg>

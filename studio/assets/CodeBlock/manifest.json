@@ -1,0 +1,99 @@
+{
+  "assetType": "CodeBlock",
+  "component": "CodeBlock.jsx",
+  "description": "A monospace code panel with an optional mac-style window chrome and language badge. content.code is split on newlines and revealed line by line on a staggered spring, like a terminal typing itself out. Optional content.highlightLines (1-indexed) tints specific rows for callouts.",
+  "defaultSize": { "width": 1100, "height": 620 },
+  "defaultStyle": {
+    "monoFontFamily": "'JetBrains Mono', 'Fira Code', 'Courier New', monospace",
+    "badgeTypography": "caption1",
+    "easing": "gentleSpring",
+    "fontSizePx": 28,
+    "lineHeightPx": 1.55,
+    "staggerFrames": 3,
+    "showLineNumbers": true,
+    "showWindowChrome": true,
+    "backgroundFill": "#0D1117",
+    "borderLine": "#2A3142",
+    "borderRadius": 20,
+    "textFill": "#E6EDF3",
+    "lineNumberFill": "#4B5568",
+    "accentFill": "#3D7BFD"
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": ["code"],
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "Raw source text; split on \\n into rows, each revealed on its own stagger"
+      },
+      "language": {
+        "type": "string",
+        "description": "Label shown in the badge, e.g. 'javascript', 'bash'"
+      },
+      "highlightLines": {
+        "type": "array",
+        "description": "1-indexed line numbers to tint with resolvedStyle.accentFill",
+        "items": { "type": "number" }
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "monoFontFamily": {
+        "type": "string",
+        "description": "raw CSS font-family stack; deliberately not a typography token since code needs a monospace face"
+      },
+      "badgeTypography": {
+        "type": "string",
+        "description": "typography token for the language badge and line numbers"
+      },
+      "easing": {
+        "type": "string",
+        "description": "easing token for each line's reveal spring"
+      },
+      "fontSizePx": {
+        "type": "number"
+      },
+      "lineHeightPx": {
+        "type": "number",
+        "description": "unitless line-height multiplier"
+      },
+      "staggerFrames": {
+        "type": "number",
+        "description": "target frames between line starts; auto-shrunk to fit the timing budget"
+      },
+      "showLineNumbers": {
+        "type": "boolean"
+      },
+      "showWindowChrome": {
+        "type": "boolean",
+        "description": "show the mac-style traffic-light dots in the header bar"
+      },
+      "backgroundFill": {
+        "type": "string",
+        "description": "raw hex for the panel background"
+      },
+      "borderLine": {
+        "type": "string",
+        "description": "raw hex border; 'transparent' for none"
+      },
+      "borderRadius": {
+        "type": "number"
+      },
+      "textFill": {
+        "type": "string",
+        "description": "raw hex for code text"
+      },
+      "lineNumberFill": {
+        "type": "string",
+        "description": "raw hex for the gutter line numbers"
+      },
+      "accentFill": {
+        "type": "string",
+        "description": "raw hex used for highlightLines tint and the window/badge accent"
+      }
+    }
+  }
+}

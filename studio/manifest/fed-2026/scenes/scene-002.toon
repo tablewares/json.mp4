@@ -1,0 +1,129 @@
+id: scene-vote
+narrationRef: n2
+background: surfaceCard
+transitionOut:
+  type: shatterWipe
+  durationInFrames: 22
+  params:
+    cols: 6
+    rows: 4
+    throwDistance: 220
+  effects[1]:
+    - id: vote-thud
+      kind: sfx
+      offsetPercent: -8
+      path: audio/sfx.mp3
+      volume: 0.85
+assets[6]:
+  - id: voteKicker
+    assetType: TextBlock
+    anchor:
+      position: top-left
+      offsetXPercent: 8
+      offsetYPercent: 10
+    contentOverride:
+      text: "01 / A divided committee"
+    styleOverride:
+      typography: captionUppercase
+      align: left
+      easing: gentleSpring
+      width: 520
+      height: 50
+    enterAt: 0
+    exitAt: 0.9
+  - id: voteHead
+    assetType: TextBlock
+    anchor:
+      position: top
+      offsetXPercent: 0
+      offsetYPercent: 26
+    contentOverride:
+      text: "Most divided FOMC since 2016."
+    styleOverride:
+      typography: displayLg
+      align: center
+      easing: gentleSpring
+      width: 1500
+      height: 160
+    enterAt: 0.06
+    exitAt: 0.92
+  - id: voteDiagram
+    assetType: ImageReveal
+    anchor:
+      position: center
+      offsetXPercent: 0
+      offsetYPercent: 14
+    contentOverride:
+      src: assets/fomc-dotvote.svg
+      alt: "Nine ink dots for hold, three coral dots for dissent."
+    styleOverride:
+      revealDirection: left-to-right
+      easing: snappySpring
+      borderRadius: 16
+      width: 1100
+      height: 360
+    enterAt: 0.18
+    exitAt: 0.95
+  - id: holdsStat
+    assetType: NumberStat
+    anchor:
+      position: bottom-left
+      offsetXPercent: 18
+      offsetYPercent: 12
+    contentOverride:
+      value: 9
+      label: "Holds"
+    styleOverride:
+      typography: displayLg
+      labelTypography: caption
+      easing: snappySpring
+      valueFill: "#141413"
+      labelFill: "#6c6a64"
+      canvasFill: transparent
+      borderLine: transparent
+      borderRadius: 0
+      labelPosition: top
+      width: 320
+      height: 220
+    enterAt: 0.32
+    exitAt: 0.95
+  - id: dissentStat
+    assetType: NumberStat
+    anchor:
+      position: bottom-right
+      offsetXPercent: -18
+      offsetYPercent: 12
+    contentOverride:
+      value: 3
+      label: "Dissents for a 25bp hike"
+    styleOverride:
+      typography: displayLg
+      labelTypography: caption
+      easing: snappySpring
+      valueFill: "#cc785c"
+      labelFill: "#6c6a64"
+      canvasFill: transparent
+      borderLine: transparent
+      borderRadius: 0
+      labelPosition: top
+      width: 320
+      height: 220
+    enterAt: 0.42
+    exitAt: 0.95
+  - id: fedSeal
+    assetType: ImageReveal
+    anchor:
+      position: top-right
+      offsetXPercent: -8
+      offsetYPercent: 6
+    contentOverride:
+      src: assets/fed-seal.svg
+      alt: "Federal Reserve seal mark, carried from the hero."
+    styleOverride:
+      revealDirection: center-out
+      easing: gentleSpring
+      borderRadius: 0
+      width: 96
+      height: 96
+    enterAt: 0.05
+    exitAt: 0.95

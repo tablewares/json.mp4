@@ -1,0 +1,1 @@
+Contains json rendered scenes. Preferably, only use files in here as reference. Use toon syntax as main render language. 

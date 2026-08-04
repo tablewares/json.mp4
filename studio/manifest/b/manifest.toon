@@ -1,0 +1,7 @@
+projectId: primitives-showcase-toon
+config: config.toon
+styles: styles/theme.toon
+scenes[3]{id,path}:
+  scene-numbers,scenes/scene-001.toon
+  scene-checklist,scenes/scene-002.toon
+  scene-code,scenes/scene-003.toon

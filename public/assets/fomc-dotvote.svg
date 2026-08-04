@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" width="720" height="240">
+  <!-- FOMC dot-vote diagram: 9 ink dots (hold) + 3 coral dots (hike dissent). Cream card background; quiet hairline. Reads at a glance as a divided committee — the "most divided since 2016" headline made visual. -->
+  <rect x="0" y="0" width="720" height="240" fill="#efe9de" rx="16" />
+  <!-- Hold cluster (9 ink dots) -->
+  <g fill="#141413">
+    <circle cx="120" cy="80" r="18" />
+    <circle cx="180" cy="80" r="18" />
+    <circle cx="240" cy="80" r="18" />
+    <circle cx="300" cy="80" r="18" />
+    <circle cx="360" cy="80" r="18" />
+    <circle cx="150" cy="150" r="18" />
+    <circle cx="210" cy="150" r="18" />
+    <circle cx="270" cy="150" r="18" />
+    <circle cx="330" cy="150" r="18" />
+  </g>
+  <!-- Dissent cluster (3 coral dots) -->
+  <g fill="#cc785c">
+    <circle cx="460" cy="80" r="18" />
+    <circle cx="520" cy="80" r="18" />
+    <circle cx="490" cy="150" r="18" />
+  </g>
+  <g font-family="Inter, sans-serif" font-weight="600" font-size="18">
+    <text x="360" y="210" text-anchor="middle" fill="#6c6a64">9 HOLD  ·  3 DISSENT</text>
+  </g>
+</svg>

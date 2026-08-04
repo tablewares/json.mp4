@@ -101,7 +101,12 @@ export async function generateTtsTiming(entries, fullTranscript) {
   const workDir = defaultWorkDir();
   const cacheKey = computeCacheKey(entries, fullTranscript);
   const cachePath = path.join(workDir, `tts_cache_${cacheKey}.json`);
-  const audioPath = path.join(workDir, `hardcoded_voice.wav`);
+  // Audio output filename is derived from the cache key so each distinct
+  // transcript lands in its own wav (previously hardcoded to a single
+  // "hardcoded_voice.wav" that every narration-bearing project overwrote).
+  // Cache-hit fallback reuses whatever path the cache record stored, so older
+  // records still point at the legacy single file.
+  const audioPath = path.join(workDir, `tts_${cacheKey}.wav`);
   const audioPathRelative = toPublicRelative(audioPath);
 
   // 0) Check cache: return previous timing output if cache file exists.
@@ -143,9 +148,14 @@ export async function generateTtsTiming(entries, fullTranscript) {
   }
 
   // 1) Single-pass synthesis of the whole transcript.
+  //    kyutai_tts.js picks the output filename from `filename` (defaults to
+  //    "hardcoded_voice.wav" — a single shared file every narration-bearing
+  //    project would otherwise overwrite). Pass the cache-keyed filename so
+  //    each transcript lands in its own wav under public/audio/.
+  const ttsFilename = `tts_${cacheKey}.wav`;
   const { durationSec: totalDuration } = await synthesizeVoice({
     text: fullTranscript,
-    outPath: audioPath,
+    filename: ttsFilename,
     voice: { name: "george" },
   }).catch((err) => {
     throw new Error(`TTS synthesis failed: ${err?.message || err}`);
