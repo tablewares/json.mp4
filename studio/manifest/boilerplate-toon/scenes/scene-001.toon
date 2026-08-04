@@ -1,0 +1,17 @@
+id: scene-001
+narrationRef: ""
+background: shade1
+assets[1]:
+  - id: bodyText
+    assetType: TextBlock
+    anchor:
+      position: top-left
+      offsetXPercent: {{OFFSET_X}}
+      offsetYPercent: {{OFFSET_Y}}
+    contentOverride:
+      text: "{{TEXT}}"
+    styleOverride:
+      typography: {{TYPOGRAPHY_TOKEN}}
+      align: {{ALIGN}}
+    enterAt: {{ENTER_AT}}
+    exitAt: {{EXIT_AT}}

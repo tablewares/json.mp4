@@ -1,0 +1,7 @@
+projectId: render-demo-toon
+config: config.toon
+styles: styles/theme.toon
+scenes[3]{id,path}:
+  scene-hook,scenes/scene-001.toon
+  scene-globe,scenes/scene-002.toon
+  scene-arrive,scenes/scene-003.toon

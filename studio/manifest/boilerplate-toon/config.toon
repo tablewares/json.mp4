@@ -1,0 +1,4 @@
+fps: {{FPS}}
+width: {{WIDTH}}
+height: {{HEIGHT}}
+defaultSceneDurationInFrames: {{DEFAULT_SCENE_FRAMES}}

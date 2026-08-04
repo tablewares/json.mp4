@@ -1,0 +1,91 @@
+{
+  "assetType": "SignalBloom",
+  "component": "SignalBloom.jsx",
+  "description": "Experimental generative signal field: a radial constellation of nodes connected by faint lines, with staggered pulses that bloom outward from the center and drift in a slow orbital rhythm.",
+  "defaultSize": {
+    "width": 1200,
+    "height": 720
+  },
+  "defaultStyle": {
+    "typography": "body1",
+    "easing": "gentleSpring",
+    "canvasFill": "#070A12",
+    "lineFill": "#33415C",
+    "nodeFill": "#7DF9FF",
+    "coreFill": "#FFFFFF",
+    "pulseFill": "#FF5CF4",
+    "borderLine": "#1C2740",
+    "borderRadius": 32,
+    "nodeRadius": 5,
+    "lineWidth": 1,
+    "nodeCount": 42,
+    "orbitAmount": 18,
+    "pulseCount": 4,
+    "pulseSpeed": 0.65,
+    "showLabels": true
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "Small label rendered above the field"
+      },
+      "seed": {
+        "type": "number",
+        "description": "Deterministic seed for the constellation"
+      },
+      "caption": {
+        "type": "string",
+        "description": "Optional lower-right annotation"
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "canvasFill": {
+        "type": "string"
+      },
+      "lineFill": {
+        "type": "string"
+      },
+      "nodeFill": {
+        "type": "string"
+      },
+      "coreFill": {
+        "type": "string"
+      },
+      "pulseFill": {
+        "type": "string"
+      },
+      "borderLine": {
+        "type": "string"
+      },
+      "borderRadius": {
+        "type": "number"
+      },
+      "nodeRadius": {
+        "type": "number"
+      },
+      "lineWidth": {
+        "type": "number"
+      },
+      "nodeCount": {
+        "type": "number"
+      },
+      "orbitAmount": {
+        "type": "number"
+      },
+      "pulseCount": {
+        "type": "number"
+      },
+      "pulseSpeed": {
+        "type": "number"
+      },
+      "showLabels": {
+        "type": "boolean"
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+colors:
+  shade1: "{{COLOR_SHADE1}}"
+  shade2: "{{COLOR_SHADE2}}"
+  main1: "{{COLOR_MAIN1}}"
+  main2: "{{COLOR_MAIN2}}"
+  accentBg: "{{COLOR_ACCENT}}"
+  transparent: "#00000000"
+typography:
+  heading1:
+    fontFamily: "{{FONT_HEADING}}"
+    fontSize: {{HEADING_SIZE}}
+    fontWeight: {{HEADING_WEIGHT}}
+    lineHeight: {{HEADING_LINE_HEIGHT}}
+    colorToken: {{HEADING_COLOR_TOKEN}}
+  body1:
+    fontFamily: "{{FONT_BODY}}"
+    fontSize: {{BODY_SIZE}}
+    fontWeight: {{BODY_WEIGHT}}
+    lineHeight: {{BODY_LINE_HEIGHT}}
+    colorToken: {{BODY_COLOR_TOKEN}}
+spacing:
+  sceneMargin: {{SCENE_MARGIN}}
+  gutter: {{GUTTER}}
+easing:
+  gentleSpring:
+    damping: {{GENTLE_DAMPING}}
+    mass: {{GENTLE_MASS}}
+    stiffness: {{GENTLE_STIFFNESS}}
+  snappySpring:
+    damping: {{SNAPPY_DAMPING}}
+    mass: {{SNAPPY_MASS}}
+    stiffness: {{SNAPPY_STIFFNESS}}

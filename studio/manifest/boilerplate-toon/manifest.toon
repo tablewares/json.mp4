@@ -1,0 +1,11 @@
+projectId: boilerplate-toon
+config: config.toon
+styles: styles/theme.toon
+narration:
+  entries[1]{id,text}:
+    {{NARRATION_ID}},"{{NARRATION_TEXT}}"
+  fullTranscript: "{{FULL_TRANSCRIPT}}"
+audioOverlay[1]{id,start,end,path}:
+  {{AUDIO_ID}},{{AUDIO_START}},{{AUDIO_END}},{{AUDIO_PATH}}
+scenes[1]{id,path}:
+  {{SCENE_ID}},scenes/{{SCENE_FILE}}

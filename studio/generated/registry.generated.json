@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T00:21:53.174Z",
+  "generatedAt": "2026-08-04T01:06:43.897Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics"
@@ -26,6 +26,11 @@
     "BarChartRace": {
       "folderName": "BarChartRace",
       "entryFile": "BarChartRace.jsx",
+      "rootIndex": 1
+    },
+    "SignalBloom": {
+      "folderName": "SignalBloom",
+      "entryFile": "SignalBloom.jsx",
       "rootIndex": 1
     },
     "TickerTape": {
