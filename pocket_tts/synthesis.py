@@ -1,36 +1,41 @@
-import torchaudio as ta
-import torch
+import argparse
+import sys
 from pathlib import Path
+import torch
+import torchaudio as ta
 from chatterbox.tts import ChatterboxTTS
-from chatterbox.mtl_tts import ChatterboxMultilingualTTS
 
-# Automatically detect the best available device
-if torch.cuda.is_available():
-    device = "cuda"
-elif torch.backends.mps.is_available():
-    device = "mps"
-else:
-    device = "cpu"
+def parse_args():
+    parser = argparse.ArgumentParser(description="Chatterbox TTS Generator CLI")
+    parser.add_argument("--text", type=str, required=True, help="Text to synthesize")
+    parser.add_argument("--output", type=str, required=True, help="Absolute path to output WAV file")
+    parser.add_argument("--voice", type=str, default="", help="Path to reference WAV file for voice cloning")
+    return parser.parse_args()
 
-print(f"Using device: {device}")
+def main():
+    args = parse_args()
 
-model = ChatterboxTTS.from_pretrained(device=device)
+    # Determine execution device
+    if torch.cuda.is_available():
+        device = "cuda"
+    elif torch.backends.mps.is_available():
+        device = "mps"
+    else:
+        device = "cpu"
 
-text = "Ezreal and Jinx teamed up with Ahri, Yasuo, and Teemo to take down the enemy's Nexus in an epic late-game pentakill."
-wav = model.generate(text)
-ta.save("test-1.wav", wav, model.sr)
+    model = ChatterboxTTS.from_pretrained(device=device)
 
-multilingual_model = ChatterboxMultilingualTTS.from_pretrained(device=device)
-# v2 is the default. Pass t3_model="v3" to use the v3 multilingual checkpoint.
-text = "Bonjour, comment ça va? Ceci est le modèle de synthèse vocale multilingue Chatterbox, il prend en charge 23 langues."
-wav = multilingual_model.generate(text, language_id="fr")
-ta.save("test-2.wav", wav, multilingual_model.sr)
+    # Generate audio with or without voice cloning reference
+    voice_path = Path(args.voice)
+    if voice_path.exists() and voice_path.is_file():
+        wav = model.generate(args.text, audio_prompt_path=str(voice_path))
+    else:
+        wav = model.generate(args.text)
 
+    output_path = Path(args.output)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    ta.save(str(output_path), wav, model.sr)
 
-# If you want to synthesize with a different voice, specify the audio prompt
-AUDIO_PROMPT_PATH = "YOUR_FILE.wav"
-if Path(AUDIO_PROMPT_PATH).exists():
-    wav = model.generate(text, audio_prompt_path=AUDIO_PROMPT_PATH)
-    ta.save("test-3.wav", wav, model.sr)
-else:
-    print(f"Warning: audio prompt file '{AUDIO_PROMPT_PATH}' not found, skipping voice cloning example.")
+if __name__ == "__main__":
+    main()
