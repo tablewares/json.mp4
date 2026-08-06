@@ -1,0 +1,92 @@
+colors:
+  shade1: "#181715"
+  shade2: "#252320"
+  canvas: "#faf9f5"
+  surfaceCard: "#efe9de"
+  surfaceSoft: "#f5f0e8"
+  ink: "#141413"
+  bodyStrong: "#252523"
+  body: "#3d3d3a"
+  muted: "#6c6a64"
+  onDark: "#faf9f5"
+  onDarkSoft: "#a09d96"
+  coral: "#cc785c"
+  coralActive: "#a9583e"
+  accentTeal: "#5db8a6"
+  accentAmber: "#e8a55a"
+  hairline: "#e6dfd8"
+  transparent: "#00000000"
+typography:
+  display:
+    fontFamily: "Cormorant Garamond, Garamond, \"Times New Roman\", serif"
+    fontSize: 92
+    fontWeight: 500
+    lineHeight: 1.05
+    colorToken: ink
+  displayOnDark:
+    fontFamily: "Cormorant Garamond, Garamond, \"Times New Roman\", serif"
+    fontSize: 92
+    fontWeight: 500
+    lineHeight: 1.05
+    colorToken: onDark
+  heading1:
+    fontFamily: "Cormorant Garamond, Garamond, \"Times New Roman\", serif"
+    fontSize: 68
+    fontWeight: 500
+    lineHeight: 1.1
+    colorToken: ink
+  heading1OnDark:
+    fontFamily: "Cormorant Garamond, Garamond, \"Times New Roman\", serif"
+    fontSize: 68
+    fontWeight: 500
+    lineHeight: 1.1
+    colorToken: onDark
+  body1:
+    fontFamily: "Inter, -apple-system, sans-serif"
+    fontSize: 28
+    fontWeight: 400
+    lineHeight: 1.55
+    colorToken: body
+  body1OnDark:
+    fontFamily: "Inter, -apple-system, sans-serif"
+    fontSize: 28
+    fontWeight: 400
+    lineHeight: 1.55
+    colorToken: onDarkSoft
+  caption1:
+    fontFamily: "Inter, -apple-system, sans-serif"
+    fontSize: 20
+    fontWeight: 500
+    lineHeight: 1.4
+    colorToken: muted
+  kicker:
+    fontFamily: "Inter, -apple-system, sans-serif"
+    fontSize: 18
+    fontWeight: 600
+    lineHeight: 1.4
+    letterSpacing: 1.5
+    colorToken: coral
+  stat:
+    fontFamily: "Cormorant Garamond, Garamond, \"Times New Roman\", serif"
+    fontSize: 96
+    fontWeight: 500
+    lineHeight: 1.0
+    colorToken: coral
+  statLabel:
+    fontFamily: "Inter, -apple-system, sans-serif"
+    fontSize: 22
+    fontWeight: 500
+    lineHeight: 1.3
+    colorToken: body
+spacing:
+  sceneMargin: 96
+  gutter: 32
+easing:
+  gentleSpring:
+    damping: 16
+    mass: 0.7
+    stiffness: 110
+  snappySpring:
+    damping: 12
+    mass: 0.4
+    stiffness: 180

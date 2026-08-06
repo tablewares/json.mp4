@@ -1,0 +1,73 @@
+id: scene-hero
+narrationRef: ""
+background: canvas
+transitionOut:
+  type: shatterWipe
+  durationInFrames: 22
+  params:
+    cols: 6
+    rows: 4
+    throwDistance: 220
+assets[4]:
+  - id: kicker
+    assetType: TextBlock
+    anchor:
+      position: top-left
+      offsetXPercent: 8
+      offsetYPercent: 10
+    contentOverride:
+      text: "PRINCIPLE §2 · GOLDEN-RATIO SPLIT"
+    styleOverride:
+      typography: kicker
+      align: left
+      width: 460
+      height: 40
+    enterAt: 0
+    exitAt: 0.9
+  - id: headline
+    assetType: TextBlock
+    anchor:
+      position: left
+      offsetXPercent: 8
+      offsetYPercent: -6
+    contentOverride:
+      text: "One focal subject, one supporting idea. Never 50/50."
+    styleOverride:
+      typography: heading1
+      align: left
+      width: 900
+      height: 240
+    enterAt: 0.1
+    exitAt: 0.95
+  - id: body
+    assetType: TextBlock
+    anchor:
+      position: left
+      offsetXPercent: 8
+      offsetYPercent: 18
+    contentOverride:
+      text: "The image takes the larger ~61.8% half on the right. The caption sits in the remaining ~38.2%, mirroring how the eye reads asymmetric pairings as more natural than even splits."
+    styleOverride:
+      typography: body1
+      align: left
+      width: 820
+      height: 180
+    enterAt: 0.25
+    exitAt: 0.95
+  - id: heroMark
+    assetType: ImageReveal
+    anchor:
+      position: right
+      offsetXPercent: -8
+      offsetYPercent: 0
+    contentOverride:
+      src: assets/spike-mark.svg
+      alt: "carried hero mark"
+    styleOverride:
+      borderRadius: 0
+      easing: gentleSpring
+      revealDirection: center-out
+      width: 540
+      height: 540
+    enterAt: 0.05
+    exitAt: 0.95

@@ -2,5 +2,6 @@
 **/node_modules/
 .codebase-memory/
 **/.lancedb/
-**/lancedb/
-**/models/
+**/.models/
+**/out/
+**/public/

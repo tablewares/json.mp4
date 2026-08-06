@@ -48,7 +48,7 @@ export async function synthesizeVoice({ text, filename = "hardcoded_voice.wav", 
   let durationSec = await getAudioDurationSec(outPath);
 
   // Return relative path for staticFile() to serve
-  return { outPath, path: relativePath, durationSec };
+  return { durationSec };
 }
 
 export async function getAudioDurationSec(filePath) {
@@ -60,3 +60,67 @@ export async function getAudioDurationSec(filePath) {
   ]);
   return parseFloat(stdout.trim());
 }
+
+// export async function synthesizeVoice({ text, filename = "hardcoded_voice.wav", voice }) {
+//   const selectedVoice = voice?.name || "YOUR_FILE.wav"; // Default voice or reference audio path
+//   if (!selectedVoice) {
+//     throw new Error("voice.name is required");
+//   }
+
+//   // Define server path in public folder
+//   const relativePath = `audio/${filename}`;
+//   const outPath = path.join(process.cwd(), "public", relativePath);
+
+//   // Ensure target directory exists
+//   await mkdir(path.dirname(outPath), { recursive: true });
+
+//   // Python inline script matching ChatterboxTTS generation example
+//   const pythonScript = `
+// import torchaudio as ta
+// import torch
+// from pathlib import Path
+// from chatterbox.tts import ChatterboxTTS
+
+// if torch.cuda.is_available():
+//     device = "cuda"
+// elif torch.backends.mps.is_available():
+//     device = "mps"
+// else:
+//     device = "cpu"
+
+// model = ChatterboxTTS.from_pretrained(device=device)
+
+// text = """${text.replace(/"/g, '\\"')}"""
+// audio_prompt = "${selectedVoice}"
+
+// if Path(audio_prompt).exists():
+//     wav = model.generate(
+//         text,
+//         audio_prompt_path=audio_prompt,
+//         temperature=0.8,
+//         lsd_decode_steps=5,
+//         eos_threshold=0.0
+//     )
+// else:
+//     wav = model.generate(
+//         text,
+//         temperature=0.8,
+//         lsd_decode_steps=5,
+//         eos_threshold=0.0
+//     )
+
+// ta.save("${outPath.replace(/\\/g, "/")}", wav, model.sr)
+// `;
+
+//   try {
+//     // Run python binary directly with the script
+//     await execFileAsync(".venv/bin/python", ["-c", pythonScript]);
+//   } catch (error) {
+//     throw new Error(`Chatterbox synthesis failed: ${error.stderr || error.message}`);
+//   }
+
+//   // Calculate and return duration
+//   let durationSec = await getAudioDurationSec(outPath);
+
+//   return { durationSec };
+// }

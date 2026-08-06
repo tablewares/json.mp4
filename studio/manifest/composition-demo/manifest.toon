@@ -1,0 +1,8 @@
+projectId: composition-demo
+config: config.toon
+styles: styles/theme.toon
+scenes[4]{id,path}:
+  scene-hook,scenes/scene-001.toon
+  scene-hero,scenes/scene-002.toon
+  scene-stats,scenes/scene-003.toon
+  scene-close,scenes/scene-004.toon

@@ -1,0 +1,51 @@
+id: scene-close
+narrationRef: ""
+background: shade2
+assets[3]:
+  - id: carriedSeal
+    assetType: ImageReveal
+    anchor:
+      position: top
+      offsetXPercent: 0
+      offsetYPercent: 14
+    contentOverride:
+      src: assets/spike-mark-on-dark.svg
+      alt: "carried seal"
+    styleOverride:
+      borderRadius: 0
+      easing: gentleSpring
+      revealDirection: center-out
+      width: 180
+      height: 180
+    enterAt: 0
+    exitAt: 0.95
+  - id: closeHead
+    assetType: TextBlock
+    anchor:
+      position: center
+      offsetXPercent: 0
+      offsetYPercent: -6
+    contentOverride:
+      text: "Design first. Render second."
+    styleOverride:
+      typography: displayOnDark
+      align: center
+      width: 1500
+      height: 240
+    enterAt: 0.1
+    exitAt: 0.95
+  - id: closeSub
+    assetType: TextBlock
+    anchor:
+      position: center
+      offsetXPercent: 0
+      offsetYPercent: 14
+    contentOverride:
+      text: "A 4-scene study built from docs/composition/composition-design-principles.md"
+    styleOverride:
+      typography: body1OnDark
+      align: center
+      width: 1100
+      height: 80
+    enterAt: 0.25
+    exitAt: 0.95

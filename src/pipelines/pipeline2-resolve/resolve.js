@@ -31,7 +31,6 @@ export async function resolveProject(manifestPath) {
   const { manifest, config, styles, scenes } = validateProject(manifestPath);
   const assetRegistry = loadAssetRegistry();
   const transitionRegistry = loadTransitionRegistry();
-  console.log("manifest",JSON.stringify(manifest));
   const hasNarration = Boolean(manifest.narration);
   let timingById = {};
   let ttsTotalDuration = null;
@@ -236,6 +235,7 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, narrat
     );
 
     const wordTimings = resolveKineticWordTimings(assetSpec, assetManifest, timing.words, narrationText);
+    // console.log("assetName=",assetSpec.assetType, "description=", assetManifest.description);
    return {
       id: assetSpec.id ?? `${assetSpec.assetType}-${Math.random().toString(36).slice(2, 8)}`,
       assetType: assetSpec.assetType,
@@ -251,7 +251,7 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, narrat
       },
     };
   });
-
+  
   warnOnAssetOverlaps(scene.id, resolvedAssets);
 
   return {

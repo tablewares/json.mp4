@@ -10,21 +10,21 @@
     {
       "id": "voiceover",
       "start": 0,
-      "end": 8.04,
-      "path": "audio/hardcoded_voice.wav"
+      "end": 8.12,
+      "path": "audio/tts_1f84f06cc929c2e36700ee0727c0c2c8c89604d280c3baecac8b979c7301941f.wav"
     }
   ],
   "scenes": [
     {
       "id": "scene-001",
-      "durationInFrames": 106,
+      "durationInFrames": 105,
       "effects": [],
       "ttsWindow": {
         "narrationRef": "n1",
         "startSeconds": 0,
-        "endSeconds": 2.736,
+        "endSeconds": 2.703,
         "startFrame": 0,
-        "endFrame": 82
+        "endFrame": 81
       },
       "background": "#0B0E14",
       "assets": [
@@ -61,9 +61,9 @@
             "height": 200
           },
           "timing": {
-            "durationInFrames": 106,
+            "durationInFrames": 105,
             "enterAtFrame": 0,
-            "exitAtFrame": 74,
+            "exitAtFrame": 73,
             "words": null
           }
         },
@@ -93,9 +93,9 @@
             "height": 640
           },
           "timing": {
-            "durationInFrames": 106,
+            "durationInFrames": 105,
             "enterAtFrame": 4,
-            "exitAtFrame": 82,
+            "exitAtFrame": 81,
             "words": null
           }
         }
@@ -142,14 +142,14 @@
     },
     {
       "id": "scene-002",
-      "durationInFrames": 159,
+      "durationInFrames": 163,
       "effects": [],
       "ttsWindow": {
         "narrationRef": "n2",
-        "startSeconds": 2.736,
-        "endSeconds": 8.04,
-        "startFrame": 82,
-        "endFrame": 241
+        "startSeconds": 2.703,
+        "endSeconds": 8.12,
+        "startFrame": 81,
+        "endFrame": 244
       },
       "background": "#161B26",
       "assets": [
@@ -179,9 +179,9 @@
             "height": 420
           },
           "timing": {
-            "durationInFrames": 159,
+            "durationInFrames": 163,
             "enterAtFrame": 0,
-            "exitAtFrame": 159,
+            "exitAtFrame": 163,
             "words": null
           }
         },
@@ -220,74 +220,74 @@
             "height": 260
           },
           "timing": {
-            "durationInFrames": 159,
+            "durationInFrames": 163,
             "enterAtFrame": 0,
-            "exitAtFrame": 151,
+            "exitAtFrame": 155,
             "words": [
               {
                 "word": "Because",
-                "startFrame": 19,
-                "endFrame": 26
+                "startFrame": 14,
+                "endFrame": 20
               },
               {
                 "word": "they",
-                "startFrame": 27,
-                "endFrame": 31
+                "startFrame": 21,
+                "endFrame": 25
               },
               {
                 "word": "resolve",
-                "startFrame": 32,
-                "endFrame": 42
+                "startFrame": 26,
+                "endFrame": 36
               },
               {
                 "word": "every",
-                "startFrame": 47,
-                "endFrame": 52
+                "startFrame": 39,
+                "endFrame": 44
               },
               {
                 "word": "asset",
-                "startFrame": 57,
-                "endFrame": 65
+                "startFrame": 48,
+                "endFrame": 57
               },
               {
                 "word": "independently,",
-                "startFrame": 67,
-                "endFrame": 85
+                "startFrame": 58,
+                "endFrame": 77
               },
               {
                 "word": "with",
-                "startFrame": 89,
-                "endFrame": 93
+                "startFrame": 87,
+                "endFrame": 91
               },
               {
                 "word": "no",
-                "startFrame": 95,
-                "endFrame": 99
+                "startFrame": 93,
+                "endFrame": 98
               },
               {
                 "word": "shared",
-                "startFrame": 100,
-                "endFrame": 108
+                "startFrame": 99,
+                "endFrame": 107
               },
               {
                 "word": "registry",
-                "startFrame": 109,
-                "endFrame": 123
+                "startFrame": 108,
+                "endFrame": 122
               },
               {
                 "word": "and",
-                "startFrame": 124,
-                "endFrame": 127
+                "startFrame": 125,
+                "endFrame": 128
               },
               {
                 "word": "no",
-                "startFrame": 128,
-                "endFrame": 131
+                "startFrame": 129,
+                "endFrame": 133
               },
               {
                 "word": "continuity.",
-                "startFrame": 133,
-                "endFrame": 148
+                "startFrame": 134,
+                "endFrame": 151
               }
             ]
           }

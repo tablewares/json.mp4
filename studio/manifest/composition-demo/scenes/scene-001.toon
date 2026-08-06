@@ -2,7 +2,7 @@ id: scene-hook
 narrationRef: ""
 background: shade1
 transitionOut:
-  type: slideContinuity
+  type: shatterWipe
   durationInFrames: 22
   params:
     cols: 6
@@ -29,21 +29,36 @@ transitionOut:
         height: 1080
         borderRadius: 0
         revealDirection: center-out
-assets[3]:
+assets[4]:
   - id: kicker
     assetType: TextBlock
     anchor:
       position: top-left
       offsetXPercent: 8
-      offsetYPercent: 22
+      offsetYPercent: 10
     contentOverride:
-      text: "A TOON BOILERPLATE STORY"
+      text: "COMPOSITION STUDY"
     styleOverride:
-      typography: kicker1
+      typography: kicker
       align: left
       width: 360
       height: 40
     enterAt: 0
+    exitAt: 0.9
+  - id: dateKicker
+    assetType: TextBlock
+    anchor:
+      position: top-right
+      offsetXPercent: -8
+      offsetYPercent: 10
+    contentOverride:
+      text: "PRINCIPLE §9 · Z-PATTERN"
+    styleOverride:
+      typography: kicker
+      align: right
+      width: 320
+      height: 40
+    enterAt: 0.05
     exitAt: 0.9
   - id: headline
     assetType: TextBlock
@@ -52,26 +67,28 @@ assets[3]:
       offsetXPercent: 0
       offsetYPercent: -8
     contentOverride:
-      text: "One scene. Three transitions. Real layout."
+      text: "Layout, before content."
     styleOverride:
-      typography: heading1
+      typography: displayOnDark
       align: center
       width: 1380
-      height: 120
-    enterAt: 0.05
-    exitAt: 0.92
-  - id: subline
-    assetType: TextBlock
+      height: 240
+    enterAt: 0.08
+    exitAt: 0.95
+  - id: seal
+    assetType: ImageReveal
     anchor:
-      position: center
+      position: bottom
       offsetXPercent: 0
-      offsetYPercent: 10
+      offsetYPercent: -12
     contentOverride:
-      text: "Built from a toon boilerplate with multiple assets, transitions, and continuity."
+      src: assets/spike-mark-on-dark.svg
+      alt: "spike mark"
     styleOverride:
-      typography: body1
-      align: center
-      width: 1200
-      height: 130
-    enterAt: 0.12
-    exitAt: 0.92
+      borderRadius: 0
+      easing: gentleSpring
+      revealDirection: center-out
+      width: 160
+      height: 160
+    enterAt: 0.4
+    exitAt: 0.95
