@@ -1,11 +1,15 @@
 {
-  "projectId": "finance-project",
+  "projectId": "agent-demo",
   "config": "config.json",
   "styles": "styles/theme.json",
   "scenes": [
     {
       "id": "scene-default",
       "path": "scenes/scene-default.json"
+    },
+    {
+      "id": "scene-market",
+      "path": "scenes/scene-market.json"
     }
   ]
 }

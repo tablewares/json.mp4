@@ -1,0 +1,32 @@
+{
+  "assetType": "AssetBoilerplate",
+  "component": "AssetBoilerplate.jsx",
+  "description": "A starter asset for new scene elements. It renders a title/body panel with a reusable enter/exit animation so authors can adapt it quickly without reworking the underlying contract.",
+  "defaultSize": { "width": 720, "height": 220 },
+  "defaultStyle": {
+    "easing": "snappySpring",
+    "padding": 24,
+    "borderRadius": 24,
+    "align": "left"
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "title": { "type": "string" },
+      "body": { "type": "string" }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "easing": { "type": "string" },
+      "padding": { "type": "number" },
+      "borderRadius": { "type": "number" },
+      "align": { "type": "string", "enum": ["left", "center", "right"] },
+      "backgroundColorToken": { "type": "string" },
+      "width": { "type": "number" },
+      "height": { "type": "number" },
+      "typography": { "type": "string" }
+    }
+  }
+}

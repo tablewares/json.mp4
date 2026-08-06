@@ -1,8 +1,9 @@
 import React, { Suspense, lazy } from "react";
-import { AbsoluteFill, Sequence, Audio, staticFile } from "remotion";
+import { AbsoluteFill, Sequence, Audio, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { AudioOverlay } from "../../audio/overlay.jsx";
 import registryManifest from "../../../studio/generated/registry.generated.json";
+import { resolveCameraTransform } from "../../templating/camera.js";
 
 // ==========================================
 // 1. COMPONENT MODULE LOADING
@@ -128,9 +129,24 @@ function SceneEffectLayer({ effect }) {
 // 2. SCENE LAYER & COMPOSITION
 // ==========================================
 
-function SceneLayer({ scene }) {
+function SceneLayer({ scene, compositionSize }) {
+  const frame = useCurrentFrame();
+  const { durationInFrames: compositionDurationInFrames } = useVideoConfig();
+  const sceneDuration = Math.max(scene.durationInFrames, 1);
+  const clampedFrame = Math.min(Math.max(frame, 0), sceneDuration - 1);
+  const frameForCamera = compositionDurationInFrames > 0 ? clampedFrame : frame;
+  const resolvedCameraTransform = resolveCameraTransform(scene.camera, compositionSize, frameForCamera, sceneDuration);
   return (
     <AbsoluteFill style={{ background: scene.background ?? "#000" }}>
+      <AbsoluteFill
+        style={{
+          transform: `translate(${resolvedCameraTransform.translateX}px, ${resolvedCameraTransform.translateY}px) scale(${resolvedCameraTransform.scale})`,
+          transformOrigin: resolvedCameraTransform.transformOrigin,
+          width: `${compositionSize.width}px`,
+          height: `${compositionSize.height}px`,
+          overflow: "hidden",
+        }}
+      >
       {scene.assets.map((asset) => {
         const AssetComponent = ASSET_COMPONENTS[asset.assetType];
         if (!AssetComponent) {
@@ -152,6 +168,7 @@ function SceneLayer({ scene }) {
         .map((effect) => (
           <SceneEffectLayer key={effect.id} effect={effect} />
         ))}
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 }
@@ -197,7 +214,7 @@ export function VideoComposition({ resolvedGraph }) {
           return (
             <React.Fragment key={scene.id}>
               <TransitionSeries.Sequence durationInFrames={scene.durationInFrames}>
-                <SceneLayer scene={scene} />
+                <SceneLayer scene={scene} compositionSize={{ width: config.width, height: config.height }} />
               </TransitionSeries.Sequence>
               {outTransition && presentationFn && (
                 <TransitionSeries.Transition

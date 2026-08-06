@@ -11,7 +11,9 @@
     "generate:registry": "node src/registry/generateRegistryManifest.js",
     "prebuild": "npm run generate:registry",
     "build": "node scripts/render-project.mjs",
-    "build:help": "node scripts/render-project.mjs --help"
+    "build:help": "node scripts/render-project.mjs --help",
+    "extract:configurable": "node scripts/extract-configurable-manifests.mjs",
+    "agent:project": "node scripts/agent-project-interface.js"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",

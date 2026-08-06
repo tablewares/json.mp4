@@ -5,6 +5,7 @@ import { validateProject } from "../pipeline1-validate/validate.js";
 import { loadAssetRegistry, loadTransitionRegistry, getAsset } from "../../registry/assetRegistry.js";
 import { resolveColorToken, resolveAssetStyle } from "../../registry/styleRegistry.js";
 import { resolveAnchor } from "../../templating/anchor.js";
+import { resolveCamera } from "../../templating/camera.js";
 import { resolveNarrationTiming, sceneTimingBudget } from "../../timing/ttsTiming.js";
 import { resolveEffectFrame } from "../../timing/effectTiming.js";
 import  { warnOnAssetOverlaps } from "./overlap_warn.js"
@@ -235,7 +236,6 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, narrat
     );
 
     const wordTimings = resolveKineticWordTimings(assetSpec, assetManifest, timing.words, narrationText);
-    // console.log("assetName=",assetSpec.assetType, "description=", assetManifest.description);
    return {
       id: assetSpec.id ?? `${assetSpec.assetType}-${Math.random().toString(36).slice(2, 8)}`,
       assetType: assetSpec.assetType,
@@ -252,12 +252,18 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, narrat
     };
   });
   
-  warnOnAssetOverlaps(scene.id, resolvedAssets);
+  warnOnAssetOverlaps(scene.id, resolvedAssets, sceneDurationInFrames, {
+    compositionSize: { width: config.width, height: config.height },
+    hasNarration,
+  });
+
+  const camera = resolveCamera(scene.camera);
 
   return {
     id: scene.id,
     durationInFrames: sceneDurationInFrames,
     effects: [],
+    camera,
     ttsWindow: hasNarration
       ? {
           narrationRef: scene.narrationRef,

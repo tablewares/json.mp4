@@ -5,7 +5,7 @@
  * this is the only place raw pixels get computed.
  */
 
-const ANCHOR_ALIGN = {
+export const ANCHOR_ALIGN = {
   center: { x: 0.5, y: 0.5 },
   top: { x: 0.5, y: 0 },
   bottom: { x: 0.5, y: 1 },

@@ -1,6 +1,17 @@
 id: scene-hook
 narrationRef: ""
 background: shade1
+camera:
+  start:
+    position: center
+    offsetXPercent: 0
+    offsetYPercent: 0
+  end:
+    position: top-left
+    offsetXPercent: 6
+    offsetYPercent: 8
+  zoomStartPercent: 100
+  zoomEndPercent: 108
 transitionOut:
   type: shatterWipe
   durationInFrames: 22

@@ -33,5 +33,17 @@
   "spacing": {
     "sceneMargin": 96,
     "gutter": 32
+  },
+  "easing": {
+    "gentleSpring": {
+      "damping": 16,
+      "mass": 0.7,
+      "stiffness": 110
+    },
+    "snappySpring": {
+      "damping": 12,
+      "mass": 0.4,
+      "stiffness": 180
+    }
   }
 }

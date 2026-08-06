@@ -1,0 +1,22 @@
+{
+  "transitionType": "TransitionBoilerplate",
+  "component": "TransitionBoilerplate.jsx",
+  "description": "A starter transition that slides the outgoing and incoming scenes with a reusable direction and distance parameter.",
+  "defaultDurationInFrames": 18,
+  "consumes": {
+    "outgoingSceneStyles": false,
+    "incomingSceneStyles": false,
+    "carriedAssets": false
+  },
+  "params": {
+    "direction": {
+      "type": "string",
+      "enum": ["left", "right", "up", "down"],
+      "description": "Axis used for the slide"
+    },
+    "distance": {
+      "type": "number",
+      "description": "How far the scene should slide during the transition"
+    }
+  }
+}

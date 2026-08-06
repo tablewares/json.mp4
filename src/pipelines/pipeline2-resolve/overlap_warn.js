@@ -15,7 +15,25 @@ export function rectIntersectionArea(a, b) {
   return xOverlap * yOverlap;
 }
 
-export function warnOnAssetOverlaps(sceneId, resolvedAssets) {
+function getRectFromAsset(asset) {
+  return {
+    left: asset.resolvedPosition.left,
+    top: asset.resolvedPosition.top,
+    width: asset.resolvedStyle.width,
+    height: asset.resolvedStyle.height,
+  };
+}
+
+export function collectSceneCompositionWarnings(
+  sceneId,
+  resolvedAssets,
+  sceneDurationInFrames = 90,
+  options = {},
+) {
+  const warnings = [];
+  const compositionSize = options.compositionSize ?? { width: 1920, height: 1080 };
+  const hasNarration = Boolean(options.hasNarration);
+
   for (let i = 0; i < resolvedAssets.length; i += 1) {
     for (let j = i + 1; j < resolvedAssets.length; j += 1) {
       const a = resolvedAssets[i];
@@ -30,19 +48,8 @@ export function warnOnAssetOverlaps(sceneId, resolvedAssets) {
       const hasTemporalOverlap = overlapStart < overlapEnd;
       if (!hasTemporalOverlap) continue;
 
-      const rectA = {
-        left: a.resolvedPosition.left,
-        top: a.resolvedPosition.top,
-        width: a.resolvedStyle.width,
-        height: a.resolvedStyle.height,
-      };
-      const rectB = {
-        left: b.resolvedPosition.left,
-        top: b.resolvedPosition.top,
-        width: b.resolvedStyle.width,
-        height: b.resolvedStyle.height,
-      };
-
+      const rectA = getRectFromAsset(a);
+      const rectB = getRectFromAsset(b);
       const overlapArea = rectIntersectionArea(rectA, rectB);
       if (overlapArea <= 0) continue;
 
@@ -51,12 +58,62 @@ export function warnOnAssetOverlaps(sceneId, resolvedAssets) {
       const smallerArea = Math.min(areaA, areaB) || 1;
       const overlapPct = (overlapArea / smallerArea) * 100;
 
-      console.warn(
+      warnings.push(
         `[overlap-warning] Scene "${sceneId}": asset "${a.id}" (${a.assetType}) and ` +
           `"${b.id}" (${b.assetType}) overlap by ${Math.round(overlapArea)}px² ` +
           `(${overlapPct.toFixed(1)}% of the smaller asset's area) during frames ` +
-          `${Math.round(overlapStart)}-${Math.round(overlapEnd)}.`
+          `${Math.round(overlapStart)}-${Math.round(overlapEnd)}.`,
       );
     }
   }
+
+  for (const asset of resolvedAssets) {
+    const rect = getRectFromAsset(asset);
+    const offScreenSides = [];
+    if (rect.left < 0) offScreenSides.push("left");
+    if (rect.top < 0) offScreenSides.push("top");
+    if (rect.left + rect.width > compositionSize.width) offScreenSides.push("right");
+    if (rect.top + rect.height > compositionSize.height) offScreenSides.push("bottom");
+
+    if (offScreenSides.length > 0) {
+      warnings.push(
+        `[composition-warning] Scene "${sceneId}": asset "${asset.id}" (${asset.assetType}) is cut off by the composition bounds on the ${offScreenSides.join(", ")} side${offScreenSides.length > 1 ? "s" : ""}.`,
+      );
+    }
+
+    const isExtremelySmall = rect.width < compositionSize.width * 0.04 || rect.height < compositionSize.height * 0.04;
+    if (isExtremelySmall) {
+      warnings.push(
+        `[composition-warning] Scene "${sceneId}": asset "${asset.id}" (${asset.assetType}) is extremely small (${Math.round(rect.width)}x${Math.round(rect.height)}px) relative to the composition.`,
+      );
+    }
+
+    const durationInFrames = Math.max(0, asset.timing.exitAtFrame - asset.timing.enterAtFrame);
+    const shortDurationThreshold = Math.max(8, Math.round(sceneDurationInFrames * 0.08));
+    if (durationInFrames <= shortDurationThreshold) {
+      warnings.push(
+        `[composition-warning] Scene "${sceneId}": asset "${asset.id}" (${asset.assetType}) lasts too short (${durationInFrames} frames) for the scene duration.`,
+      );
+    }
+  }
+
+  if (hasNarration) {
+    const totalVisibleFrameTime = resolvedAssets.reduce(
+      (sum, asset) => sum + Math.max(0, asset.timing.exitAtFrame - asset.timing.enterAtFrame),
+      0,
+    );
+    const activityThreshold = Math.max(15, Math.round(sceneDurationInFrames * 0.25));
+    if (totalVisibleFrameTime < activityThreshold) {
+      warnings.push(
+        `[composition-warning] Scene "${sceneId}": the composition has little visual activity during the narration window (${totalVisibleFrameTime}/${sceneDurationInFrames} frames of asset presence).`,
+      );
+    }
+  }
+
+  return warnings;
+}
+
+export function warnOnAssetOverlaps(sceneId, resolvedAssets, sceneDurationInFrames = 90, options = {}) {
+  const warnings = collectSceneCompositionWarnings(sceneId, resolvedAssets, sceneDurationInFrames, options);
+  warnings.forEach((warning) => console.warn(warning));
 }
