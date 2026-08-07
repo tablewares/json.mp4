@@ -27,8 +27,8 @@ import { generateTtsTiming } from "../../external/tts-provider.js"; // TODO: poi
  *   audioPath: string|null,       // path TTS produced, relative to public/; null when N/A
  * }>}
  */
-export async function resolveNarrationTiming(entries, fullTranscript, fps) {
-  const result = await generateTtsTiming(entries, fullTranscript);
+export async function resolveNarrationTiming(entries, fullTranscript, fps, options = {}) {
+  const result = await generateTtsTiming(entries, fullTranscript, options);
   // The provider returns { timing, totalDuration, audioPath }. Tolerate the
   // legacy bare-array shape too (no totalDuration/audioPath) so a provider
   // upgrade isn't a hard break.

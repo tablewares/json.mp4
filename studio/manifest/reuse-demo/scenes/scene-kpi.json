@@ -1,0 +1,30 @@
+{
+  "id": "scene-kpi",
+  "narrationRef": "n1",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "rev",
+      "assetType": "NumberStat",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "value": 4823000000,
+        "label": "Q3 revenue",
+        "fromValue": 0
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "labelTypography": "caption1",
+        "valueFormat": "compact",
+        "prefix": "$",
+        "decimals": 1,
+        "labelPosition": "bottom",
+        "align": "center"
+      },
+      "enterAt": 0.05,
+      "exitAt": 0.95
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "projectId": "finance-project",
+  "projectId": "agent-build",
   "config": "config.json",
   "styles": "styles/theme.json",
   "scenes": [
@@ -7,9 +7,9 @@
       "id": "scene-default",
       "path": "scenes/scene-default.json"
     },
-     {
-      "id": "scene-market",
-      "path": "scenes/scene-market.json"
+    {
+      "id": "scene-open",
+      "path": "scenes/scene-open.json"
     }
   ]
 }

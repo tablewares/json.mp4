@@ -42,10 +42,12 @@ export async function resolveProject(manifestPath) {
   const narrationTextById = {};
   console.log("hasnarration", hasNarration)
   if (hasNarration) {
+    const ttsProvider = manifest.ttsProvider ?? config.ttsProvider ?? config.tts?.provider ?? null;
     const tts = await resolveNarrationTiming(
       manifest.narration.entries,
       manifest.narration.fullTranscript,
       config.fps,
+      { provider: ttsProvider },
     );
     timingById = tts.byId;
     ttsTotalDuration = tts.totalDuration;
@@ -138,7 +140,8 @@ function resolveTransitionEffects(effectsSpec, outgoingScene, styles, assetRegis
   if (!Array.isArray(effectsSpec) || effectsSpec.length === 0) return [];
 
   return effectsSpec.map((effect, i) => {
-    const frame = resolveEffectFrame(effect.offsetPercent ?? 0, outgoingScene.durationInFrames);
+    const transitionOverlapInFrames = outgoingScene.transitionOut?.durationInFrames ?? 0;
+    const frame = resolveEffectFrame(effect.offsetPercent ?? 0, outgoingScene.durationInFrames, transitionOverlapInFrames);
 
     if (effect.kind === "sfx") {
       return {

@@ -9,7 +9,7 @@
     {
       "id": "shatter-thud",
       "kind": "sfx",
-      "offsetPercent": -10,
+      "offsetPercent": -50,
       "path": "audio/sfx.mp3",
       "volume": 0.9
     },

@@ -1,22 +1,51 @@
 {
   "transitionType": "TransitionBoilerplate",
   "component": "TransitionBoilerplate.jsx",
-  "description": "A starter transition that slides the outgoing and incoming scenes with a reusable direction and distance parameter.",
-  "defaultDurationInFrames": 18,
+  "description": "Expressive starter transition: directional translate, scale, rotate, motion blur, and fade, all sharing one eased progress curve for cross-cut continuity. Optionally pivots scale/rotate around a carried asset's position via carryAssetId.",
+  "defaultDurationInFrames": 20,
   "consumes": {
     "outgoingSceneStyles": false,
     "incomingSceneStyles": false,
-    "carriedAssets": false
+    "carriedAssets": true
   },
   "params": {
     "direction": {
       "type": "string",
-      "enum": ["left", "right", "up", "down"],
-      "description": "Axis used for the slide"
+      "enum": ["left", "right", "up", "down", "top-left", "top-right", "bottom-left", "bottom-right"],
+      "default": "left",
+      "description": "Shared travel vector: exiting scene moves along it, incoming scene arrives from the opposite side"
     },
-    "distance": {
+    "distance": { "type": "number", "default": 48, "description": "px of translation along `direction`" },
+    "scale": {
       "type": "number",
-      "description": "How far the scene should slide during the transition"
+      "default": 1,
+      "description": "'far' scale both sides pass through; <1 = recede/depth, >1 = push-forward zoom, 1 = no scale change"
+    },
+    "rotateDeg": {
+      "type": "number",
+      "default": 0,
+      "description": "Degrees of continuous spin across the cut (signed; exiting 0->rotateDeg, entering -rotateDeg->0)"
+    },
+    "blurPx": { "type": "number", "default": 0, "description": "Peak motion-blur radius at the transition's midpoint" },
+    "fade": { "type": "boolean", "default": true, "description": "Whether opacity animates alongside the other axes" },
+    "curve": {
+      "type": "array",
+      "default": [0.4, 0, 0.2, 1],
+      "description": "Cubic-bezier [x1,y1,x2,y2] shaping progress; ignored when overshoot is true"
+    },
+    "overshoot": {
+      "type": "boolean",
+      "default": false,
+      "description": "Swap in a back-ease pair (anticipation on exit, overshoot-then-settle on entry) for a springier feel"
+    },
+    "anchorOrigin": {
+      "type": "string",
+      "default": "50% 50%",
+      "description": "CSS transform-origin used when no carryAssetId pivot is available"
+    },
+    "carryAssetId": {
+      "type": "string",
+      "description": "Optional asset id present in both outgoing and incoming scene; when set, scale/rotate pivot around that asset's resolved position on each side instead of anchorOrigin"
     }
   }
 }

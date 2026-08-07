@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-06T21:59:24.860Z",
+  "generatedAt": "2026-08-07T00:14:49.434Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics"
@@ -8,6 +8,11 @@
     "../../studio/transitions"
   ],
   "assets": {
+    "AssetBoilerplate": {
+      "folderName": "AssetBoilerplate",
+      "entryFile": "AssetBoilerplate.jsx",
+      "rootIndex": 0
+    },
     "CodeBlock": {
       "folderName": "CodeBlock",
       "entryFile": "CodeBlock.jsx",
@@ -55,9 +60,19 @@
     }
   },
   "transitions": {
+    "TransitionBoilerplate": {
+      "folderName": "TransitionBoilerplate",
+      "entryFile": "TransitionBoilerplate.jsx",
+      "rootIndex": 0
+    },
     "default": {
       "folderName": "default",
       "entryFile": "DefaultTransition.jsx",
+      "rootIndex": 0
+    },
+    "pivotZoom": {
+      "folderName": "pivotZoom",
+      "entryFile": "PivotZoom.jsx",
       "rootIndex": 0
     },
     "shatterWipe": {

@@ -1,57 +1,91 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { readFile, writeFile,mkdir } from "node:fs/promises";
+import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync } from "node:fs";
 
 const execFileAsync = promisify(execFile);
 
-// export async function synthesizeVoice({ text, filename = "hardcoded_voice.wav", voice }) {
-//   const url = "http://localhost:8000/tts";
-//   const selectedVoice = voice?.name || "george"; // Default voice if none provided
-//   if (!selectedVoice) {
-//     throw new Error("voice.name is required");
-//   }
+function resolveProvider(provider, voice) {
+  const raw = provider ?? voice?.provider ?? voice?.ttsProvider ?? process.env.TTS_PROVIDER;
+  if (typeof raw !== "string") return "python";
 
-//   // Create multipart/form-data payload
-//   const formData = new FormData();
-//   formData.append("text", text);
-//   formData.append("voice_url", selectedVoice);
-//   formData.append("temperature", "0.8");
-//   formData.append("lsd_decode_steps", "5");
-//   formData.append("eos_threshold", "0");
+  const normalized = raw.trim().toLowerCase();
+  if (["http", "fetch", "local-server", "local", "server", "kyutai-http"].includes(normalized)) {
+    return "http";
+  }
+  if (["python", "py", "script", "venv", "local-python", "default"].includes(normalized)) {
+    return "python";
+  }
 
-//   const res = await fetch(url, {
-//     method: "POST",
-//     // Note: Do NOT set Content-Type header manually here.
-//     // Fetch automatically manages boundaries for FormData.
-//     body: formData,
-//   });
+  return normalized;
+}
 
-//   if (!res.ok) {
-//     const body = await res.text().catch(() => "");
-//     throw new Error(`Local TTS failed (${res.status}): ${body}`);
-//   }
+export async function synthesizeVoice({ text, filename = "hardcoded_voice.wav", voice, provider }) {
+  const selectedProvider = resolveProvider(provider, voice);
+  const selectedVoice = voice?.name || "george";
+  if (!selectedVoice) {
+    throw new Error("voice.name is required");
+  }
 
-//   // Define server path in public folder & relative web path
-//   const relativePath = `audio/${filename}`;
-//   const outPath = path.join(process.cwd(), "public", relativePath);
+  if (selectedProvider === "http") {
+    const url = "http://localhost:8000/tts";
+    const formData = new FormData();
+    formData.append("text", text);
+    formData.append("voice_url", selectedVoice);
+    formData.append("temperature", "0.8");
+    formData.append("lsd_decode_steps", "5");
+    formData.append("eos_threshold", "0");
 
-//   // Ensure public/audio directory exists
-//   await mkdir(path.dirname(outPath), { recursive: true });
+    const res = await fetch(url, {
+      method: "POST",
+      body: formData,
+    });
 
-//   // Convert response to buffer and save the file
-//   const arrayBuffer = await res.arrayBuffer();
-//   const buf = Buffer.from(arrayBuffer);
-//   await writeFile(outPath, buf);
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      throw new Error(`Local TTS failed (${res.status}): ${body}`);
+    }
 
-//   // Calculate and return duration if your helper supports .wav
-//   let durationSec = await getAudioDurationSec(outPath);
+    const relativePath = `audio/${filename}`;
+    const outPath = path.join(process.cwd(), "public", relativePath);
+    await mkdir(path.dirname(outPath), { recursive: true });
 
-//   // Return relative path for staticFile() to serve
-//   return { durationSec };
-// }
+    const arrayBuffer = await res.arrayBuffer();
+    const buf = Buffer.from(arrayBuffer);
+    await writeFile(outPath, buf);
+
+    const durationSec = await getAudioDurationSec(outPath);
+    return { durationSec };
+  }
+
+  const currentDir = path.dirname(fileURLToPath(import.meta.url));
+  const venv = path.join(currentDir, ".chattervenv");
+  const isWindows = process.platform === "win32";
+
+  const venvPython = isWindows
+    ? path.join(venv, "Scripts", "python.exe")
+    : path.join(venv, "bin", "python");
+  const pythonBin = existsSync(venvPython) ? venvPython : "python";
+
+  const relativePath = `audio/${filename}`;
+  const outPath = path.join(process.cwd(), "public", relativePath);
+  await mkdir(path.dirname(outPath), { recursive: true });
+
+  const scriptPath = path.join(currentDir, "synthesis.py");
+  const voicePath = voice?.path || voice?.name || "";
+
+  await execFileAsync(pythonBin, [
+    scriptPath,
+    "--text", text,
+    "--output", outPath,
+    "--voice", voicePath,
+  ]);
+
+  const durationSec = await getAudioDurationSec(outPath);
+  return { durationSec };
+}
 
 export async function getAudioDurationSec(filePath) {
   const { stdout } = await execFileAsync("ffprobe", [
@@ -61,36 +95,4 @@ export async function getAudioDurationSec(filePath) {
     filePath,
   ]);
   return parseFloat(stdout.trim());
-}
-
-
-export async function synthesizeVoice({ text, filename = "hardcoded_voice.wav", voice }) {
-  const currentDir = path.dirname(fileURLToPath(import.meta.url));
-  const venv = path.join(currentDir, ".chattervenv");
-  const isWindows = process.platform === "win32";
-
-  // Resolve Python binary path inside virtualenv
-  const venvPython = isWindows
-    ? path.join(venv, "Scripts", "python.exe")
-    : path.join(venv, "bin", "python");
-  const pythonBin = existsSync(venvPython) ? venvPython : "python";
-
-  // Target paths for generated audio
-  const relativePath = `audio/${filename}`;
-  const outPath = path.join(process.cwd(), "public", relativePath);
-  await mkdir(path.dirname(outPath), { recursive: true });
-
-  const scriptPath = path.join(currentDir, "synthesis.py");
-  const voicePath = voice?.path || voice?.name || "";
-
-  // Execute the script passing command-line flags
-  await execFileAsync(pythonBin, [
-    scriptPath,
-    "--text", text,
-    "--output", outPath,
-    "--voice", voicePath
-  ]);
-
-  let durationSec = await getAudioDurationSec(outPath);
-  return { durationSec };
 }

@@ -90,7 +90,7 @@ function probeAudioDurationSeconds(absPath) {
   }
 }
 
-export async function generateTtsTiming(entries, fullTranscript) {
+export async function generateTtsTiming(entries, fullTranscript, options = {}) {
   if (!Array.isArray(entries) || entries.length === 0) {
     throw new Error("generateTtsTiming() requires a non-empty entries array");
   }
@@ -153,10 +153,12 @@ export async function generateTtsTiming(entries, fullTranscript) {
   //    project would otherwise overwrite). Pass the cache-keyed filename so
   //    each transcript lands in its own wav under public/audio/.
   const ttsFilename = `tts_${cacheKey}.wav`;
+  const provider = options?.provider ?? options?.ttsProvider;
   const { durationSec: totalDuration } = await synthesizeVoice({
     text: fullTranscript,
     filename: ttsFilename,
     voice: { name: "george" },
+    provider,
   }).catch((err) => {
     throw new Error(`TTS synthesis failed: ${err?.message || err}`);
   });

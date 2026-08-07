@@ -1,0 +1,1 @@
+[{"op": "create-project", "projectId": "neg", "projectDir": "./studio/manifest/neg-test"}, {"op": "create-asset", "projectDir": "./studio/manifest/neg-test", "sceneId": "scene-default", "asset": {"id": "bad", "assetType": "NumberStat", "anchor": {"position": "center"}, "contentOverride": {"value": 5}, "styleOverride": {"valueFormat": "WRONG"}}}]

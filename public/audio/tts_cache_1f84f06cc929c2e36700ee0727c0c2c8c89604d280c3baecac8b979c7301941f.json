@@ -4,118 +4,118 @@
     {
       "id": "n1",
       "start": 0,
-      "end": 1.954,
+      "end": 2.039,
       "words": [
         {
           "word": "Why",
-          "start": 0.091,
-          "end": 0.211
+          "start": 0.131,
+          "end": 0.252
         },
         {
           "word": "most",
-          "start": 0.271,
-          "end": 0.452
+          "start": 0.312,
+          "end": 0.533
         },
         {
           "word": "AI",
-          "start": 0.552,
-          "end": 0.732
+          "start": 0.593,
+          "end": 0.814
         },
         {
           "word": "videos",
-          "start": 0.752,
-          "end": 1.093
+          "start": 0.834,
+          "end": 1.176
         },
         {
           "word": "look",
-          "start": 1.133,
-          "end": 1.253
+          "start": 1.196,
+          "end": 1.356
         },
         {
           "word": "like",
-          "start": 1.273,
-          "end": 1.393
+          "start": 1.376,
+          "end": 1.497
         },
         {
           "word": "slideshows.",
-          "start": 1.413,
-          "end": 1.954
+          "start": 1.517,
+          "end": 2.039
         }
       ]
     },
     {
       "id": "n2",
-      "start": 1.954,
-      "end": 7,
+      "start": 2.039,
+      "end": 6.88,
       "words": [
         {
           "word": "Because",
-          "start": 2.495,
-          "end": 2.736
+          "start": 2.481,
+          "end": 2.722
         },
         {
           "word": "they",
-          "start": 2.756,
-          "end": 2.876
+          "start": 2.762,
+          "end": 2.863
         },
         {
           "word": "resolve",
-          "start": 2.916,
-          "end": 3.257
+          "start": 2.903,
+          "end": 3.204
         },
         {
           "word": "every",
-          "start": 3.357,
-          "end": 3.517
+          "start": 3.284,
+          "end": 3.445
         },
         {
           "word": "asset",
-          "start": 3.617,
-          "end": 3.878
+          "start": 3.545,
+          "end": 3.806
         },
         {
           "word": "independently,",
-          "start": 3.918,
-          "end": 4.559
+          "start": 3.847,
+          "end": 4.449
         },
         {
           "word": "with",
-          "start": 4.719,
-          "end": 4.859
+          "start": 4.61,
+          "end": 4.75
         },
         {
           "word": "no",
-          "start": 4.919,
-          "end": 5.04
+          "start": 4.831,
+          "end": 4.951
         },
         {
           "word": "shared",
-          "start": 5.08,
-          "end": 5.32
+          "start": 5.011,
+          "end": 5.232
         },
         {
           "word": "registry",
-          "start": 5.34,
-          "end": 5.781
+          "start": 5.252,
+          "end": 5.714
         },
         {
           "word": "and",
-          "start": 5.901,
-          "end": 5.981
+          "start": 5.895,
+          "end": 5.975
         },
         {
           "word": "no",
-          "start": 6.021,
-          "end": 6.142
+          "start": 6.015,
+          "end": 6.136
         },
         {
           "word": "continuity.",
-          "start": 6.202,
-          "end": 6.763
+          "start": 6.176,
+          "end": 6.698
         }
       ]
     }
   ],
-  "totalDuration": 7,
+  "totalDuration": 6.88,
   "audioPath": "audio/tts_1f84f06cc929c2e36700ee0727c0c2c8c89604d280c3baecac8b979c7301941f.wav"
 }

@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // agent-project-interface.js
 //
-// Agent-callable CLI over the json.mp4 framework. Three execution modes
-// (`create`, `batch`, `render`) plus two discovery modes (`list`, `inspect`)
+// Agent-callable CLI over the json.mp4 framework. Two execution modes
+// (`create`, `render`) plus two discovery modes (`list`, `inspect`)
 // that surface the framework's granular, non-hardcoded override surface so
-// an agent doesn't have to `ls`/`cat` its way around the repo.
+// an agent doesn't have to `ls`/`cat` its way around the repo. Operates on a
+// single project at a time.
 //
 // Usage:
 //   node scripts/agent-project-interface.js create   <projectDir> [projectId] [--render] [--output <path>]
-//   node scripts/agent-project-interface.js batch     <batchFile>  [--render] [--output <path>]
 //   node scripts/agent-project-interface.js render   <projectDir> [outputPath]
 //   node scripts/agent-project-interface.js list     [kind]            # assets|transitions|themes|configs|projects|all
 //   node scripts/agent-project-interface.js inspect  <kind> <name>     # asset <assetType> | theme <projectId> | config <projectId>
@@ -117,7 +117,7 @@ function listTransitionTypes() {
 }
 
 // Enumerate existing project dirs under studio/manifest (one level deep,
-// plus the legacy/* second level) that contain a manifest.{json,toon}.
+// plus the legacy/* second level) that contain a manifest.json.
 function listProjects() {
   const root = path.join(repoRoot, 'studio', 'manifest');
   const out = [];
@@ -126,7 +126,7 @@ function listProjects() {
     for (const name of fs.readdirSync(dir)) {
       const child = path.join(dir, name);
       if (!fs.statSync(child).isDirectory()) continue;
-      const hasJson = ['manifest.json', 'manifest.toon'].some((n) => fs.existsSync(path.join(child, n)));
+      const hasJson = fs.existsSync(path.join(child, 'manifest.json'));
       if (hasJson) {
         out.push(path.relative(root, child));
       } else if (depth === 0 && name === 'legacy') {
@@ -277,11 +277,8 @@ function createProject({ projectId, projectDir, config = {}, theme = {}, cloneTh
 function readProjectTheme(projectIdOrPath) {
   const dir = resolveProjectManifestDir(projectIdOrPath);
   if (!dir) return null;
-  for (const rel of ['styles/theme.json', 'styles/theme.toon']) {
-    const p = path.join(dir, rel);
-    if (fs.existsSync(p)) return readJson(p);
-  }
-  return null;
+  const jsonP = path.join(dir, 'styles', 'theme.json');
+  return fs.existsSync(jsonP) ? readJson(jsonP) : null;
 }
 
 function readProjectConfig(projectIdOrPath) {
@@ -309,7 +306,7 @@ function createScene({ projectDir, sceneId, scene = {} }) {
   const scenePath = path.join(resolvedDir, 'scenes', `${sceneId}.json`);
   ensureDir(path.dirname(scenePath));
 
-  // Deep-merge over an existing scene if present (lets a batch update just
+  // Deep-merge over an existing scene if present (lets a caller update just
   // `background` or `transitionOut` without restating all assets).
   const existing = readJson(scenePath) || {};
   const scenePayload = deepMerge(existing, {
@@ -425,45 +422,6 @@ function createSceneFromPrompt({ projectDir, sceneId, prompt }) {
 }
 
 // ---------------------------------------------------------------------------
-// batch
-// ---------------------------------------------------------------------------
-
-function applyBatch(batch) {
-  const results = [];
-  for (const item of batch) {
-    if (item.op === 'create-project') {
-      const result = createProject(item);
-      results.push({ op: item.op, projectDir: result.resolvedDir, manifestPath: result.manifestPath });
-      continue;
-    }
-    if (item.op === 'create-scene') {
-      const scenePath = createScene(item);
-      results.push({ op: item.op, scenePath });
-      continue;
-    }
-    if (item.op === 'create-asset') {
-      const scenePath = createAsset(item);
-      results.push({ op: item.op, scenePath });
-      continue;
-    }
-    if (item.op === 'create-scene-from-prompt') {
-      const scenePath = createSceneFromPrompt(item);
-      results.push({ op: item.op, scenePath });
-      continue;
-    }
-    if (item.op === 'clone-theme' || item.op === 'clone-config') {
-      // no-op stub ops: handled inside create-project via cloneThemeFrom /
-      // cloneConfigFrom. Accept silently so a batch that includes them for
-      // documentation purposes doesn't fail.
-      results.push({ op: item.op, scenePath: null });
-      continue;
-    }
-    throw new Error(`Unsupported operation: ${item.op}`);
-  }
-  return results;
-}
-
-// ---------------------------------------------------------------------------
 // render (delegates to scripts/render-project.mjs)
 // ---------------------------------------------------------------------------
 
@@ -550,8 +508,8 @@ function listThemesBlock() {
   const lines = [];
   for (const proj of listProjects()) {
     const dir = path.join(repoRoot, 'studio', 'manifest', proj);
-    const themeP = ['styles/theme.json', 'styles/theme.toon'].map((r) => path.join(dir, r)).find((p) => fs.existsSync(p));
-    if (!themeP) continue;
+    const themeP = path.join(dir, 'styles', 'theme.json');
+    if (!fs.existsSync(themeP)) continue;
     const m = readJson(themeP);
     const colors = m?.colors ? Object.keys(m.colors).join(', ') : '?';
     const typos = m?.typography ? Object.keys(m.typography).join(', ') : '?';
@@ -594,8 +552,8 @@ function cmdInspect(kind, name) {
   if (kind === 'theme') {
     const dir = resolveProjectManifestDir(name);
     if (!dir) { console.error(`No project "${name}". Run \`list themes\`.`); process.exit(1); }
-    const themeP = ['styles/theme.json', 'styles/theme.toon'].map((r) => path.join(dir, r)).find((p) => fs.existsSync(p));
-    if (!themeP) { console.error(`No theme file in ${dir}.`); process.exit(1); }
+    const themeP = path.join(dir, 'styles', 'theme.json');
+    if (!fs.existsSync(themeP)) { console.error(`No theme.json in ${dir}.`); process.exit(1); }
     console.log(`# ${name} theme\n${fs.readFileSync(themeP, 'utf8')}`);
     return;
   }
@@ -618,7 +576,6 @@ function printHelp() {
 
 USAGE
   node scripts/agent-project-interface.js create   <projectDir> [projectId] [--render] [--output <path>]
-  node scripts/agent-project-interface.js batch     <batchFile>  [--render] [--output <path>]
   node scripts/agent-project-interface.js render   <projectDir> [outputPath]
   node scripts/agent-project-interface.js list     [assets|transitions|themes|configs|projects|all]
   node scripts/agent-project-interface.js inspect  <asset|theme|config> <name>
@@ -627,15 +584,14 @@ DISCOVERY (new — the framework's override surface is granular, not hardcoded)
   list assets        # every assetType + its content/style override keys
   inspect asset N    # full JSON Schema for \`\`N\`\`'s contentOverride + styleOverride
   list themes        # every existing finished look in the repo
-  inspect theme P     # full theme.json/toon for project P
+  inspect theme P     # full theme.json for project P
   list configs       # every existing config (fps/size/duration)
   inspect config P    # full config.json for project P
 
 REUSE (new — view and select previously-made styles/configs)
-  In create-project, pass cloneThemeFrom / cloneConfigFrom pointing at any
-  project name from \`list themes\` / \`list configs\`:
-    { "op": "create-project", "projectDir": "./studio/manifest/new",
-      "projectId": "new",
+  In create, pass cloneThemeFrom / cloneConfigFrom pointing at any project
+  name from \`list themes\` / \`list configs\`:
+    { "projectDir": "./studio/manifest/new", "projectId": "new",
       "cloneThemeFrom": "render-demo-toon",
       "cloneConfigFrom": "fed-2026",
       "theme": { "typography": { "heading1": { "fontSize": 96 } } }   // deep-merged
@@ -655,26 +611,7 @@ EXAMPLES
   node scripts/agent-project-interface.js list assets
   node scripts/agent-project-interface.js inspect asset NumberStat
   node scripts/agent-project-interface.js create ./studio/manifest/demo demo --render --output ./out/demo.mp4
-  node scripts/agent-project-interface.js batch ./requests.json --render
   node scripts/agent-project-interface.js render ./studio/manifest/legacy/finance-project ./out/demo.mp4
-
-BATCH FORMAT (JSON array, executed in order)
-  [
-    { "op": "create-project", "projectId": "demo", "projectDir": "./studio/manifest/demo",
-      "config": { "defaultSceneDurationInFrames": 210 },
-      "theme": { "colors": { "accentWarm": "#FFD166" } },
-      "cloneThemeFrom": "render-demo-toon" },
-    { "op": "create-scene", "projectDir": "./studio/manifest/demo", "sceneId": "scene-open",
-      "scene": { "assets": [] } },
-    { "op": "create-asset", "projectDir": "./studio/manifest/demo", "sceneId": "scene-open",
-      "asset": { "id": "kpi", "assetType": "NumberStat",
-        "anchor": { "position": "center" },
-        "contentOverride": { "value": 1250000, "label": "users", "fromValue": 0 },
-        "styleOverride": { "valueFormat": "compact", "prefix": "$", "decimals": 1 },
-        "enterAt": 0.05, "exitAt": 0.95 } },
-    { "op": "create-scene-from-prompt", "projectDir": "./studio/manifest/demo",
-      "sceneId": "scene-brief", "prompt": "Title: Markets this week. Subtitle: Tape and revenue lines. Ticker. Bar chart: Cloud Search Retail." }
-  ]
 `);
 }
 
@@ -701,28 +638,6 @@ function main() {
     return;
   }
 
-  if (mode === 'batch') {
-    if (!target) throw new Error('A batch file path is required');
-    const batchFile = path.resolve(process.cwd(), target);
-    if (!fs.existsSync(batchFile)) throw new Error(`Batch file not found: ${batchFile}`);
-    const batch = JSON.parse(fs.readFileSync(batchFile, 'utf8'));
-    const results = applyBatch(batch);
-    console.log(JSON.stringify({ ok: true, results }, null, 2));
-    if (render) {
-      // Render every distinct project created in this batch, not just the first.
-      const projectDirs = results.filter((r) => r.projectDir).map((r) => r.projectDir);
-      const unique = [...new Set(projectDirs)];
-      if (unique.length === 0) {
-        throw new Error('Batch --render requested but no create-project op ran; nothing to render.');
-      }
-      for (const dir of unique) {
-        const renderResult = renderProject(dir, outputPathParsed);
-        console.log(JSON.stringify({ ok: true, render: renderResult, projectDir: dir }, null, 2));
-      }
-    }
-    return;
-  }
-
   if (mode === 'render') {
     if (!target) throw new Error('A project directory is required');
     const outputPath = outputPathParsed ?? projectId ?? null;
@@ -734,9 +649,27 @@ function main() {
   printHelp();
 }
 
-try {
-  main();
-} catch (error) {
-  console.error(error.message);
-  process.exit(1);
+// Library exports — the same single-project primitives the CLI modes use.
+// Lets an agent or build script `import { createProject, createScene,
+// createAsset, createSceneFromPrompt } from './agent-project-interface.js'`
+// to author one project's scenes/assets programmatically.
+export {
+  createProject,
+  createScene,
+  createAsset,
+  createSceneFromPrompt,
+  renderProject,
+};
+
+// Only run the CLI when this file is the entry point (node scripts/agent-project-interface.js …),
+// not when it's being imported as a library. Comparing the resolved argv[1] against
+// this module's file URL is the reliable ESM "is main" check.
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
+  try {
+    main();
+  } catch (error) {
+    console.error(error.message);
+    process.exit(1);
+  }
 }

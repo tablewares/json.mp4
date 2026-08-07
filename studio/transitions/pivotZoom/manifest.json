@@ -1,0 +1,29 @@
+{
+  "transitionType": "pivotZoom",
+  "component": "PivotZoom.jsx",
+  "description": "Push-through cut built on TransitionBoilerplate: outgoing scene recedes/rotates away, incoming scene continues the same spin/depth, both pivoting around a carried asset's position (or frame center as fallback). Reads as the camera pushing through a shared element rather than a plain cut.",
+  "defaultDurationInFrames": 20,
+  "consumes": {
+    "outgoingSceneStyles": false,
+    "incomingSceneStyles": false,
+    "carriedAssets": true
+  },
+  "params": {
+    "carryAssetId": {
+      "type": "string",
+      "description": "asset id present in both outgoing and incoming scene to pivot the push/spin around; omit to pivot around frame center"
+    },
+    "intensity": {
+      "type": "number",
+      "default": 1,
+      "description": "scales distance/recede-amount/spin/blur together, 0 = nearly a plain fade, ~2 = aggressive"
+    },
+    "spinDeg": { "type": "number", "default": 8, "description": "degrees of continuous rotation across the cut" },
+    "direction": {
+      "type": "string",
+      "enum": ["left", "right", "up", "down", "top-left", "top-right", "bottom-left", "bottom-right"],
+      "default": "down",
+      "description": "drift direction accompanying the push"
+    }
+  }
+}
