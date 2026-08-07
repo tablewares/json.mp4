@@ -1,0 +1,27 @@
+{
+  "assetType": "Divider",
+  "component": "Divider.jsx",
+  "description": "A horizontal or vertical line that draws in from zero length. Primitive separator for sectioning layouts or underlining text.",
+  "defaultSize": { "width": 400, "height": 2 },
+  "defaultStyle": {
+    "easing": "snappySpring",
+    "orientation": "horizontal",
+    "colorToken": "surface.outline",
+    "thickness": 2
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "properties": {}
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "easing": { "type": "string" },
+      "orientation": { "type": "string", "enum": ["horizontal", "vertical"] },
+      "colorToken": { "type": "string" },
+      "thickness": { "type": "number" },
+      "width": { "type": "number" },
+      "height": { "type": "number" }
+    }
+  }
+}

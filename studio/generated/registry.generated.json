@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T00:14:49.434Z",
+  "generatedAt": "2026-08-07T18:49:41.771Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics"
@@ -16,6 +16,11 @@
     "CodeBlock": {
       "folderName": "CodeBlock",
       "entryFile": "CodeBlock.jsx",
+      "rootIndex": 0
+    },
+    "Divider": {
+      "folderName": "Divider",
+      "entryFile": "Divider.jsx",
       "rootIndex": 0
     },
     "ImageReveal": {
@@ -38,9 +43,24 @@
       "entryFile": "NumberStat.jsx",
       "rootIndex": 0
     },
+    "ProgressBar": {
+      "folderName": "ProgressBar",
+      "entryFile": "ProgressBar.jsx",
+      "rootIndex": 0
+    },
+    "SolidShape": {
+      "folderName": "SolidShape",
+      "entryFile": "SolidShape.jsx",
+      "rootIndex": 0
+    },
     "TextBlock": {
       "folderName": "TextBlock",
       "entryFile": "TextBlock.jsx",
+      "rootIndex": 0
+    },
+    "TextReveal": {
+      "folderName": "TextReveal",
+      "entryFile": "TextReveal.jsx",
       "rootIndex": 0
     },
     "BarChartRace": {

@@ -1,0 +1,11 @@
+{
+  "projectId": "skill-demo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-001",
+      "path": "scenes/scene-001.json"
+    }
+  ]
+}

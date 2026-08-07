@@ -22,16 +22,22 @@ import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
  * specifically needs a monospace face independent of the project's body font.
  */
 const CHROME_DOTS = ["#FF5F57", "#FEBC2E", "#28C840"];
+const LOCKED_MONO_FONT = "'JetBrains Mono', 'Fira Code', 'Courier New', Courier, monospace";
 
 export function CodeBlock({ resolvedPosition, resolvedStyle, content, timing }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const { durationInFrames, enterAtFrame = 0, exitAtFrame = durationInFrames } = timing;
 
-  const lines = (content.code ?? "").split("\n");
+  // Fix 1: Normalize literal string "\n" into real line break characters before splitting
+  const rawCode = (content.code ?? "").replace(/\\n/g, "\n");
+  const lines = rawCode.split("\n");
+
   const highlightSet = new Set(Array.isArray(content.highlightLines) ? content.highlightLines : []);
   const requestedStagger = resolvedStyle.staggerFrames ?? 3;
   const easingConfig = resolvedStyle.easing ?? { damping: 18, mass: 0.6, stiffness: 140 };
+
+  // Strict font fallback lock
   const fontSize = resolvedStyle.fontSizePx ?? 28;
   const lineHeight = resolvedStyle.lineHeightPx ?? 1.55;
   const showLineNumbers = resolvedStyle.showLineNumbers ?? true;
@@ -47,7 +53,7 @@ export function CodeBlock({ resolvedPosition, resolvedStyle, content, timing }) 
     framesUntilExit,
     [0, Math.min(15, (exitAtFrame - enterAtFrame) * 0.15)],
     [0, 1],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
   const panelEnter = spring({
     frame: frame - enterAtFrame,
@@ -66,9 +72,10 @@ export function CodeBlock({ resolvedPosition, resolvedStyle, content, timing }) 
         display: "flex",
         flexDirection: "column",
         background: resolvedStyle.backgroundFill ?? "#0D1117",
-        border: resolvedStyle.borderLine && resolvedStyle.borderLine !== "transparent"
-          ? `1px solid ${resolvedStyle.borderLine}`
-          : "none",
+        border:
+          resolvedStyle.borderLine && resolvedStyle.borderLine !== "transparent"
+            ? `1px solid ${resolvedStyle.borderLine}`
+            : "none",
         borderRadius: resolvedStyle.borderRadius ?? 20,
         overflow: "hidden",
         boxSizing: "border-box",
@@ -93,9 +100,9 @@ export function CodeBlock({ resolvedPosition, resolvedStyle, content, timing }) 
           {content.language && (
             <span
               style={{
-                fontFamily: resolvedStyle.badgeTypography?.fontFamily,
-                fontSize: (resolvedStyle.badgeTypography?.fontSize ?? 28) * 0.75,
-                fontWeight: resolvedStyle.badgeTypography?.fontWeight ?? 600,
+                fontFamily: LOCKED_MONO_FONT,
+                fontSize: fontSize * 0.65,
+                fontWeight: 600,
                 color: resolvedStyle.accentFill ?? "#3D7BFD",
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
@@ -111,10 +118,10 @@ export function CodeBlock({ resolvedPosition, resolvedStyle, content, timing }) 
         style={{
           flex: 1,
           padding: "24px 28px",
-          overflow: "hidden",
-          fontFamily: resolvedStyle.monoFontFamily ?? "'JetBrains Mono', monospace",
-          fontSize,
-          lineHeight,
+          overflowY: "auto",
+          fontFamily: `${LOCKED_MONO_FONT} !important`,
+          fontSize: `${fontSize}px !important`,
+          lineHeight: `${lineHeight} !important`,
         }}
       >
         {lines.map((line, i) => {
@@ -132,7 +139,9 @@ export function CodeBlock({ resolvedPosition, resolvedStyle, content, timing }) 
                 opacity: lineOpacity,
                 transform: `translateY(${translateY}px)`,
                 background: isHighlighted ? `${resolvedStyle.accentFill ?? "#3D7BFD"}22` : "transparent",
-                borderLeft: isHighlighted ? `3px solid ${resolvedStyle.accentFill ?? "#3D7BFD"}` : "3px solid transparent",
+                borderLeft: isHighlighted
+                  ? `3px solid ${resolvedStyle.accentFill ?? "#3D7BFD"}`
+                  : "3px solid transparent",
               }}
             >
               {showLineNumbers && (
@@ -144,6 +153,7 @@ export function CodeBlock({ resolvedPosition, resolvedStyle, content, timing }) 
                     textAlign: "right",
                     marginRight: 20,
                     color: resolvedStyle.lineNumberFill ?? "#4B5568",
+                    fontFamily: `${LOCKED_MONO_FONT} !important`,
                     userSelect: "none",
                   }}
                 >
@@ -153,7 +163,10 @@ export function CodeBlock({ resolvedPosition, resolvedStyle, content, timing }) 
               <span
                 style={{
                   color: resolvedStyle.textFill ?? "#E6EDF3",
-                  whiteSpace: "pre",
+                  fontFamily: `${LOCKED_MONO_FONT} !important`,
+                  fontSize: `${fontSize}px !important`,
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
                 }}
               >
                 {line.length ? line : "\u00A0"}

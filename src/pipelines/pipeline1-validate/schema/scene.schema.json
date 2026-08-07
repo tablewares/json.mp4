@@ -101,9 +101,26 @@
       "properties": {
         "start": { "$ref": "#/definitions/cameraAnchor" },
         "end": { "$ref": "#/definitions/cameraAnchor" },
+        "durationInFrames": { "type": "number", "minimum": 1, "description": "Optional camera motion duration; if omitted it follows the scene duration" },
+        "speed": { "type": "number", "minimum": 0.01, "description": "Optional multiplier; >1 makes the camera move faster, <1 slower" },
+        "actions": {
+          "type": "array",
+          "description": "Optional camera sequence. Each action's `at` is between 0 and 1, representing normalized scene progress.",
+          "items": { "$ref": "#/definitions/cameraAction" }
+        },
         "zoomStartPercent": { "type": "number", "minimum": 1, "description": "Percentage zoom at the start of the scene; 100 means no zoom" },
         "zoomEndPercent": { "type": "number", "minimum": 1, "description": "Percentage zoom at the end of the scene" },
         "zoomPercent": { "type": "number", "minimum": 1, "description": "Shortcut when both start and end zoom should match" }
+      }
+    },
+    "cameraAction": {
+      "type": "object",
+      "required": ["at"],
+      "additionalProperties": false,
+      "properties": {
+        "at": { "type": "number", "minimum": 0, "maximum": 1, "description": "Normalized scene progress, from 0.0 to 1.0" },
+        "anchor": { "$ref": "#/definitions/cameraAnchor" },
+        "zoomPercent": { "type": "number", "minimum": 1, "description": "Zoom at this point in the camera path" }
       }
     },
     "cameraAnchor": {

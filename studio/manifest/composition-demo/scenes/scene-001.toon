@@ -10,6 +10,7 @@ camera:
     position: top-left
     offsetXPercent: 6
     offsetYPercent: 8
+  speed: 2
   zoomStartPercent: 100
   zoomEndPercent: 108
 transitionOut:

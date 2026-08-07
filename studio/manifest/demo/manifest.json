@@ -1,0 +1,36 @@
+{
+  "projectId": "demo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-001",
+      "path": "scenes/scene-001.json"
+    },
+    {
+      "id": "scene-002",
+      "path": "scenes/scene-002.json"
+    },
+    {
+      "id": "scene-003",
+      "path": "scenes/scene-003.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Markets moved fast this week, led by tech and energy."
+      },
+      {
+        "id": "n2",
+        "text": "The benchmark index hit a fresh high, up nearly twelve percent year to date."
+      },
+      {
+        "id": "n3",
+        "text": "Volatility eased, and breadth improved across the board."
+      }
+    ],
+    "fullTranscript": "Markets moved fast this week, led by tech and energy. The benchmark index hit a fresh high, up nearly twelve percent year to date. Volatility eased, and breadth improved across the board."
+  }
+}

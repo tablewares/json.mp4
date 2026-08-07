@@ -1,0 +1,37 @@
+{
+  "id": "s5",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "hero-5",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "THE FUTURE OF MONEY"
+      },
+      "styleOverride": {},
+      "enterAt": 0.1,
+      "exitAt": 1
+    },
+    {
+      "id": "caption-5",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "text": "Bitcoin Explained"
+      },
+      "styleOverride": {
+        "align": "center",
+        "typography": "caption1"
+      },
+      "enterAt": 0.2,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n5"
+}

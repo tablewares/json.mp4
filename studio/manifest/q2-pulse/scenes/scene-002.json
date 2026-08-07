@@ -1,0 +1,56 @@
+{
+  "id": "scene-002",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "scene2-head",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 12
+      },
+      "contentOverride": {
+        "text": "S&P 500 — Record Close"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "center"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "record",
+      "assetType": "NumberStat",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "value": 5647.02,
+        "label": "S&P 500 Close (USD)"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "labelTypography": "body1",
+        "prefix": "$",
+        "decimals": 2,
+        "valueFormat": "number",
+        "align": "center",
+        "labelPosition": "bottom"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "pivotZoom",
+    "durationInFrames": 20,
+    "params": {
+      "carryAssetId": "record",
+      "intensity": 1,
+      "spinDeg": 8,
+      "direction": "down"
+    }
+  }
+}

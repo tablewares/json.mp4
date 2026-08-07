@@ -1,0 +1,72 @@
+{
+  "id": "s1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "kicker-1",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "DIGITAL GOLD"
+      },
+      "styleOverride": {
+        "typography": "kicker1"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "hero-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "BITCOIN"
+      },
+      "styleOverride": {},
+      "enterAt": 0.1,
+      "exitAt": 1
+    },
+    {
+      "id": "caption-1",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "text": "Decentralized Digital Currency"
+      },
+      "styleOverride": {
+        "align": "center",
+        "typography": "body1"
+      },
+      "enterAt": 0.2,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "camera": {
+    "start": {
+      "position": "center",
+      "offsetXPercent": 0,
+      "offsetYPercent": 0
+    },
+    "end": {
+      "position": "center",
+      "offsetXPercent": 0,
+      "offsetYPercent": 0
+    },
+    "zoomStartPercent": 100,
+    "zoomEndPercent": 105
+  },
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

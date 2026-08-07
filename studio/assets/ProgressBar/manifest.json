@@ -1,0 +1,32 @@
+{
+  "assetType": "ProgressBar",
+  "component": "ProgressBar.jsx",
+  "description": "A track-and-fill bar that animates from 0 to a target value. Primitive building block for stats, loading states, and comparison visuals.",
+  "defaultSize": { "width": 480, "height": 16 },
+  "defaultStyle": {
+    "easing": "gentleSpring",
+    "trackColorToken": "surface.muted",
+    "fillColorToken": "brand.primary",
+    "borderRadius": 8
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": ["value"],
+    "properties": {
+      "value": { "type": "number", "minimum": 0, "maximum": 100 },
+      "label": { "type": "string" }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "easing": { "type": "string" },
+      "trackColorToken": { "type": "string" },
+      "fillColorToken": { "type": "string" },
+      "borderRadius": { "type": "number" },
+      "width": { "type": "number" },
+      "height": { "type": "number" },
+      "typography": { "type": "object" }
+    }
+  }
+}

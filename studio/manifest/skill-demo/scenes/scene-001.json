@@ -1,0 +1,40 @@
+{
+  "id": "scene-001",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "title",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "text": "Built via scripts/agent-cli.mjs"
+      },
+      "styleOverride": {},
+      "enterAt": 0.05,
+      "exitAt": 0.95
+    },
+    {
+      "id": "subtitle",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "Manifest written, validated, rendered — no hand edits."
+      },
+      "styleOverride": {
+        "typography": "body1"
+      },
+      "enterAt": 0.25,
+      "exitAt": 0.95
+    }
+  ],
+  "narrationRef": "",
+  "transitionOut": {
+    "type": "default"
+  }
+}

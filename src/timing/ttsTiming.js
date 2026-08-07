@@ -56,7 +56,13 @@ export async function resolveNarrationTiming(entries, fullTranscript, fps, optio
       endSeconds: end,
       startFrame: Math.round(start * fps),
       endFrame: Math.round(end * fps),
-      durationInFrames: Math.round((end - start) * fps),
+      // Derive durationInFrames from the rounded start/end frames so
+      // startFrame + durationInFrames === endFrame always holds (the
+      // invariant pipeline2 and the renderer rely on). Computing it as
+      // round((end-start)*fps) separately can disagree by ±1 frame due
+      // to independent rounding, which drifts middle scenes vs. the
+      // actual TTS audio timeline.
+      durationInFrames: Math.round(end * fps) - Math.round(start * fps),
       words: wordFrames,
     };
   }

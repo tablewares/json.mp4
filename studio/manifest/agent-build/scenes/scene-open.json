@@ -54,7 +54,7 @@
       "anchor": {
         "position": "bottom",
         "offsetXPercent": 0,
-        "offsetYPercent": 5
+        "offsetYPercent": -3
       },
       "contentOverride": {
         "tickers": [

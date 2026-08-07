@@ -1,0 +1,20 @@
+{
+  "projectId": "agent-batch-demo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-001",
+      "path": "scenes/scene-001.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Hello from batch demo."
+      }
+    ],
+    "fullTranscript": "Hello from batch demo."
+  }
+}

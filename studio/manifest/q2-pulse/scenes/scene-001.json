@@ -1,0 +1,78 @@
+{
+  "id": "scene-001",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "headline",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -12
+      },
+      "contentOverride": {
+        "text": "Markets moved fast this week."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "center"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ticker",
+      "assetType": "TickerTape",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -2
+      },
+      "contentOverride": {
+        "tickers": [
+          {
+            "symbol": "SPX",
+            "price": 5647.02,
+            "change": 0.86
+          },
+          {
+            "symbol": "NDX",
+            "price": 20432.1,
+            "change": 1.42
+          },
+          {
+            "symbol": "DJI",
+            "price": 41238.5,
+            "change": 0.31
+          },
+          {
+            "symbol": "VIX",
+            "price": 13.2,
+            "change": -4.12
+          },
+          {
+            "symbol": "BTC",
+            "price": 61250,
+            "change": 2.1
+          },
+          {
+            "symbol": "10Y",
+            "price": 4.18,
+            "change": -0.05
+          }
+        ]
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "shatterWipe",
+    "durationInFrames": 22,
+    "params": {
+      "cols": 6,
+      "rows": 4,
+      "throwDistance": 220
+    }
+  }
+}

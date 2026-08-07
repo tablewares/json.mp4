@@ -2,24 +2,24 @@
   "assetType": "CodeBlock",
   "component": "CodeBlock.jsx",
   "description": "A monospace code panel with an optional mac-style window chrome and language badge. content.code is split on newlines and revealed line by line on a staggered spring, like a terminal typing itself out. Optional content.highlightLines (1-indexed) tints specific rows for callouts.",
-  "defaultSize": { "width": 1100, "height": 620 },
+"defaultSize": { "width": 1100, "height": 620 },
   "defaultStyle": {
-    "monoFontFamily": "'JetBrains Mono', 'Fira Code', 'Courier New', monospace",
+    "monoFontFamily": "'Consolas', 'Cascadia Code', 'Fira Code', 'Courier New', monospace",
     "badgeTypography": "caption1",
     "easing": "gentleSpring",
-    "fontSizePx": 28,
-    "lineHeightPx": 1.55,
+    "fontSizePx": 38,
+    "lineHeightPx": 1.45,
     "staggerFrames": 3,
     "showLineNumbers": true,
     "showWindowChrome": true,
-    "backgroundFill": "#0D1117",
-    "borderLine": "#2A3142",
-    "borderRadius": 20,
-    "textFill": "#E6EDF3",
-    "lineNumberFill": "#4B5568",
-    "accentFill": "#3D7BFD"
+    "backgroundFill": "#1E1E1E",
+    "borderLine": "#333333",
+    "borderRadius": 12,
+    "textFill": "#D4D4D4",
+    "lineNumberFill": "#858585",
+    "accentFill": "#007ACC"
   },
-  "contentOverrideSchema": {
+    "contentOverrideSchema": {
     "type": "object",
     "required": ["code"],
     "properties": {

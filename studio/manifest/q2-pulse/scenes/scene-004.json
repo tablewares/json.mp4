@@ -1,0 +1,47 @@
+{
+  "id": "scene-004",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "scene4-head",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 12
+      },
+      "contentOverride": {
+        "text": "What To Watch Next"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "center"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "watchlist",
+      "assetType": "ListReveal",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "items": [
+          "CPI print on Wednesday",
+          "FOMC minutes Thursday",
+          "Mega-cap earnings Friday",
+          "Brent crude above $85"
+        ]
+      },
+      "styleOverride": {
+        "markerStyle": "number",
+        "markerFill": "#3D7BFD",
+        "itemGap": 28
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n4"
+}

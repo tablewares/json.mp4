@@ -4,7 +4,7 @@ The camera system lets a scene define a pan/zoom motion as a percentage-based tr
 
 ## Contract
 
-A scene can include an optional `camera` block:
+A scene can include an optional `camera` block. The simplest form is still a start/end pair, but the system also supports a sequence of actions keyed by normalized scene progress values from `0` to `1`.
 
 ```json
 {
@@ -17,12 +17,28 @@ A scene can include an optional `camera` block:
 }
 ```
 
+```json
+{
+  "camera": {
+    "actions": [
+      { "at": 0.0, "anchor": { "position": "center", "offsetXPercent": 0, "offsetYPercent": 0 }, "zoomPercent": 100 },
+      { "at": 0.2, "anchor": { "position": "top-left", "offsetXPercent": 4, "offsetYPercent": 4 }, "zoomPercent": 102 },
+      { "at": 0.7, "anchor": { "position": "top-left", "offsetXPercent": 8, "offsetYPercent": 8 }, "zoomPercent": 106 },
+      { "at": 1.0, "anchor": { "position": "left", "offsetXPercent": 12, "offsetYPercent": 10 }, "zoomPercent": 110 }
+    ]
+  }
+}
+```
+
 ### Fields
 
-- `start`: the camera anchor at the beginning of the scene
-- `end`: the camera anchor at the end of the scene
-- `zoomStartPercent`: zoom level at the start of the scene (100 = no zoom)
-- `zoomEndPercent`: zoom level at the end of the scene
+- `start`: legacy camera anchor at the beginning of the scene
+- `end`: legacy camera anchor at the end of the scene
+- `actions`: multi-step camera path. Each action uses `at` in the range `0.0` to `1.0`, representing normalized scene progress.
+- `durationInFrames`: optional override for how long the camera motion lasts; when omitted it follows the scene timing
+- `speed`: optional multiplier for camera motion; values above `1` make it travel faster, values below `1` make it slower
+- `zoomStartPercent`: legacy zoom at the start of the scene (100 = no zoom)
+- `zoomEndPercent`: legacy zoom at the end of the scene
 - `zoomPercent`: shortcut when both start and end zoom should be the same
 
 ## Anchor model
