@@ -1,0 +1,93 @@
+{
+  "id": "s2",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "electronFlow",
+      "assetType": "PathFlow",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": -4
+      },
+      "contentOverride": {
+        "paths": [
+          "M 120 380 L 300 380 C 360 380 360 140 420 140 L 780 140",
+          "M 780 200 L 420 200 C 360 200 360 440 300 440 L 120 440"
+        ],
+        "labels": [
+          "source → drain",
+          "gate loop"
+        ]
+      },
+      "styleOverride": {
+        "strokeColorToken": "accentBg",
+        "strokeWidth": 5,
+        "drawDurationFraction": 0.5,
+        "particleColorToken": "accentWarm",
+        "particleCount": 7,
+        "particleRadius": 7,
+        "particleLagFrames": 5,
+        "loopParticles": true,
+        "width": 1100,
+        "height": 600
+      },
+      "enterAt": 0.05,
+      "exitAt": 1
+    },
+    {
+      "id": "finfetLabel",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetXPercent": 0,
+        "offsetYPercent": -40
+      },
+      "contentOverride": {
+        "text": "FinFET Architecture"
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "align": "center",
+        "width": 900,
+        "height": 120
+      },
+      "enterAt": 0.55,
+      "exitAt": 1
+    },
+    {
+      "id": "finfetHighlight",
+      "assetType": "TextHighlight",
+      "anchor": {
+        "position": "top",
+        "offsetXPercent": 0,
+        "offsetYPercent": -40
+      },
+      "contentOverride": {
+        "text": "FinFET Architecture"
+      },
+      "styleOverride": {
+        "markerColorToken": "accentWarm",
+        "typography": "heading2",
+        "markerHeight": 28,
+        "markerOpacity": 0.7,
+        "markerBlur": 6,
+        "direction": "right",
+        "width": 900,
+        "height": 120
+      },
+      "enterAt": 0.6,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "ShapeWipe",
+    "durationInFrames": 28,
+    "params": {
+      "shapeColorToken": "accentWarm",
+      "peakScale": 1.8,
+      "targetScale": 0.02
+    }
+  }
+}

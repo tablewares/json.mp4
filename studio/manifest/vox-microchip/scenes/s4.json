@@ -1,0 +1,102 @@
+{
+  "id": "s4",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "eightNm",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": -14
+      },
+      "contentOverride": {
+        "text": "8 NANOMETERS"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 1700,
+        "align": "center",
+        "wordPopScale": 1.25,
+        "useNarrationTiming": false,
+        "staggerFrames": 4
+      },
+      "enterAt": 0.08,
+      "exitAt": 1
+    },
+    {
+      "id": "scalePair",
+      "assetType": "ScaleComparison",
+      "anchor": {
+        "position": "bottom",
+        "offsetXPercent": 0,
+        "offsetYPercent": 12
+      },
+      "contentOverride": {
+        "reference": {
+          "label": "Human hair (~80,000 nm)",
+          "widthPercent": 95
+        },
+        "items": [
+          {
+            "label": "0 nm",
+            "value": 0
+          },
+          {
+            "label": "20 nm",
+            "value": 20
+          },
+          {
+            "label": "40 nm",
+            "value": 40
+          },
+          {
+            "label": "60 nm",
+            "value": 60
+          },
+          {
+            "label": "80 nm",
+            "value": 80
+          }
+        ]
+      },
+      "styleOverride": {
+        "barColorToken": "main1",
+        "barLabelColorToken": "main1",
+        "tickColorToken": "main2",
+        "tickCount": 4,
+        "unitLabel": "nm",
+        "referenceCorner": "right",
+        "width": 1400,
+        "height": 360
+      },
+      "enterAt": 0.45,
+      "exitAt": 1
+    },
+    {
+      "id": "closer",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom",
+        "offsetXPercent": 0,
+        "offsetYPercent": -42
+      },
+      "contentOverride": {
+        "text": "Thousands of times thinner than a human hair."
+      },
+      "styleOverride": {
+        "typography": "caption1",
+        "align": "center",
+        "width": 1100,
+        "height": 80
+      },
+      "enterAt": 0.7,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

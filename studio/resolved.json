@@ -1,159 +1,57 @@
 {
-  "projectId": "claude-design",
+  "projectId": "example-project",
   "config": {
     "fps": 30,
     "width": 1920,
     "height": 1080,
-    "defaultSceneDurationInFrames": 150
+    "defaultSceneDurationInFrames": 90,
+    "ttsProvider": "http"
   },
   "audioOverlay": [
     {
       "id": "voiceover",
       "start": 0,
-      "end": 17.8,
-      "path": "audio/tts_8acc6b3af0fa751ca24259816f92706927b94dbcfefdde62ade670f06d572455.wav",
+      "end": 7.04,
+      "path": "audio/tts_1f84f06cc929c2e36700ee0727c0c2c8c89604d280c3baecac8b979c7301941f.wav",
       "volume": 1
     }
   ],
   "scenes": [
     {
-      "id": "s1",
-      "durationInFrames": 178,
+      "id": "scene-001",
+      "durationInFrames": 88,
       "effects": [],
       "camera": null,
       "ttsWindow": {
         "narrationRef": "n1",
         "startSeconds": 0,
-        "endSeconds": 5.339,
+        "endSeconds": 2.122,
         "startFrame": 0,
-        "endFrame": 160
+        "endFrame": 64
       },
-      "background": "#faf9f5",
+      "background": "#0B0E14",
       "assets": [
         {
-          "id": "heroCard",
-          "assetType": "SolidShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 76.8,
-            "top": 130,
-            "transformOrigin": "0% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "rect",
-            "backgroundColorToken": "#3D7BFD",
-            "borderRadius": 24,
-            "revealMode": "scale",
-            "width": 900,
-            "height": 820,
-            "gradient": {
-              "from": "#efe9de",
-              "to": "#f5f0e8",
-              "angle": 160
-            },
-            "opacity": 1
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "heroHairline",
-          "assetType": "SolidShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 76.8,
-            "top": 130,
-            "transformOrigin": "0% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "rect",
-            "backgroundColorToken": "#e6dfd8",
-            "borderRadius": 24,
-            "revealMode": "scale",
-            "width": 900,
-            "height": 820,
-            "opacity": 0.999,
-            "backgroundColor": "#e6dfd8"
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "kicker",
-          "assetType": "SolidShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 190.39999999999998,
-            "transformOrigin": "0% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "pill",
-            "backgroundColorToken": "#cc785c",
-            "borderRadius": 16,
-            "revealMode": "wipe",
-            "width": 64,
-            "height": 8,
-            "backgroundColor": "#cc785c"
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "headline",
+          "id": "titleText",
           "assetType": "TextBlock",
           "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
           "content": {
-            "text": "Meet your thinking partner."
+            "text": "Why most AI videos look like slideshows"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 172.79999999999998,
-            "top": 267.2,
-            "transformOrigin": "0% 50%"
+            "left": 115.19999999999999,
+            "top": 108,
+            "transformOrigin": "0% 0%"
           },
           "resolvedStyle": {
             "typography": {
-              "fontFamily": "Copernicus, Tiempos Headline, Garamond, serif",
-              "fontSize": 92,
-              "fontWeight": 400,
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 72,
+              "fontWeight": 700,
               "lineHeight": 1.1,
-              "letterSpacing": -1.5,
-              "colorToken": "ink",
-              "color": "#141413"
+              "colorToken": "main1",
+              "color": "#F5F7FA"
             },
             "backgroundColorToken": "#00000000",
             "easing": {
@@ -162,1021 +60,241 @@
               "stiffness": 110
             },
             "align": "left",
-            "width": 760,
+            "width": 900,
             "height": 200
           },
           "timing": {
-            "durationInFrames": 178,
+            "durationInFrames": 88,
             "enterAtFrame": 0,
-            "exitAtFrame": 160,
+            "exitAtFrame": 58,
             "words": null
           }
         },
         {
-          "id": "lede",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "id": "heroImage",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
           "content": {
-            "text": "Warm cream canvas, slab-serif display, and a coral that earns its keep."
+            "src": "",
+            "alt": "hero"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 172.79999999999998,
-            "top": 526.4,
-            "transformOrigin": "0% 50%"
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%"
           },
           "resolvedStyle": {
-            "typography": {
-              "fontFamily": "StyreneB, Inter, sans-serif",
-              "fontSize": 28,
-              "fontWeight": 400,
-              "lineHeight": 1.55,
-              "colorToken": "body",
-              "color": "#3d3d3a"
-            },
-            "backgroundColorToken": "#00000000",
+            "borderRadius": 32,
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
-            "align": "left",
-            "width": 680,
-            "height": 200
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
           },
           "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "coralanchor",
-          "assetType": "SolidShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 172.79999999999998,
-            "top": 806.4000000000001,
-            "transformOrigin": "0% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "pill",
-            "backgroundColorToken": "#cc785c",
-            "borderRadius": 12,
-            "revealMode": "scale",
-            "width": 320,
-            "height": 72,
-            "backgroundColor": "#cc785c"
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "ctaLabel",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "Try Claude"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 211.2,
-            "top": 782.4000000000001,
-            "transformOrigin": "0% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "StyreneB, Inter, sans-serif",
-              "fontSize": 28,
-              "fontWeight": 500,
-              "lineHeight": 1,
-              "color": "#ffffff"
-            },
-            "width": 300,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "darkCard",
-          "assetType": "SolidShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1023.2,
-            "top": 130,
-            "transformOrigin": "100% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "rect",
-            "backgroundColorToken": "#3D7BFD",
-            "borderRadius": 24,
-            "revealMode": "scale",
-            "width": 820,
-            "height": 820,
-            "gradient": {
-              "from": "#252320",
-              "to": "#181715",
-              "angle": 160
-            }
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "codeLine1",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "const result = await claude.write("
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1181.6,
-            "top": 242.39999999999998,
-            "transformOrigin": "100% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "JetBrains Mono, ui-monospace, monospace",
-              "fontSize": 26,
-              "fontWeight": 400,
-              "lineHeight": 1.6,
-              "color": "#faf9f5"
-            },
-            "width": 700,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "codeLine2",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "  \"warm, editorial, considered\""
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1181.6,
-            "top": 328.79999999999995,
-            "transformOrigin": "100% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "JetBrains Mono, ui-monospace, monospace",
-              "fontSize": 26,
-              "fontWeight": 400,
-              "lineHeight": 1.6,
-              "color": "#e8a55a"
-            },
-            "width": 700,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "codeLine3",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": ")"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1181.6,
-            "top": 415.2,
-            "transformOrigin": "100% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "JetBrains Mono, ui-monospace, monospace",
-              "fontSize": 26,
-              "fontWeight": 400,
-              "lineHeight": 1.6,
-              "color": "#faf9f5"
-            },
-            "width": 700,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "statusDot",
-          "assetType": "SolidShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1362.4,
-            "top": 789.2,
-            "transformOrigin": "100% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "circle",
-            "backgroundColorToken": "#5db8a6",
-            "borderRadius": 16,
-            "revealMode": "scale",
-            "width": 20,
-            "height": 20,
-            "backgroundColor": "#5db8a6"
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "statusLabel",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "ready"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1220.8,
-            "top": 739.2,
-            "transformOrigin": "100% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "StyreneB, Inter, sans-serif",
-              "fontSize": 22,
-              "fontWeight": 500,
-              "lineHeight": 1.4,
-              "color": "#a09d96"
-            },
-            "width": 200,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
+            "durationInFrames": 88,
+            "enterAtFrame": 3,
+            "exitAtFrame": 64,
             "words": null
           }
         }
       ],
       "transitionIn": null,
       "transitionOut": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
+        "type": "slideContinuity",
+        "durationInFrames": 24,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
+        "props": {
+          "carryAssetId": "heroImage",
+          "carryFrom": {
+            "position": "absolute",
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "carryTo": {
+            "position": "absolute",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
+          }
+        }
       }
     },
     {
-      "id": "s2",
-      "durationInFrames": 158,
+      "id": "scene-002",
+      "durationInFrames": 147,
       "effects": [],
       "camera": null,
       "ttsWindow": {
         "narrationRef": "n2",
-        "startSeconds": 5.339,
-        "endSeconds": 9.785,
-        "startFrame": 160,
-        "endFrame": 294
+        "startSeconds": 2.122,
+        "endSeconds": 7.04,
+        "startFrame": 64,
+        "endFrame": 211
       },
-      "background": "#cc785c",
+      "background": "#161B26",
       "assets": [
         {
-          "id": "voltage",
-          "assetType": "GlowBar",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/GlowBar/GlowBar.jsx",
+          "id": "heroImage",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
           "content": {
-            "value": 100,
-            "label": "Coral voltage"
+            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg",
+            "alt": "hero"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 410,
-            "top": 194.4,
-            "transformOrigin": "50% 0%"
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%"
           },
           "resolvedStyle": {
-            "trackFill": "#a9583e",
-            "labelFill": "#faf9f5",
-            "lineHeight": 34,
-            "glowStrength": 20,
-            "gradient": {
-              "from": "#cc785c",
-              "to": "#e8a55a",
-              "angle": 0
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
             },
-            "showLabel": true,
-            "suffix": "%",
-            "width": 1100,
-            "height": 104
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
           },
           "timing": {
-            "durationInFrames": 158,
+            "durationInFrames": 147,
             "enterAtFrame": 0,
-            "exitAtFrame": 134,
+            "exitAtFrame": 147,
             "words": null
           }
         },
         {
-          "id": "calloutHead",
+          "id": "bodyText",
           "assetType": "KineticText",
           "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
           "content": {
-            "text": "Coral is the signature accent. A full bleed coral card is the highest voltage move the brand makes."
+            "text": "Because they resolve every asset independently, with no shared registry and no continuity."
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 210,
-            "top": 345.2,
-            "transformOrigin": "50% 50%"
+            "left": 704.8,
+            "top": 712,
+            "transformOrigin": "100% 100%"
           },
           "resolvedStyle": {
             "typography": {
-              "fontFamily": "Copernicus, Tiempos Headline, Garamond, serif",
-              "fontSize": 44,
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
               "fontWeight": 400,
-              "lineHeight": 1.2,
-              "letterSpacing": -0.4,
-              "colorToken": "ink",
-              "color": "#141413"
+              "lineHeight": 1.4,
+              "colorToken": "main2",
+              "color": "#8B93A7"
             },
             "easing": {
               "damping": 12,
               "mass": 0.4,
               "stiffness": 180
             },
-            "staggerFrames": 4,
+            "staggerFrames": 6,
             "wordPopScale": 1.15,
             "useNarrationTiming": true,
-            "align": "center",
-            "width": 1500,
+            "align": "right",
+            "width": 1100,
             "height": 260
           },
           "timing": {
-            "durationInFrames": 158,
+            "durationInFrames": 147,
             "enterAtFrame": 0,
-            "exitAtFrame": 134,
+            "exitAtFrame": 140,
             "words": [
               {
-                "word": "Coral",
-                "startFrame": 7,
-                "endFrame": 16
+                "word": "Because",
+                "startFrame": 15,
+                "endFrame": 23
               },
               {
-                "word": "is",
-                "startFrame": 17,
-                "endFrame": 19
+                "word": "they",
+                "startFrame": 24,
+                "endFrame": 27
               },
               {
-                "word": "the",
-                "startFrame": 20,
-                "endFrame": 22
+                "word": "resolve",
+                "startFrame": 28,
+                "endFrame": 39
               },
               {
-                "word": "signature",
-                "startFrame": 23,
-                "endFrame": 34
+                "word": "every",
+                "startFrame": 41,
+                "endFrame": 46
               },
               {
-                "word": "accent.",
-                "startFrame": 35,
-                "endFrame": 45
+                "word": "asset",
+                "startFrame": 49,
+                "endFrame": 57
               },
               {
-                "word": "A",
-                "startFrame": 52,
-                "endFrame": 53
+                "word": "independently,",
+                "startFrame": 59,
+                "endFrame": 77
               },
               {
-                "word": "full",
-                "startFrame": 53,
-                "endFrame": 68
+                "word": "with",
+                "startFrame": 82,
+                "endFrame": 86
               },
               {
-                "word": "bleed",
-                "startFrame": 53,
-                "endFrame": 68
-              },
-              {
-                "word": "coral",
-                "startFrame": 68,
-                "endFrame": 75
-              },
-              {
-                "word": "card",
-                "startFrame": 76,
-                "endFrame": 84
-              },
-              {
-                "word": "is",
-                "startFrame": 86,
-                "endFrame": 88
-              },
-              {
-                "word": "the",
-                "startFrame": 89,
+                "word": "no",
+                "startFrame": 88,
                 "endFrame": 91
               },
               {
-                "word": "highest",
+                "word": "shared",
                 "startFrame": 92,
-                "endFrame": 99
+                "endFrame": 98
               },
               {
-                "word": "voltage",
-                "startFrame": 100,
-                "endFrame": 108
+                "word": "registry",
+                "startFrame": 99,
+                "endFrame": 112
               },
               {
-                "word": "move",
-                "startFrame": 109,
-                "endFrame": 114
+                "word": "and",
+                "startFrame": 116,
+                "endFrame": 118
               },
               {
-                "word": "the",
-                "startFrame": 115,
-                "endFrame": 117
+                "word": "no",
+                "startFrame": 119,
+                "endFrame": 123
               },
               {
-                "word": "brand",
-                "startFrame": 118,
-                "endFrame": 124
-              },
-              {
-                "word": "makes.",
-                "startFrame": 125,
-                "endFrame": 133
+                "word": "continuity.",
+                "startFrame": 124,
+                "endFrame": 140
               }
             ]
           }
-        },
-        {
-          "id": "coralanchor",
-          "assetType": "SolidShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 740,
-            "top": 775.8,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "pill",
-            "backgroundColorToken": "#faf9f5",
-            "borderRadius": 14,
-            "revealMode": "scale",
-            "width": 440,
-            "height": 90,
-            "backgroundColor": "#faf9f5"
-          },
-          "timing": {
-            "durationInFrames": 158,
-            "enterAtFrame": 0,
-            "exitAtFrame": 134,
-            "words": null
-          }
-        },
-        {
-          "id": "anchorLabel",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "See the system"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 710,
-            "top": 771.6,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "center",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "StyreneB, Inter, sans-serif",
-              "fontSize": 30,
-              "fontWeight": 500,
-              "lineHeight": 1,
-              "color": "#cc785c"
-            },
-            "width": 500,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 158,
-            "enterAtFrame": 0,
-            "exitAtFrame": 134,
-            "words": null
-          }
-        }
-      ],
-      "transitionIn": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
-      },
-      "transitionOut": {
-        "type": "slideContinuity",
-        "durationInFrames": 24,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
-        "props": {
-          "carryAssetId": "coralanchor",
-          "carryFrom": {
-            "position": "absolute",
-            "left": 740,
-            "top": 775.8,
-            "transformOrigin": "50% 50%",
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "pill",
-            "backgroundColorToken": "#faf9f5",
-            "borderRadius": 14,
-            "revealMode": "scale",
-            "width": 440,
-            "height": 90,
-            "backgroundColor": "#faf9f5"
-          },
-          "carryTo": {
-            "position": "absolute",
-            "left": 1282.4,
-            "top": 864.4000000000001,
-            "transformOrigin": "50% 50%",
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "pill",
-            "backgroundColorToken": "#cc785c",
-            "borderRadius": 12,
-            "revealMode": "scale",
-            "width": 200,
-            "height": 64,
-            "opacity": 0.2,
-            "backgroundColor": "#cc785c"
-          }
-        }
-      }
-    },
-    {
-      "id": "s3",
-      "durationInFrames": 239,
-      "effects": [],
-      "camera": null,
-      "ttsWindow": {
-        "narrationRef": "n3",
-        "startSeconds": 9.785,
-        "endSeconds": 17.777,
-        "startFrame": 294,
-        "endFrame": 533
-      },
-      "background": "#181715",
-      "assets": [
-        {
-          "id": "sectionLabel",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "TYPOGRAPHY"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 510,
-            "top": 108,
-            "transformOrigin": "50% 0%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "center",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "StyreneB, Inter, sans-serif",
-              "fontSize": 20,
-              "fontWeight": 500,
-              "lineHeight": 1.4,
-              "letterSpacing": 1.8,
-              "colorToken": "coral",
-              "color": "#cc785c"
-            },
-            "width": 900,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 239,
-            "enterAtFrame": 0,
-            "exitAtFrame": 239,
-            "words": null
-          }
-        },
-        {
-          "id": "headline",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "A considered publication, not a software template."
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 210,
-            "top": 310.4,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Copernicus, Tiempos Headline, Garamond, serif",
-              "fontSize": 64,
-              "fontWeight": 400,
-              "lineHeight": 1.15,
-              "letterSpacing": -0.6,
-              "colorToken": "ink",
-              "color": "#141413"
-            },
-            "backgroundColorToken": "#00000000",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "align": "center",
-            "width": 1500,
-            "height": 200
-          },
-          "timing": {
-            "durationInFrames": 239,
-            "enterAtFrame": 0,
-            "exitAtFrame": 239,
-            "words": null
-          }
-        },
-        {
-          "id": "subhead",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "Slab-serif display at weight 400 with negative tracking. Humanist sans for body."
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 310,
-            "top": 483.20000000000005,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "StyreneB, Inter, sans-serif",
-              "fontSize": 28,
-              "fontWeight": 400,
-              "lineHeight": 1.55,
-              "colorToken": "body",
-              "color": "#3d3d3a"
-            },
-            "backgroundColorToken": "#00000000",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "align": "center",
-            "width": 1300,
-            "height": 200
-          },
-          "timing": {
-            "durationInFrames": 239,
-            "enterAtFrame": 0,
-            "exitAtFrame": 239,
-            "words": null
-          }
-        },
-        {
-          "id": "codeCard",
-          "assetType": "SolidShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 360,
-            "top": 619.2,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "rect",
-            "backgroundColorToken": "#3D7BFD",
-            "borderRadius": 20,
-            "revealMode": "scale",
-            "width": 1200,
-            "height": 360,
-            "gradient": {
-              "from": "#1f1e1b",
-              "to": "#252320",
-              "angle": 90
-            }
-          },
-          "timing": {
-            "durationInFrames": 239,
-            "enterAtFrame": 0,
-            "exitAtFrame": 239,
-            "words": null
-          }
-        },
-        {
-          "id": "ln1",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "display: Copernicus / serif"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 10.799999999999955,
-            "top": 696,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "JetBrains Mono, ui-monospace, monospace",
-              "fontSize": 28,
-              "fontWeight": 400,
-              "lineHeight": 1.7,
-              "color": "#5db8a6"
-            },
-            "width": 900,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 239,
-            "enterAtFrame": 0,
-            "exitAtFrame": 239,
-            "words": null
-          }
-        },
-        {
-          "id": "ln2",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "weight: 400   tracking: -0.016em"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 10.799999999999955,
-            "top": 739.2,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "JetBrains Mono, ui-monospace, monospace",
-              "fontSize": 28,
-              "fontWeight": 400,
-              "lineHeight": 1.7,
-              "color": "#faf9f5"
-            },
-            "width": 900,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 239,
-            "enterAtFrame": 0,
-            "exitAtFrame": 239,
-            "words": null
-          }
-        },
-        {
-          "id": "ln3",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "body: StyreneB / sans"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 10.799999999999955,
-            "top": 782.4000000000001,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "fade",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "JetBrains Mono, ui-monospace, monospace",
-              "fontSize": 28,
-              "fontWeight": 400,
-              "lineHeight": 1.7,
-              "color": "#e8a55a"
-            },
-            "width": 900,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 239,
-            "enterAtFrame": 0,
-            "exitAtFrame": 239,
-            "words": null
-          }
-        },
-        {
-          "id": "coralanchor",
-          "assetType": "SolidShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1282.4,
-            "top": 864.4000000000001,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "shape": "pill",
-            "backgroundColorToken": "#cc785c",
-            "borderRadius": 12,
-            "revealMode": "scale",
-            "width": 200,
-            "height": 64,
-            "opacity": 0.2,
-            "backgroundColor": "#cc785c"
-          },
-          "timing": {
-            "durationInFrames": 239,
-            "enterAtFrame": 0,
-            "exitAtFrame": 239,
-            "words": null
-          }
-        },
-        {
-          "id": "anchorGlow",
-          "assetType": "GlowBar",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/GlowBar/GlowBar.jsx",
-          "content": {
-            "value": 100,
-            "label": "Run"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1192.4,
-            "top": 922.4,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "trackFill": "#181715",
-            "labelFill": "#faf9f5",
-            "lineHeight": 10,
-            "glowStrength": 6,
-            "gradient": {
-              "from": "#cc785c",
-              "to": "#a9583e",
-              "angle": 0
-            },
-            "showLabel": false,
-            "suffix": "%",
-            "width": 380,
-            "height": 56
-          },
-          "timing": {
-            "durationInFrames": 239,
-            "enterAtFrame": 0,
-            "exitAtFrame": 239,
-            "words": null
-          }
         }
       ],
       "transitionIn": {
@@ -1184,43 +302,36 @@
         "durationInFrames": 24,
         "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
         "props": {
-          "carryAssetId": "coralanchor",
+          "carryAssetId": "heroImage",
           "carryFrom": {
             "position": "absolute",
-            "left": 740,
-            "top": 775.8,
-            "transformOrigin": "50% 50%",
+            "left": 1126.4,
+            "top": 220,
+            "transformOrigin": "100% 50%",
+            "borderRadius": 32,
             "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
             },
-            "shape": "pill",
-            "backgroundColorToken": "#faf9f5",
-            "borderRadius": 14,
-            "revealMode": "scale",
-            "width": 440,
-            "height": 90,
-            "backgroundColor": "#faf9f5"
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
           },
           "carryTo": {
             "position": "absolute",
-            "left": 1282.4,
-            "top": 864.4000000000001,
-            "transformOrigin": "50% 50%",
+            "left": 153.6,
+            "top": 129.6,
+            "transformOrigin": "0% 0%",
+            "borderRadius": 16,
             "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
             },
-            "shape": "pill",
-            "backgroundColorToken": "#cc785c",
-            "borderRadius": 12,
-            "revealMode": "scale",
-            "width": 200,
-            "height": 64,
-            "opacity": 0.2,
-            "backgroundColor": "#cc785c"
+            "revealDirection": "left-to-right",
+            "width": 420,
+            "height": 420
           }
         }
       },

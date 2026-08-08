@@ -305,6 +305,12 @@ export class ProjectBuilder {
       enterAt: spec.enterAt ?? 0,
       exitAt: spec.exitAt ?? 1,
     };
+    // Optional stacking order; omit to default to 0 at resolve time (the
+    // SceneLayer sort treats absent z as 0). Kept out of the literal above
+    // only to preserve the exact byte-shape of every pre-existing manifest:
+    // assets authored before `z` existed continue to serialize with seven
+    // keys, not eight.
+    if (spec.z !== undefined) asset.z = spec.z;
 
     const warnings = checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride);
 
@@ -355,6 +361,9 @@ export class ProjectBuilder {
     if (patch.styleOverride) asset.styleOverride = { ...asset.styleOverride, ...patch.styleOverride };
     if (patch.enterAt !== undefined) asset.enterAt = patch.enterAt;
     if (patch.exitAt !== undefined) asset.exitAt = patch.exitAt;
+    // Wholesale overwire (matches enterAt/exitAt's behavior — `z` is a single
+    // number, not a deep-merge candidate).
+    if (patch.z !== undefined) asset.z = patch.z;
 
     const entry = registry[asset.assetType];
     const warnings = checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride);

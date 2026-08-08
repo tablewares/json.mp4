@@ -38,7 +38,11 @@
           "contentOverride": { "type": "object" },
           "styleOverride": { "type": "object" },
           "enterAt": { "type": "number", "minimum": 0, "maximum": 1, "description": "fraction of scene duration" },
-          "exitAt": { "type": "number", "minimum": 0, "maximum": 1 }
+          "exitAt": { "type": "number", "minimum": 0, "maximum": 1 },
+          "z": {
+            "type": "number",
+            "description": "stacking order within a scene, resolved at runtime. Lower z paints first (further from the viewer), higher z paints last (on top). Default 0. Stable sort: assets sharing a z keep their declared order. Existing manifests are unaffected."
+          }
         }
       }
     }

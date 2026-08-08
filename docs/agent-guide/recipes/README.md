@@ -10,6 +10,10 @@ pattern; keep the index below updated.
   `slideContinuity`.
 - `toon-manifest.md` — author project/scene/style files in TOON instead of
   JSON. Same contract, lower token cost when an agent writes files in-context.
+- `compound-layers.md` — layer + reuse existing assets inside one container
+  (e.g. a Highlighter trailing behind KineticText, or a cover lifting to
+  reveal content). Uses `src/templating/subasset.js`, the compound-asset
+  twin of `anchor.js`.
 
 Recipes assume you've read `../getting-started/quickstart.md` and have a
 project skeleton. They show only the file(s) that illustrate the pattern.

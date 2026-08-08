@@ -1,11 +1,13 @@
 {
-  "generatedAt": "2026-08-08T16:56:27.099Z",
+  "generatedAt": "2026-08-08T22:47:02.568Z",
   "assetRoots": [
     "../../studio/assets",
-    "../../studio/graphics"
+    "../../studio/graphics",
+    "../../studio/vox-asset/assets"
   ],
   "transitionRoots": [
-    "../../studio/transitions"
+    "../../studio/transitions",
+    "../../studio/vox-asset/transitions"
   ],
   "assets": {
     "AssetBoilerplate": {
@@ -18,16 +20,6 @@
       "entryFile": "CodeBlock.jsx",
       "rootIndex": 0
     },
-    "Divider": {
-      "folderName": "Divider",
-      "entryFile": "Divider.jsx",
-      "rootIndex": 0
-    },
-    "GlowBar": {
-      "folderName": "GlowBar",
-      "entryFile": "GlowBar.jsx",
-      "rootIndex": 0
-    },
     "ImageReveal": {
       "folderName": "ImageReveal",
       "entryFile": "ImageReveal.jsx",
@@ -38,34 +30,9 @@
       "entryFile": "KineticText.jsx",
       "rootIndex": 0
     },
-    "ListReveal": {
-      "folderName": "ListReveal",
-      "entryFile": "ListReveal.jsx",
-      "rootIndex": 0
-    },
-    "NumberStat": {
-      "folderName": "NumberStat",
-      "entryFile": "NumberStat.jsx",
-      "rootIndex": 0
-    },
-    "ProgressBar": {
-      "folderName": "ProgressBar",
-      "entryFile": "ProgressBar.jsx",
-      "rootIndex": 0
-    },
-    "SolidShape": {
-      "folderName": "SolidShape",
-      "entryFile": "SolidShape.jsx",
-      "rootIndex": 0
-    },
     "TextBlock": {
       "folderName": "TextBlock",
       "entryFile": "TextBlock.jsx",
-      "rootIndex": 0
-    },
-    "TextReveal": {
-      "folderName": "TextReveal",
-      "entryFile": "TextReveal.jsx",
       "rootIndex": 0
     },
     "BarChartRace": {
@@ -82,6 +49,41 @@
       "folderName": "TickerTape",
       "entryFile": "TickerTape.jsx",
       "rootIndex": 1
+    },
+    "BackdropImage": {
+      "folderName": "BackdropImage",
+      "entryFile": "BackdropImage.jsx",
+      "rootIndex": 2
+    },
+    "DrawLine": {
+      "folderName": "DrawLine",
+      "entryFile": "DrawLine.jsx",
+      "rootIndex": 2
+    },
+    "LineDrawSequence": {
+      "folderName": "LineDrawSequence",
+      "entryFile": "LineDrawSequence.jsx",
+      "rootIndex": 2
+    },
+    "PathFlow": {
+      "folderName": "PathFlow",
+      "entryFile": "PathFlow.jsx",
+      "rootIndex": 2
+    },
+    "RouteDraw": {
+      "folderName": "RouteDraw",
+      "entryFile": "RouteDraw.jsx",
+      "rootIndex": 2
+    },
+    "ScaleComparison": {
+      "folderName": "ScaleComparison",
+      "entryFile": "ScaleComparison.jsx",
+      "rootIndex": 2
+    },
+    "TextHighlight": {
+      "folderName": "TextHighlight",
+      "entryFile": "TextHighlight.jsx",
+      "rootIndex": 2
     }
   },
   "transitions": {
@@ -104,6 +106,21 @@
       "folderName": "slideContinuity",
       "entryFile": "SlideContinuity.jsx",
       "rootIndex": 0
+    },
+    "ShapeWipe": {
+      "folderName": "ShapeWipe",
+      "entryFile": "ShapeWipe.jsx",
+      "rootIndex": 1
+    },
+    "SplitScreen": {
+      "folderName": "SplitScreen",
+      "entryFile": "SplitScreen.jsx",
+      "rootIndex": 1
+    },
+    "WhipPan": {
+      "folderName": "WhipPan",
+      "entryFile": "WhipPan.jsx",
+      "rootIndex": 1
     }
   }
 }

@@ -4,8 +4,8 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const DEFAULT_ASSET_ROOTS = ["../../studio/assets", "../../studio/graphics"];
-const DEFAULT_TRANSITION_ROOTS = ["../../studio/transitions"];
+const DEFAULT_ASSET_ROOTS = ["../../studio/assets", "../../studio/graphics", "../../studio/vox-asset/assets"];
+const DEFAULT_TRANSITION_ROOTS = ["../../studio/transitions", "../../studio/vox-asset/transitions"];
 
 function resolveRoot(root) {
   return path.isAbsolute(root) ? root : path.join(__dirname, root);

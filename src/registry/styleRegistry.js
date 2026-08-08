@@ -38,6 +38,21 @@ export function resolveEasingToken(styles, tokenName) {
 }
 
 /**
+ * Texture tokens resolve to a path relative to public/ (consumed by Remotion's
+ * staticFile() at render time). As with colors, a literal non-string value is
+ * passed through untouched — the escape hatch for ad-hoc textures.
+ */
+export function resolveTextureToken(styles, tokenOrLiteral) {
+  if (typeof tokenOrLiteral !== "string") return tokenOrLiteral;
+  const value = styles.textures?.[tokenOrLiteral];
+  if (!value) {
+    const known = styles.textures ? Object.keys(styles.textures).join(", ") : "(no textures section)";
+    throw new Error(`Unknown texture token "${tokenOrLiteral}". Known tokens: ${known}`);
+  }
+  return value;
+}
+
+/**
  * Merges an asset's styleOverride against the global registry. Any field the
  * override doesn't specify falls through to the registry default for that
  * asset type (assetManifest.defaultStyle), which itself is usually expressed
@@ -53,6 +68,8 @@ export function resolveAssetStyle(styles, assetManifest, styleOverride = {}) {
       resolved[key] = resolveTypographyToken(styles, value);
     } else if (key === "easing" && typeof value === "string") {
       resolved[key] = resolveEasingToken(styles, value);
+    } else if (key.toLowerCase().includes("texture") && typeof value === "string") {
+      resolved[key] = resolveTextureToken(styles, value);
     } else {
       resolved[key] = value;
     }

@@ -1,0 +1,88 @@
+{
+  "assetType": "RouteDraw",
+  "component": "RouteDraw.jsx",
+  "description": "Self-drawing route lines on a map background \u2014 one or more SVG paths animated via stroke-dashoffset, with an optional base image displayed underneath. Built for the vox global-supply-chain scene where cyan routes draw themselves between regions.",
+  "defaultSize": {
+    "width": 1280,
+    "height": 720
+  },
+  "defaultStyle": {
+    "strokeColorToken": "accentGreen",
+    "strokeWidth": 6,
+    "drawDurationFraction": 0.55,
+    "dashCap": "round",
+    "glowColorToken": "main1",
+    "glowRadius": 8,
+    "easing": "gentleSpring",
+    "imageSrc": null
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": [
+      "routes"
+    ],
+    "properties": {
+      "routes": {
+        "type": "array",
+        "minItems": 1,
+        "description": "SVG path d-strings; each draws in sequence then glows.",
+        "items": {
+          "type": "string"
+        }
+      },
+      "imageSrc": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "optional base image (path relative to public/). When omitted, transparent background."
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "strokeColorToken": {
+        "type": "string"
+      },
+      "strokeWidth": {
+        "type": "number"
+      },
+      "drawDurationFraction": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "fraction of the asset's active window each route spends drawing; multiple routes divide this between them"
+      },
+      "dashCap": {
+        "type": "string",
+        "enum": [
+          "round",
+          "butt",
+          "square"
+        ]
+      },
+      "glowColorToken": {
+        "type": "string",
+        "description": "color token for the secondary glow halo behind the drawn line"
+      },
+      "glowRadius": {
+        "type": "number",
+        "description": "gaussian blur radius of the glow halo in px"
+      },
+      "easing": {
+        "type": "string"
+      },
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      },
+      "texturePath": {
+        "type": "string",
+        "description": "optional texture token from styles.textures, overlaid via mixBlendMode multiply"
+      }
+    }
+  }
+}

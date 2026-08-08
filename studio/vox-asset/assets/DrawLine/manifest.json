@@ -1,0 +1,126 @@
+{
+  "assetType": "DrawLine",
+  "component": "DrawLine.jsx",
+  "description": "A thick stroke that draws itself across the composition from one anchor spec to another over a configurable fraction of the scene. Built for background support beats (image top-right -> line draws to center-left, then camera follows). Pair with the scene's camera `actions` array \u2014 author one camera action per anchor the line passes through to make the camera track the live line tip. Each endpoint is an anchor spec identical to a camera anchor ({position, offsetXPercent, offsetYPercent}).",
+  "defaultSize": {
+    "width": 1920,
+    "height": 1080
+  },
+  "defaultStyle": {
+    "strokeColorToken": "accentRed",
+    "strokeWidth": 14,
+    "strokeCap": "round",
+    "drawFraction": 0.55,
+    "easing": "gentleSpring",
+    "glowColorToken": "main1",
+    "glowRadius": 6
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": [
+      "from",
+      "to"
+    ],
+    "properties": {
+      "from": {
+        "type": "object",
+        "description": "anchor spec the line starts from",
+        "required": [
+          "position"
+        ],
+        "properties": {
+          "position": {
+            "type": "string",
+            "enum": [
+              "center",
+              "top",
+              "bottom",
+              "left",
+              "right",
+              "top-left",
+              "top-right",
+              "bottom-left",
+              "bottom-right"
+            ]
+          },
+          "offsetXPercent": {
+            "type": "number"
+          },
+          "offsetYPercent": {
+            "type": "number"
+          }
+        }
+      },
+      "to": {
+        "type": "object",
+        "description": "anchor spec the line ends at",
+        "required": [
+          "position"
+        ],
+        "properties": {
+          "position": {
+            "type": "string",
+            "enum": [
+              "center",
+              "top",
+              "bottom",
+              "left",
+              "right",
+              "top-left",
+              "top-right",
+              "bottom-left",
+              "bottom-right"
+            ]
+          },
+          "offsetXPercent": {
+            "type": "number"
+          },
+          "offsetYPercent": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "strokeColorToken": {
+        "type": "string"
+      },
+      "strokeWidth": {
+        "type": "number"
+      },
+      "strokeCap": {
+        "type": "string",
+        "enum": [
+          "round",
+          "butt",
+          "square"
+        ]
+      },
+      "drawFraction": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "fraction of the asset's active window the line spends drawing; the line then holds at full length until exit"
+      },
+      "easing": {
+        "type": "string"
+      },
+      "glowColorToken": {
+        "type": "string",
+        "description": "color token for the secondary glow halo behind the line (0 radius disables)"
+      },
+      "glowRadius": {
+        "type": "number"
+      },
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      }
+    }
+  }
+}

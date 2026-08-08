@@ -1,0 +1,79 @@
+{
+  "assetType": "TextHighlight",
+  "component": "TextHighlight.jsx",
+  "description": "A neon marker stroke that animates horizontally across an existing text label, like a highlighter dragged left-to-right. Use it on top of an already-rendered text asset (anchors and timing intentionally overlap) for the classic vox 'FinFET Architecture' callout beat.",
+  "defaultSize": {
+    "width": 720,
+    "height": 96
+  },
+  "defaultStyle": {
+    "markerColorToken": "accentWarm",
+    "markerHeight": 32,
+    "markerOpacity": 0.75,
+    "markerBlur": 4,
+    "easing": "snappySpring",
+    "direction": "right",
+    "underline": false
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": [
+      "text"
+    ],
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "the label the marker sweeps across; rendered behind the marker so the highlight sits over real type"
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "markerColorToken": {
+        "type": "string",
+        "description": "color token for the highlighter band"
+      },
+      "typography": {
+        "type": "string",
+        "description": "typography token for the rendered text"
+      },
+      "markerHeight": {
+        "type": "number",
+        "description": "marker band height in px"
+      },
+      "markerOpacity": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "markerBlur": {
+        "type": "number",
+        "description": "gaussian blur on the marker band in px"
+      },
+      "direction": {
+        "type": "string",
+        "enum": [
+          "left",
+          "right",
+          "top",
+          "bottom"
+        ],
+        "description": "sweep direction"
+      },
+      "underline": {
+        "type": "boolean",
+        "description": "when true, render the marker as a thin underline instead of a filled band"
+      },
+      "easing": {
+        "type": "string"
+      },
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      }
+    }
+  }
+}

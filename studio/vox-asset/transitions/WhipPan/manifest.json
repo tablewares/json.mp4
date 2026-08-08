@@ -1,0 +1,32 @@
+{
+  "transitionType": "WhipPan",
+  "component": "WhipPan.jsx",
+  "description": "Quick lateral motion-blur whip pan right, landing on the next scene. Built on TransitionBoilerplate: aggressive horizontal translate + heavy motion blur on the cut's midpoint + a brief afterimage smear.",
+  "defaultDurationInFrames": 14,
+  "consumes": {
+    "outgoingSceneStyles": false,
+    "incomingSceneStyles": false,
+    "carriedAssets": false
+  },
+  "params": {
+    "direction": {
+      "type": "string",
+      "enum": [
+        "left",
+        "right"
+      ],
+      "default": "right",
+      "description": "whip direction; incoming scene arrives from the opposite side"
+    },
+    "distance": {
+      "type": "number",
+      "default": 180,
+      "description": "px of lateral travel"
+    },
+    "blurPx": {
+      "type": "number",
+      "default": 24,
+      "description": "peak motion blur at the cut midpoint"
+    }
+  }
+}

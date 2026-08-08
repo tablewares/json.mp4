@@ -1,0 +1,68 @@
+{
+  "assetType": "BackdropImage",
+  "component": "BackdropImage.jsx",
+  "description": "A supporting background-image primitive: an image anchored to any corner of the composition, sized in composition-percent, fully behind foreground content. Optional vignette dim keeps foreground legible. Designed to be paired with `layer: \"background\"` so it never occludes foreground/skybox content, but works at any layer.",
+  "defaultSize": {
+    "width": 700,
+    "height": 700
+  },
+  "defaultStyle": {
+    "easing": "gentleSpring",
+    "revealDirection": "left-to-right",
+    "borderRadius": 18,
+    "dim": 0.35,
+    "blurPx": 0
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": [
+      "src"
+    ],
+    "properties": {
+      "src": {
+        "type": "string",
+        "description": "image path relative to public/, or an http(s) URL"
+      },
+      "alt": {
+        "type": "string"
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "easing": {
+        "type": "string"
+      },
+      "revealDirection": {
+        "type": "string",
+        "enum": [
+          "left-to-right",
+          "top-to-bottom",
+          "center-out",
+          "fade"
+        ],
+        "description": "clip-path wipe used for the entrance reveal; 'fade' does no clip, just opacity"
+      },
+      "borderRadius": {
+        "type": "number"
+      },
+      "dim": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "opacity of the dark overlay drawn on top of the image; 0 = none, 1 = fully hidden. 0.35 reads as a muted background plate."
+      },
+      "blurPx": {
+        "type": "number",
+        "description": "gaussian blur on the image in px \u2014 useful for background-plate depth"
+      },
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      }
+    }
+  }
+}

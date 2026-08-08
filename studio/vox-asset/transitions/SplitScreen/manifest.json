@@ -1,0 +1,27 @@
+{
+  "transitionType": "SplitScreen",
+  "component": "SplitScreen.jsx",
+  "description": "Match-cut split: the frame splits down the center, right side slides up and left side slides down (or vice versa), revealing a side-by-side comparison. Built for the vox paper-collage to microscopic-layering cut.",
+  "defaultDurationInFrames": 24,
+  "consumes": {
+    "outgoingSceneStyles": false,
+    "incomingSceneStyles": false,
+    "carriedAssets": false
+  },
+  "params": {
+    "splitDirection": {
+      "type": "string",
+      "enum": [
+        "right-up-left-down",
+        "left-up-right-down"
+      ],
+      "default": "right-up-left-down",
+      "description": "which side slides up vs. down"
+    },
+    "gap": {
+      "type": "number",
+      "default": 12,
+      "description": "px-wide crack that opens along the seam"
+    }
+  }
+}

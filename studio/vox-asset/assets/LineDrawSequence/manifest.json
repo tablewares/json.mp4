@@ -1,0 +1,135 @@
+{
+  "assetType": "LineDrawSequence",
+  "component": "LineDrawSequence.jsx",
+  "description": "Chained DrawLine strokes within a single asset \u2014 drop one asset onto a scene to draw a thick line from anchor A to anchor B, then a second from anchor B to anchor C. Built for the 'image top-right -> line draws to center-left, then bottom-left graphic -> second line draws and camera follows' pattern. The scene's camera.actions can mirror each segment's draw window exactly so the camera tracks the line tip across both strokes. Also exposes per-segment glow.",
+  "defaultSize": {
+    "width": 1920,
+    "height": 1080
+  },
+  "defaultStyle": {
+    "strokeColorToken": "accentRed",
+    "strokeWidth": 14,
+    "strokeCap": "round",
+    "glowColorToken": "main1",
+    "glowRadius": 6,
+    "easing": "gentleSpring"
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": [
+      "segments"
+    ],
+    "properties": {
+      "segments": {
+        "type": "array",
+        "minItems": 1,
+        "description": "one or more line segments drawn back-to-back across the asset's active window; each gets an equal share of the window unless drawFraction is specified",
+        "items": {
+          "type": "object",
+          "required": [
+            "from",
+            "to"
+          ],
+          "properties": {
+            "from": {
+              "type": "object",
+              "required": [
+                "position"
+              ],
+              "properties": {
+                "position": {
+                  "type": "string",
+                  "enum": [
+                    "center",
+                    "top",
+                    "bottom",
+                    "left",
+                    "right",
+                    "top-left",
+                    "top-right",
+                    "bottom-left",
+                    "bottom-right"
+                  ]
+                },
+                "offsetXPercent": {
+                  "type": "number"
+                },
+                "offsetYPercent": {
+                  "type": "number"
+                }
+              }
+            },
+            "to": {
+              "type": "object",
+              "required": [
+                "position"
+              ],
+              "properties": {
+                "position": {
+                  "type": "string",
+                  "enum": [
+                    "center",
+                    "top",
+                    "bottom",
+                    "left",
+                    "right",
+                    "top-left",
+                    "top-right",
+                    "bottom-left",
+                    "bottom-right"
+                  ]
+                },
+                "offsetXPercent": {
+                  "type": "number"
+                },
+                "offsetYPercent": {
+                  "type": "number"
+                }
+              }
+            },
+            "drawFraction": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "share of the asset's total active window this segment spends drawing; if omitted across all segments, the window is divided equally"
+            }
+          }
+        }
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "strokeColorToken": {
+        "type": "string"
+      },
+      "strokeWidth": {
+        "type": "number"
+      },
+      "strokeCap": {
+        "type": "string",
+        "enum": [
+          "round",
+          "butt",
+          "square"
+        ]
+      },
+      "glowColorToken": {
+        "type": "string"
+      },
+      "glowRadius": {
+        "type": "number"
+      },
+      "easing": {
+        "type": "string"
+      },
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      }
+    }
+  }
+}

@@ -27,10 +27,12 @@ import { resolveCameraTransform } from "../../templating/camera.js";
 const ASSET_ROOT_CONTEXTS = [
   require.context("../../../studio/assets", true, /\.(jsx|tsx|js|ts)$/),
   require.context("../../../studio/graphics", true, /\.(jsx|tsx|js|ts)$/),
+  require.context("../../../studio/vox-asset/assets", true, /\.(jsx|tsx|js|ts)$/),
 ];
 
 const TRANSITION_ROOT_CONTEXTS = [
   require.context("../../../studio/transitions", true, /\.(jsx|tsx|js|ts)$/),
+  require.context("../../../studio/vox-asset/transitions", true, /\.(jsx|tsx|js|ts)$/),
 ];
 
 function assertRootsMatch(declaredRoots, generatedRoots, label) {
@@ -136,6 +138,15 @@ function SceneLayer({ scene, compositionSize }) {
   const clampedFrame = Math.min(Math.max(frame, 0), sceneDuration - 1);
   const frameForCamera = compositionDurationInFrames > 0 ? clampedFrame : frame;
   const resolvedCameraTransform = resolveCameraTransform(scene.camera, compositionSize, frameForCamera, sceneDuration);
+
+  // Z-ordering: lower z paints first (furthest from the viewer), higher z
+  // last (on top). Numeric stable sort — Array.prototype.sort on modern V8
+  // is stable, so authored-order is preserved among assets sharing a z.
+  // pipeline2 always attaches z (default 0), so every asset has a real
+  // number here; legacy manifests declared no z, so all assets sit at 0
+  // and their relative order is unchanged from before this field existed.
+  const layeredAssets = [...scene.assets].sort((a, b) => (a.z ?? 0) - (b.z ?? 0));
+
   return (
     <AbsoluteFill style={{ background: scene.background ?? "#000" }}>
       <AbsoluteFill
@@ -147,7 +158,7 @@ function SceneLayer({ scene, compositionSize }) {
           overflow: "hidden",
         }}
       >
-      {scene.assets.map((asset) => {
+      {layeredAssets.map((asset) => {
         const AssetComponent = ASSET_COMPONENTS[asset.assetType];
         if (!AssetComponent) {
           throw new Error(`No renderer registered for assetType "${asset.assetType}"`);

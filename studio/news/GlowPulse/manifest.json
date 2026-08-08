@@ -1,0 +1,39 @@
+{
+  "assetType": "GlowPulse",
+  "component": "GlowPulse.jsx",
+  "description": "A pill-shaped label that pops in with a spring and then loops a soft pulsing glow ring around itself — for 'LIVE' tags, single-word accent callouts, or alerts against the Signal near-black background. The pulse is a continuous loop, independent of enter/exit timing.",
+  "defaultSize": { "width": 220, "height": 64 },
+  "defaultStyle": {
+    "easing": "snappySpring",
+    "borderRadius": 32,
+    "align": "center",
+    "pulse": true,
+    "pulsePeriodFrames": 40,
+    "pulseMinOpacity": 0.25,
+    "pulseMaxOpacity": 0.75
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": ["label"],
+    "properties": {
+      "label": { "type": "string" }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "easing": { "type": "string" },
+      "borderRadius": { "type": "number" },
+      "align": { "type": "string", "enum": ["left", "center", "right"] },
+      "backgroundColorToken": { "type": "string" },
+      "accentColorToken": { "type": "string", "description": "color of the pulsing glow ring; defaults to the resolved typography color" },
+      "pulse": { "type": "boolean", "description": "set false to render a static badge with no looping glow ring" },
+      "pulsePeriodFrames": { "type": "number", "description": "length in frames of one full pulse cycle" },
+      "pulseMinOpacity": { "type": "number" },
+      "pulseMaxOpacity": { "type": "number" },
+      "width": { "type": "number" },
+      "height": { "type": "number" },
+      "typography": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "assetType": "PathFlow",
+  "component": "PathFlow.jsx",
+  "description": "Particles sliding along one or more SVG dashed paths, like electrons on a subway-line diagram. The path itself optionally draws itself in via stroke-dashoffset, then particles flow along it with offset-path motion. Built for vox-style microscopic/macroscopic motion-diagram scenes.",
+  "defaultSize": {
+    "width": 900,
+    "height": 520
+  },
+  "defaultStyle": {
+    "strokeColorToken": "accentBg",
+    "strokeWidth": 4,
+    "dashArray": 14,
+    "dashGap": 10,
+    "drawDurationFraction": 0.4,
+    "particleColorToken": "main1",
+    "particleCount": 6,
+    "particleRadius": 7,
+    "particleLagFrames": 6,
+    "loopParticles": true,
+    "easing": "snappySpring"
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": [
+      "paths"
+    ],
+    "properties": {
+      "paths": {
+        "type": "array",
+        "minItems": 1,
+        "description": "SVG path d-strings; one path per subway line. Particles are distributed evenly across all paths.",
+        "items": {
+          "type": "string"
+        }
+      },
+      "labels": {
+        "type": "array",
+        "description": "optional per-path label rendered beside the path's midpoint",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "strokeColorToken": {
+        "type": "string",
+        "description": "color token for the dashed path lines"
+      },
+      "strokeWidth": {
+        "type": "number"
+      },
+      "dashArray": {
+        "type": "number",
+        "description": "dash length in SVG user units"
+      },
+      "dashGap": {
+        "type": "number",
+        "description": "gap length in SVG user units"
+      },
+      "drawDurationFraction": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "fraction of the asset's active window spent drawing the path(s) in; particles start emitting after"
+      },
+      "particleColorToken": {
+        "type": "string",
+        "description": "color token for the flowing particles"
+      },
+      "particleCount": {
+        "type": "number",
+        "description": "particles per path"
+      },
+      "particleRadius": {
+        "type": "number"
+      },
+      "particleLagFrames": {
+        "type": "number",
+        "description": "frames between consecutive particle departures along the path"
+      },
+      "loopParticles": {
+        "type": "boolean",
+        "description": "when true particles wrap and re-emit; when false they exit at path end"
+      },
+      "easing": {
+        "type": "string",
+        "description": "easing token driving the path-draw-in animation"
+      },
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "s3",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "supplyRoutes",
+      "assetType": "RouteDraw",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "routes": [
+          "M 980 540 Q 760 360 480 360",
+          "M 480 360 Q 320 280 200 240",
+          "M 980 540 Q 600 640 200 240"
+        ]
+      },
+      "styleOverride": {
+        "strokeColorToken": "accentBg",
+        "strokeWidth": 7,
+        "drawDurationFraction": 0.6,
+        "glowColorToken": "accentWarm",
+        "glowRadius": 12,
+        "width": 1600,
+        "height": 820
+      },
+      "enterAt": 0.1,
+      "exitAt": 1
+    },
+    {
+      "id": "routeCaption",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetXPercent": 0,
+        "offsetYPercent": -40
+      },
+      "contentOverride": {
+        "text": "A supply chain that never stops moving."
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "align": "center",
+        "width": 1200,
+        "height": 140
+      },
+      "enterAt": 0.4,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "WhipPan",
+    "durationInFrames": 14,
+    "params": {
+      "direction": "right",
+      "distance": 220,
+      "blurPx": 28
+    }
+  }
+}

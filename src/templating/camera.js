@@ -126,7 +126,10 @@ export function resolveCameraTransform(cameraSpec, composition, frame, durationI
     : Math.min(Math.max((progress - current.at) / (next.at - current.at), 0), 1);
 
   const anchor = interpolateAnchor(current.anchor, next.anchor, segmentProgress, composition);
-  const scale = (current.zoomPercent + (next.zoomPercent - current.zoomPercent) * segmentProgress) / 100;
+  // Zoom snaps instantly to the current action's level instead of easing
+  // into the next one, so the camera reaches its zoomed position immediately
+  // rather than spending frames interpolating between zoom levels.
+  const scale = current.zoomPercent / 100;
 
   const translateX = (composition.width / 2 - anchor.x) * (scale - 1);
   const translateY = (composition.height / 2 - anchor.y) * (scale - 1);

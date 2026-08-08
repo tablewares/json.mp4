@@ -1,0 +1,11 @@
+{
+  "transitionType": "irisWipe",
+  "component": "IrisWipeTransition.jsx",
+  "description": "A circular iris reveal/hide that eases through a slight overshoot before settling. Reads as a more deliberate, focal handoff than the default fade+slide — a spotlight feel rather than a rotation, for scene changes that want to draw the eye to center before cutting away.",
+  "defaultDurationInFrames": 24,
+  "consumes": {
+    "outgoingSceneStyles": false,
+    "incomingSceneStyles": false,
+    "carriedAssets": false
+  }
+}

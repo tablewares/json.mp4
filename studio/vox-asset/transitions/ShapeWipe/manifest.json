@@ -1,0 +1,27 @@
+{
+  "transitionType": "ShapeWipe",
+  "component": "ShapeWipe.jsx",
+  "description": "A solid neon shape (circle by default) expands from frame center, momentarily filling the frame, then collapses into a target anchor point on the incoming scene (e.g. the dot of an exclamation mark). Built on TransitionBoilerplate's motion model added to a CenterFiller overlay.",
+  "defaultDurationInFrames": 28,
+  "consumes": {
+    "outgoingSceneStyles": false,
+    "incomingSceneStyles": false,
+    "carriedAssets": false
+  },
+  "params": {
+    "shapeColorToken": {
+      "type": "string",
+      "description": "the wipe shape's fill color token"
+    },
+    "peakScale": {
+      "type": "number",
+      "default": 1.8,
+      "description": "max fill size, as a multiple of frame width"
+    },
+    "targetScale": {
+      "type": "number",
+      "default": 0.02,
+      "description": "final contracted scale the shape collapses to on the incoming side"
+    }
+  }
+}

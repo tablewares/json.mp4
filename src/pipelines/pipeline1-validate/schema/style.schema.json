@@ -37,6 +37,11 @@
           "stiffness": { "type": "number" }
         }
       }
+    },
+    "textures": {
+      "type": "object",
+      "description": "texture tokens — each value is a path relative to public/ (consumed by Remotion's staticFile())",
+      "additionalProperties": { "type": "string" }
     }
   }
 }

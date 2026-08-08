@@ -1,0 +1,74 @@
+{
+  "id": "s1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "kicker1",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "How a Microchip Works"
+      },
+      "styleOverride": {
+        "typography": "kicker1"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "headline1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "text": "It all starts with a single wafer of silicon, three hundred millimeters across."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 1500,
+        "align": "center",
+        "useNarrationTiming": true
+      },
+      "enterAt": 0.05,
+      "exitAt": 1
+    },
+    {
+      "id": "waferStat",
+      "assetType": "NumberStat",
+      "anchor": {
+        "position": "bottom-left",
+        "offsetXPercent": 12,
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "value": 300,
+        "label": "Wafer diameter (mm)"
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "labelTypography": "caption1",
+        "suffix": " mm",
+        "valueFill": "#F4F1EA",
+        "labelFill": "#9B9B89"
+      },
+      "enterAt": 0.3,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "SplitScreen",
+    "durationInFrames": 24,
+    "params": {
+      "splitDirection": "right-up-left-down",
+      "gap": 16
+    }
+  }
+}

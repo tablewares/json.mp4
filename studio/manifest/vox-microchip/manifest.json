@@ -1,0 +1,44 @@
+{
+  "projectId": "vox-microchip",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1",
+      "path": "scenes/s1.json"
+    },
+    {
+      "id": "s2",
+      "path": "scenes/s2.json"
+    },
+    {
+      "id": "s3",
+      "path": "scenes/s3.json"
+    },
+    {
+      "id": "s4",
+      "path": "scenes/s4.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "It all starts with a single wafer of silicon, three hundred millimeters across."
+      },
+      {
+        "id": "n2",
+        "text": "Zoom in and the wafer breaks into layers. Billions of transistors, each just tens of nanometers wide, switching electrons on and off through the FinFET architecture."
+      },
+      {
+        "id": "n3",
+        "text": "From Taiwan to Silicon Valley to Europe, a global supply chain keeps these chips moving every day."
+      },
+      {
+        "id": "n4",
+        "text": "And the scale? Eight nanometers. That's a modern chip feature, thousands of times thinner than a human hair."
+      }
+    ],
+    "fullTranscript": "It all starts with a single wafer of silicon, three hundred millimeters across. Zoom in and the wafer breaks into layers. Billions of transistors, each just tens of nanometers wide, switching electrons on and off through the FinFET architecture. From Taiwan to Silicon Valley to Europe, a global supply chain keeps these chips moving every day. And the scale? Eight nanometers. That's a modern chip feature, thousands of times thinner than a human hair."
+  }
+}

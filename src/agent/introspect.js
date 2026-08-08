@@ -252,6 +252,7 @@ export function describeSceneEnvelope() {
       styleOverride: "asset-specific — see `asset <type>` command's 'style' field; width/height also settable here",
       enterAt: "fraction 0-1 of the scene's duration (default 0)",
       exitAt: "fraction 0-1 of the scene's duration (default 1)",
+      z: "number, stacking order resolved at runtime. Lower z paints first (further from viewer), higher z last (on top). Default 0. Stable within a z value — authored order is preserved.",
     },
     transitionEffect: {
       id: "optional",

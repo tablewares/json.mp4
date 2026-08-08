@@ -1,0 +1,114 @@
+{
+  "assetType": "ScaleComparison",
+  "component": "ScaleComparison.jsx",
+  "description": "A compare-to-scale ruler pairing: a fixed reference bar (e.g. 'human hair width') slides in alongside a unit scale bar (e.g. 'chip feature size in nm') to demonstrate proportion. Built for the vox '8 NANOMETERS' scale comparison beat.",
+  "defaultSize": {
+    "width": 1200,
+    "height": 360
+  },
+  "defaultStyle": {
+    "barColorToken": "main1",
+    "barLabelColorToken": "main1",
+    "barThickness": 8,
+    "tickColorToken": "main2",
+    "tickCount": 5,
+    "easing": "gentleSpring",
+    "unitLabel": "nm",
+    "referenceCorner": "left"
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": [
+      "reference",
+      "items"
+    ],
+    "properties": {
+      "reference": {
+        "type": "object",
+        "description": "the sliding-in comparison reference (e.g. a human hair illustration tick)",
+        "required": [
+          "label",
+          "widthPercent"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "widthPercent": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "how much of the scale bar the reference spans (proportion)"
+          }
+        }
+      },
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "description": "scale-bar segments, drawn left-to-right",
+        "items": {
+          "type": "object",
+          "required": [
+            "label",
+            "value"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "number",
+              "description": "numeric tick value; only relative proportion matters \u2014 largest in this list spans the whole bar"
+            }
+          }
+        }
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "barColorToken": {
+        "type": "string"
+      },
+      "barLabelColorToken": {
+        "type": "string"
+      },
+      "barThickness": {
+        "type": "number"
+      },
+      "tickColorToken": {
+        "type": "string"
+      },
+      "tickCount": {
+        "type": "number",
+        "description": "number of evenly-spaced tick marks across the scale bar"
+      },
+      "easing": {
+        "type": "string"
+      },
+      "unitLabel": {
+        "type": "string",
+        "description": "unit suffix appended to each numeric tick"
+      },
+      "referenceCorner": {
+        "type": "string",
+        "enum": [
+          "left",
+          "right"
+        ],
+        "description": "which side the reference element slides in from"
+      },
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      },
+      "texturePath": {
+        "type": "string",
+        "description": "optional texture token from styles.textures, applied to the reference element's fill"
+      }
+    }
+  }
+}
