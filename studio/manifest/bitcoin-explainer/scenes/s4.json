@@ -1,0 +1,45 @@
+{
+  "id": "s4",
+  "background": "#000000",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 10,
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "Secure."
+      },
+      "styleOverride": {
+        "typography": "heading1"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "KineticText-2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom-right",
+        "offsetXPercent": -10,
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "text": "Transparent."
+      },
+      "styleOverride": {
+        "typography": "heading1"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

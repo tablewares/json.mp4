@@ -17,6 +17,7 @@
  */
 import { generateTtsTiming } from "../../external/tts-provider.js"; // TODO: point at the real existing TTS module
 
+
 /**
  * @param {{id: string, text: string}[]} entries
  * @param {string} fullTranscript
@@ -28,7 +29,11 @@ import { generateTtsTiming } from "../../external/tts-provider.js"; // TODO: poi
  * }>}
  */
 export async function resolveNarrationTiming(entries, fullTranscript, fps, options = {}) {
-  const result = await generateTtsTiming(entries, fullTranscript, options);
+    const { provider } = options;
+  const result = await generateTtsTiming(entries, fullTranscript, {
+    provider
+  });
+  // const result = await generateTtsTiming(entries, fullTranscript, options);
   // The provider returns { timing, totalDuration, audioPath }. Tolerate the
   // legacy bare-array shape too (no totalDuration/audioPath) so a provider
   // upgrade isn't a hard break.

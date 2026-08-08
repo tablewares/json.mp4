@@ -1,0 +1,44 @@
+{
+  "id": "s1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "What is Bitcoin?"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ImageReveal-2",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/bitcoin_logo.png"
+      },
+      "styleOverride": {
+        "width": 600,
+        "height": 600
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

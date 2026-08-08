@@ -1,19 +1,16 @@
 import path from "node:path";
+import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { bundle } from "@remotion/bundler";
 import { renderMedia, selectComposition } from "@remotion/renderer";
+import { applyPostEffects } from "./postEffects.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/**
- * Bundles src/index.jsx and renders the "Video" composition to mp4. Assumes
- * pipeline2 has already written resolved.json (index.jsx imports it
- * directly), so this step never re-touches the manifest, styles, or asset
- * registry — it only knows about Remotion's own APIs.
- */
 async function main() {
-  const outputPath = process.argv[2] ?? path.join(__dirname, "../../../out/video.mp4");
+  const finalOutputPath = process.argv[2] ?? path.join(__dirname, "../../../out/video.mp4");
   const entryPoint = path.join(__dirname, "../../index.jsx");
+  const resolvedPath = path.join(__dirname, "../../../studio/resolved.json");
 
   console.log("Bundling...");
   const bundleLocation = await bundle({ entryPoint });
@@ -21,13 +18,34 @@ async function main() {
   console.log("Selecting composition...");
   const composition = await selectComposition({ serveUrl: bundleLocation, id: "Video" });
 
-  console.log(`Rendering to ${outputPath} ...`);
+  const resolvedConfig = fs.existsSync(resolvedPath)
+    ? JSON.parse(fs.readFileSync(resolvedPath, "utf-8")).config
+    : undefined;
+  const postEffects = resolvedConfig?.postEffects;
+
+  // When post effects are queued, render to a scratch path first so ffmpeg
+  // reads from a closed, complete file and writes finalOutputPath itself.
+  const rawRenderPath = postEffects
+    ? path.join(__dirname, "../../../out/.raw-render.mp4")
+    : finalOutputPath;
+  fs.mkdirSync(path.dirname(rawRenderPath), { recursive: true });
+
+  console.log(`Rendering to ${rawRenderPath} ...`);
   await renderMedia({
     composition,
     serveUrl: bundleLocation,
     codec: "h264",
-    outputLocation: outputPath,
+    outputLocation: rawRenderPath,
   });
+
+  if (postEffects) {
+    console.log("Applying post-cinematography effects...");
+    applyPostEffects(rawRenderPath, finalOutputPath, postEffects, {
+      width: resolvedConfig.width,
+      height: resolvedConfig.height,
+    });
+    fs.unlinkSync(rawRenderPath);
+  }
 
   console.log("Done.");
 }

@@ -1,0 +1,26 @@
+{
+  "id": "s3",
+  "background": "#000000",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "The Blockchain"
+      },
+      "styleOverride": {
+        "typography": "heading1"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

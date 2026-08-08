@@ -105,6 +105,132 @@ export function listAnchorPositions() {
   return ANCHOR_POSITIONS;
 }
 
+const ASSET_COLLECTIONS = {
+  youtubeSearch: {
+    collectionType: "youtubeSearch",
+    label: "YouTube search",
+    category: "audio",
+    description:
+      "Find candidate YouTube tracks or SFX by keyword before downloading them into public/audio/sources.",
+    destination: "public/audio/sources/",
+    prerequisites: ["yt-dlp", "python3"],
+    command: "yt-dlp --flat-playlist --dump-json 'ytsearchN:<query>'",
+    outputFields: ["id", "title", "duration", "url", "channel"],
+    docs: ["docs/skills/assetlibrary/01-youtube-search.md"],
+    example: "yt-dlp --flat-playlist --dump-json 'ytsearch5:free whoosh transition sound effect'",
+  },
+  ytDlpDownload: {
+    collectionType: "ytDlpDownload",
+    label: "yt-dlp download",
+    category: "audio",
+    description:
+      "Download a chosen YouTube source into public/audio/sources and keep the final referenced file in public/audio.",
+    destination: "public/audio/ and public/audio/sources/",
+    prerequisites: ["yt-dlp", "ffmpeg", "python3"],
+    command: "yt-dlp -x --audio-format mp3 --audio-quality 0 -o '%(id)s - %(title).70s.%(ext)s' '<youtube-url>'",
+    outputFields: ["path", "format", "duration", "size", "sourceUrl"],
+    docs: ["docs/skills/assetlibrary/02-yt-dlp-download.md"],
+    example: "yt-dlp -x --audio-format mp3 --audio-quality 0 -o '%(id)s - %(title).70s.%(ext)s' 'https://www.youtube.com/watch?v=<ID>'",
+  },
+  sfxSplit: {
+    collectionType: "sfxSplit",
+    label: "SFX pack slicing",
+    category: "audio",
+    description:
+      "Split one pack video into one-hit clips using silence detection and write each clip to public/audio/split.",
+    destination: "public/audio/split/",
+    prerequisites: ["ffmpeg", "python3"],
+    command: "ffmpeg -nostdin -hide_banner -i '<source>.mp3' -af 'silencedetect=n=-30dB:d=0.18' -f null -",
+    outputFields: ["clipPath", "startSeconds", "endSeconds", "durationSeconds"],
+    docs: ["docs/skills/assetlibrary/03-sfx-from-single-source.md"],
+    example: "ffmpeg -nostdin -hide_banner -i 'public/audio/sources/source.mp3' -af 'silencedetect=n=-30dB:d=0.18' -f null -",
+  },
+  imageSearch: {
+    collectionType: "imageSearch",
+    label: "Yandex image search",
+    category: "image",
+    description:
+      "Search for still-image sources through the browser-backed Yandex Images adapter, then download to public/assets.",
+    destination: "public/assets/",
+    prerequisites: ["opencli", "curl"],
+    command: "opencli yandeximages search '<query>' --limit 10 -f json",
+    outputFields: ["image_url", "thumb_url", "title", "width", "height", "source_url"],
+    docs: ["docs/skills/assetlibrary/04-images-opencli.md", "docs/skills/assetlibrary/images/search.js"],
+    example: "opencli yandeximages search 'abstract concrete texture' --limit 10 -f json",
+  },
+  manifestWiring: {
+    collectionType: "manifestWiring",
+    label: "Manifest wiring",
+    category: "manifest",
+    description:
+      "Validate the path contract and write finalized files from public/audio or public/assets into scene manifests.",
+    destination: "Scene manifest paths relative to public/",
+    prerequisites: ["None beyond final public files"],
+    command: "scene.assets[].src = 'assets/*.png' or scene.transitionOut.effects[].path = 'audio/*.mp3'",
+    outputFields: ["path", "assetType", "kind", "anchor", "volume"],
+    docs: ["docs/skills/assetlibrary/05-manifest-wiring.md"],
+    example: '{ "assetType": "ImageReveal", "src": "assets/hero.png" }',
+  },
+};
+
+function canonicalCollectionKey(name) {
+  if (!name) return null;
+  const normalized = String(name).trim().toLowerCase();
+  const directMatch = Object.keys(ASSET_COLLECTIONS).find((key) => key.toLowerCase() === normalized);
+  if (directMatch) return directMatch;
+
+  const aliases = {
+    youtube: "youtubeSearch",
+    youtubesearch: "youtubeSearch",
+    youtubes: "youtubeSearch",
+    ytdlp: "ytDlpDownload",
+    ytdlpdownload: "ytDlpDownload",
+    download: "ytDlpDownload",
+    sfx: "sfxSplit",
+    sfxsplit: "sfxSplit",
+    split: "sfxSplit",
+    image: "imageSearch",
+    images: "imageSearch",
+    yandex: "imageSearch",
+    yandeximages: "imageSearch",
+    manifest: "manifestWiring",
+    wiring: "manifestWiring",
+    library: "youtubeSearch",
+  };
+
+  return aliases[normalized] ?? null;
+}
+
+export function listAssetCollections() {
+  return Object.values(ASSET_COLLECTIONS).map(({ collectionType, label, category, description, destination, prerequisites, docs }) => ({
+    collectionType,
+    label,
+    category,
+    description,
+    destination,
+    prerequisites,
+    docs,
+  }));
+}
+
+export function describeAssetCollection(collectionName) {
+  const key = canonicalCollectionKey(collectionName);
+  const entry = ASSET_COLLECTIONS[key];
+  if (!entry) {
+    throw new Error(
+      `Unknown asset collection "${collectionName}". Available: ${Object.keys(ASSET_COLLECTIONS).join(", ")}`
+    );
+  }
+  return {
+    ...entry,
+    collectionType: entry.collectionType,
+    command: entry.command,
+    output: {
+      fields: entry.outputFields,
+    },
+  };
+}
+
 /** Static reference for scene/asset/effect envelope fields that aren't tied
  * to any one asset/transition manifest. Lets the agent skip ever reading
  * scene.schema.json / manifest.schema.json by hand. */

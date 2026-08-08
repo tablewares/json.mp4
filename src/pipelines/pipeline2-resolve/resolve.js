@@ -47,7 +47,7 @@ export async function resolveProject(manifestPath) {
       manifest.narration.entries,
       manifest.narration.fullTranscript,
       config.fps,
-      { provider: ttsProvider },
+      { provider: ttsProvider, humanize: config.ttsHumanize },
     );
     timingById = tts.byId;
     ttsTotalDuration = tts.totalDuration;
@@ -102,21 +102,33 @@ export async function resolveProject(manifestPath) {
   // (required by manifest.schema.json), so AudioOverlay has a real source
   // per track. Empty/missing audioOverlay resolves to [] — the renderer
   // then skips mounting <AudioOverlay> entirely (see Composition.jsx).
-  const audioOverlay = hasNarration && ttsTotalDuration != null && ttsAudioPath
-    ? [
-        {
-          id: "voiceover",
-          start: 0,
-          end: ttsTotalDuration,
-          path: ttsAudioPath,
-        },
-      ]
-    : (manifest.audioOverlay ?? []).map((t) => ({
-        id: t.id,
-        start: t.start,
-        end: t.end,
-        path: t.path,
-      }));
+// after resolvedScenes + pass-2 transition bundling, before building audioOverlay:
+function computeTotalDurationSeconds(resolvedScenes, fps) {
+  let acc = 0;
+  for (const scene of resolvedScenes) {
+    const overlap = scene.transitionOut?.durationInFrames ?? 0;
+    acc += scene.durationInFrames - overlap;
+  }
+  return acc / fps;
+}
+
+  const musicTracks = (manifest.music ?? []).map((m) => ({
+    id: m.id,
+    start: m.start ?? 0,
+    end: m.end ?? computeTotalDurationSeconds(resolvedScenes, config.fps),
+    path: m.path,
+    volume: m.volume ?? 0.25,
+    loop: m.loop ?? true,
+    fadeInSeconds: m.fadeInSeconds ?? 0,
+    fadeOutSeconds: m.fadeOutSeconds ?? 0,
+  }));
+
+  const audioOverlay = [
+    ...(hasNarration && ttsTotalDuration != null && ttsAudioPath
+      ? [{ id: "voiceover", start: 0, end: ttsTotalDuration, path: ttsAudioPath, volume: 1 }]
+      : (manifest.audioOverlay ?? []).map((t) => ({ id: t.id, start: t.start, end: t.end, path: t.path, volume: t.volume ?? 1 }))),
+    ...musicTracks,
+  ];
 
   return {
     projectId: manifest.projectId,
@@ -185,7 +197,7 @@ function resolveTransitionEffects(effectsSpec, outgoingScene, styles, assetRegis
 
 function resolveKineticWordTimings(assetSpec, assetManifest, sceneWords, narrationText) {
   if (assetSpec.assetType !== "KineticText" || !sceneWords?.length || !narrationText) return null;
-
+  
   const useNarrationTiming =
     assetSpec.styleOverride?.useNarrationTiming ?? assetManifest.defaultStyle?.useNarrationTiming ?? true;
   if (!useNarrationTiming) return null;
@@ -311,6 +323,8 @@ function buildTransitionBundle(transitionSpec, outgoingScene, incomingScene, tra
 
   return bundle;
 }
+
+
 
 // CLI usage: node resolve.js path/to/manifest.json [output.json]
 if (import.meta.url === `file://${process.argv[1]}`) {

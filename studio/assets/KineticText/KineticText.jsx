@@ -28,12 +28,13 @@ export function KineticText({ resolvedPosition, resolvedStyle, content, timing }
 
   const words = (content.text ?? "").trim().split(/\s+/).filter(Boolean);
   const requestedStagger = resolvedStyle.staggerFrames ?? 6;
-  const easingConfig = resolvedStyle.easing ?? { damping: 12, mass: 0.4, stiffness: 180 };
-  const popScale = resolvedStyle.wordPopScale ?? 1.15;
+  
+  // Snappier spring configuration for pop-in effects
+  const easingConfig = resolvedStyle.easing ?? { damping: 15, mass: 0.2, stiffness: 300 };
+  const popScale = resolvedStyle.wordPopScale ?? 1.2;
 
   const hasWordTimings = Array.isArray(wordTimings) && wordTimings.length === words.length;
 
-  // Even-stagger fallback budget (unused when hasWordTimings is true).
   const revealBudgetFrames = Math.max(1, (exitAtFrame - enterAtFrame) * 0.6);
   const effectiveStagger =
     words.length > 1 ? Math.min(requestedStagger, revealBudgetFrames / (words.length - 1)) : 0;
@@ -70,18 +71,31 @@ export function KineticText({ resolvedPosition, resolvedStyle, content, timing }
           ? Math.max(enterAtFrame, Math.min(wordTimings[i].startFrame, exitAtFrame))
           : enterAtFrame + i * effectiveStagger;
 
+        // Keep word completely hidden until its frame arrives
+        if (frame < wordStartFrame) {
+          return (
+            <span
+              key={`${word}-${i}`}
+              style={{ display: "inline-block", opacity: 0 }}
+            >
+              {word}
+            </span>
+          );
+        }
+
+        // Snap animation: starts slightly oversized and quickly snaps down to scale 1.0
         const progress = spring({ frame: frame - wordStartFrame, fps, config: easingConfig });
-        const scale = interpolate(progress, [0, 0.6, 1], [0.4, popScale, 1]);
-        const opacity = interpolate(progress, [0, 1], [0, 1], { extrapolateLeft: "clamp" });
-        const translateY = interpolate(progress, [0, 1], [18, 0]);
+        const scale = interpolate(progress, [0, 1], [popScale, 1], {
+          extrapolateRight: "clamp",
+        });
 
         return (
           <span
             key={`${word}-${i}`}
             style={{
               display: "inline-block",
-              opacity,
-              transform: `translateY(${translateY}px) scale(${scale})`,
+              opacity: 1,
+              transform: `scale(${scale})`,
             }}
           >
             {word}

@@ -1,0 +1,13 @@
+{
+  "projectId": "tmp_add_music_schema",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [],
+  "music": [
+    {
+      "id": "m1",
+      "volume": 0.8,
+      "path": "/audio/track.mp3"
+    }
+  ]
+}

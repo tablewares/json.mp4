@@ -1,0 +1,31 @@
+{
+  "projectId": "bitcoin-explainer",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "What exactly is Bitcoin?"
+      },
+      {
+        "id": "n2",
+        "text": "Traditionally, we rely on banks to move money. They are the middleman."
+      },
+      {
+        "id": "n3",
+        "text": "Bitcoin removes the middleman. It uses a shared ledger called a blockchain."
+      },
+      {
+        "id": "n4",
+        "text": "Thousands of computers verify every transaction, making it secure and transparent."
+      },
+      {
+        "id": "n5",
+        "text": "It is a decentralized way to store and send value. That is Bitcoin."
+      }
+    ],
+    "fullTranscript": "What exactly is Bitcoin? Traditionally, we rely on banks to move money. They are the middleman. Bitcoin removes the middleman. It uses a shared ledger called a blockchain. Thousands of computers verify every transaction, making it secure and transparent. It is a decentralized way to store and send value. That is Bitcoin."
+  }
+}

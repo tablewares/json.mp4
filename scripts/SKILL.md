@@ -1,6 +1,6 @@
 ---
 name: video-agent-cli
-description: How to build and render Remotion-based videos in this repo using scripts/agent-cli.mjs as the only build entry point. Use this skill whenever the user asks to create a new video project, add scenes/assets/transitions/narration/audio, edit an existing project, look up what an asset or transition type accepts, or render a project to mp4. Never read or hand-author files under studio/manifest/**, studio/assets/**/manifest.json, or studio/transitions/**/manifest.json to discover options — ask the CLI instead. This skill contains no design criteria; supply those externally per run.
+description: How to build and render Remotion-based videos in this repo using scripts/agent-cli.mjs as the only build entry point. Use this skill whenever the user asks to create a new video project, add scenes/assets/transitions/narration/audio, add background music, control TTS humanization, apply post-cinematography effects (vignette/grain/color-grade/letterbox), edit an existing project, look up what an asset or transition type accepts, or render a project to mp4. Never read or hand-author files under studio/manifest/**, studio/assets/**/manifest.json, or studio/transitions/**/manifest.json to discover options — ask the CLI instead. This skill contains no design criteria; supply those externally per run.
 ---
 
 # Video agent CLI
@@ -80,6 +80,8 @@ node scripts/agent-cli.mjs transitions           # every transition type + one-l
 node scripts/agent-cli.mjs transition <Type>     # full params schema + defaults for one type
 node scripts/agent-cli.mjs anchors                # valid anchor.position values
 node scripts/agent-cli.mjs envelope               # scene/asset/transitionEffect field reference (anchor, enterAt/exitAt, effects shape)
+node scripts/agent-cli.mjs collections            # every asset-library collection workflow (YouTube, SFX, image search, etc.)
+node scripts/agent-cli.mjs collection <Name>      # command + destination + output fields for one asset-library workflow
 node scripts/agent-cli.mjs projects               # existing project ids under studio/manifest/
 node scripts/agent-cli.mjs show <projectId>                 # full built tree (manifest+config+styles+scenes)
 node scripts/agent-cli.mjs list-assets <projectId>          # every asset currently placed, grouped by scene
@@ -97,6 +99,13 @@ than guessing an asset's current id or a scene's current transition.
 default. Don't guess a schema — call `asset <Type>` first for every type you
 use in this conversation, even one you've used in a prior run. The same goes
 for `transition <Type>` before you set a transition's `params`.
+
+The asset-library docs in `docs/skills/assetlibrary/` are now mirrored as CLI
+discovery as well: `collections` lists the available collection workflows and
+`collection <Name>` describes the exact command, destination, required tools,
+output fields, and linked docs for one workflow. Use these before you reach for
+manual shell commands or a browser workflow, especially for YouTube search,
+yt-dlp download, SFX slicing, and Yandex image discovery.
 
 You may also discover assets/transitions that don't exist yet in the
 registry — see "Authoring a new asset or transition" below.
@@ -231,6 +240,124 @@ node scripts/agent-cli.mjs add-effect <projectId> <sceneId> '{ "id": "...", "kin
 Visual effects are resolved through the same asset pipeline as a normal
 scene asset — run `envelope` if you forget the shape.
 
+### Audio: overlays, music, TTS humanization
+
+There are three independent audio concerns. They layer onto the same audio
+timeline `pipeline2-resolve` builds, and each is a strict no-op for a
+project that doesn't author it — omit any of them and the output is
+unchanged.
+
+**1. Manifest-level audio overlays** (`add-audio`) — hand-authored
+non-TTS beds/SFX. Only meaningful for *non-narrated* projects: the moment
+real TTS narration audio exists, `resolve.js` overrides `audioOverlay` and
+these entries are ignored. Already covered above.
+
+**2. Background music** — a separate concept from narration/audioOverlay:
+different defaults (looping, low volume, fades) and independent of TTS
+timing entirely. `music` is a manifest-level array field (see
+`manifest.schema.json`):
+
+```json
+"music": [
+  {
+    "id": "bgm-1",
+    "path": "audio/theme.mp3",
+    "volume": 0.25,
+    "start": 0,
+    "loop": true,
+    "fadeInSeconds": 1.5,
+    "fadeOutSeconds": 2
+  }
+]
+```
+
+- `id` + `path` are required; everything else has a working default
+  (`volume` 0.25, `start` 0, `loop` true, fades 0). A bare
+  `{ "id": ..., "path": ... }` is a valid entry.
+- `end` is optional — omit it to run the track for the full composition
+  duration (auto-computed from total scene time).
+- Music tracks are layered onto the same audio timeline as
+  narration/audioOverlay; they don't replace or get overridden by TTS the
+  way manifest-level `audioOverlay` entries do.
+- **There is no `add-music` CLI command yet** — `music` is a raw
+  `manifest.json` field. It validates cleanly (`manifest.schema.json`
+  declares it), so `validate`/`render` accept it, but you currently have to
+  place it by editing the manifest directly. This is the one sanctioned
+  exception to the "don't edit `studio/manifest/**` directly" rule for the
+  audio case, until an `add-music` command is added; prefer asking the user
+  to confirm before hand-authoring it. Omitting `music` entirely is the
+  default and a strict no-op.
+
+**3. TTS humanization** — TTS output can be humanized (pitch jitter,
+pacing variance, micro-pauses, breathiness) **before** WhisperX
+alignment runs, so the word-level timestamps you get back are measured
+against the actual audio that ships — not a "clean" pass that then drifts
+out of sync once humanization is applied afterward. This is a
+provider-level pass, not a post-processing step, and it is **on by
+default**.
+
+Control it via `config.ttsHumanize` in a project's `config.json`:
+
+```json
+{ "ttsHumanize": false }
+```
+
+or partially override the built-in defaults
+(`pitchJitterSemitones` 0.4, `pacingJitterPercent` 6,
+`microPauseMs` [60, 180], `breathiness` 0.15):
+
+```json
+{ "ttsHumanize": { "breathiness": 0.3, "pacingJitterPercent": 8 } }
+```
+
+Omit entirely to use the built-in defaults. **There is no CLI command for
+this yet** — `ttsHumanize` is a raw `config.json` field; edit
+`studio/manifest/<projectId>/config.json` directly if you need to change
+it (the same sanctioned-exception caveat as `music` above applies).
+`init` does not accept `ttsHumanize`, so for a narrated project you'd set
+it after `init`.
+
+### Post-cinematography effects (`config.postEffects`)
+
+Applied as a **second pass over the finished mp4**, after Remotion's own
+render — not inside the composition. This keeps the render pipeline itself
+untouched; only `pipeline3-render/render.js` knows this step exists, and
+only when `config.postEffects` is set.
+
+```json
+{
+  "postEffects": {
+    "vignette": { "strength": 0.4 },
+    "grain": { "strength": 15 },
+    "colorGrade": { "contrast": 1.08, "brightness": 0, "saturation": 1.1, "gamma": 1 },
+    "letterbox": { "aspectRatio": 2.35 }
+  }
+}
+```
+
+- Every key (`vignette`, `grain`, `colorGrade`, `letterbox`) is
+  independently optional; omit `postEffects` entirely for no post-pass.
+- Strict no-op when absent — this is a raw ffmpeg shell-out and requires
+  `ffmpeg` on PATH. When `postEffects` is set but `ffmpeg` is missing,
+  `render.js` throws a clear error naming the missing binary rather than a
+  raw ENOENT.
+- **There is no CLI command for this yet** — `postEffects` is a raw
+  `config.json` field; edit `studio/manifest/<projectId>/config.json`
+  directly (same sanctioned-exception caveat as `music`/`ttsHumanize`).
+  `init` does not accept `postEffects`.
+
+### Overlap / composition diagnostics
+
+`overlap_warn.js` runs automatically inside `resolve.js` for every scene
+during `render` — never call it directly. It **warns, never blocks**:
+spatial+temporal overlap between two assets, off-screen clipping,
+extremely small assets, very short on-screen durations, and (when the
+scene has narration) low visual activity relative to the narration window.
+Treat its console output as a pre-render sanity check, not a validation
+failure — if `render` succeeds despite warnings, that's expected. Read
+the warnings; don't chase them into false failures, and don't try to
+silence them by editing `overlap_warn.js`.
+
 ### Batching many steps at once
 
 Once you're about to issue more than two or three `agent-cli.mjs` commands in
@@ -261,7 +388,8 @@ node scripts/agent-batch.mjs '[
   ["init",       {"projectId":"<projectId>", "narration":{"entries":[{"id":"n1","text":"..."}],"fullTranscript":"..."}}],
   ["add-scene",  "<projectId>", {"id":"<sceneId>", "narrationRef":"n1", "background":"<token>", "transitionOut":{"type":"<type>"}}],
   ["add-asset",  "<projectId>", "<sceneId>", {"assetType":"<Type>", "anchor":{"position":"<anchor>"}, "contentOverride":{}}],
-  ["validate",   "<projectId>"]
+  ["validate",   "<projectId>"],
+  ["add-music",  "<projectId>", {"id":"m1","src":"/audio/track.mp3","volume":0.8}] 
 ]'
 ```
 
@@ -340,8 +468,11 @@ you author one in a session.
 - Don't write or edit files under `studio/manifest/**` directly — always go
   through `init` / `add-scene` / `add-asset` / `update-asset` / etc. The
   only sanctioned `studio/` edits are component + manifest authoring for a
-  brand-new asset/transition type (above), never for a project's manifest,
-  scene, theme, or config files.
+  brand-new asset/transition type (above), plus the three documented raw
+  config/manifest fields that have no CLI command yet — `music`
+  (`manifest.json`), `ttsHumanize` and `postEffects` (`config.json`) —
+  each described as a sanctioned exception in its own section above. Never
+  hand-edit a project's scene, theme, or config file for anything else.
 - Don't read files under `studio/manifest/**` (including
   `studio/manifest/example-project/` and `studio/manifest/boilerplate-toon/`)
   to learn how a scene is shaped, what fields an asset accepts, or what a
@@ -368,6 +499,11 @@ you author one in a session.
   needed, and nothing here requires the `@toon-format/cli` conversion
   flow. (If you're curious, `docs/agent-guide/recipes/toon-manifest.md`
   covers the per-file swap; it's never required.)
+- Don't treat `overlap_warn.js` console output from `render` as a
+  validation failure. It warns, never blocks — if `render` succeeds
+  despite the warnings, that's expected. Read them as a sanity check, fix
+  the ones that flag real problems, and don't edit `overlap_warn.js` to
+  silence them. (See "Overlap / composition diagnostics" above.)
 - Don't invent design criteria when none were supplied. If the run gives you
   no external design context (palette, typography, scene cadence, asset
   choices), ask the user. This skill deliberately does not encode any

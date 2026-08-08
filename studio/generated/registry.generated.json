@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T18:49:41.771Z",
+  "generatedAt": "2026-08-08T00:19:07.610Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics"
@@ -93,11 +93,6 @@
     "pivotZoom": {
       "folderName": "pivotZoom",
       "entryFile": "PivotZoom.jsx",
-      "rootIndex": 0
-    },
-    "shatterWipe": {
-      "folderName": "shatterWipe",
-      "entryFile": "ShatterWipe.jsx",
       "rootIndex": 0
     },
     "slideContinuity": {

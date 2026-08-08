@@ -1,0 +1,59 @@
+{
+  "projectId": "fractional-reserve-lending",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1",
+      "path": "scenes/s1.json"
+    },
+    {
+      "id": "s2",
+      "path": "scenes/s2.json"
+    },
+    {
+      "id": "s3",
+      "path": "scenes/s3.json"
+    },
+    {
+      "id": "s4",
+      "path": "scenes/s4.json"
+    },
+    {
+      "id": "s5",
+      "path": "scenes/s5.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "When you deposit $1,000 into a bank, you might think it just sits in a vault, waiting for you."
+      },
+      {
+        "id": "n2",
+        "text": "But banks are only required to keep a small fraction—say 10%—as a reserve. The rest is fair game for lending."
+      },
+      {
+        "id": "n3",
+        "text": "The bank lends that $900 to someone else. This new loan becomes a deposit in another bank."
+      },
+      {
+        "id": "n4",
+        "text": "This process repeats. That $900 generates another $810 loan, then $729, and so on. This is the money multiplier effect."
+      },
+      {
+        "id": "n5",
+        "text": "Fractional reserve lending fuels economic growth by expanding credit, but it requires trust and stability to function."
+      }
+    ],
+    "fullTranscript": "When you deposit $1,000 into a bank, you might think it just sits in a vault, waiting for you. But banks are only required to keep a small fraction—say 10%—as a reserve. The rest is fair game for lending. The bank lends that $900 to someone else. This new loan becomes a deposit in another bank. This process repeats. That $900 generates another $810 loan, then $729, and so on. This is the money multiplier effect. Fractional reserve lending fuels economic growth by expanding credit, but it requires trust and stability to function."
+  },
+  "music": [
+    {
+      "id": "m1",
+      "volume": 0.8,
+      "path": "audio/bgm_minimal.mp3"
+    }
+  ]
+}

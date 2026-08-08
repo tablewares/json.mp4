@@ -1,0 +1,54 @@
+{
+  "id": "s2",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "NumberStat-1",
+      "assetType": "NumberStat",
+      "anchor": {
+        "position": "left"
+      },
+      "contentOverride": {
+        "value": 10,
+        "suffix": "%",
+        "label": "Reserve"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "NumberStat-2",
+      "assetType": "NumberStat",
+      "anchor": {
+        "position": "right"
+      },
+      "contentOverride": {
+        "value": 90,
+        "suffix": "%",
+        "label": "Loanable"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "Divider-3",
+      "assetType": "Divider",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "orientation": "vertical"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

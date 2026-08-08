@@ -1,5 +1,5 @@
 {
-  "projectId": "bitcoin-explained",
+  "projectId": "fractional-reserve-lending",
   "config": {
     "fps": 30,
     "width": 1920,
@@ -10,140 +10,77 @@
     {
       "id": "voiceover",
       "start": 0,
-      "end": 33.52,
-      "path": "audio/tts_aebbaac0a110ea6d3ac37aff472c1b15da6351c1f523a8b86f5eb5062edfddd8.wav"
+      "end": 28.92,
+      "path": "audio/tts_49409ee8d4f726f9c19d31e5f829ee17b18376aa42b3794345ecd54a9c8f1f95.wav",
+      "volume": 1
+    },
+    {
+      "id": "m1",
+      "start": 0,
+      "end": 28.933333333333334,
+      "path": "audio/bgm_minimal.mp3",
+      "volume": 0.8,
+      "loop": true,
+      "fadeInSeconds": 0,
+      "fadeOutSeconds": 0
     }
   ],
   "scenes": [
     {
       "id": "s1",
-      "durationInFrames": 178,
+      "durationInFrames": 161,
       "effects": [],
-      "camera": {
-        "actions": [
-          {
-            "at": 0,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 0,
-              "offsetYPercent": 0
-            },
-            "zoomPercent": 100
-          },
-          {
-            "at": 1,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 0,
-              "offsetYPercent": 0
-            },
-            "zoomPercent": 105
-          }
-        ],
-        "durationInFrames": null,
-        "speed": 1
-      },
+      "camera": null,
       "ttsWindow": {
         "narrationRef": "n1",
         "startSeconds": 0,
-        "endSeconds": 5.335,
+        "endSeconds": 4.775,
         "startFrame": 0,
-        "endFrame": 160
+        "endFrame": 143
       },
       "background": "#0B0E14",
       "assets": [
         {
-          "id": "kicker-1",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
+          "id": "ImageReveal-1",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
           "content": {
-            "text": "DIGITAL GOLD"
+            "src": "assets/bank_vault.jpg"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 153.6,
-            "top": 108,
-            "transformOrigin": "0% 0%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "word",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 24,
-              "fontWeight": 700,
-              "lineHeight": 1.1,
-              "colorToken": "accentBg",
-              "color": "#3D7BFD"
-            },
-            "width": 800,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 0,
-            "exitAtFrame": 160,
-            "words": null
-          }
-        },
-        {
-          "id": "hero-1",
-          "assetType": "KineticText",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
-          "content": {
-            "text": "BITCOIN"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 410,
-            "top": 410,
+            "left": 640,
+            "top": 220,
             "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 84,
-              "fontWeight": 800,
-              "lineHeight": 1.05,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
+            "borderRadius": 24,
             "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
             },
-            "staggerFrames": 6,
-            "wordPopScale": 1.15,
-            "useNarrationTiming": true,
-            "width": 1100,
-            "height": 260
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
           },
           "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 16,
-            "exitAtFrame": 160,
+            "durationInFrames": 161,
+            "enterAtFrame": 0,
+            "exitAtFrame": 143,
             "words": null
           }
         },
         {
-          "id": "caption-1",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "Decentralized Digital Currency"
-          },
+          "id": "SolidShape-2",
+          "assetType": "SolidShape",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
+          "content": {},
           "resolvedPosition": {
             "position": "absolute",
-            "left": 560,
-            "top": 873.6,
-            "transformOrigin": "50% 100%"
+            "left": 912,
+            "top": 125.60000000000002,
+            "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
             "easing": {
@@ -151,24 +88,18 @@
               "mass": 0.4,
               "stiffness": 180
             },
-            "revealMode": "word",
-            "align": "center",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 36,
-              "fontWeight": 400,
-              "lineHeight": 1.35,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "width": 800,
-            "height": 120
+            "shape": "pill",
+            "backgroundColorToken": "#16C784",
+            "borderRadius": 16,
+            "revealMode": "scale",
+            "width": 96,
+            "height": 8,
+            "backgroundColor": "#16C784"
           },
           "timing": {
-            "durationInFrames": 178,
-            "enterAtFrame": 32,
-            "exitAtFrame": 160,
+            "durationInFrames": 161,
+            "enterAtFrame": 0,
+            "exitAtFrame": 143,
             "words": null
           }
         }
@@ -183,276 +114,32 @@
     },
     {
       "id": "s2",
-      "durationInFrames": 229,
+      "durationInFrames": 203,
       "effects": [],
-      "camera": {
-        "actions": [
-          {
-            "at": 0,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 0,
-              "offsetYPercent": 0
-            },
-            "zoomPercent": 100
-          },
-          {
-            "at": 0.2,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": -25,
-              "offsetYPercent": 0
-            },
-            "zoomPercent": 115
-          },
-          {
-            "at": 0.3,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 25,
-              "offsetYPercent": 0
-            },
-            "zoomPercent": 100
-          },
-          {
-            "at": 0.4,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 25,
-              "offsetYPercent": 0
-            },
-            "zoomPercent": 115
-          },
-          {
-            "at": 1,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 0,
-              "offsetYPercent": 0
-            },
-            "zoomPercent": 100
-          }
-        ],
-        "durationInFrames": null,
-        "speed": 1
-      },
+      "camera": null,
       "ttsWindow": {
         "narrationRef": "n2",
-        "startSeconds": 5.335,
-        "endSeconds": 12.381,
-        "startFrame": 160,
-        "endFrame": 371
+        "startSeconds": 4.775,
+        "endSeconds": 10.921,
+        "startFrame": 143,
+        "endFrame": 328
       },
       "background": "#161B26",
       "assets": [
         {
-          "id": "kicker-2",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "THE LEDGER"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 108,
-            "transformOrigin": "0% 0%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "word",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 24,
-              "fontWeight": 700,
-              "lineHeight": 1.1,
-              "colorToken": "accentBg",
-              "color": "#3D7BFD"
-            },
-            "width": 800,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 229,
-            "enterAtFrame": 0,
-            "exitAtFrame": 211,
-            "words": null
-          }
-        },
-        {
-          "id": "label-2",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "Blockchain Structure:"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 80,
-            "top": 480,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "word",
-            "align": "right",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 56,
-              "fontWeight": 700,
-              "lineHeight": 1.1,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "width": 800,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 229,
-            "enterAtFrame": 21,
-            "exitAtFrame": 211,
-            "words": null
-          }
-        },
-        {
-          "id": "list-2",
-          "assetType": "ListReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ListReveal/ListReveal.jsx",
-          "content": {
-            "items": [
-              "Transaction",
-              "Hash",
-              "Block",
-              "Chain"
-            ]
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1040,
-            "top": 300,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 36,
-              "fontWeight": 400,
-              "lineHeight": 1.35,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "staggerFrames": 6,
-            "markerStyle": "bullet",
-            "markerFill": "#3D7BFD",
-            "itemGap": 20,
-            "align": "left",
-            "width": 800,
-            "height": 480
-          },
-          "timing": {
-            "durationInFrames": 229,
-            "enterAtFrame": 42,
-            "exitAtFrame": 211,
-            "words": null
-          }
-        }
-      ],
-      "transitionIn": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
-      },
-      "transitionOut": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
-      }
-    },
-    {
-      "id": "s3",
-      "durationInFrames": 247,
-      "effects": [],
-      "camera": null,
-      "ttsWindow": {
-        "narrationRef": "n3",
-        "startSeconds": 12.381,
-        "endSeconds": 19.987,
-        "startFrame": 371,
-        "endFrame": 600
-      },
-      "background": "#0B0E14",
-      "assets": [
-        {
-          "id": "kicker-3",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "NETWORK SECURITY"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 108,
-            "transformOrigin": "0% 0%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "word",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 24,
-              "fontWeight": 700,
-              "lineHeight": 1.1,
-              "colorToken": "accentBg",
-              "color": "#3D7BFD"
-            },
-            "width": 800,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 247,
-            "enterAtFrame": 0,
-            "exitAtFrame": 229,
-            "words": null
-          }
-        },
-        {
-          "id": "stat-3",
+          "id": "NumberStat-1",
           "assetType": "NumberStat",
           "componentPath": "/home/tablewares/json.mp4/studio/assets/NumberStat/NumberStat.jsx",
           "content": {
-            "value": 21000000,
-            "label": "Max Supply"
+            "value": 10,
+            "suffix": "%",
+            "label": "Reserve"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 393.5999999999999,
+            "left": 0,
             "top": 430,
-            "transformOrigin": "50% 50%"
+            "transformOrigin": "0% 50%"
           },
           "resolvedStyle": {
             "typography": {
@@ -477,182 +164,82 @@
             "decimals": 0,
             "valueFormat": "number",
             "prefix": "",
-            "suffix": " BTC",
-            "align": "right",
+            "suffix": "",
+            "align": "left",
             "labelPosition": "top",
             "width": 480,
             "height": 220
           },
           "timing": {
-            "durationInFrames": 247,
-            "enterAtFrame": 23,
-            "exitAtFrame": 229,
+            "durationInFrames": 203,
+            "enterAtFrame": 0,
+            "exitAtFrame": 185,
             "words": null
           }
         },
         {
-          "id": "details-3",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
+          "id": "NumberStat-2",
+          "assetType": "NumberStat",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/NumberStat/NumberStat.jsx",
           "content": {
-            "text": "Proof of Work prevents fraud and secures the entire network."
+            "value": 90,
+            "suffix": "%",
+            "label": "Loanable"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 886.4000000000001,
-            "top": 480,
-            "transformOrigin": "50% 50%"
+            "left": 1440,
+            "top": 430,
+            "transformOrigin": "100% 50%"
           },
           "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "word",
-            "align": "left",
-            "staggerFrames": 2,
             "typography": {
               "fontFamily": "Inter, sans-serif",
-              "fontSize": 36,
-              "fontWeight": 400,
-              "lineHeight": 1.35,
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
               "colorToken": "main1",
               "color": "#F5F7FA"
             },
-            "width": 800,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 247,
-            "enterAtFrame": 46,
-            "exitAtFrame": 229,
-            "words": null
-          }
-        }
-      ],
-      "transitionIn": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
-      },
-      "transitionOut": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
-      }
-    },
-    {
-      "id": "s4",
-      "durationInFrames": 251,
-      "effects": [],
-      "camera": null,
-      "ttsWindow": {
-        "narrationRef": "n4",
-        "startSeconds": 19.987,
-        "endSeconds": 27.753,
-        "startFrame": 600,
-        "endFrame": 833
-      },
-      "background": "#161B26",
-      "assets": [
-        {
-          "id": "kicker-4",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
-          "content": {
-            "text": "CRYPTOGRAPHY"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 108,
-            "transformOrigin": "0% 0%"
-          },
-          "resolvedStyle": {
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "revealMode": "word",
-            "align": "left",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 24,
-              "fontWeight": 700,
-              "lineHeight": 1.1,
-              "colorToken": "accentBg",
-              "color": "#3D7BFD"
-            },
-            "width": 800,
-            "height": 120
-          },
-          "timing": {
-            "durationInFrames": 251,
-            "enterAtFrame": 0,
-            "exitAtFrame": 233,
-            "words": null
-          }
-        },
-        {
-          "id": "code-4",
-          "assetType": "CodeBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/CodeBlock/CodeBlock.jsx",
-          "content": {
-            "code": "PublicKey: 1A1zP1...\\nPrivateKey: 5Kb8k...\\n\\n// Private key signs\\n// Public key verifies",
-            "language": "crypto"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 410,
-            "top": 230,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "monoFontFamily": "'Consolas', 'Cascadia Code', 'Fira Code', 'Courier New', monospace",
-            "badgeTypography": "caption1",
+            "labelTypography": "body1",
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
-            "fontSizePx": 38,
-            "lineHeightPx": 1.45,
-            "staggerFrames": 3,
-            "showLineNumbers": true,
-            "showWindowChrome": true,
-            "backgroundFill": "#1E1E1E",
-            "borderLine": "#333333",
-            "borderRadius": 12,
-            "textFill": "#D4D4D4",
-            "lineNumberFill": "#858585",
-            "accentFill": "#007ACC",
-            "width": 1100,
-            "height": 620
+            "valueFill": "#F5F7FA",
+            "labelFill": "#8B93A7",
+            "canvasFill": "transparent",
+            "borderLine": "transparent",
+            "borderRadius": 24,
+            "decimals": 0,
+            "valueFormat": "number",
+            "prefix": "",
+            "suffix": "",
+            "align": "left",
+            "labelPosition": "top",
+            "width": 480,
+            "height": 220
           },
           "timing": {
-            "durationInFrames": 251,
-            "enterAtFrame": 23,
-            "exitAtFrame": 233,
+            "durationInFrames": 203,
+            "enterAtFrame": 0,
+            "exitAtFrame": 185,
             "words": null
           }
         },
         {
-          "id": "caption-4",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
+          "id": "Divider-3",
+          "assetType": "Divider",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/Divider/Divider.jsx",
           "content": {
-            "text": "Your private key is your secret password to your funds."
+            "orientation": "vertical"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 560,
-            "top": 873.6,
-            "transformOrigin": "50% 100%"
+            "left": 760,
+            "top": 539,
+            "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
             "easing": {
@@ -660,24 +247,16 @@
               "mass": 0.4,
               "stiffness": 180
             },
-            "revealMode": "word",
-            "align": "center",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 28,
-              "fontWeight": 600,
-              "lineHeight": 1.2,
-              "colorToken": "main2",
-              "color": "#8B93A7"
-            },
-            "width": 800,
-            "height": 120
+            "orientation": "horizontal",
+            "colorToken": "#0B0E14",
+            "thickness": 2,
+            "width": 400,
+            "height": 2
           },
           "timing": {
-            "durationInFrames": 251,
-            "enterAtFrame": 47,
-            "exitAtFrame": 233,
+            "durationInFrames": 203,
+            "enterAtFrame": 0,
+            "exitAtFrame": 185,
             "words": null
           }
         }
@@ -696,31 +275,62 @@
       }
     },
     {
-      "id": "s5",
-      "durationInFrames": 173,
+      "id": "s3",
+      "durationInFrames": 159,
       "effects": [],
       "camera": null,
       "ttsWindow": {
-        "narrationRef": "n5",
-        "startSeconds": 27.753,
-        "endSeconds": 33.52,
-        "startFrame": 833,
-        "endFrame": 1006
+        "narrationRef": "n3",
+        "startSeconds": 10.921,
+        "endSeconds": 15.646,
+        "startFrame": 328,
+        "endFrame": 469
       },
       "background": "#0B0E14",
       "assets": [
         {
-          "id": "hero-5",
+          "id": "ImageReveal-1",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/loan_agreement.jpg"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 640,
+            "top": 220,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 24,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "timing": {
+            "durationInFrames": 159,
+            "enterAtFrame": 0,
+            "exitAtFrame": 141,
+            "words": null
+          }
+        },
+        {
+          "id": "KineticText-2",
           "assetType": "KineticText",
           "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
           "content": {
-            "text": "THE FUTURE OF MONEY"
+            "text": "Money in Motion"
           },
           "resolvedPosition": {
             "position": "absolute",
             "left": 410,
-            "top": 410,
-            "transformOrigin": "50% 50%"
+            "top": 820,
+            "transformOrigin": "50% 100%"
           },
           "resolvedStyle": {
             "typography": {
@@ -743,49 +353,242 @@
             "height": 260
           },
           "timing": {
-            "durationInFrames": 173,
-            "enterAtFrame": 17,
-            "exitAtFrame": 173,
+            "durationInFrames": 159,
+            "enterAtFrame": 0,
+            "exitAtFrame": 141,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s4",
+      "durationInFrames": 241,
+      "effects": [],
+      "camera": null,
+      "ttsWindow": {
+        "narrationRef": "n4",
+        "startSeconds": 15.646,
+        "endSeconds": 23.073,
+        "startFrame": 469,
+        "endFrame": 692
+      },
+      "background": "#F5F7FA",
+      "assets": [
+        {
+          "id": "BarChartRace-1",
+          "assetType": "BarChartRace",
+          "componentPath": "/home/tablewares/json.mp4/studio/graphics/BarChartRace/BarChartRace.jsx",
+          "content": {
+            "bars": [
+              {
+                "label": "Initial",
+                "value": 1000
+              },
+              {
+                "label": "Loan 1",
+                "value": 1900
+              },
+              {
+                "label": "Loan 2",
+                "value": 2710
+              },
+              {
+                "label": "Loan 3",
+                "value": 3439
+              }
+            ]
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 260,
+            "top": 280,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
+              "fontWeight": 400,
+              "lineHeight": 1.35,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "canvasFill": "#161B26",
+            "borderLine": "transparent",
+            "borderRadius": 24,
+            "axisPad": 64,
+            "axisLine": "#2A3142",
+            "labelBandPad": 72,
+            "barFill": "#3D7BFD",
+            "barWidth": 96,
+            "barRadius": 12,
+            "valueFill": "#F5F7FA",
+            "labelFill": "#8B93A7",
+            "valueFormat": "currency",
+            "staggerFrames": 6,
+            "sortByValue": null,
+            "width": 1400,
+            "height": 520
+          },
+          "timing": {
+            "durationInFrames": 241,
+            "enterAtFrame": 0,
+            "exitAtFrame": 223,
             "words": null
           }
         },
         {
-          "id": "caption-5",
-          "assetType": "TextReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
+          "id": "TextBlock-2",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
           "content": {
-            "text": "Bitcoin Explained"
+            "text": "The Multiplier Effect"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 560,
-            "top": 873.6,
+            "left": 510,
+            "top": 0,
+            "transformOrigin": "50% 0%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 241,
+            "enterAtFrame": 0,
+            "exitAtFrame": 223,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s5",
+      "durationInFrames": 176,
+      "effects": [],
+      "camera": null,
+      "ttsWindow": {
+        "narrationRef": "n5",
+        "startSeconds": 23.073,
+        "endSeconds": 28.92,
+        "startFrame": 692,
+        "endFrame": 868
+      },
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "ImageReveal-1",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/city_skyline.jpg"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 640,
+            "top": 220,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 24,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 640,
+            "height": 640
+          },
+          "timing": {
+            "durationInFrames": 176,
+            "enterAtFrame": 0,
+            "exitAtFrame": 176,
+            "words": null
+          }
+        },
+        {
+          "id": "KineticText-2",
+          "assetType": "KineticText",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
+          "content": {
+            "text": "Growth & Trust"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 410,
+            "top": 820,
             "transformOrigin": "50% 100%"
           },
           "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
             "easing": {
               "damping": 12,
               "mass": 0.4,
               "stiffness": 180
             },
-            "revealMode": "word",
-            "align": "center",
-            "staggerFrames": 2,
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 28,
-              "fontWeight": 600,
-              "lineHeight": 1.2,
-              "colorToken": "main2",
-              "color": "#8B93A7"
-            },
-            "width": 800,
-            "height": 120
+            "staggerFrames": 6,
+            "wordPopScale": 1.15,
+            "useNarrationTiming": true,
+            "width": 1100,
+            "height": 260
           },
           "timing": {
-            "durationInFrames": 173,
-            "enterAtFrame": 35,
-            "exitAtFrame": 173,
+            "durationInFrames": 176,
+            "enterAtFrame": 0,
+            "exitAtFrame": 176,
             "words": null
           }
         }

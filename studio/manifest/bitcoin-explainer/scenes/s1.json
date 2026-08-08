@@ -1,0 +1,26 @@
+{
+  "id": "s1",
+  "background": "#000000",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "What is Bitcoin?"
+      },
+      "styleOverride": {
+        "typography": "heading1"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

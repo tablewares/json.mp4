@@ -224,6 +224,23 @@ export class ProjectBuilder {
     this._writeJson(this.manifestPath(projectId), manifest);
     return manifest;
   }
+  addMusic(projectId, entry = {}) {
+    const manifest = this._readManifest(projectId);
+    if (!Array.isArray(manifest.music)) manifest.music = [];
+
+    const musicEntry = { ...entry };
+    if (!musicEntry.path && musicEntry.src) musicEntry.path = musicEntry.src;
+    delete musicEntry.src;
+
+    if (!musicEntry.id || !musicEntry.path) {
+      throw new Error("addMusic requires { id, path } (src is accepted as a shorthand for path)");
+    }
+
+    manifest.music.push(musicEntry);
+    this._writeJson(this.manifestPath(projectId), manifest);
+    return manifest.music;
+  }
+
 
   /**
    * Adds a scene (initially with assets: []) and wires it into manifest.scenes.

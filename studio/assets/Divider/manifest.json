@@ -6,7 +6,7 @@
   "defaultStyle": {
     "easing": "snappySpring",
     "orientation": "horizontal",
-    "colorToken": "surface.outline",
+    "colorToken": "shade1",
     "thickness": 2
   },
   "contentOverrideSchema": {

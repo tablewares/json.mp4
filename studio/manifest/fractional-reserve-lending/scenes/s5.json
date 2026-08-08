@@ -1,0 +1,33 @@
+{
+  "id": "s5",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "ImageReveal-1",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/city_skyline.jpg"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "KineticText-2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom"
+      },
+      "contentOverride": {
+        "text": "Growth & Trust"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n5"
+}

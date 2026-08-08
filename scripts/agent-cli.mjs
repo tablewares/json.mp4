@@ -13,6 +13,8 @@
 //   transition <transitionType>           full param schema for one transition type
 //   anchors                               valid anchor.position values
 //   envelope                              scene/asset/effect envelope field reference
+//   collections                           list every asset-library collection workflow
+//   collection <collectionType>           full command + output contract for one collection workflow
 //   projects                              list existing project ids
 //   show <projectId>                      dump the full built project tree
 //   list-assets <projectId> [sceneId]     viewer: assets currently in the project (or one scene)
@@ -62,6 +64,8 @@ import {
   describeTransition,
   listAnchorPositions,
   describeSceneEnvelope,
+  listAssetCollections,
+  describeAssetCollection,
 } from "../src/agent/introspect.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -170,6 +174,12 @@ try {
     case "envelope":
       ok(describeSceneEnvelope());
       break;
+    case "collections":
+      ok(listAssetCollections());
+      break;
+    case "collection":
+      ok(describeAssetCollection(rest[0]));
+      break;
     case "projects":
       ok(builder.listProjects());
       break;
@@ -219,6 +229,9 @@ try {
       ok(builder.setFullTranscript(rest[0], text));
       break;
     }
+    case "add-music":
+      ok(builder.addMusic(rest[0], parseJsonArg(rest[1], "music entry")));
+      break;
     case "add-audio":
       ok(builder.addAudioOverlay(rest[0], parseJsonArg(rest[1], "audio overlay entry")));
       break;

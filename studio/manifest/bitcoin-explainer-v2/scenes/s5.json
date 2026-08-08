@@ -1,0 +1,61 @@
+{
+  "id": "s5",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "Decentralized Value"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "NumberStat-2",
+      "assetType": "NumberStat",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -20
+      },
+      "contentOverride": {
+        "value": 21000000,
+        "label": "Max Supply"
+      },
+      "styleOverride": {
+        "typography": "body1"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ImageReveal-3",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/bitcoin_gold.png"
+      },
+      "styleOverride": {
+        "width": 600,
+        "height": 600
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n5",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}
