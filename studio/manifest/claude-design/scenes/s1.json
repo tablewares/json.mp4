@@ -1,0 +1,306 @@
+{
+  "id": "s1",
+  "background": "canvas",
+  "assets": [
+    {
+      "id": "heroCard",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 4
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "rect",
+        "width": 900,
+        "height": 820,
+        "borderRadius": 24,
+        "revealMode": "scale",
+        "gradient": {
+          "from": "#efe9de",
+          "to": "#f5f0e8",
+          "angle": 160
+        },
+        "opacity": 1
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "heroHairline",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 4
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "rect",
+        "width": 900,
+        "height": 820,
+        "borderRadius": 24,
+        "revealMode": "scale",
+        "backgroundColorToken": "hairline",
+        "opacity": 0.999
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "kicker",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 8,
+        "offsetYPercent": -32
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "pill",
+        "width": 64,
+        "height": 8,
+        "revealMode": "wipe",
+        "backgroundColorToken": "coral"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "headline",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 9,
+        "offsetYPercent": -16
+      },
+      "contentOverride": {
+        "text": "Meet your thinking partner."
+      },
+      "styleOverride": {
+        "typography": "displayLg",
+        "align": "left",
+        "width": 760,
+        "easing": "gentleSpring"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "lede",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 9,
+        "offsetYPercent": 8
+      },
+      "contentOverride": {
+        "text": "Warm cream canvas, slab-serif display, and a coral that earns its keep."
+      },
+      "styleOverride": {
+        "typography": "bodyMd",
+        "align": "left",
+        "width": 680,
+        "easing": "gentleSpring"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "coralanchor",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 9,
+        "offsetYPercent": 28
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "pill",
+        "width": 320,
+        "height": 72,
+        "borderRadius": 12,
+        "revealMode": "scale",
+        "backgroundColorToken": "coral"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ctaLabel",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 11,
+        "offsetYPercent": 28
+      },
+      "contentOverride": {
+        "text": "Try Claude"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "left",
+        "typography": {
+          "fontFamily": "StyreneB, Inter, sans-serif",
+          "fontSize": 28,
+          "fontWeight": 500,
+          "lineHeight": 1,
+          "color": "#ffffff"
+        },
+        "width": 300
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "darkCard",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -4
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "rect",
+        "width": 820,
+        "height": 820,
+        "borderRadius": 24,
+        "revealMode": "scale",
+        "gradient": {
+          "from": "#252320",
+          "to": "#181715",
+          "angle": 160
+        }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "codeLine1",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -2,
+        "offsetYPercent": -22
+      },
+      "contentOverride": {
+        "text": "const result = await claude.write("
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "left",
+        "typography": {
+          "fontFamily": "JetBrains Mono, ui-monospace, monospace",
+          "fontSize": 26,
+          "fontWeight": 400,
+          "lineHeight": 1.6,
+          "color": "#faf9f5"
+        },
+        "width": 700
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "codeLine2",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -2,
+        "offsetYPercent": -14
+      },
+      "contentOverride": {
+        "text": "  \"warm, editorial, considered\""
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "left",
+        "typography": {
+          "fontFamily": "JetBrains Mono, ui-monospace, monospace",
+          "fontSize": 26,
+          "fontWeight": 400,
+          "lineHeight": 1.6,
+          "color": "#e8a55a"
+        },
+        "width": 700
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "codeLine3",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -2,
+        "offsetYPercent": -6
+      },
+      "contentOverride": {
+        "text": ")"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "left",
+        "typography": {
+          "fontFamily": "JetBrains Mono, ui-monospace, monospace",
+          "fontSize": 26,
+          "fontWeight": 400,
+          "lineHeight": 1.6,
+          "color": "#faf9f5"
+        },
+        "width": 700
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "statusDot",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -28,
+        "offsetYPercent": 24
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "circle",
+        "width": 20,
+        "height": 20,
+        "revealMode": "scale",
+        "backgroundColorToken": "teal"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "statusLabel",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -26,
+        "offsetYPercent": 24
+      },
+      "contentOverride": {
+        "text": "ready"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "left",
+        "typography": {
+          "fontFamily": "StyreneB, Inter, sans-serif",
+          "fontSize": 22,
+          "fontWeight": 500,
+          "lineHeight": 1.4,
+          "color": "#a09d96"
+        },
+        "width": 200
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

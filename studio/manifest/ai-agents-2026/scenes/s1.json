@@ -1,0 +1,100 @@
+{
+  "id": "s1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "heroPanel",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "rect",
+        "width": 1200,
+        "height": 360,
+        "borderRadius": 28,
+        "revealMode": "scale",
+        "gradient": {
+          "from": "#1B2233",
+          "to": "#0B0E14",
+          "angle": 90
+        },
+        "opacity": 0.85
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "kicker",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 12
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "pill",
+        "width": 220,
+        "height": 10,
+        "revealMode": "wipe",
+        "gradient": {
+          "from": "#C04CFD",
+          "to": "#3D7BFD",
+          "angle": 0
+        }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "title",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -6
+      },
+      "contentOverride": {
+        "text": "AI agents crossed from demo to deployment this year."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "center",
+        "width": 1400,
+        "staggerFrames": 4
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "caption",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 14
+      },
+      "contentOverride": {
+        "text": "The state of agent infrastructure in 2026"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "center",
+        "typography": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": 36,
+          "fontWeight": 500,
+          "lineHeight": 1.3,
+          "color": "#8B93A7"
+        },
+        "width": 1200
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

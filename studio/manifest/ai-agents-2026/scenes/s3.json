@@ -1,0 +1,113 @@
+{
+  "id": "s3",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "kicker",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 12
+      },
+      "contentOverride": {
+        "text": "THE COST COLLAPSE"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "center",
+        "typography": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": 28,
+          "fontWeight": 700,
+          "lineHeight": 1.1,
+          "color": "#8B93A7"
+        },
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "costStat",
+      "assetType": "NumberStat",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "value": 0.12,
+        "label": "median cost per agent task"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "labelTypography": "body1",
+        "prefix": "$",
+        "decimals": 2,
+        "align": "center",
+        "valueFill": "#FFD166",
+        "labelFill": "#8B93A7",
+        "width": 700,
+        "height": 260
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "reduction",
+      "assetType": "GlowBar",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 16
+      },
+      "contentOverride": {
+        "value": 88,
+        "label": "Cost reduction vs. 2025"
+      },
+      "styleOverride": {
+        "width": 1000,
+        "height": 96,
+        "lineHeight": 30,
+        "glowStrength": 12,
+        "gradient": {
+          "from": "#EA3943",
+          "to": "#C04CFD",
+          "angle": 0
+        },
+        "labelFill": "#F5F7FA",
+        "trackFill": "#161B26"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "panel",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "bottom-right",
+        "offsetXPercent": -8,
+        "offsetYPercent": -10
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "rect",
+        "width": 220,
+        "height": 140,
+        "borderRadius": 20,
+        "revealMode": "scale",
+        "gradient": {
+          "from": "#3D7BFD",
+          "to": "#C04CFD",
+          "angle": 90
+        },
+        "opacity": 0
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

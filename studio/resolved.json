@@ -1,5 +1,5 @@
 {
-  "projectId": "fractional-reserve-lending",
+  "projectId": "ai-agents-2026",
   "config": {
     "fps": 30,
     "width": 1920,
@@ -10,76 +10,35 @@
     {
       "id": "voiceover",
       "start": 0,
-      "end": 28.92,
-      "path": "audio/tts_49409ee8d4f726f9c19d31e5f829ee17b18376aa42b3794345ecd54a9c8f1f95.wav",
+      "end": 20.36,
+      "path": "audio/tts_9423b822ee9148c26bb11e6ccdd11adb2f64e85c52c98eef03535d361efb47b5.wav",
       "volume": 1
-    },
-    {
-      "id": "m1",
-      "start": 0,
-      "end": 28.933333333333334,
-      "path": "audio/bgm_minimal.mp3",
-      "volume": 0.8,
-      "loop": true,
-      "fadeInSeconds": 0,
-      "fadeOutSeconds": 0
     }
   ],
   "scenes": [
     {
       "id": "s1",
-      "durationInFrames": 161,
+      "durationInFrames": 105,
       "effects": [],
       "camera": null,
       "ttsWindow": {
         "narrationRef": "n1",
         "startSeconds": 0,
-        "endSeconds": 4.775,
+        "endSeconds": 2.915,
         "startFrame": 0,
-        "endFrame": 143
+        "endFrame": 87
       },
       "background": "#0B0E14",
       "assets": [
         {
-          "id": "ImageReveal-1",
-          "assetType": "ImageReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
-          "content": {
-            "src": "assets/bank_vault.jpg"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 640,
-            "top": 220,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "borderRadius": 24,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
-          },
-          "timing": {
-            "durationInFrames": 161,
-            "enterAtFrame": 0,
-            "exitAtFrame": 143,
-            "words": null
-          }
-        },
-        {
-          "id": "SolidShape-2",
+          "id": "heroPanel",
           "assetType": "SolidShape",
           "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
           "content": {},
           "resolvedPosition": {
             "position": "absolute",
-            "left": 912,
-            "top": 125.60000000000002,
+            "left": 360,
+            "top": 360,
             "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
@@ -88,18 +47,185 @@
               "mass": 0.4,
               "stiffness": 180
             },
-            "shape": "pill",
-            "backgroundColorToken": "#16C784",
-            "borderRadius": 16,
+            "shape": "rect",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 28,
             "revealMode": "scale",
-            "width": 96,
-            "height": 8,
-            "backgroundColor": "#16C784"
+            "width": 1200,
+            "height": 360,
+            "gradient": {
+              "from": "#1B2233",
+              "to": "#0B0E14",
+              "angle": 90
+            },
+            "opacity": 0.85
           },
           "timing": {
-            "durationInFrames": 161,
+            "durationInFrames": 105,
             "enterAtFrame": 0,
-            "exitAtFrame": 143,
+            "exitAtFrame": 87,
+            "words": null
+          }
+        },
+        {
+          "id": "kicker",
+          "assetType": "SolidShape",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
+          "content": {},
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 850,
+            "top": 129.6,
+            "transformOrigin": "50% 0%"
+          },
+          "resolvedStyle": {
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "shape": "pill",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 16,
+            "revealMode": "wipe",
+            "width": 220,
+            "height": 10,
+            "gradient": {
+              "from": "#C04CFD",
+              "to": "#3D7BFD",
+              "angle": 0
+            }
+          },
+          "timing": {
+            "durationInFrames": 105,
+            "enterAtFrame": 0,
+            "exitAtFrame": 87,
+            "words": null
+          }
+        },
+        {
+          "id": "title",
+          "assetType": "KineticText",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
+          "content": {
+            "text": "AI agents crossed from demo to deployment this year."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 260,
+            "top": 345.2,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "staggerFrames": 4,
+            "wordPopScale": 1.15,
+            "useNarrationTiming": true,
+            "align": "center",
+            "width": 1400,
+            "height": 260
+          },
+          "timing": {
+            "durationInFrames": 105,
+            "enterAtFrame": 0,
+            "exitAtFrame": 87,
+            "words": [
+              {
+                "word": "AI",
+                "startFrame": 10,
+                "endFrame": 19
+              },
+              {
+                "word": "agents",
+                "startFrame": 23,
+                "endFrame": 32
+              },
+              {
+                "word": "crossed",
+                "startFrame": 33,
+                "endFrame": 41
+              },
+              {
+                "word": "from",
+                "startFrame": 42,
+                "endFrame": 47
+              },
+              {
+                "word": "demo",
+                "startFrame": 48,
+                "endFrame": 58
+              },
+              {
+                "word": "to",
+                "startFrame": 59,
+                "endFrame": 61
+              },
+              {
+                "word": "deployment",
+                "startFrame": 62,
+                "endFrame": 74
+              },
+              {
+                "word": "this",
+                "startFrame": 75,
+                "endFrame": 80
+              },
+              {
+                "word": "year.",
+                "startFrame": 81,
+                "endFrame": 87
+              }
+            ]
+          }
+        },
+        {
+          "id": "caption",
+          "assetType": "TextReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
+          "content": {
+            "text": "The state of agent infrastructure in 2026"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 360,
+            "top": 631.2,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "revealMode": "fade",
+            "align": "center",
+            "staggerFrames": 2,
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
+              "fontWeight": 500,
+              "lineHeight": 1.3,
+              "color": "#8B93A7"
+            },
+            "width": 1200,
+            "height": 120
+          },
+          "timing": {
+            "durationInFrames": 105,
+            "enterAtFrame": 0,
+            "exitAtFrame": 87,
             "words": null
           }
         }
@@ -114,132 +240,28 @@
     },
     {
       "id": "s2",
-      "durationInFrames": 203,
+      "durationInFrames": 177,
       "effects": [],
       "camera": null,
       "ttsWindow": {
         "narrationRef": "n2",
-        "startSeconds": 4.775,
-        "endSeconds": 10.921,
-        "startFrame": 143,
-        "endFrame": 328
+        "startSeconds": 2.915,
+        "endSeconds": 8.123,
+        "startFrame": 87,
+        "endFrame": 244
       },
       "background": "#161B26",
       "assets": [
         {
-          "id": "NumberStat-1",
-          "assetType": "NumberStat",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/NumberStat/NumberStat.jsx",
-          "content": {
-            "value": 10,
-            "suffix": "%",
-            "label": "Reserve"
-          },
+          "id": "kicker",
+          "assetType": "SolidShape",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
+          "content": {},
           "resolvedPosition": {
             "position": "absolute",
-            "left": 0,
-            "top": 430,
-            "transformOrigin": "0% 50%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 84,
-              "fontWeight": 800,
-              "lineHeight": 1.05,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "labelTypography": "body1",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "valueFill": "#F5F7FA",
-            "labelFill": "#8B93A7",
-            "canvasFill": "transparent",
-            "borderLine": "transparent",
-            "borderRadius": 24,
-            "decimals": 0,
-            "valueFormat": "number",
-            "prefix": "",
-            "suffix": "",
-            "align": "left",
-            "labelPosition": "top",
-            "width": 480,
-            "height": 220
-          },
-          "timing": {
-            "durationInFrames": 203,
-            "enterAtFrame": 0,
-            "exitAtFrame": 185,
-            "words": null
-          }
-        },
-        {
-          "id": "NumberStat-2",
-          "assetType": "NumberStat",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/NumberStat/NumberStat.jsx",
-          "content": {
-            "value": 90,
-            "suffix": "%",
-            "label": "Loanable"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1440,
-            "top": 430,
-            "transformOrigin": "100% 50%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 84,
-              "fontWeight": 800,
-              "lineHeight": 1.05,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
-            "labelTypography": "body1",
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "valueFill": "#F5F7FA",
-            "labelFill": "#8B93A7",
-            "canvasFill": "transparent",
-            "borderLine": "transparent",
-            "borderRadius": 24,
-            "decimals": 0,
-            "valueFormat": "number",
-            "prefix": "",
-            "suffix": "",
-            "align": "left",
-            "labelPosition": "top",
-            "width": 480,
-            "height": 220
-          },
-          "timing": {
-            "durationInFrames": 203,
-            "enterAtFrame": 0,
-            "exitAtFrame": 185,
-            "words": null
-          }
-        },
-        {
-          "id": "Divider-3",
-          "assetType": "Divider",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/Divider/Divider.jsx",
-          "content": {
-            "orientation": "vertical"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 760,
-            "top": 539,
-            "transformOrigin": "50% 50%"
+            "left": 870,
+            "top": 108,
+            "transformOrigin": "50% 0%"
           },
           "resolvedStyle": {
             "easing": {
@@ -247,16 +269,145 @@
               "mass": 0.4,
               "stiffness": 180
             },
-            "orientation": "horizontal",
-            "colorToken": "#0B0E14",
-            "thickness": 2,
-            "width": 400,
-            "height": 2
+            "shape": "pill",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 16,
+            "revealMode": "wipe",
+            "width": 180,
+            "height": 8,
+            "gradient": {
+              "from": "#16C784",
+              "to": "#3D7BFD",
+              "angle": 0
+            }
           },
           "timing": {
-            "durationInFrames": 203,
+            "durationInFrames": 177,
             "enterAtFrame": 0,
-            "exitAtFrame": 185,
+            "exitAtFrame": 157,
+            "words": null
+          }
+        },
+        {
+          "id": "bigStat",
+          "assetType": "NumberStat",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/NumberStat/NumberStat.jsx",
+          "content": {
+            "value": 73,
+            "label": "of teams ship agents to production"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 610,
+            "top": 302,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "labelTypography": "body1",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "valueFill": "#16C784",
+            "labelFill": "#8B93A7",
+            "canvasFill": "transparent",
+            "borderLine": "transparent",
+            "borderRadius": 24,
+            "decimals": 0,
+            "valueFormat": "number",
+            "prefix": "",
+            "suffix": "%",
+            "align": "center",
+            "labelPosition": "top",
+            "width": 700,
+            "height": 260
+          },
+          "timing": {
+            "durationInFrames": 177,
+            "enterAtFrame": 0,
+            "exitAtFrame": 157,
+            "words": null
+          }
+        },
+        {
+          "id": "charge",
+          "assetType": "GlowBar",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/GlowBar/GlowBar.jsx",
+          "content": {
+            "value": 73,
+            "label": "Production adoption"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 460,
+            "top": 643.2,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "trackFill": "#161B26",
+            "labelFill": "#F5F7FA",
+            "lineHeight": 30,
+            "glowStrength": 14,
+            "gradient": {
+              "from": "#16C784",
+              "to": "#3D7BFD",
+              "angle": 0
+            },
+            "showLabel": true,
+            "suffix": "%",
+            "width": 1000,
+            "height": 96
+          },
+          "timing": {
+            "durationInFrames": 177,
+            "enterAtFrame": 0,
+            "exitAtFrame": 157,
+            "words": null
+          }
+        },
+        {
+          "id": "panel",
+          "assetType": "SolidShape",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
+          "content": {},
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 1546.4,
+            "top": 832,
+            "transformOrigin": "100% 100%"
+          },
+          "resolvedStyle": {
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "shape": "rect",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 20,
+            "revealMode": "scale",
+            "width": 220,
+            "height": 140,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#C04CFD",
+              "angle": 90
+            },
+            "opacity": 0.9
+          },
+          "timing": {
+            "durationInFrames": 177,
+            "enterAtFrame": 0,
+            "exitAtFrame": 157,
             "words": null
           }
         }
@@ -268,69 +419,129 @@
         "props": {}
       },
       "transitionOut": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
+        "type": "pivotZoom",
+        "durationInFrames": 20,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/pivotZoom/PivotZoom.jsx",
+        "props": {
+          "carryAssetId": "panel",
+          "intensity": 1.2,
+          "spinDeg": 6,
+          "direction": "down",
+          "carryFrom": {
+            "position": "absolute",
+            "left": 1546.4,
+            "top": 832,
+            "transformOrigin": "100% 100%",
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "shape": "rect",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 20,
+            "revealMode": "scale",
+            "width": 220,
+            "height": 140,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#C04CFD",
+              "angle": 90
+            },
+            "opacity": 0.9
+          },
+          "carryTo": {
+            "position": "absolute",
+            "left": 1546.4,
+            "top": 832,
+            "transformOrigin": "100% 100%",
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "shape": "rect",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 20,
+            "revealMode": "scale",
+            "width": 220,
+            "height": 140,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#C04CFD",
+              "angle": 90
+            },
+            "opacity": 0
+          }
+        }
       }
     },
     {
       "id": "s3",
-      "durationInFrames": 159,
+      "durationInFrames": 121,
       "effects": [],
       "camera": null,
       "ttsWindow": {
         "narrationRef": "n3",
-        "startSeconds": 10.921,
-        "endSeconds": 15.646,
-        "startFrame": 328,
-        "endFrame": 469
+        "startSeconds": 8.123,
+        "endSeconds": 11.569,
+        "startFrame": 244,
+        "endFrame": 347
       },
       "background": "#0B0E14",
       "assets": [
         {
-          "id": "ImageReveal-1",
-          "assetType": "ImageReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "id": "kicker",
+          "assetType": "TextReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextReveal/TextReveal.jsx",
           "content": {
-            "src": "assets/loan_agreement.jpg"
+            "text": "THE COST COLLAPSE"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 640,
-            "top": 220,
-            "transformOrigin": "50% 50%"
+            "left": 510,
+            "top": 129.6,
+            "transformOrigin": "50% 0%"
           },
           "resolvedStyle": {
-            "borderRadius": 24,
             "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
             },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
+            "revealMode": "fade",
+            "align": "center",
+            "staggerFrames": 2,
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 28,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "color": "#8B93A7"
+            },
+            "width": 900,
+            "height": 120
           },
           "timing": {
-            "durationInFrames": 159,
+            "durationInFrames": 121,
             "enterAtFrame": 0,
-            "exitAtFrame": 141,
+            "exitAtFrame": 103,
             "words": null
           }
         },
         {
-          "id": "KineticText-2",
-          "assetType": "KineticText",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
+          "id": "costStat",
+          "assetType": "NumberStat",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/NumberStat/NumberStat.jsx",
           "content": {
-            "text": "Money in Motion"
+            "value": 0.12,
+            "label": "median cost per agent task"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 410,
-            "top": 820,
-            "transformOrigin": "50% 100%"
+            "left": 610,
+            "top": 323.6,
+            "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
             "typography": {
@@ -341,30 +552,163 @@
               "colorToken": "main1",
               "color": "#F5F7FA"
             },
+            "labelTypography": "body1",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "valueFill": "#FFD166",
+            "labelFill": "#8B93A7",
+            "canvasFill": "transparent",
+            "borderLine": "transparent",
+            "borderRadius": 24,
+            "decimals": 2,
+            "valueFormat": "number",
+            "prefix": "$",
+            "suffix": "",
+            "align": "center",
+            "labelPosition": "top",
+            "width": 700,
+            "height": 260
+          },
+          "timing": {
+            "durationInFrames": 121,
+            "enterAtFrame": 0,
+            "exitAtFrame": 103,
+            "words": null
+          }
+        },
+        {
+          "id": "reduction",
+          "assetType": "GlowBar",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/GlowBar/GlowBar.jsx",
+          "content": {
+            "value": 88,
+            "label": "Cost reduction vs. 2025"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 460,
+            "top": 664.8,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "trackFill": "#161B26",
+            "labelFill": "#F5F7FA",
+            "lineHeight": 30,
+            "glowStrength": 12,
+            "gradient": {
+              "from": "#EA3943",
+              "to": "#C04CFD",
+              "angle": 0
+            },
+            "showLabel": true,
+            "suffix": "%",
+            "width": 1000,
+            "height": 96
+          },
+          "timing": {
+            "durationInFrames": 121,
+            "enterAtFrame": 0,
+            "exitAtFrame": 103,
+            "words": null
+          }
+        },
+        {
+          "id": "panel",
+          "assetType": "SolidShape",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
+          "content": {},
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 1546.4,
+            "top": 832,
+            "transformOrigin": "100% 100%"
+          },
+          "resolvedStyle": {
             "easing": {
               "damping": 12,
               "mass": 0.4,
               "stiffness": 180
             },
-            "staggerFrames": 6,
-            "wordPopScale": 1.15,
-            "useNarrationTiming": true,
-            "width": 1100,
-            "height": 260
+            "shape": "rect",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 20,
+            "revealMode": "scale",
+            "width": 220,
+            "height": 140,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#C04CFD",
+              "angle": 90
+            },
+            "opacity": 0
           },
           "timing": {
-            "durationInFrames": 159,
+            "durationInFrames": 121,
             "enterAtFrame": 0,
-            "exitAtFrame": 141,
+            "exitAtFrame": 103,
             "words": null
           }
         }
       ],
       "transitionIn": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
+        "type": "pivotZoom",
+        "durationInFrames": 20,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/pivotZoom/PivotZoom.jsx",
+        "props": {
+          "carryAssetId": "panel",
+          "intensity": 1.2,
+          "spinDeg": 6,
+          "direction": "down",
+          "carryFrom": {
+            "position": "absolute",
+            "left": 1546.4,
+            "top": 832,
+            "transformOrigin": "100% 100%",
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "shape": "rect",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 20,
+            "revealMode": "scale",
+            "width": 220,
+            "height": 140,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#C04CFD",
+              "angle": 90
+            },
+            "opacity": 0.9
+          },
+          "carryTo": {
+            "position": "absolute",
+            "left": 1546.4,
+            "top": 832,
+            "transformOrigin": "100% 100%",
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "shape": "rect",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 20,
+            "revealMode": "scale",
+            "width": 220,
+            "height": 140,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#C04CFD",
+              "angle": 90
+            },
+            "opacity": 0
+          }
+        }
       },
       "transitionOut": {
         "type": "default",
@@ -375,46 +719,292 @@
     },
     {
       "id": "s4",
-      "durationInFrames": 241,
+      "durationInFrames": 162,
       "effects": [],
       "camera": null,
       "ttsWindow": {
         "narrationRef": "n4",
-        "startSeconds": 15.646,
-        "endSeconds": 23.073,
-        "startFrame": 469,
-        "endFrame": 692
+        "startSeconds": 11.569,
+        "endSeconds": 16.176,
+        "startFrame": 347,
+        "endFrame": 485
       },
-      "background": "#F5F7FA",
+      "background": "#161B26",
       "assets": [
         {
-          "id": "BarChartRace-1",
-          "assetType": "BarChartRace",
-          "componentPath": "/home/tablewares/json.mp4/studio/graphics/BarChartRace/BarChartRace.jsx",
+          "id": "stacked",
+          "assetType": "SolidShape",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
+          "content": {},
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 192,
+            "top": 300,
+            "transformOrigin": "0% 50%"
+          },
+          "resolvedStyle": {
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "shape": "rect",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 30,
+            "revealMode": "scale",
+            "width": 60,
+            "height": 480,
+            "gradient": {
+              "from": "#16C784",
+              "to": "#3D7BFD",
+              "angle": 90
+            }
+          },
+          "timing": {
+            "durationInFrames": 162,
+            "enterAtFrame": 0,
+            "exitAtFrame": 138,
+            "words": null
+          }
+        },
+        {
+          "id": "multiplier",
+          "assetType": "NumberStat",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/NumberStat/NumberStat.jsx",
           "content": {
-            "bars": [
-              {
-                "label": "Initial",
-                "value": 1000
-              },
-              {
-                "label": "Loan 1",
-                "value": 1900
-              },
-              {
-                "label": "Loan 2",
-                "value": 2710
-              },
-              {
-                "label": "Loan 3",
-                "value": 3439
-              }
-            ]
+            "value": 10,
+            "label": "agent frameworks shipped this year"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 260,
-            "top": 280,
+            "left": 610,
+            "top": 366.8,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "labelTypography": "body1",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "valueFill": "#C04CFD",
+            "labelFill": "#8B93A7",
+            "canvasFill": "transparent",
+            "borderLine": "transparent",
+            "borderRadius": 24,
+            "decimals": 0,
+            "valueFormat": "number",
+            "prefix": "",
+            "suffix": "x",
+            "align": "center",
+            "labelPosition": "top",
+            "width": 700,
+            "height": 260
+          },
+          "timing": {
+            "durationInFrames": 162,
+            "enterAtFrame": 0,
+            "exitAtFrame": 138,
+            "words": null
+          }
+        },
+        {
+          "id": "kpi",
+          "assetType": "GlowBar",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/GlowBar/GlowBar.jsx",
+          "content": {
+            "value": 100,
+            "label": "Tooling maturity index"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 410,
+            "top": 686.4,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "trackFill": "#161B26",
+            "labelFill": "#F5F7FA",
+            "lineHeight": 30,
+            "glowStrength": 16,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#C04CFD",
+              "angle": 0
+            },
+            "showLabel": true,
+            "suffix": "%",
+            "width": 1100,
+            "height": 96
+          },
+          "timing": {
+            "durationInFrames": 162,
+            "enterAtFrame": 0,
+            "exitAtFrame": 138,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "slideContinuity",
+        "durationInFrames": 24,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
+        "props": {
+          "carryAssetId": "kpi",
+          "carryFrom": {
+            "position": "absolute",
+            "left": 410,
+            "top": 686.4,
+            "transformOrigin": "50% 50%",
+            "trackFill": "#161B26",
+            "labelFill": "#F5F7FA",
+            "lineHeight": 30,
+            "glowStrength": 16,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#C04CFD",
+              "angle": 0
+            },
+            "showLabel": true,
+            "suffix": "%",
+            "width": 1100,
+            "height": 96
+          },
+          "carryTo": {
+            "position": "absolute",
+            "left": 410,
+            "top": 362.4,
+            "transformOrigin": "50% 50%",
+            "trackFill": "#161B26",
+            "labelFill": "#F5F7FA",
+            "lineHeight": 28,
+            "glowStrength": 18,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#16C784",
+              "angle": 0
+            },
+            "showLabel": true,
+            "suffix": "%",
+            "width": 1100,
+            "height": 96
+          }
+        }
+      }
+    },
+    {
+      "id": "s5",
+      "durationInFrames": 126,
+      "effects": [],
+      "camera": null,
+      "ttsWindow": {
+        "narrationRef": "n5",
+        "startSeconds": 16.176,
+        "endSeconds": 20.36,
+        "startFrame": 485,
+        "endFrame": 611
+      },
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "heroband",
+          "assetType": "SolidShape",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/SolidShape/SolidShape.jsx",
+          "content": {},
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 160,
+            "top": 450,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "shape": "rect",
+            "backgroundColorToken": "#3D7BFD",
+            "borderRadius": 0,
+            "revealMode": "wipe",
+            "width": 1600,
+            "height": 180,
+            "gradient": {
+              "from": "#C04CFD",
+              "to": "#3D7BFD",
+              "angle": 0
+            },
+            "opacity": 0.18
+          },
+          "timing": {
+            "durationInFrames": 126,
+            "enterAtFrame": 0,
+            "exitAtFrame": 126,
+            "words": null
+          }
+        },
+        {
+          "id": "kpi",
+          "assetType": "GlowBar",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/GlowBar/GlowBar.jsx",
+          "content": {
+            "value": 100,
+            "label": "JSON to MP4 is now a pipeline"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 410,
+            "top": 362.4,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "trackFill": "#161B26",
+            "labelFill": "#F5F7FA",
+            "lineHeight": 28,
+            "glowStrength": 18,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#16C784",
+              "angle": 0
+            },
+            "showLabel": true,
+            "suffix": "%",
+            "width": 1100,
+            "height": 96
+          },
+          "timing": {
+            "durationInFrames": 126,
+            "enterAtFrame": 0,
+            "exitAtFrame": 126,
+            "words": null
+          }
+        },
+        {
+          "id": "closer",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Beautiful visuals from JSON are no longer a hack. They are a pipeline."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 310,
+            "top": 612.8,
             "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
@@ -426,178 +1016,69 @@
               "colorToken": "main1",
               "color": "#F5F7FA"
             },
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "canvasFill": "#161B26",
-            "borderLine": "transparent",
-            "borderRadius": 24,
-            "axisPad": 64,
-            "axisLine": "#2A3142",
-            "labelBandPad": 72,
-            "barFill": "#3D7BFD",
-            "barWidth": 96,
-            "barRadius": 12,
-            "valueFill": "#F5F7FA",
-            "labelFill": "#8B93A7",
-            "valueFormat": "currency",
-            "staggerFrames": 6,
-            "sortByValue": null,
-            "width": 1400,
-            "height": 520
-          },
-          "timing": {
-            "durationInFrames": 241,
-            "enterAtFrame": 0,
-            "exitAtFrame": 223,
-            "words": null
-          }
-        },
-        {
-          "id": "TextBlock-2",
-          "assetType": "TextBlock",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
-          "content": {
-            "text": "The Multiplier Effect"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 510,
-            "top": 0,
-            "transformOrigin": "50% 0%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 84,
-              "fontWeight": 800,
-              "lineHeight": 1.05,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
-            },
             "backgroundColorToken": "#00000000",
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
-            "width": 900,
+            "align": "center",
+            "width": 1300,
             "height": 200
           },
           "timing": {
-            "durationInFrames": 241,
+            "durationInFrames": 126,
             "enterAtFrame": 0,
-            "exitAtFrame": 223,
+            "exitAtFrame": 126,
             "words": null
           }
         }
       ],
       "transitionIn": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
-      },
-      "transitionOut": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
-      }
-    },
-    {
-      "id": "s5",
-      "durationInFrames": 176,
-      "effects": [],
-      "camera": null,
-      "ttsWindow": {
-        "narrationRef": "n5",
-        "startSeconds": 23.073,
-        "endSeconds": 28.92,
-        "startFrame": 692,
-        "endFrame": 868
-      },
-      "background": "#0B0E14",
-      "assets": [
-        {
-          "id": "ImageReveal-1",
-          "assetType": "ImageReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
-          "content": {
-            "src": "assets/city_skyline.jpg"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 640,
-            "top": 220,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "borderRadius": 24,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
-          },
-          "timing": {
-            "durationInFrames": 176,
-            "enterAtFrame": 0,
-            "exitAtFrame": 176,
-            "words": null
-          }
-        },
-        {
-          "id": "KineticText-2",
-          "assetType": "KineticText",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
-          "content": {
-            "text": "Growth & Trust"
-          },
-          "resolvedPosition": {
+        "type": "slideContinuity",
+        "durationInFrames": 24,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
+        "props": {
+          "carryAssetId": "kpi",
+          "carryFrom": {
             "position": "absolute",
             "left": 410,
-            "top": 820,
-            "transformOrigin": "50% 100%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 84,
-              "fontWeight": 800,
-              "lineHeight": 1.05,
-              "colorToken": "main1",
-              "color": "#F5F7FA"
+            "top": 686.4,
+            "transformOrigin": "50% 50%",
+            "trackFill": "#161B26",
+            "labelFill": "#F5F7FA",
+            "lineHeight": 30,
+            "glowStrength": 16,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#C04CFD",
+              "angle": 0
             },
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "staggerFrames": 6,
-            "wordPopScale": 1.15,
-            "useNarrationTiming": true,
+            "showLabel": true,
+            "suffix": "%",
             "width": 1100,
-            "height": 260
+            "height": 96
           },
-          "timing": {
-            "durationInFrames": 176,
-            "enterAtFrame": 0,
-            "exitAtFrame": 176,
-            "words": null
+          "carryTo": {
+            "position": "absolute",
+            "left": 410,
+            "top": 362.4,
+            "transformOrigin": "50% 50%",
+            "trackFill": "#161B26",
+            "labelFill": "#F5F7FA",
+            "lineHeight": 28,
+            "glowStrength": 18,
+            "gradient": {
+              "from": "#3D7BFD",
+              "to": "#16C784",
+              "angle": 0
+            },
+            "showLabel": true,
+            "suffix": "%",
+            "width": 1100,
+            "height": 96
           }
         }
-      ],
-      "transitionIn": {
-        "type": "default",
-        "durationInFrames": 18,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
-        "props": {}
       },
       "transitionOut": null
     }

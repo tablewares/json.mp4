@@ -1,0 +1,88 @@
+{
+  "id": "s4",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "stacked",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 10
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "rect",
+        "width": 60,
+        "height": 480,
+        "borderRadius": 30,
+        "revealMode": "scale",
+        "gradient": {
+          "from": "#16C784",
+          "to": "#3D7BFD",
+          "angle": 90
+        }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "multiplier",
+      "assetType": "NumberStat",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -4
+      },
+      "contentOverride": {
+        "value": 10,
+        "label": "agent frameworks shipped this year"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "labelTypography": "body1",
+        "suffix": "x",
+        "align": "center",
+        "valueFill": "#C04CFD",
+        "labelFill": "#8B93A7",
+        "width": 700,
+        "height": 260
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "kpi",
+      "assetType": "GlowBar",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 18
+      },
+      "contentOverride": {
+        "value": 100,
+        "label": "Tooling maturity index"
+      },
+      "styleOverride": {
+        "width": 1100,
+        "height": 96,
+        "lineHeight": 30,
+        "glowStrength": 16,
+        "gradient": {
+          "from": "#3D7BFD",
+          "to": "#C04CFD",
+          "angle": 0
+        },
+        "labelFill": "#F5F7FA",
+        "trackFill": "#161B26"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "slideContinuity",
+    "durationInFrames": 24,
+    "params": {
+      "carryAssetId": "kpi"
+    }
+  }
+}

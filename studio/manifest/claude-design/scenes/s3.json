@@ -1,0 +1,215 @@
+{
+  "id": "s3",
+  "background": "surfaceDark",
+  "assets": [
+    {
+      "id": "sectionLabel",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "TYPOGRAPHY"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "center",
+        "typography": "captionUppercase",
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "headline",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -12
+      },
+      "contentOverride": {
+        "text": "A considered publication, not a software template."
+      },
+      "styleOverride": {
+        "typography": "displayMd",
+        "align": "center",
+        "width": 1500,
+        "easing": "gentleSpring"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "subhead",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 4
+      },
+      "contentOverride": {
+        "text": "Slab-serif display at weight 400 with negative tracking. Humanist sans for body."
+      },
+      "styleOverride": {
+        "typography": "bodyMd",
+        "align": "center",
+        "width": 1300,
+        "easing": "gentleSpring"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "codeCard",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 24
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "rect",
+        "width": 1200,
+        "height": 360,
+        "borderRadius": 20,
+        "revealMode": "scale",
+        "gradient": {
+          "from": "#1f1e1b",
+          "to": "#252320",
+          "angle": 90
+        }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ln1",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -26,
+        "offsetYPercent": 20
+      },
+      "contentOverride": {
+        "text": "display: Copernicus / serif"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "left",
+        "typography": {
+          "fontFamily": "JetBrains Mono, ui-monospace, monospace",
+          "fontSize": 28,
+          "fontWeight": 400,
+          "lineHeight": 1.7,
+          "color": "#5db8a6"
+        },
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ln2",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -26,
+        "offsetYPercent": 24
+      },
+      "contentOverride": {
+        "text": "weight: 400   tracking: -0.016em"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "left",
+        "typography": {
+          "fontFamily": "JetBrains Mono, ui-monospace, monospace",
+          "fontSize": 28,
+          "fontWeight": 400,
+          "lineHeight": 1.7,
+          "color": "#faf9f5"
+        },
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ln3",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -26,
+        "offsetYPercent": 28
+      },
+      "contentOverride": {
+        "text": "body: StyreneB / sans"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "left",
+        "typography": {
+          "fontFamily": "JetBrains Mono, ui-monospace, monospace",
+          "fontSize": 28,
+          "fontWeight": 400,
+          "lineHeight": 1.7,
+          "color": "#e8a55a"
+        },
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "coralanchor",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 22,
+        "offsetYPercent": 33
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "pill",
+        "width": 200,
+        "height": 64,
+        "borderRadius": 12,
+        "revealMode": "scale",
+        "backgroundColorToken": "coral",
+        "opacity": 0.2
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "anchorGlow",
+      "assetType": "GlowBar",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 22,
+        "offsetYPercent": 38
+      },
+      "contentOverride": {
+        "value": 100,
+        "label": "Run"
+      },
+      "styleOverride": {
+        "width": 380,
+        "height": 56,
+        "lineHeight": 10,
+        "glowStrength": 6,
+        "gradient": {
+          "from": "#cc785c",
+          "to": "#a9583e",
+          "angle": 0
+        },
+        "labelFill": "#faf9f5",
+        "trackFill": "#181715",
+        "showLabel": false
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n3"
+}

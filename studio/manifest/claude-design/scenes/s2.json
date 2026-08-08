@@ -1,0 +1,105 @@
+{
+  "id": "s2",
+  "background": "coral",
+  "assets": [
+    {
+      "id": "voltage",
+      "assetType": "GlowBar",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 18
+      },
+      "contentOverride": {
+        "value": 100,
+        "label": "Coral voltage"
+      },
+      "styleOverride": {
+        "width": 1100,
+        "height": 104,
+        "lineHeight": 34,
+        "glowStrength": 20,
+        "gradient": {
+          "from": "#cc785c",
+          "to": "#e8a55a",
+          "angle": 0
+        },
+        "labelFill": "#faf9f5",
+        "trackFill": "#a9583e",
+        "suffix": "%"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "calloutHead",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -6
+      },
+      "contentOverride": {
+        "text": "Coral is the signature accent. A full bleed coral card is the highest voltage move the brand makes."
+      },
+      "styleOverride": {
+        "typography": "displaySm",
+        "align": "center",
+        "width": 1500,
+        "staggerFrames": 4
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "coralanchor",
+      "assetType": "SolidShape",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 26
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "pill",
+        "width": 440,
+        "height": 90,
+        "borderRadius": 14,
+        "revealMode": "scale",
+        "backgroundColorToken": "canvas"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "anchorLabel",
+      "assetType": "TextReveal",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 27
+      },
+      "contentOverride": {
+        "text": "See the system"
+      },
+      "styleOverride": {
+        "revealMode": "fade",
+        "align": "center",
+        "typography": {
+          "fontFamily": "StyreneB, Inter, sans-serif",
+          "fontSize": 30,
+          "fontWeight": 500,
+          "lineHeight": 1,
+          "color": "#cc785c"
+        },
+        "width": 500
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "slideContinuity",
+    "durationInFrames": 24,
+    "params": {
+      "carryAssetId": "coralanchor"
+    }
+  }
+}

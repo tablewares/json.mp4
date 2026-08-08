@@ -1,0 +1,45 @@
+{
+  "assetType": "GlowBar",
+  "component": "GlowBar.jsx",
+  "description": "An animated glowing progress bar built on the SVG substrate \u2014 the fill draws left-to-right with a gradient + soft glow halo, an optional label, and a percentage that counts up with the fill. The KPI-charging-up move a flat div can't express. First asset authored natively on src/svg/.",
+  "defaultSize": { "width": 720, "height": 96 },
+  "defaultStyle": {
+    "trackFill": "#161B26",
+    "labelFill": "#F5F7FA",
+    "lineHeight": 28,
+    "glowStrength": 10,
+    "gradient": { "from": "#3D7BFD", "to": "#C04CFD", "angle": 0 },
+    "showLabel": true,
+    "suffix": "%"
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": ["value"],
+    "properties": {
+      "value": { "type": "number", "description": "Target fill 0..100 (clamped)" },
+      "label": { "type": "string", "description": "Optional caption rendered above the bar" }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "trackFill": { "type": "string", "description": "raw hex for the unfilled track (NOT a color token — must be a hex literal)" },
+      "labelFill": { "type": "string", "description": "raw hex for label/value text" },
+      "lineHeight": { "type": "number", "description": "bar thickness in px" },
+      "glowStrength": { "type": "number", "description": "glow blur stdDeviation in px; 0 disables halo" },
+      "gradient": {
+        "type": "object",
+        "description": "raw hex literals for the gradient fill",
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "angle": { "type": "number" }
+        }
+      },
+      "showLabel": { "type": "boolean" },
+      "suffix": { "type": "string" },
+      "width": { "type": "number" },
+      "height": { "type": "number" }
+    }
+  }
+}

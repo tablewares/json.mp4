@@ -1,0 +1,36 @@
+{
+  "projectId": "claude-design",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1",
+      "path": "scenes/s1.json"
+    },
+    {
+      "id": "s2",
+      "path": "scenes/s2.json"
+    },
+    {
+      "id": "s3",
+      "path": "scenes/s3.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Claude dot com runs on a tinted cream canvas, with warm coral for every call to action and dark navy for the product itself."
+      },
+      {
+        "id": "n2",
+        "text": "Coral is the signature accent. A full bleed coral card is the highest voltage move the brand makes."
+      },
+      {
+        "id": "n3",
+        "text": "Display headlines run a slab serif at weight four hundred, with negative tracking. Body type is a humanist sans. The pairing reads as a considered publication, not a software template."
+      }
+    ],
+    "fullTranscript": "Claude dot com runs on a tinted cream canvas, with warm coral for every call to action and dark navy for the product itself. Coral is the signature accent. A full bleed coral card is the highest voltage move the brand makes. Display headlines run a slab serif at weight four hundred, with negative tracking. Body type is a humanist sans. The pairing reads as a considered publication, not a software template."
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T00:19:07.610Z",
+  "generatedAt": "2026-08-08T15:31:22.609Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics"
@@ -21,6 +21,11 @@
     "Divider": {
       "folderName": "Divider",
       "entryFile": "Divider.jsx",
+      "rootIndex": 0
+    },
+    "GlowBar": {
+      "folderName": "GlowBar",
+      "entryFile": "GlowBar.jsx",
       "rootIndex": 0
     },
     "ImageReveal": {
