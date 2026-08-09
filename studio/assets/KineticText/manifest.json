@@ -8,7 +8,8 @@
     "easing": "snappySpring",
     "staggerFrames": 6,
     "wordPopScale": 1.15,
-    "useNarrationTiming": true
+    "useNarrationTiming": true,
+    "highlighter": null
   },
   "contentOverrideSchema": {
     "type": "object",
@@ -30,6 +31,23 @@
       "useNarrationTiming": {
         "type": "boolean",
         "description": "When true (default) and content.text exactly matches the scene's narration text, pop each word at its real spoken time instead of an even stagger. Set false to force the stagger even when the text matches."
+      },
+      "highlighter": {
+        "type": ["object", "null"],
+        "description": "Optional inline highlighter stroke that sweeps across the rendered text glyphs in step with the asset's active window. Omit or set null to render the text without a marker. When enabled (highlighter.enabled === true) the sweep behaves like the standalone TextHighlight asset: a colored band animates left-to-right (or right-to-left with direction:'left') over the text, or a thin underline when mode:'underline'.",
+        "properties": {
+          "enabled": { "type": "boolean", "description": "presence of the highlighter block alone does NOT enable it — set true to draw the marker" },
+          "color": { "type": "string", "description": "raw hex color (#RRGGBB). Resolved by the framework's color-token resolver like any 'color'-named style key, so a theme token (e.g. 'accentWarm') is also accepted and resolved to a hex at pass 1." },
+          "colorToken": { "type": "string", "description": "explicit theme color token name; takes precedence over 'color' when both are set" },
+          "mode": { "type": "string", "enum": ["band", "underline"], "description": "band: filled marker over the text (default). underline: thin stroke beneath the text." },
+          "height": { "type": "number", "description": "band height in px (band mode only). Default 32." },
+          "barThickness": { "type": "number", "description": "underline thickness in px (underline mode only). Default 4." },
+          "opacity": { "type": "number", "minimum": 0, "maximum": 1, "description": "marker opacity 0..1, multiplied by the host asset's enter/exit envelope. Default 0.75." },
+          "blur": { "type": "number", "description": "gaussian blur in px on the band (band mode only). Default 4." },
+          "direction": { "type": "string", "enum": ["left", "right"], "description": "sweep direction. Default 'right'." },
+          "sweepStartFraction": { "type": "number", "minimum": 0, "maximum": 1, "description": "where in the active window the sweep begins, as a fraction. Default 0." },
+          "sweepDurationFraction": { "type": "number", "minimum": 0.01, "maximum": 1, "description": "sweep length as a fraction of the active window. Default 0.7." }
+        }
       }
     }
   }

@@ -6,8 +6,10 @@ import { loadAssetRegistry, loadTransitionRegistry, getAsset } from "../../regis
 import { resolveColorToken, resolveAssetStyle } from "../../registry/styleRegistry.js";
 import { resolveAnchor } from "../../templating/anchor.js";
 import { resolveCamera } from "../../templating/camera.js";
+import { resolveLayers as resolveCompoundLayers } from "../../templating/subasset.js";
 import { resolveNarrationTiming, sceneTimingBudget } from "../../timing/ttsTiming.js";
-import { resolveEffectFrame } from "../../timing/effectTiming.js";
+import { resolveTimingAnchor } from "../../timing/effectTiming.js";
+import { indexAssetsById, resolveSceneRefs } from "./resolveRefs.js";
 import  { warnOnAssetOverlaps } from "./overlap_warn.js"
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -151,9 +153,22 @@ function computeTotalDurationSeconds(resolvedScenes, fps) {
 function resolveTransitionEffects(effectsSpec, outgoingScene, styles, assetRegistry, compositionSize) {
   if (!Array.isArray(effectsSpec) || effectsSpec.length === 0) return [];
 
+  const resolvedAssetsById = indexAssetsById(outgoingScene.assets ?? []);
+  const timingCtx = {
+    sceneDurationInFrames: outgoingScene.durationInFrames,
+    resolvedAssetsById,
+    camera: outgoingScene.camera,
+    sceneId: outgoingScene.id,
+  };
+
   return effectsSpec.map((effect, i) => {
-    const transitionOverlapInFrames = outgoingScene.transitionOut?.durationInFrames ?? 0;
-    const frame = resolveEffectFrame(effect.offsetPercent ?? 0, outgoingScene.durationInFrames, transitionOverlapInFrames);
+    // Effect timing accepts either a `timing` object carrying any of the
+    // resolveTimingAnchor shapes, or the flat legacy keys (`offsetPercent`,
+    // or the new `relativeToAsset` / `relativeToCameraAction`) for parity
+    // with how the transition-effects doc is written. A bare `offsetPercent`
+    // is still the default and resolves byte-for-byte as before.
+    const timingAnchor = effect.timing ?? effect;
+    const frame = resolveTimingAnchor(timingAnchor, timingCtx);
 
     if (effect.kind === "sfx") {
       return {
@@ -272,7 +287,16 @@ function resolveScene(scene, { styles, assetRegistry, config, timingById, narrat
     hasNarration,
   });
 
-  const camera = resolveCamera(scene.camera);
+  // Pass 2: resolve intra-scene asset references (refAssetId /
+  // fromAssetId+toAssetId) against the pass-1 map. No-op for assets with
+  // no recognized ref key — every pre-existing manifest resolves byte-for-byte.
+  resolveSceneRefs(resolvedAssets, { sceneId: scene.id });
+  const resolvedAssetsById = indexAssetsById(resolvedAssets);
+
+  const camera = resolveCamera(scene.camera, {
+    resolvedAssetsById,
+    sceneId: scene.id,
+  });
 
   return {
     id: scene.id,

@@ -1,0 +1,20 @@
+{
+  "projectId": "vox-scene-1",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-1",
+      "path": "scenes/scene-1.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "The hidden architecture of the modern city is a web of invisible connections."
+      }
+    ],
+    "fullTranscript": "The hidden architecture of the modern city is a web of invisible connections."
+  }
+}

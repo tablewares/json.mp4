@@ -1,0 +1,53 @@
+{
+  "assetType": "WavyLine",
+  "component": "WavyLine.jsx",
+  "description": "A self-drawing curved line (default red) connecting two endpoints. Built for the 'curvy line leading from one asset to another' recipe: declare fromAssetId + toAssetId in contentOverride and pass 2's resolveSceneRefs writes both endpoints' centers into content.points. The component turns those two points into a smooth cubic-bezier curve by offsetting the control points perpendicular to the segment, so it actually bows rather than being a straight diagonal. The line draws itself in via stroke-dashoffset over drawDurationFraction of its active window, then holds.",
+  "defaultSize": { "width": 1920, "height": 1080 },
+  "defaultStyle": {
+    "strokeColor": "#EA3943",
+    "strokeWidth": 6,
+    "strokeLinecap": "round",
+    "curveAmount": 0.28,
+    "drawDurationFraction": 0.55,
+    "easing": "snappySpring"
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "fromAssetId": {
+        "type": "string",
+        "description": "id of an asset resolved earlier in this scene. Pass 2 writes its center into content.points[0]. When both fromAssetId + toAssetId are set, explicit points below are ignored."
+      },
+      "toAssetId": {
+        "type": "string",
+        "description": "id of an asset resolved earlier in this scene. Pass 2 writes its center into content.points[1]."
+      },
+      "points": {
+        "type": "array",
+        "description": "Explicit endpoints as [{x,y},{y,y}] in composition-space pixels. Ignored when fromAssetId + toAssetId are authored; used verbatim otherwise.",
+        "items": {
+          "type": "object",
+          "required": ["x", "y"],
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" }
+          }
+        }
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "strokeColor": { "type": "string", "description": "Raw hex stroke color (default #EA3943 red). WavyLine doesn't tokenize color so an author can pick the exact curve hue on the fly without a theme entry." },
+      "strokeColorToken": { "type": "string", "description": "Theme color token name; takes precedence over raw strokeColor when both are set." },
+      "strokeWidth": { "type": "number" },
+      "strokeLinecap": { "type": "string", "enum": ["round", "butt", "square"] },
+      "curveAmount": { "type": "number", "description": "Signed magnitude of the perpendicular control-point offset as a fraction of the segment length. 0 = straight line; 0.28 (default) makes a noticeable bow; negative flips the bow direction." },
+      "drawDurationFraction": { "type": "number", "minimum": 0, "maximum": 1, "description": "fraction of the active window spent animating the dashoffset from full length to 0 (draw-in). Hold afterwards." },
+      "easing": { "type": "string", "description": "easing token driving the draw-in spring entrance + opacity envelope" },
+      "width": { "type": "number" },
+      "height": { "type": "number" }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T22:47:02.568Z",
+  "generatedAt": "2026-08-09T01:23:25.437Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics",
@@ -33,6 +33,11 @@
     "TextBlock": {
       "folderName": "TextBlock",
       "entryFile": "TextBlock.jsx",
+      "rootIndex": 0
+    },
+    "WavyLine": {
+      "folderName": "WavyLine",
+      "entryFile": "WavyLine.jsx",
       "rootIndex": 0
     },
     "BarChartRace": {

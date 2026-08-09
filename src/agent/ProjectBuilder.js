@@ -89,6 +89,77 @@ function checkAgainstSchema(schema, value) {
   return validateFn.errors.map((e) => `${e.instancePath || "(root)"} ${e.message}`);
 }
 
+/**
+ * Caches a compiled `scene.schema.json#/definitions/cameraSpec` validator
+ * (Ajv) so setCamera / updateCamera / addCameraAction can sanity-check a
+ * cameraSpec at write time, standing parallel to addAsset's content-schema
+ * check. Returns an empty array when the spec is clean, or human-readable
+ * error strings when not — same return shape as `checkAgainstSchema`.
+ *
+ * Lazy-loaded on first call so a CLI run that doesn't touch camera never
+ * pays the compile cost.
+ */
+let _cachedCameraValidator = null;
+function checkCameraSpec(cameraSpec) {
+  if (cameraSpec == null) return [];
+  if (_cachedCameraValidator === null) {
+    const schemaPath = path.join(
+      __dirname,
+      "../pipelines/pipeline1-validate/schema/scene.schema.json",
+    );
+    const sceneSchema = JSON.parse(fs.readFileSync(schemaPath, "utf-8"));
+    const ajv = new Ajv({ allErrors: true, strict: false, allowUnionTypes: true });
+    ajv.addSchema(sceneSchema, "scene.schema.json");
+    // getSchema resolves the #/definitions/cameraSpec sub-schema against
+    // the registered parent — exactly the $ref path validate.js uses at
+    // run time, so a cameraSpec that passes here will also pass validate.
+    _cachedCameraValidator = ajv.getSchema("scene.schema.json#/definitions/cameraSpec");
+  }
+  if (_cachedCameraValidator(cameraSpec)) return [];
+  return (_cachedCameraValidator.errors || []).map((e) => `${e.instancePath || "(root)"} ${e.message}`);
+}
+
+/**
+ * Enforces the in-scene reference ordering rule (plan.md §1): an asset that
+ * references another asset via contentOverride.refAssetId /
+ * fromAssetId / toAssetId must be authored AFTER its target within
+ * scene.assets — pass 2's resolveSceneRefs reads the pass-1 map, which the
+ * target must already populate. Same intent as transitionOut's
+ * `carryAssetId` requiring the asset to exist in both adjacent scenes.
+ *
+ * Used by both addAsset (against the existing scene.assets) and updateAsset
+ * (after a contentOverride patch may have introduced new refs). The asset
+ * being checked is allowed to already exist in scene.assets (updateAsset
+ * case); its own listing is excluded from the "valid earlier target" set so
+ * an asset can't reference itself.
+ *
+ * @param {{id?:string, contentOverride?:object}} asset  asset being checked
+ * @param {{assets?:Array}} scene
+ * @param {string} sceneId
+ * @throws {Error} when any referenced id isn't found earlier in scene.assets
+ */
+function checkAssetRefs(asset, scene, sceneId) {
+  const contentOverride = asset?.contentOverride ?? {};
+  const refIds = [
+    contentOverride.refAssetId,
+    contentOverride.fromAssetId,
+    contentOverride.toAssetId,
+  ].filter((v) => typeof v === "string" && v.length > 0);
+  if (refIds.length === 0) return;
+
+  const knownIds = new Set(
+    (scene?.assets ?? []).map((a) => a.id).filter((x) => x != null && x !== asset?.id),
+  );
+  const missing = refIds.filter((ref) => !knownIds.has(ref));
+  if (missing.length > 0) {
+    throw new Error(
+      `Asset "${asset?.id ?? "?"}" (scene "${sceneId}") references ${missing.map((m) => `"${m}"`).join(", ")} ` +
+        `but that target hasn't been added to the scene yet. Author the target first with addAsset() (referenced assets must appear EARLIER in scene.assets than the asset that references them). ` +
+        `Known asset ids in this scene: ${[...knownIds].join(", ") || "(none)"}.`,
+    );
+  }
+}
+
 // Backfills `durationInFrames` from the transition registry's
 // `defaultDurationInFrames` when the agent omits it — so a
 // `{"type":"default"}`-style spec produces a `{"type":"default", ...
@@ -296,11 +367,28 @@ export class ProjectBuilder {
       throw new Error(`Asset id "${id}" already exists in scene "${sceneId}"`);
     }
 
+    const contentOverride = spec.contentOverride ?? {};
+    // Enforce the in-scene reference ordering rule from plan.md §1: an
+    // asset referencing another asset (contentOverride.refAssetId /
+    // fromAssetId / toAssetId) must be authored AFTER its target(s), so
+    // pass 2's resolveSceneRefs can resolve it against the pass-1 map the
+    // target already populates. Same intent as how transitionOut's
+    // carryAssetId requires the asset to exist in both adjacent scenes.
+    //
+    // Build a tentative asset (id known at this point) and run the same
+    // shared check updateAsset uses, against the existing scene.assets.
+    const tentativeAsset = {
+      id,
+      assetType,
+      contentOverride,
+    };
+    checkAssetRefs(tentativeAsset, scene, sceneId);
+
     const asset = {
       id,
       assetType,
       anchor: spec.anchor ?? { position: "center", offsetXPercent: 0, offsetYPercent: 0 },
-      contentOverride: spec.contentOverride ?? {},
+      contentOverride,
       styleOverride: spec.styleOverride ?? {},
       enterAt: spec.enterAt ?? 0,
       exitAt: spec.exitAt ?? 1,
@@ -364,6 +452,12 @@ export class ProjectBuilder {
     // Wholesale overwire (matches enterAt/exitAt's behavior — `z` is a single
     // number, not a deep-merge candidate).
     if (patch.z !== undefined) asset.z = patch.z;
+
+    // A patched contentOverride can introduce a refAssetId /
+    // fromAssetId / toAssetId that wasn't there at authoring time.
+    // Re-check the in-scene ordering rule against the OTHER assets in the
+    // scene (the asset itself isn't a valid target for its own ref).
+    checkAssetRefs(asset, scene, sceneId);
 
     const entry = registry[asset.assetType];
     const warnings = checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride);
@@ -436,6 +530,101 @@ export class ProjectBuilder {
     scene.transitionOut.effects.push(effectSpec);
     this._writeScene(projectId, sceneId, scene);
     return scene.transitionOut.effects;
+  }
+
+  /**
+   * Sets a scene's camera from scratch (replaces any existing one).
+   *
+   * A null/undefined spec clears the camera (falls back to no camera = a
+   * static centered view at scale 1). A non-null spec is checked against
+   * the `cameraSpec` sub-schema of `scene.schema.json` so an author gets
+   * immediate feedback at write time instead of waiting for `validate` /
+   * `render` — same shape as `addAsset`'s `checkAgainstSchema` warnings.
+   *
+   * Pass `opts.warnOnly: true` to surface schema violations as `warnings`
+   * instead of throwing (matches `addAsset`'s contract — non-fatal
+   * content schema checks). Default `false` throws, matching
+   * `setTransitionOut`'s overall contract (transitions are validated
+   * strictly because a bad type fails at resolve anyway).
+   */
+  setCamera(projectId, sceneId, cameraSpec, opts = {}) {
+    const scene = this._readScene(projectId, sceneId);
+    if (cameraSpec == null) {
+      delete scene.camera;
+      this._writeScene(projectId, sceneId, scene);
+      return { camera: null, warnings: [] };
+    }
+    const warnings = checkCameraSpec(cameraSpec);
+    if (warnings.length > 0 && !opts.warnOnly) {
+      throw new Error(
+        `setCamera: invalid cameraSpec for scene "${sceneId}":\n  - ${warnings.join("\n  - ")}`,
+      );
+    }
+    scene.camera = cameraSpec;
+    this._writeScene(projectId, sceneId, scene);
+    return { camera: scene.camera, warnings };
+  }
+
+  /**
+   * Patches an existing scene.camera in place — a shallow merge, not a
+   * replace: only the top-level keys in `patch` are touched.
+   *
+   *   - `durationInFrames`, `speed`, `zoomPercent`, `zoomStartPercent`,
+   *     `zoomEndPercent`, `start`, `end` overwrite when present (scalars).
+   *   - `actions` is replaced wholesale when present (arrays aren't deep
+   *     merge candidates — same rule `updateTransitionOut` applies to
+   *     `effects`). Use addCameraAction to append one action instead.
+   *
+   * Throws if the scene has no camera yet — use setCamera to create one
+   * first. Mirrors updateTransitionOut's contract exactly.
+   *
+   * @param {{durationInFrames?, speed?, zoomPercent?, zoomStartPercent?, zoomEndPercent?, start?, end?, actions?}} patch
+   */
+  updateCamera(projectId, sceneId, patch = {}) {
+    const scene = this._readScene(projectId, sceneId);
+    if (!scene.camera) {
+      throw new Error(`Scene "${sceneId}" has no camera yet. Use setCamera to create one.`);
+    }
+    const scalars = [
+      "durationInFrames",
+      "speed",
+      "zoomPercent",
+      "zoomStartPercent",
+      "zoomEndPercent",
+      "start",
+      "end",
+    ];
+    for (const key of scalars) {
+      if (patch[key] !== undefined) scene.camera[key] = patch[key];
+    }
+    if (patch.actions !== undefined) scene.camera.actions = patch.actions;
+    const warnings = checkCameraSpec(scene.camera);
+    this._writeScene(projectId, sceneId, scene);
+    return { camera: scene.camera, warnings };
+  }
+
+  /** Appends one action to a scene's camera.actions[], creating the camera
+   * block (with an empty actions[]) if none exists yet — mirrors
+   * addTransitionEffect's auto-create philosophy. Returns the resulting
+   * actions array. */
+  addCameraAction(projectId, sceneId, actionSpec) {
+    const scene = this._readScene(projectId, sceneId);
+    if (!scene.camera) scene.camera = { actions: [] };
+    if (!Array.isArray(scene.camera.actions)) scene.camera.actions = [];
+    scene.camera.actions.push(actionSpec);
+    const warnings = checkCameraSpec(scene.camera);
+    this._writeScene(projectId, sceneId, scene);
+    return { actions: scene.camera.actions, warnings };
+  }
+
+  /** Removes a scene's camera entirely (falls back to a static centered
+   * view at scale 1, the renderer's default when scene.camera is null). */
+  removeCamera(projectId, sceneId) {
+    const scene = this._readScene(projectId, sceneId);
+    const had = Boolean(scene.camera);
+    delete scene.camera;
+    this._writeScene(projectId, sceneId, scene);
+    return { removed: had };
   }
 
   /** Adds (or updates, if id already exists) a narration entry. */

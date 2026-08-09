@@ -1,0 +1,26 @@
+{
+  "id": "s1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "kt1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 12,
+        "offsetYPercent": 22
+      },
+      "contentOverride": {
+        "text": "target"
+      },
+      "styleOverride": {
+        "width": 600,
+        "height": 140,
+        "useNarrationTiming": false,
+        "staggerFrames": 4
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ]
+}

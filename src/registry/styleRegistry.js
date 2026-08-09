@@ -8,6 +8,15 @@
 
 export function resolveColorToken(styles, tokenOrLiteral) {
   if (typeof tokenOrLiteral !== "string") return tokenOrLiteral;
+  // Pass through a literal hex color (#RRGGBB or #RRGGBBAA) untouched —
+  // matches the `tokenOrLiteral` definition in scene.schema.json: a value
+  // is either a style registry token (e.g. "shade1") OR a raw hex string.
+  // Without this, any asset-style key containing "color" that's authored
+  // with a literal hex (#EA3943) instead of a token fails at resolve with
+  // "Unknown color token", even though the schema permits the literal.
+  if (/^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(tokenOrLiteral.trim())) {
+    return tokenOrLiteral;
+  }
   const value = styles.colors[tokenOrLiteral];
   if (!value) {
     throw new Error(

@@ -30,6 +30,10 @@
 //   update-transition <projectId> <sceneId> '<json>'        patch an existing transitionOut (merges params)
 //   remove-transition <projectId> <sceneId>        clear a scene's transitionOut (hard cut)
 //   add-effect <projectId> <sceneId> '<json>'      append a transitionOut effect
+//   set-camera <projectId> <sceneId> '<json>'      set scene.camera (replaces any existing one); null clears it
+//   update-camera <projectId> <sceneId> '<json>'   patch an existing scene.camera (shallow merge; actions replace)
+//   add-camera-action <projectId> <sceneId> '<json>' append one action to scene.camera.actions[] (creates camera if needed)
+//   remove-camera <projectId> <sceneId>            clear a scene's camera (static centered view)
 //   add-narration <projectId> '<json>'             add/update a narration entry {id,text}
 //   set-transcript <projectId> '<json>'            set narration.fullTranscript {text}
 //   add-audio <projectId> '<json>'                 append a manifest.audioOverlay entry
@@ -220,6 +224,18 @@ try {
       break;
     case "add-effect":
       ok(builder.addTransitionEffect(rest[0], rest[1], parseJsonArg(rest[2], "effect spec")));
+      break;
+    case "set-camera":
+      ok(builder.setCamera(rest[0], rest[1], parseJsonArg(rest[2], "camera spec")));
+      break;
+    case "update-camera":
+      ok(builder.updateCamera(rest[0], rest[1], parseJsonArg(rest[2], "camera patch")));
+      break;
+    case "add-camera-action":
+      ok(builder.addCameraAction(rest[0], rest[1], parseJsonArg(rest[2], "camera action spec")));
+      break;
+    case "remove-camera":
+      ok(builder.removeCamera(rest[0], rest[1]));
       break;
     case "add-narration":
       ok(builder.addNarrationEntry(rest[0], parseJsonArg(rest[1], "narration entry {id,text}")));

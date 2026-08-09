@@ -1,0 +1,94 @@
+{
+  "id": "scene-1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-1",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 10,
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "src": "public/assets/city-map.jpg"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "kt-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom-right",
+        "offsetXPercent": -10,
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "text": "invisible connections"
+      },
+      "styleOverride": {
+        "highlighter": {
+          "enabled": true,
+          "markerColorToken": "accentWarm"
+        }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "line-1",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "fromAssetId": "img-1",
+        "toAssetId": "kt-1"
+      },
+      "styleOverride": {
+        "strokeWidth": 12
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "camera": {
+    "durationInFrames": 300,
+    "speed": 1,
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "followAssetId": "img-1"
+        },
+        "zoomPercent": 300
+      },
+      {
+        "at": 0.5,
+        "anchor": {
+          "followAssetId": "kt-1"
+        },
+        "zoomPercent": 300
+      },
+      {
+        "at": 0.8,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "at": 0.9,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 50
+      }
+    ]
+  }
+}

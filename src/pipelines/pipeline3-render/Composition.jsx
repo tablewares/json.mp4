@@ -137,7 +137,18 @@ function SceneLayer({ scene, compositionSize }) {
   const sceneDuration = Math.max(scene.durationInFrames, 1);
   const clampedFrame = Math.min(Math.max(frame, 0), sceneDuration - 1);
   const frameForCamera = compositionDurationInFrames > 0 ? clampedFrame : frame;
-  const resolvedCameraTransform = resolveCameraTransform(scene.camera, compositionSize, frameForCamera, sceneDuration);
+  // Index scene.assets by id so resolveCameraTransform can resolve a
+  // `followAssetId` camera anchor to the target asset's resolved box.
+  const resolvedAssetsById = Object.fromEntries(
+    (scene.assets ?? []).map((a) => [a.id, a]).filter(([id]) => id != null),
+  );
+  const resolvedCameraTransform = resolveCameraTransform(
+    scene.camera,
+    compositionSize,
+    frameForCamera,
+    sceneDuration,
+    { resolvedAssetsById, sceneId: scene.id },
+  );
 
   // Z-ordering: lower z paints first (furthest from the viewer), higher z
   // last (on top). Numeric stable sort — Array.prototype.sort on modern V8

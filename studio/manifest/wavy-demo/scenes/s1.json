@@ -1,0 +1,115 @@
+{
+  "id": "s1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "kt1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 12,
+        "offsetYPercent": 22
+      },
+      "contentOverride": {
+        "text": "start here"
+      },
+      "styleOverride": {
+        "width": 640,
+        "height": 140,
+        "useNarrationTiming": false,
+        "staggerFrames": 4
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "kt2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom-right",
+        "offsetXPercent": -12,
+        "offsetYPercent": -22
+      },
+      "contentOverride": {
+        "text": "end here"
+      },
+      "styleOverride": {
+        "width": 640,
+        "height": 140,
+        "useNarrationTiming": false,
+        "staggerFrames": 4
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "wavy",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "fromAssetId": "kt1",
+        "toAssetId": "kt2"
+      },
+      "styleOverride": {
+        "strokeColor": "#EA3943",
+        "strokeWidth": 7,
+        "strokeLinecap": "round",
+        "curveAmount": 0.42,
+        "drawDurationFraction": 0.9,
+        "width": 1920,
+        "height": 1080
+      },
+      "enterAt": 0.18,
+      "exitAt": 1
+    }
+  ],
+  "camera": {
+    "durationInFrames": 150,
+    "speed": 1,
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "id": "onKT1",
+        "at": 0.18,
+        "anchor": {
+          "followAssetId": "kt1",
+          "offsetYPercent": 10
+        },
+        "zoomPercent": 260
+      },
+      {
+        "id": "onLine",
+        "at": 0.5,
+        "anchor": {
+          "followAssetId": "wavy",
+          "offsetYPercent": -4
+        },
+        "zoomPercent": 200
+      },
+      {
+        "id": "onKT2",
+        "at": 0.82,
+        "anchor": {
+          "followAssetId": "kt2",
+          "offsetYPercent": 10
+        },
+        "zoomPercent": 260
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 110
+      }
+    ]
+  }
+}
