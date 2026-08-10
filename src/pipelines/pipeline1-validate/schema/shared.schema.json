@@ -7,6 +7,26 @@
         { "type": "object" }
       ]
     },
+    "backgroundSpec": {
+      "description": "Scene background. Either a color token (e.g. 'shade1'), a literal hex string, or an object { color?, texture?, blendMode?, opacity? }. color resolves via resolveColorToken; texture resolves via resolveTextureToken (a textures.* token → public/ path).",
+      "oneOf": [
+        { "type": "string", "description": "a color token (e.g. 'shade1') or a literal #RRGGBB hex string" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": { "type": "string", "description": "color token or literal #RRGGBB; resolved via resolveColorToken" },
+            "texture": { "type": "string", "description": "texture token from styles.textures; resolved to a public/ path via resolveTextureToken" },
+            "blendMode": {
+              "type": "string",
+              "description": "CSS mix-blend-mode applied to the texture overlay. Defaults to 'normal'.",
+              "enum": ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"]
+            },
+            "opacity": { "type": "number", "minimum": 0, "maximum": 1, "description": "opacity of the texture overlay, 0–1. Defaults to 1." }
+          }
+        }
+      ]
+    },
     "timingAnchor": {
       "type": "object",
       "description": "A timing anchor for an effect/camera event. Exactly one of: offsetPercent, relativeToAsset, relativeToCameraAction.",

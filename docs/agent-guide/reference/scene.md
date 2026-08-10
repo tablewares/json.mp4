@@ -26,15 +26,54 @@ Source: `src/pipelines/pipeline1-validate/validate.js` (loads + id match)
 }
 ```
 
+`background` may also be the object form — see the Keys table below:
+
+```json
+{
+  "id": "scene-002",
+  "background": { "color": "shade2", "texture": "paperGrain", "blendMode": "multiply", "opacity": 0.5 },
+  "assets": [ /* ... */ ]
+}
+```
+
 ## Keys
 
 | key | required | type | notes |
 |---|---|---|---|
 | `id` | required | string | ⛔ MUST match the `id` in the `manifest.scenes[]` entry pointing at this file. Enforced in `validateProject`. |
 | `narrationRef` | optional | string | If set, must match a `narration.entries[].id`. Drives this scene's duration via TTS. If omitted → `config.defaultSceneDurationInFrames`. |
-| `background` | optional | color token \| literal | Resolved by `resolveColorToken`. Unknown token → throw listing known tokens. |
+| `background` | optional | color token \\| literal \\| `{ color?, texture?, blendMode?, opacity? }` | The string form (token or `#hex`) is resolved by `resolveColorToken` and painted as a flat color. The object form additionally lets you pull a **texture token** from `styles.textures` — `texture` resolves to a `public/` path via `resolveTextureToken` and is overlaid full-bleed above the base color but behind every asset, using the CSS `blendMode` (default `normal`) and `opacity` (default `1`). Unknown color/texture token → throw listing known tokens. |
 | `assets` | optional | array | Defaults to `[]`. Each entry is an asset spec — see `asset-spec.md`. |
 | `transitionOut` | optional | object | Defines the handoff to the *next* scene. See below. If omitted, `default` transition is used. |
+
+## background shape
+
+The string form is the historical default and stays byte-identical:
+
+```json
+"background": "shade1"
+"background": "#0B0E14"
+```
+
+The object form adds an optional texture overlay over the base color:
+
+```json
+"background": {
+  "color":     "shade2",     // color token or literal #hex (resolved via resolveColorToken)
+  "texture":   "paperGrain", // texture token from styles.textures (resolved to a public/ path)
+  "blendMode": "multiply",   // CSS mix-blend-mode of the overlay; default "normal"
+  "opacity":   0.5           // 0–1 opacity of the overlay; default 1
+}
+```
+
+- `color` and `texture` are each optional. Omit `texture` for a flat color;
+  omit `color` for a transparent base (the renderer falls back to `#000`).
+- The texture is rendered as a full-bleed `<Img>` via Remotion's
+  `staticFile()`, `objectFit: "cover"`, sitting ABOVE the base color but
+  BELOW every asset depth group — so it never occludes content.
+- `blendMode` and `opacity` only apply to the texture overlay, not the base
+  color. Common choices: `"multiply"` (paper grain / darkening), `"screen"`
+  (lift highlights — metallic sheen), `"overlay"` (contrast pop).
 
 ## transitionOut shape
 
@@ -72,6 +111,17 @@ After pipeline 2, this file becomes a resolved scene object (see
   "assets": [ /* each asset now has resolvedPosition, resolvedStyle, timing */ ],
   "transitionIn":  null | { type, durationInFrames, componentPath, props },
   "transitionOut": null | { type, durationInFrames, componentPath, props }
+}
+```
+
+For the object-form background the resolved `background` is itself an object:
+
+```json
+"background": {
+  "color":       "#0B0E14",
+  "texturePath": "assets/paper-grain.png",
+  "blendMode":   "multiply",
+  "opacity":     0.5
 }
 ```
 

@@ -1,0 +1,44 @@
+{
+  "id": "scene-4",
+  "narrationRef": "n4",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-4",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/business_growth.jpg"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "txt-4",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom"
+      },
+      "contentOverride": {
+        "text": "INCREASED LENDING"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "wavy-4",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "fromAssetId": "img-4",
+        "toAssetId": "txt-4"
+      }
+    }
+  ]
+}

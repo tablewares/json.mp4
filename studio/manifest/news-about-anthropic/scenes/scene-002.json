@@ -1,0 +1,100 @@
+{
+  "id": "scene-002",
+  "background": "surfaceDark",
+  "assets": [
+    {
+      "id": "TextBlock-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 5
+      },
+      "contentOverride": {
+        "text": "SILICON"
+      },
+      "styleOverride": {
+        "typography": "captionUppercase",
+        "align": "center",
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "KineticText-2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 11
+      },
+      "contentOverride": {
+        "text": "Anthropic is hiring an in-house chip design team to build custom silicon for its Claude models, co-designing hardware and models to run faster and more efficiently."
+      },
+      "styleOverride": {
+        "typography": "displayMd",
+        "align": "center",
+        "width": 980,
+        "staggerFrames": 5
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "CodeBlock-3",
+      "assetType": "CodeBlock",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "code": "// co-design hardware + models\nasync function customSilicon(model) {\n  const chip = await design({\n    goal: \"lower $/token\",\n    partner: \"AWS + Volta\",\n  });\n  return run(model, chip);\n}",
+        "language": "javascript",
+        "highlightLines": [
+          3,
+          4
+        ]
+      },
+      "styleOverride": {
+        "backgroundFill": "#1f1e1b",
+        "borderLine": "#252320",
+        "borderRadius": 20,
+        "showWindowChrome": true,
+        "showLineNumbers": true,
+        "fontSizePx": 26,
+        "lineHeightPx": 1.6,
+        "staggerFrames": 4,
+        "textFill": "#faf9f5",
+        "lineNumberFill": "#6c6a64",
+        "accentFill": "#cc785c",
+        "width": 1000,
+        "height": 620
+      },
+      "enterAt": 0.08,
+      "exitAt": 1
+    },
+    {
+      "id": "TextBlock-4",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "text": "Co-design the chip and the model. Speed wins."
+      },
+      "styleOverride": {
+        "typography": "onDarkMd",
+        "align": "center",
+        "width": 960,
+        "easing": "gentleSpring"
+      },
+      "enterAt": 0.15,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "scene-002",
+  "transitionOut": {
+    "type": "pivotZoom",
+    "durationInFrames": 20
+  }
+}

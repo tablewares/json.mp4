@@ -1,0 +1,44 @@
+{
+  "id": "scene-6",
+  "narrationRef": "n6",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-6",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/inflation.jpg"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "txt-6",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom"
+      },
+      "contentOverride": {
+        "text": "INFLATION RISK"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "wavy-6",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "fromAssetId": "img-6",
+        "toAssetId": "txt-6"
+      }
+    }
+  ]
+}

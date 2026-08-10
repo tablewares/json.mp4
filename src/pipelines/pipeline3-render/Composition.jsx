@@ -1,9 +1,10 @@
 import React, { Suspense, lazy } from "react";
-import { AbsoluteFill, Sequence, Audio, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Img, Sequence, Audio, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { AudioOverlay } from "../../audio/overlay.jsx";
 import registryManifest from "../../../studio/generated/registry.generated.json";
 import { resolveAssetDepth, resolveCameraTransform } from "../../templating/camera.js";
+import { computeMotionTransform } from "../../motion/motion.js";
 
 // ==========================================
 // 1. COMPONENT MODULE LOADING
@@ -147,8 +148,35 @@ function SceneLayer({ scene, compositionSize }) {
   const visualEffects = (scene.effects ?? []).filter((effect) => effect.kind !== "sfx");
   const depthGroups = groupPaintablesByDepth(layeredAssets, visualEffects);
 
+  // Background can be a plain color string (legacy form — token or #hex, already
+  // resolved by resolveBackground) or an object { color, texturePath, blendMode,
+  // opacity } when a texture token was authored. A texture overlay, if present,
+  // renders as a full-bleed <Img> sitting ABOVE the base color but BELOW every
+  // depthGroup of assets — so it never occludes content. staticFile() resolves
+  // the renderer-relative path that resolveTextureToken produced from the token.
+  const bgIsObject = scene.background && typeof scene.background === "object";
+  const bgColor = bgIsObject ? (scene.background.color ?? "#000") : (scene.background ?? "#000");
+  const bgTexture = bgIsObject ? scene.background.texturePath : undefined;
+  const bgBlendMode = bgIsObject ? scene.background.blendMode : undefined;
+  const bgOpacity = bgIsObject ? scene.background.opacity : undefined;
+
   return (
-    <AbsoluteFill style={{ background: scene.background ?? "#000" }}>
+    <AbsoluteFill style={{ background: bgColor }}>
+      {bgTexture ? (
+        <Img
+          src={staticFile(bgTexture)}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            mixBlendMode: bgBlendMode,
+            opacity: bgOpacity,
+            pointerEvents: "none",
+          }}
+        />
+      ) : null}
       {depthGroups.map(({ depth, items }) => {
         const cameraTransform = resolveCameraTransform(
           scene.camera,
@@ -179,15 +207,31 @@ function SceneLayer({ scene, compositionSize }) {
               if (!AssetComponent) {
                 throw new Error(`No renderer registered for assetType "${asset.assetType}"`);
               }
+              const motionTransform = computeMotionTransform(asset.resolvedMotion, frame, asset.timing);
+              const { left, top, ...restPosition } = asset.resolvedPosition;
               return (
-                <Suspense key={asset.id} fallback={null}>
-                  <AssetComponent
-                    resolvedPosition={asset.resolvedPosition}
-                    resolvedStyle={asset.resolvedStyle}
-                    content={asset.content}
-                    timing={asset.timing}
-                  />
-                </Suspense>
+                <div
+                  key={asset.id}
+                  style={{
+                    position: "absolute",
+                    left,
+                    top,
+                    width: asset.resolvedStyle.width,
+                    height: asset.resolvedStyle.height,
+                    opacity: motionTransform.opacity,
+                    transform: `translate(${motionTransform.translateX}px, ${motionTransform.translateY}px) rotate(${motionTransform.rotateDeg}deg)`,
+                    transformOrigin: restPosition.transformOrigin ?? "50% 50%",
+                  }}
+                >
+                  <Suspense fallback={null}>
+                    <AssetComponent
+                      resolvedPosition={{ ...restPosition, left: 0, top: 0 }}
+                      resolvedStyle={asset.resolvedStyle}
+                      content={asset.content}
+                      timing={asset.timing}
+                    />
+                  </Suspense>
+                </div>
               );
             })}
           </AbsoluteFill>

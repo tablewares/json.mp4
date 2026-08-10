@@ -63,9 +63,5 @@
       "enterAt": 0,
       "exitAt": 1
     }
-  ],
-  "transitionOut": {
-    "type": "WhipPan",
-    "durationInFrames": 14
-  }
+  ]
 }

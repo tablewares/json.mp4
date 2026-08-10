@@ -1,0 +1,80 @@
+{
+  "projectId": "quantitative-easing",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-1",
+      "path": "scenes/scene-1.json"
+    },
+    {
+      "id": "scene-2",
+      "path": "scenes/scene-2.json"
+    },
+    {
+      "id": "scene-3",
+      "path": "scenes/scene-3.json"
+    },
+    {
+      "id": "scene-4",
+      "path": "scenes/scene-4.json"
+    },
+    {
+      "id": "scene-5",
+      "path": "scenes/scene-5.json"
+    },
+    {
+      "id": "scene-6",
+      "path": "scenes/scene-6.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Ever wondered how central banks create money out of thin air? This is Quantitative Easing."
+      },
+      {
+        "id": "n2",
+        "text": "It starts when the bank buys government bonds from private banks."
+      },
+      {
+        "id": "n3",
+        "text": "By doing this, they inject a massive amount of digital cash into the banking system."
+      },
+      {
+        "id": "n4",
+        "text": "With more reserves, banks are encouraged to lend more to businesses and people."
+      },
+      {
+        "id": "n5",
+        "text": "The goal is to jumpstart the economy during a slump."
+      },
+      {
+        "id": "n6",
+        "text": "But there's a risk: too much money chasing too few goods leads to inflation."
+      }
+    ],
+    "fullTranscript": "Ever wondered how central banks create money out of thin air? This is Quantitative Easing. It starts when the bank buys government bonds from private banks. By doing this, they inject a massive amount of digital cash into the banking system. With more reserves, banks are encouraged to lend more to businesses and people. The goal is to jumpstart the economy during a slump. But there's a risk: too much money chasing too few goods leads to inflation."
+  },
+  "audioOverlay": [
+    {
+      "id": "sfx-whoosh",
+      "start": 4,
+      "end": 5,
+      "path": "audio/whoosh.mp3"
+    },
+    {
+      "id": "sfx-money",
+      "start": 8,
+      "end": 9,
+      "path": "audio/money.mp3"
+    },
+    {
+      "id": "sfx-ding",
+      "start": 12,
+      "end": 13,
+      "path": "audio/ding.mp3"
+    }
+  ]
+}

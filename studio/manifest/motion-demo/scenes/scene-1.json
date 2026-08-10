@@ -1,0 +1,26 @@
+{
+  "id": "scene-1",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "TextBlock-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "text": "Motion Test"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1,
+      "motion": {
+        "in": "fadeUp",
+        "out": "fadeOutDown",
+        "rotateDeg": 5
+      }
+    }
+  ]
+}

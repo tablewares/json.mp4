@@ -1,0 +1,113 @@
+{
+  "id": "scene-001",
+  "background": "canvas",
+  "assets": [
+    {
+      "id": "TextBlock-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 4
+      },
+      "contentOverride": {
+        "text": "THE BRIEF"
+      },
+      "styleOverride": {
+        "typography": "captionUppercase",
+        "align": "center",
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "TextBlock-2",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 8
+      },
+      "contentOverride": {
+        "text": "Anthropic bets ten billion on compute."
+      },
+      "styleOverride": {
+        "typography": "displayLg",
+        "align": "center",
+        "width": 940,
+        "easing": "gentleSpring"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "BarChartRace-3",
+      "assetType": "BarChartRace",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 14
+      },
+      "contentOverride": {
+        "bars": [
+          {
+            "label": "Deal value",
+            "value": 10,
+            "fillStyle": "#cc785c"
+          },
+          {
+            "label": "Megawatts",
+            "value": 121,
+            "fillStyle": "#5db8a6"
+          },
+          {
+            "label": "Years",
+            "value": 6,
+            "fillStyle": "#e8a55a"
+          }
+        ]
+      },
+      "styleOverride": {
+        "canvasFill": "transparent",
+        "borderLine": "transparent",
+        "barWidth": 180,
+        "barRadius": 16,
+        "valueFormat": "compact",
+        "typography": "titleSm",
+        "labelFill": "#3d3d3a",
+        "valueFill": "#141413",
+        "axisLine": "#e6dfd8",
+        "axisPad": 64,
+        "labelBandPad": 96,
+        "staggerFrames": 8,
+        "borderRadius": 0,
+        "width": 1000,
+        "height": 720
+      },
+      "enterAt": 0.05,
+      "exitAt": 1
+    },
+    {
+      "id": "TextBlock-4",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "text": "Six years. One hydro-powered site in Norway. 121 megawatts of Nvidia capacity."
+      },
+      "styleOverride": {
+        "typography": "bodyMd",
+        "align": "center",
+        "width": 940,
+        "easing": "gentleSpring"
+      },
+      "enterAt": 0.1,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "scene-001",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

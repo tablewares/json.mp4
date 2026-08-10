@@ -1,0 +1,36 @@
+{
+  "projectId": "news-about-anthropic",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-001",
+      "path": "scenes/scene-001.json"
+    },
+    {
+      "id": "scene-002",
+      "path": "scenes/scene-002.json"
+    },
+    {
+      "id": "scene-003",
+      "path": "scenes/scene-003.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "scene-001",
+        "text": "Anthropic signed a six-year, ten billion dollar compute deal with cloud startup Volta for one hundred twenty-one megawatts of Nvidia capacity at a hydro-powered data center in Norway."
+      },
+      {
+        "id": "scene-002",
+        "text": "Anthropic is hiring an in-house chip design team to build custom silicon for its Claude models, co-designing hardware and models to run faster and more efficiently."
+      },
+      {
+        "id": "scene-003",
+        "text": "The White House met with Anthropic, OpenAI, and Google to finalize a voluntary framework for reviewing the cybersecurity of frontier AI models before release."
+      }
+    ],
+    "fullTranscript": "Anthropic signed a six-year, ten billion dollar compute deal with cloud startup Volta for one hundred twenty-one megawatts of Nvidia capacity at a hydro-powered data center in Norway. Anthropic is hiring an in-house chip design team to build custom silicon for its Claude models, co-designing hardware and models to run faster and more efficiently. The White House met with Anthropic, OpenAI, and Google to finalize a voluntary framework for reviewing the cybersecurity of frontier AI models before release."
+  }
+}

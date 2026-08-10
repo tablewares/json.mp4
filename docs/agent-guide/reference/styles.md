@@ -17,7 +17,10 @@ Source: `src/registry/styleRegistry.js`
     "heading1": { "fontFamily": "Inter, sans-serif", "fontSize": 72, "fontWeight": 700, "lineHeight": 1.1, "colorToken": "main1" }
   },
   "spacing": { "sceneMargin": 96, "gutter": 32 },
-  "easing":  { "gentleSpring": { "damping": 16, "mass": 0.7, "stiffness": 110 } }
+  "easing":  { "gentleSpring": { "damping": 16, "mass": 0.7, "stiffness": 110 } },
+  "textures": {
+    "paperGrain": "assets/textures/paper-grain.png"
+  }
 }
 ```
 
@@ -29,6 +32,7 @@ Source: `src/registry/styleRegistry.js`
 | `typography` | optional | `{ token: { fontFamily, fontSize, fontWeight, lineHeight, colorToken } }` | `resolveTypographyToken` |
 | `spacing` | optional | `{ token: number }` | pass-through (not auto-resolved) |
 | `easing` | optional | `{ token: { damping, mass, stiffness } }` | `resolveEasingToken` |
+| `textures` | optional | `{ token: "path/relative/to/public/" }` | `resolveTextureToken` (asset `*texture*` style keys) and `resolveBackground` (scene `background.texture`) |
 
 ## Resolution rules (styleRegistry.js)
 
@@ -41,11 +45,40 @@ Source: `src/registry/styleRegistry.js`
   ⛔ Unknown typography token → lists known tokens.
 - **Easing**: token names referenced by asset `styleOverride.easing` are
   resolved here. ⛔ Unknown easing token → throw.
+- **Texture**: a string value whose key contains "texture" (case-insensitive)
+  is looked up in `textures` and resolved to a path relative to `public/`,
+  which Remotion's `staticFile()` turns into a renderable URL. ⛔ Unknown
+  texture token → `Unknown texture token "..." Known tokens: ...`. Used
+  by asset style overrides (e.g. `texturePath`) and by a scene's
+  `background.texture` (see `resolveBackground`).
 - **Asset style merge**: `resolveAssetStyle` does
   `{...assetManifest.defaultStyle, ...styleOverride}`. Any field the
   override doesn't set falls through to the asset's declared default, and
   any string field whose key contains "color" is resolved as a color
   token, "typography" → typography token, "easing" → easing token.
+
+## Scene background
+
+A scene's `background` is resolved by `resolveBackground` in
+styleRegistry.js, which supports two authoring forms:
+
+1. **String** — a color token (`"shade1"`) or literal `#hex`. Resolved via
+   `resolveColorToken` and painted as a flat color. This is the historical
+   form and stays byte-identical.
+2. **Object** — `{ color?, texture?, blendMode?, opacity? }`. `color`
+   resolves via `resolveColorToken`; `texture` resolves via
+   `resolveTextureToken` to a `public/` path. The renderer paints the
+   color first, then overlays the texture as a full-bleed `<Img>` above
+   the color but behind every asset. `blendMode` (default `"normal"`) and
+   `opacity` (default `1`) apply only to the texture overlay.
+
+Example (paper grain over a dark base):
+
+```json
+"background": { "color": "shade2", "texture": "paperGrain", "blendMode": "multiply", "opacity": 0.5 }
+```
+
+See `docs/agent-guide/reference/scene.md` for the full scene key table.
 
 ## Adding tokens
 

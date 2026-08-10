@@ -24,6 +24,7 @@ import addFormats from "ajv-formats";
 import { loadAssetRegistry, loadTransitionRegistry } from "../registry/assetRegistry.js";
 import { validateProject } from "../pipelines/pipeline1-validate/validate.js";
 import { resolveProject } from "../pipelines/pipeline2-resolve/resolve.js";
+import { resolveMotion } from "../motion/motion.js";
 import {
   buildTimeline,
   findAssetSegments,
@@ -146,6 +147,52 @@ function checkCameraSpec(cameraSpec) {
   }
   if (_cachedCameraValidator(cameraSpec)) return [];
   return (_cachedCameraValidator.errors || []).map((e) => `${e.instancePath || "(root)"} ${e.message}`);
+}
+
+/**
+ * Caches a compiled `scene.schema.json#/definitions/motionSpec` validator,
+ * standing parallel to checkCameraSpec. Returns [] when clean, or
+ * human-readable error strings when not.
+ */
+let _cachedMotionValidator = null;
+function checkMotionSpec(motionSpec) {
+  if (motionSpec == null) return [];
+  if (_cachedMotionValidator === null) {
+    const schemaDir = path.join(
+      __dirname,
+      "../pipelines/pipeline1-validate/schema",
+    );
+    const sceneSchema = JSON.parse(
+      fs.readFileSync(path.join(schemaDir, "scene.schema.json"), "utf-8"),
+    );
+    const ajv = new Ajv({ allErrors: true, strict: false, allowUnionTypes: true });
+    for (const sib of [
+      "transition.schema.json",
+      "shared.schema.json",
+      "camera.schema.json",
+    ]) {
+      const sibPath = path.join(schemaDir, sib);
+      if (!ajv.getSchema(sib)) {
+        ajv.addSchema(JSON.parse(fs.readFileSync(sibPath, "utf-8")), sib);
+      }
+    }
+    if (!ajv.getSchema("scene.schema.json")) {
+      ajv.addSchema(sceneSchema, "scene.schema.json");
+    }
+    _cachedMotionValidator = ajv.getSchema("scene.schema.json#/definitions/motionSpec");
+  }
+  if (_cachedMotionValidator(motionSpec)) return [];
+  return (_cachedMotionValidator.errors || []).map((e) => `${e.instancePath || "(root)"} ${e.message}`);
+}
+
+function checkMotionAliases(motionSpec) {
+  if (motionSpec == null) return [];
+  try {
+    resolveMotion(motionSpec);
+    return [];
+  } catch (e) {
+    return [e.message];
+  }
 }
 
 /**
@@ -428,8 +475,13 @@ export class ProjectBuilder {
     // assets authored before `z` existed continue to serialize with seven
     // keys, not eight.
     if (spec.z !== undefined) asset.z = spec.z;
+    if (spec.motion !== undefined) asset.motion = spec.motion;
 
-    const warnings = checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride);
+    const warnings = [
+      ...checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride),
+      ...checkMotionSpec(asset.motion),
+      ...checkMotionAliases(asset.motion),
+    ];
 
     scene.assets.push(asset);
     this._writeScene(projectId, sceneId, scene);
@@ -481,6 +533,7 @@ export class ProjectBuilder {
     // Wholesale overwire (matches enterAt/exitAt's behavior — `z` is a single
     // number, not a deep-merge candidate).
     if (patch.z !== undefined) asset.z = patch.z;
+    if (patch.motion) asset.motion = { ...(asset.motion ?? {}), ...patch.motion };
 
     // A patched contentOverride can introduce a refAssetId /
     // fromAssetId / toAssetId that wasn't there at authoring time.
@@ -489,7 +542,11 @@ export class ProjectBuilder {
     checkAssetRefs(asset, scene, sceneId);
 
     const entry = registry[asset.assetType];
-    const warnings = checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride);
+    const warnings = [
+      ...checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride),
+      ...checkMotionSpec(asset.motion),
+      ...checkMotionAliases(asset.motion),
+    ];
 
     this._writeScene(projectId, sceneId, scene);
     return { asset, warnings };

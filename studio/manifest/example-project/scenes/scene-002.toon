@@ -1,6 +1,10 @@
 id: scene-002
 narrationRef: n2
-background: shade2
+background:
+  color: shade2
+  texture: metallicVault
+  blendMode: multiply
+  opacity: 0.5
 transitionOut:
   type: shatterWipe
   durationInFrames: 24

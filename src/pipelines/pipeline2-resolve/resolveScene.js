@@ -1,7 +1,8 @@
 import { getAsset } from "../../registry/assetRegistry.js";
-import { resolveColorToken, resolveAssetStyle } from "../../registry/styleRegistry.js";
+import { resolveColorToken, resolveAssetStyle, resolveBackground } from "../../registry/styleRegistry.js";
 import { resolveAnchor } from "../../templating/anchor.js";
 import { resolveCamera } from "../../templating/camera.js";
+import { resolveMotion } from "../../motion/motion.js";
 import { sceneTimingBudget } from "../../timing/ttsTiming.js";
 import { indexAssetsById, resolveSceneRefs } from "./resolveRefs.js";
 import { warnOnAssetOverlaps } from "./overlap_warn.js";
@@ -66,6 +67,7 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
       content: assetSpec.contentOverride ?? {},
       resolvedPosition,
       resolvedStyle,
+      resolvedMotion: resolveMotion(assetSpec.motion),
       timing: {
         durationInFrames: sceneDurationInFrames,
         enterAtFrame,
@@ -102,7 +104,7 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
           endFrame: timing.endFrame,
         }
       : null,
-    background: scene.background ? resolveColorToken(styles, scene.background) : undefined,
+    background: scene.background ? resolveBackground(styles, scene.background) : undefined,
     assets: resolvedAssets,
     transitionIn: null,
     transitionOut: null,

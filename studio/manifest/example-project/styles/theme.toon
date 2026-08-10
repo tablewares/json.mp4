@@ -30,3 +30,5 @@ easing:
     damping: 12
     mass: 0.4
     stiffness: 180
+textures:
+  metallicVault: "assets/bank_vault.jpg"

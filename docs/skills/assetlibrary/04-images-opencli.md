@@ -62,6 +62,45 @@ opencli yandeximages search "abstract concrete texture background" --limit 10 -f
 | `source_url` | Yandex search-result click-through URL — keep for licensing audit |
 | `title` | Often descriptive; useful for renaming saved file |
 
+## Connection test (run before trusting any result)
+
+The adapter returns URLs, not images. Yandex frequently returns captcha walls,
+redirect-to-CSS placeholders, or stale `img_url` entries that 404 — and the
+adapter correctly surfaces *some* of these as errors, but a valid-looking JSON
+row with an `image_url` is **not** proof the URL actually serves an image.
+Before you wire any result into a manifest, prove the URL fetches:
+
+```bash
+# 1. Pick the top result's image_url
+URL=$(opencli yandeximages search 'abstract concrete texture' --limit 5 -f json \
+  | jq -r '.[0].image_url')
+
+# 2. Actually download it
+curl -fsSL -o /tmp/yandex-probe.img "$URL" || {
+  echo "FETCH FAILED: $URL"
+  # treat as no-image: re-run search with higher limit, or solve captcha (below)
+  exit 1
+}
+
+# 3. Confirm it's a real image, not HTML/text/error body
+file /tmp/yandex-probe.img
+# expect: "PNG image data, ... " or "JPEG image data, ... " or "AVIF Image data"
+# if it says "HTML document" / "ASCII text" / "empty" → URL lied, discard it
+```
+
+Only proceed to the "Downloading one result" step once `file` reports an image
+codec with real dimensions. If the probe fails across multiple rows:
+
+- The Yandex session may be captcha-walled — run the captcha-solve flow in the
+  "Pitfall: captcha wall" section below, then retry the search + probe.
+- The adapter's DOM selectors may have drifted against a Yandex markup change —
+  run `opencli browser recon verify yandeximages/search` and patch `search.js`
+  if flagged (see "Verifying the OpenCLI adapter itself" below).
+
+Skipping this step is the common failure mode: you wire `assets/hero.png` into a
+scene, render crashes or shows a blank/error image, and the real cause was an
+unfetchable URL you never actually downloaded.
+
 ## Downloading one result to `public/assets/`
 
 Output rule from top-level `README.md`: still images go to

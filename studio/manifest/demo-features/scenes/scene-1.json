@@ -1,0 +1,82 @@
+{
+  "id": "scene-1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "KineticText-2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "Highlighter & Parallax Demo"
+      },
+      "styleOverride": {
+        "depth": 1,
+        "highlighter": {
+          "enabled": true,
+          "color": "#FFFF00",
+          "mode": "band",
+          "direction": "right"
+        }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "TextBlock-3",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom-right"
+      },
+      "contentOverride": {
+        "text": "Foreground Motion"
+      },
+      "styleOverride": {
+        "depth": 1.5
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "motion": {
+        "in": "fadeUp",
+        "rotate": {
+          "toDeg": 10,
+          "durationInFrames": 30,
+          "startAt": "afterIn"
+        }
+      }
+    },
+    {
+      "id": "SignalBloom-3",
+      "assetType": "SignalBloom",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "depth": 0.5
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "camera": {
+    "easeZoom": true,
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 150
+      }
+    ]
+  }
+}

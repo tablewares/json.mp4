@@ -1,0 +1,44 @@
+{
+  "id": "scene-5",
+  "narrationRef": "n5",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-5",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/slump.jpg"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "txt-5",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom"
+      },
+      "contentOverride": {
+        "text": "JUMPSTART ECONOMY"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "wavy-5",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "fromAssetId": "img-5",
+        "toAssetId": "txt-5"
+      }
+    }
+  ]
+}

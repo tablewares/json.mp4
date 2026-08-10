@@ -1,0 +1,44 @@
+{
+  "id": "scene-1",
+  "narrationRef": "n1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-1",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/central_bank.jpg"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "txt-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom"
+      },
+      "contentOverride": {
+        "text": "QUANTITATIVE EASING"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "wavy-1",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "fromAssetId": "img-1",
+        "toAssetId": "txt-1"
+      }
+    }
+  ]
+}

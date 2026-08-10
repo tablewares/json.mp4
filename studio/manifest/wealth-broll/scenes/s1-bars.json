@@ -59,9 +59,5 @@
       "enterAt": 0,
       "exitAt": 1
     }
-  ],
-  "transitionOut": {
-    "type": "ShapeWipe",
-    "durationInFrames": 28
-  }
+  ]
 }

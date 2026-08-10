@@ -1,0 +1,44 @@
+{
+  "id": "scene-3",
+  "narrationRef": "n3",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-3",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/money_injection.jpg"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "txt-3",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom"
+      },
+      "contentOverride": {
+        "text": "DIGITAL INJECTION"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "wavy-3",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "fromAssetId": "img-3",
+        "toAssetId": "txt-3"
+      }
+    }
+  ]
+}

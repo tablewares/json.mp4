@@ -62,6 +62,43 @@ export function resolveTextureToken(styles, tokenOrLiteral) {
 }
 
 /**
+ * Resolves a scene's `background` into the shape the renderer consumes.
+ *
+ * Accepts the three authoring forms permitted by `backgroundSpec` in
+ * shared.schema.json:
+ *   - a color token string ("shade1")           → returned as a plain string
+ *   - a literal #RRGGBB hex string ("#0B0E14")  → returned as a plain string
+ *   - an object { color?, texture?, blendMode?, opacity? }
+ *
+ * For the object form, `color` (if present) is resolved via
+ * `resolveColorToken`; `texture` (if present) is resolved via
+ * `resolveTextureToken` to a path under public/ consumed by staticFile().
+ * The resolved object is always returned with the keys
+ *   { color, texturePath, blendMode, opacity }
+ * — `texturePath` is undefined when no texture was authored, and the renderer
+ * treats an undefined `texturePath` as "no overlay" (the historical flat-color
+ * background). `blendMode` defaults to "normal", `opacity` defaults to 1.
+ *
+ * A plain-string background (the pre-existing form) is resolved to a string
+ * color and returned unchanged — byte-identical behavior for every existing
+ * scene that doesn't use the object form.
+ */
+export function resolveBackground(styles, background) {
+  if (background == null) return undefined;
+  if (typeof background === "string") {
+    return resolveColorToken(styles, background);
+  }
+  // Object form: { color?, texture?, blendMode?, opacity? }
+  const resolved = {
+    color: background.color != null ? resolveColorToken(styles, background.color) : undefined,
+    texturePath: background.texture != null ? resolveTextureToken(styles, background.texture) : undefined,
+    blendMode: background.blendMode ?? "normal",
+    opacity: background.opacity ?? 1,
+  };
+  return resolved;
+}
+
+/**
  * Merges an asset's styleOverride against the global registry. Any field the
  * override doesn't specify falls through to the registry default for that
  * asset type (assetManifest.defaultStyle), which itself is usually expressed

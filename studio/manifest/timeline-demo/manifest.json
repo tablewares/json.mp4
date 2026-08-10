@@ -1,0 +1,20 @@
+{
+  "projectId": "timeline-demo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1",
+      "path": "scenes/s1.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "The timeline logic allows for precise control over assets."
+      }
+    ],
+    "fullTranscript": "The timeline logic allows for precise control over assets."
+  }
+}

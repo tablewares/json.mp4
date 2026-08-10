@@ -1,0 +1,44 @@
+{
+  "id": "scene-2",
+  "narrationRef": "n2",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-2",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/bonds.jpg"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "txt-2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom"
+      },
+      "contentOverride": {
+        "text": "BUYING BONDS"
+      },
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "wavy-2",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "fromAssetId": "img-2",
+        "toAssetId": "txt-2"
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "s1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "The timeline logic allows for precise control over assets."
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

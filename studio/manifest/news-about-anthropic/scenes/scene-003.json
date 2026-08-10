@@ -1,0 +1,138 @@
+{
+  "id": "scene-003",
+  "background": "coral",
+  "assets": [
+    {
+      "id": "TextBlock-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "text": "WASHINGTON"
+      },
+      "styleOverride": {
+        "typography": "captionUppercase",
+        "align": "center",
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "KineticText-2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -6
+      },
+      "contentOverride": {
+        "text": "The White House met with Anthropic, OpenAI, and Google to finalize a voluntary framework for reviewing the cybersecurity of frontier AI models before release."
+      },
+      "styleOverride": {
+        "typography": "displayMd",
+        "align": "center",
+        "width": 1000,
+        "staggerFrames": 5,
+        "backgroundColorToken": "transparent",
+        "highlighter": null
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "TickerTape-3",
+      "assetType": "TickerTape",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -14
+      },
+      "contentOverride": {
+        "tickers": [
+          {
+            "symbol": "ANTHROPIC",
+            "price": 350,
+            "change": 10
+          },
+          {
+            "symbol": "VOLTA DEAL",
+            "price": 10,
+            "change": 10
+          },
+          {
+            "symbol": "MEGAWATTS",
+            "price": 121,
+            "change": 121
+          },
+          {
+            "symbol": "YEARS",
+            "price": 6,
+            "change": 6
+          },
+          {
+            "symbol": "CHIP TEAM",
+            "price": 1,
+            "change": 1
+          },
+          {
+            "symbol": "WHITE HOUSE",
+            "price": 5,
+            "change": 0
+          },
+          {
+            "symbol": "FRONTIER REVIEW",
+            "price": 1,
+            "change": 0
+          },
+          {
+            "symbol": "OPENAI",
+            "price": 0,
+            "change": 0
+          },
+          {
+            "symbol": "GOOGLE",
+            "price": 0,
+            "change": 0
+          }
+        ]
+      },
+      "styleOverride": {
+        "trackFill": "#181715",
+        "borderLine": "transparent",
+        "upFill": "#5db8a6",
+        "downFill": "#e8a55a",
+        "typography": "titleSm",
+        "trackHeight": 150,
+        "scrollPxPerSec": 70,
+        "borderRadius": 20,
+        "width": 1040
+      },
+      "enterAt": 0.12,
+      "exitAt": 1
+    },
+    {
+      "id": "TextBlock-4",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -30
+      },
+      "contentOverride": {
+        "text": "August 2026 — three fronts at once."
+      },
+      "styleOverride": {
+        "typography": "captionUppercase",
+        "align": "center",
+        "width": 960
+      },
+      "enterAt": 0.2,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "scene-003",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

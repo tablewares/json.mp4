@@ -27,7 +27,7 @@ assets[2]:
       offsetXPercent: -8
       offsetYPercent: 0
     contentOverride:
-      src: ""
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg"
       alt: hero
     styleOverride:
       borderRadius: 32
@@ -36,3 +36,9 @@ assets[2]:
       height: 640
     enterAt: 0.05
     exitAt: 1
+    motion:
+      in: fadeUp
+      rotate:
+        toDeg: 8
+        durationInFrames: 24
+        easing: easeOut

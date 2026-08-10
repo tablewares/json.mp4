@@ -8,7 +8,7 @@
     "narrationRef": { "type": "string" },
     "transitionIn": { "$ref": "transition.schema.json#/definitions/transitionRef" },
     "transitionOut": { "$ref": "transition.schema.json#/definitions/transitionRef" },
-    "background": { "$ref": "shared.schema.json#/definitions/tokenOrLiteral" },
+    "background": { "$ref": "shared.schema.json#/definitions/backgroundSpec" },
     "camera": { "$ref": "camera.schema.json#/definitions/cameraSpec" },
     "assets": {
       "type": "array",
@@ -36,9 +36,80 @@
           "styleOverride": { "type": "object" },
           "enterAt": { "type": "number", "minimum": 0, "maximum": 1 },
           "exitAt": { "type": "number", "minimum": 0, "maximum": 1 },
-          "z": { "type": "number" }
+          "z": { "type": "number" },
+          "motion": { "$ref": "#/definitions/motionSpec" }
         }
       }
+    }
+  },
+  "definitions": {
+    "motionSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "in": { "$ref": "#/definitions/motionInPhase" },
+        "out": { "$ref": "#/definitions/motionOutPhase" },
+        "rotateDeg": {
+          "type": "number",
+          "description": "Static base rotation (degrees) held once mounted. Used as the default `rotate.fromDeg` when an animated rotate phase is also authored."
+        },
+        "rotate": { "$ref": "#/definitions/motionRotatePhase" }
+      }
+    },
+    "motionRotatePhase": {
+      "type": "object",
+      "required": ["toDeg"],
+      "additionalProperties": false,
+      "properties": {
+        "fromDeg": { "type": "number", "description": "Starting degrees. Defaults to rotateDeg (or 0)." },
+        "toDeg": { "type": "number", "description": "Target degrees the rotation animates to." },
+        "durationInFrames": { "type": "number", "minimum": 1, "description": "Frames the rotation animates over. Default 18." },
+        "delayFrames": { "type": "number", "minimum": 0, "default": 0, "description": "Extra frames to wait, relative to startAt, before rotation begins." },
+        "startAt": {
+          "type": "string",
+          "enum": ["afterIn", "withIn", "atFrame"],
+          "default": "afterIn",
+          "description": "'afterIn' (default): rotation begins once the entrance move/fade has fully resolved — i.e. after the asset has moved into the scene. 'withIn': starts at enterAtFrame, concurrent with the entrance. 'atFrame': starts at the explicit scene-local frame given by atFrame."
+        },
+        "atFrame": { "type": "number", "minimum": 0, "description": "Scene-local frame to start at. Only used when startAt is 'atFrame'." },
+        "easing": { "type": "string", "enum": ["linear", "easeIn", "easeOut", "easeInOut"], "default": "easeInOut" }
+      }
+    },
+    "motionInPhase": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": ["none", "fade", "fadeUp", "fadeDown", "fadeLeft", "fadeRight"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "alias": { "type": "string", "enum": ["none", "fade", "fadeUp", "fadeDown", "fadeLeft", "fadeRight"] },
+            "distancePx": { "type": "number", "minimum": 0, "description": "Travel distance in px. Default 80." },
+            "durationInFrames": { "type": "number", "minimum": 1, "description": "Frames the phase animates over. Default 18." },
+            "rotateFromDeg": { "type": "number", "description": "Extra rotation (degrees) that resolves to 0 as the phase completes." }
+          }
+        }
+      ]
+    },
+    "motionOutPhase": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": ["none", "fadeOut", "fadeOutUp", "fadeOutDown", "fadeOutLeft", "fadeOutRight"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "alias": { "type": "string", "enum": ["none", "fadeOut", "fadeOutUp", "fadeOutDown", "fadeOutLeft", "fadeOutRight"] },
+            "distancePx": { "type": "number", "minimum": 0, "description": "Travel distance in px. Default 80." },
+            "durationInFrames": { "type": "number", "minimum": 1, "description": "Frames the phase animates over. Default 18." },
+            "rotateFromDeg": { "type": "number", "description": "Extra rotation (degrees) applied as the phase completes." }
+          }
+        }
+      ]
     }
   }
 }

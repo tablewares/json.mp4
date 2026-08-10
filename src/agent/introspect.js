@@ -10,6 +10,20 @@
 import { loadAssetRegistry, loadTransitionRegistry } from "../registry/assetRegistry.js";
 import { ANCHOR_POSITIONS } from "../templating/anchor.js";
 
+// Boundary/range constraints the agent needs to author values that survive
+// validate. AJV's per-asset content/style schemas carry these on the same
+// def object as type/enum; without surfacing them the CLI hides them and the
+// agent learns of out-of-range values only after validate fails.
+function fieldConstraints(def) {
+  const out = {};
+  if (def.minItems !== undefined) out.minItems = def.minItems;
+  if (def.maxItems !== undefined) out.maxItems = def.maxItems;
+  if (def.minimum !== undefined) out.minimum = def.minimum;
+  if (def.maximum !== undefined) out.maximum = def.maximum;
+  if (def.pattern !== undefined) out.pattern = def.pattern;
+  return out;
+}
+
 function toContentEntry([key, def]) {
   return {
     key,
@@ -17,6 +31,7 @@ function toContentEntry([key, def]) {
     enum: def.enum,
     description: def.description,
     itemsDescription: def.items?.description,
+    ...fieldConstraints(def),
   };
 }
 
@@ -39,6 +54,7 @@ function summarizeStyleSchema(schema, defaultStyle = {}) {
     enum: def.enum,
     description: def.description,
     default: defaultStyle[key],
+    ...fieldConstraints(def),
   }));
 }
 
@@ -91,6 +107,7 @@ export function describeTransition(transitionType) {
     default: def.default,
     enum: def.enum,
     description: def.description,
+    ...fieldConstraints(def),
   }));
   return {
     transitionType,
@@ -239,7 +256,7 @@ export function describeSceneEnvelope() {
     scene: {
       id: "string, unique within the project",
       narrationRef: "optional: id into manifest.narration.entries — drives this scene's duration via TTS",
-      background: "color token (e.g. 'shade1') or a literal style object",
+      background: "color token (e.g. 'shade1'), a literal #RRGGBB hex string, or an object { color?, texture?, blendMode?, opacity? } — texture pulls a textures.* token overlaid above the color, behind all assets",
       camera: "optional: { start, end, zoomStartPercent, zoomEndPercent, zoomPercent } — start/end are anchor specs",
       transitionOut: "optional: { type, durationInFrames?, params?, effects? } — omit for a hard cut",
       assets: "array of asset specs, see 'asset' below (managed via add-asset, not set directly)",
@@ -253,6 +270,7 @@ export function describeSceneEnvelope() {
       enterAt: "fraction 0-1 of the scene's duration (default 0)",
       exitAt: "fraction 0-1 of the scene's duration (default 1)",
       z: "number, stacking order resolved at runtime. Lower z paints first (further from viewer), higher z last (on top). Default 0. Stable within a z value — authored order is preserved.",
+      motion: "optional: { in?, out?, rotateDeg? } — in: 'fade'|'fadeUp'|'fadeDown'|'fadeLeft'|'fadeRight' (or object with alias/distancePx/durationInFrames/rotateFromDeg); out: 'fadeOut'|'fadeOutUp'|'fadeOutDown'|'fadeOutLeft'|'fadeOutRight' (same object shape); rotateDeg: static rotation held for the whole on-screen duration",
     },
     transitionEffect: {
       id: "optional",
