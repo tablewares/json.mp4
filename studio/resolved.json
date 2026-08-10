@@ -1,128 +1,295 @@
 {
-  "projectId": "vox-scene-1",
+  "projectId": "wealth-broll",
   "config": {
     "fps": 30,
     "width": 1920,
     "height": 1080,
-    "defaultSceneDurationInFrames": 150,
-    "ttsProvider": "http"
+    "defaultSceneDurationInFrames": 120
   },
-  "audioOverlay": [
-    {
-      "id": "voiceover",
-      "start": 0,
-      "end": 4.44,
-      "path": "audio/tts_bcba847052223b2c0db33d710a158432051264d9149f96da6854a42f25d9b9aa.wav",
-      "volume": 1
-    }
-  ],
+  "audioOverlay": [],
   "scenes": [
     {
-      "id": "scene-1",
-      "durationInFrames": 133,
+      "id": "s1-bars",
+      "durationInFrames": 120,
       "effects": [],
-      "camera": {
-        "actions": [
-          {
-            "at": 0,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 0,
-              "offsetYPercent": 0,
-              "followAssetId": "img-1",
-              "edge": "enter"
-            },
-            "zoomPercent": 300
-          },
-          {
-            "at": 0.5,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 0,
-              "offsetYPercent": 0,
-              "followAssetId": "kt-1",
-              "edge": "enter"
-            },
-            "zoomPercent": 300
-          },
-          {
-            "at": 0.8,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 0,
-              "offsetYPercent": 0,
-              "followAssetId": null,
-              "edge": "enter"
-            },
-            "zoomPercent": 100
-          },
-          {
-            "at": 0.9,
-            "anchor": {
-              "position": "center",
-              "offsetXPercent": 0,
-              "offsetYPercent": 0,
-              "followAssetId": null,
-              "edge": "enter"
-            },
-            "zoomPercent": 50
-          }
-        ],
-        "durationInFrames": 300,
-        "speed": 1
-      },
-      "ttsWindow": {
-        "narrationRef": "n1",
-        "startSeconds": 0,
-        "endSeconds": 4.44,
-        "startFrame": 0,
-        "endFrame": 133
-      },
+      "camera": null,
+      "ttsWindow": null,
       "background": "#0B0E14",
       "assets": [
         {
-          "id": "img-1",
-          "assetType": "ImageReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "id": "TextBlock-1",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
           "content": {
-            "src": "public/assets/city-map.jpg"
+            "text": "Wealth Share by Group"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 192,
-            "top": 108,
-            "transformOrigin": "0% 0%"
+            "left": 510,
+            "top": 64.8,
+            "transformOrigin": "50% 0%"
           },
           "resolvedStyle": {
-            "borderRadius": 24,
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 56,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
+            "align": "center",
+            "width": 900,
+            "height": 200
           },
           "timing": {
-            "durationInFrames": 133,
+            "durationInFrames": 120,
             "enterAtFrame": 0,
-            "exitAtFrame": 133,
+            "exitAtFrame": 120,
             "words": null
           }
         },
         {
-          "id": "kt-1",
-          "assetType": "KineticText",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
+          "id": "BarChartRace-2",
+          "assetType": "BarChartRace",
+          "componentPath": "/home/tablewares/json.mp4/studio/graphics/BarChartRace/BarChartRace.jsx",
           "content": {
-            "text": "invisible connections"
+            "bars": [
+              {
+                "label": "Top 1%",
+                "value": 46,
+                "fillStyle": "#16C784"
+              },
+              {
+                "label": "Next 9%",
+                "value": 38,
+                "fillStyle": "#3D7BFD"
+              },
+              {
+                "label": "Middle 40%",
+                "value": 14,
+                "fillStyle": "#F5A623"
+              },
+              {
+                "label": "Bottom 50%",
+                "value": 1,
+                "fillStyle": "#EA3943"
+              }
+            ]
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 628,
-            "top": 712,
-            "transformOrigin": "100% 100%"
+            "left": 260,
+            "top": 344.79999999999995,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
+              "fontWeight": 400,
+              "lineHeight": 1.35,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "canvasFill": "#161B26",
+            "borderLine": "transparent",
+            "borderRadius": 24,
+            "axisPad": 64,
+            "axisLine": "#2A3142",
+            "labelBandPad": 72,
+            "barFill": "#3D7BFD",
+            "barWidth": 160,
+            "barRadius": 12,
+            "valueFill": "#F5F7FA",
+            "labelFill": "#8B93A7",
+            "valueFormat": "number",
+            "staggerFrames": 8,
+            "sortByValue": "desc",
+            "width": 1400,
+            "height": 520
+          },
+          "timing": {
+            "durationInFrames": 120,
+            "enterAtFrame": 0,
+            "exitAtFrame": 120,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": {
+        "type": "ShapeWipe",
+        "durationInFrames": 28,
+        "componentPath": "/home/tablewares/json.mp4/studio/vox-asset/transitions/ShapeWipe/ShapeWipe.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s2-ticker",
+      "durationInFrames": 120,
+      "effects": [],
+      "camera": null,
+      "ttsWindow": null,
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "TextBlock-1",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Wealth, live"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 510,
+            "top": 108,
+            "transformOrigin": "50% 0%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 56,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "align": "center",
+            "width": 900,
+            "height": 200
+          },
+          "timing": {
+            "durationInFrames": 120,
+            "enterAtFrame": 0,
+            "exitAtFrame": 120,
+            "words": null
+          }
+        },
+        {
+          "id": "TickerTape-2",
+          "assetType": "TickerTape",
+          "componentPath": "/home/tablewares/json.mp4/studio/graphics/TickerTape/TickerTape.jsx",
+          "content": {
+            "tickers": [
+              {
+                "symbol": "BILLIONAIRES",
+                "price": 2781,
+                "change": 4.2
+              },
+              {
+                "symbol": "CEO PAY",
+                "price": 278,
+                "change": 1.1
+              },
+              {
+                "symbol": "WORKER WAGE",
+                "price": 56,
+                "change": -0.4
+              },
+              {
+                "symbol": "BOTTOM 50%",
+                "price": 1,
+                "change": -1.2
+              },
+              {
+                "symbol": "MEDIAN SAVINGS",
+                "price": 8,
+                "change": -0.3
+              }
+            ]
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 160,
+            "top": 492,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderLine": "#3D7BFD",
+            "borderRadius": 16,
+            "downFill": "#EA3943",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "glyphGap": 16,
+            "scrollPxPerSec": 110,
+            "showChangeArrow": true,
+            "symbolGap": 56,
+            "trackFill": "#161B26",
+            "trackHeight": 140,
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
+              "fontWeight": 400,
+              "lineHeight": 1.35,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "upFill": "#16C784",
+            "width": 1600,
+            "height": 96
+          },
+          "timing": {
+            "durationInFrames": 120,
+            "enterAtFrame": 0,
+            "exitAtFrame": 120,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "ShapeWipe",
+        "durationInFrames": 28,
+        "componentPath": "/home/tablewares/json.mp4/studio/vox-asset/transitions/ShapeWipe/ShapeWipe.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "WhipPan",
+        "durationInFrames": 14,
+        "componentPath": "/home/tablewares/json.mp4/studio/vox-asset/transitions/WhipPan/WhipPan.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s3-line",
+      "durationInFrames": 120,
+      "effects": [],
+      "camera": null,
+      "ttsWindow": null,
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "KineticText-1",
+          "assetType": "KineticText",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
+          "content": {
+            "text": "The richest 1%"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 410,
+            "top": 302,
+            "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
             "typography": {
@@ -139,85 +306,115 @@
               "stiffness": 180
             },
             "staggerFrames": 6,
-            "wordPopScale": 1.15,
+            "wordPopScale": 1.25,
             "useNarrationTiming": true,
-            "highlighter": {
-              "enabled": true,
-              "markerColorToken": "accentWarm"
-            },
+            "highlighter": null,
+            "align": "center",
             "width": 1100,
             "height": 260
           },
           "timing": {
-            "durationInFrames": 133,
+            "durationInFrames": 120,
             "enterAtFrame": 0,
-            "exitAtFrame": 133,
+            "exitAtFrame": 54,
             "words": null
           }
         },
         {
-          "id": "line-1",
-          "assetType": "WavyLine",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/WavyLine/WavyLine.jsx",
+          "id": "KineticText-2",
+          "assetType": "KineticText",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
           "content": {
-            "fromAssetId": "img-1",
-            "toAssetId": "kt-1",
-            "from": {
-              "x": 512,
-              "y": 428,
-              "left": 192,
-              "top": 108,
-              "width": 640,
-              "height": 640
-            },
-            "to": {
-              "x": 1178,
-              "y": 842,
-              "left": 628,
-              "top": 712,
-              "width": 1100,
-              "height": 260
-            },
-            "points": [
-              {
-                "x": 512,
-                "y": 428
-              },
-              {
-                "x": 1178,
-                "y": 842
-              }
-            ]
+            "text": "own more than"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 0,
-            "top": 0,
+            "left": 410,
+            "top": 474.79999999999995,
             "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
-            "strokeColor": "#EA3943",
-            "strokeWidth": 12,
-            "strokeLinecap": "round",
-            "curveAmount": 0.28,
-            "drawDurationFraction": 0.55,
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 56,
+              "fontWeight": 700,
+              "lineHeight": 1.1,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
             "easing": {
               "damping": 12,
               "mass": 0.4,
               "stiffness": 180
             },
-            "width": 1920,
-            "height": 1080
+            "staggerFrames": 6,
+            "wordPopScale": 1.1,
+            "useNarrationTiming": true,
+            "highlighter": null,
+            "align": "center",
+            "width": 1100,
+            "height": 260
           },
           "timing": {
-            "durationInFrames": 133,
-            "enterAtFrame": 0,
-            "exitAtFrame": 133,
+            "durationInFrames": 120,
+            "enterAtFrame": 24,
+            "exitAtFrame": 84,
+            "words": null
+          }
+        },
+        {
+          "id": "KineticText-3",
+          "assetType": "KineticText",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
+          "content": {
+            "text": "the bottom 50%."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 410,
+            "top": 647.6,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "staggerFrames": 6,
+            "wordPopScale": 1.25,
+            "useNarrationTiming": true,
+            "highlighter": {
+              "enabled": true,
+              "mode": "highlight",
+              "color": "#EA3943"
+            },
+            "align": "center",
+            "width": 1100,
+            "height": 260
+          },
+          "timing": {
+            "durationInFrames": 120,
+            "enterAtFrame": 48,
+            "exitAtFrame": 120,
             "words": null
           }
         }
       ],
-      "transitionIn": null,
+      "transitionIn": {
+        "type": "WhipPan",
+        "durationInFrames": 14,
+        "componentPath": "/home/tablewares/json.mp4/studio/vox-asset/transitions/WhipPan/WhipPan.jsx",
+        "props": {}
+      },
       "transitionOut": null
     }
   ]

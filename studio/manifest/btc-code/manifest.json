@@ -1,0 +1,20 @@
+{
+  "projectId": "btc-code",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "teardown",
+      "path": "scenes/teardown.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Every ten minutes, hundreds of thousands of machines race to solve a puzzle. The winner gets to write the next page of the ledger, and is paid in new bitcoin. The puzzle is a hash. Change one bit, and the whole thing falls apart."
+      }
+    ],
+    "fullTranscript": "Every ten minutes, hundreds of thousands of machines race to solve a puzzle. The winner gets to write the next page of the ledger, and is paid in new bitcoin. The puzzle is a hash. Change one bit, and the whole thing falls apart."
+  }
+}

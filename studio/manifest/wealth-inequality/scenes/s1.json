@@ -1,0 +1,44 @@
+{
+  "id": "s1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-1",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "url": "https://images.unsplash.com/photo-1518458028785-8fb9757a4570?q=80&w=1080",
+        "alt": "Gold bars pile",
+        "src": "https://images.unsplash.com/photo-1518458028785-8fb9757a4570?q=80&w=1080"
+      },
+      "styleOverride": {
+        "scale": 1.2
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "hl-1",
+      "assetType": "TextHighlight",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "WEALTH GAP"
+      },
+      "styleOverride": {
+        "color": "#FFD700"
+      },
+      "enterAt": 0.5,
+      "exitAt": 0.9
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "pivotZoom",
+    "durationInFrames": 20
+   
+  }
+}

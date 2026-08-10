@@ -1,0 +1,11 @@
+{
+  "projectId": "parallax-demo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-1",
+      "path": "scenes/scene-1.json"
+    }
+  ]
+}

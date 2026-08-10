@@ -1,0 +1,67 @@
+{
+  "colors": {
+    "shade1": "#0C0E12",
+    "shade2": "#12161C",
+    "main1": "#E6EDF3",
+    "main2": "#7D8590",
+    "accentBg": "#22D3EE",
+    "accentGreen": "#3FB950",
+    "accentRed": "#FF4D4D",
+    "accentViolet": "#C04CFD",
+    "accentWarm": "#FFE600",
+    "transparent": "#00000000"
+  },
+  "typography": {
+    "heading1": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": 84,
+      "fontWeight": 800,
+      "lineHeight": 1.05,
+      "colorToken": "main1"
+    },
+    "heading2": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": 56,
+      "fontWeight": 700,
+      "lineHeight": 1.1,
+      "colorToken": "main1"
+    },
+    "body1": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": 36,
+      "fontWeight": 400,
+      "lineHeight": 1.35,
+      "colorToken": "main1"
+    },
+    "caption1": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": 28,
+      "fontWeight": 600,
+      "lineHeight": 1.2,
+      "colorToken": "main2"
+    },
+    "kicker1": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": 24,
+      "fontWeight": 700,
+      "lineHeight": 1.1,
+      "colorToken": "accentBg"
+    }
+  },
+  "spacing": {
+    "sceneMargin": 96,
+    "gutter": 32
+  },
+  "easing": {
+    "gentleSpring": {
+      "damping": 16,
+      "mass": 0.7,
+      "stiffness": 110
+    },
+    "snappySpring": {
+      "damping": 12,
+      "mass": 0.4,
+      "stiffness": 180
+    }
+  }
+}

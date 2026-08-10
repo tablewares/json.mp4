@@ -1,0 +1,67 @@
+{
+  "id": "s1-bars",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "TextBlock-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "text": "Wealth Share by Group"
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "align": "center"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "BarChartRace-2",
+      "assetType": "BarChartRace",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "bars": [
+          {
+            "label": "Top 1%",
+            "value": 46,
+            "fillStyle": "#16C784"
+          },
+          {
+            "label": "Next 9%",
+            "value": 38,
+            "fillStyle": "#3D7BFD"
+          },
+          {
+            "label": "Middle 40%",
+            "value": 14,
+            "fillStyle": "#F5A623"
+          },
+          {
+            "label": "Bottom 50%",
+            "value": 1,
+            "fillStyle": "#EA3943"
+          }
+        ]
+      },
+      "styleOverride": {
+        "valueFormat": "number",
+        "sortByValue": "desc",
+        "barWidth": 160,
+        "staggerFrames": 8
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "transitionOut": {
+    "type": "ShapeWipe",
+    "durationInFrames": 28
+  }
+}

@@ -1,4 +1,4 @@
-import { ANCHOR_ALIGN } from "./anchor.js";
+import { resolveAnchorPoint } from "./anchor.js";
 
 function clamp01(value) {
   if (value == null || Number.isNaN(Number(value))) return 0;
@@ -16,68 +16,13 @@ function normalizeAnchor(anchor) {
   };
 }
 
-// Maps a resolved asset's geometry to a camera anchor point — the same
-// "corner + nudge → pixel point" math `resolveAnchorPoint` does against
-// the composition frame, but rooted at an asset's resolved box instead.
-// Returned point is in composition-space pixels (the asset already holds
-// composition-space left/top/width/height from pass 1), so the rest of
-// resolveCameraTransform's translate/scale math needs no changes.
-function assetAnchorPoint(asset, edge) {
-  const pos = asset?.resolvedPosition ?? { left: 0, top: 0 };
-  const w = asset?.resolvedStyle?.width ?? 0;
-  const h = asset?.resolvedStyle?.height ?? 0;
-  const useExit = edge === "exit";
-  const ax = pos.left + w / 2;
-  const ay = pos.top + h / 2;
-  // The camera anchor lives at the asset's center; for an "exit"-edge
-  // anchor we still resolve to the same center today (the asset doesn't
-  // yet expose a separate exit geometry) — the `enter`/`exit` distinction
-  // matters for *timing* (effectTiming.js), not for the spatial point,
-  // so this returns the single shared center. Kept as its own function so
-  // the edge edge case can grow spatially later without touching the
-  // composition-frame resolver.
-  if (useExit) return { x: ax, y: ay };
-  return { x: ax, y: ay };
-}
-
-function resolveAnchorPoint(anchor, composition, ctx) {
-  const { position, offsetXPercent = 0, offsetYPercent = 0, followAssetId, edge } = normalizeAnchor(anchor);
-
-  // followAssetId: resolve the anchor to the target asset's center instead
-  // of a composition-frame corner. Falls back to the composition-frame
-  // resolver when no ctx is supplied (e.g. legacy `resolveCamera` with no
-  // resolved-scene context) so the function is still callable in isolation.
-  if (followAssetId) {
-    const target = ctx?.resolvedAssetsById?.[followAssetId];
-    if (!target) {
-      throw new Error(
-        `Camera anchor follows asset "${followAssetId}" but no such asset was resolved ` +
-          `in scene "${ctx?.sceneId ?? "?"}". Known: ${
-            Object.keys(ctx?.resolvedAssetsById ?? {}).join(", ") || "(none)"
-          }. A camera-followed asset must appear earlier in scene.assets than the camera spec.`,
-      );
-    }
-    const point = assetAnchorPoint(target, edge);
-    // Allow the percent offsets to nudge off the asset's center in
-    // composition-space pixels so an author can frame *around* the asset,
-    // not just on it. Consistent with the composition-frame branch below:
-    // offsets are a % of the composition size, not the asset.
-    return {
-      x: point.x + (offsetXPercent / 100) * composition.width,
-      y: point.y + (offsetYPercent / 100) * composition.height,
-    };
-  }
-
-  const align = ANCHOR_ALIGN[position ?? "center"];
-  if (!align) {
-    throw new Error(`Unknown camera anchor position "${position}". Valid: ${Object.keys(ANCHOR_ALIGN).join(", ")}`);
-  }
-
-  const x = align.x * composition.width + (offsetXPercent / 100) * composition.width;
-  const y = align.y * composition.height + (offsetYPercent / 100) * composition.height;
-
-  return { x, y };
-}
+// "followAssetId → asset center" resolution now lives in the shared
+// `resolveAnchorPoint` (anchor.js): both camera anchors and WavyLine-style
+// templated endpoints author in the same "named corner + nudge" or
+// "follow asset + nudge" vocabulary and deserve one resolver. The
+// composition-space point math is byte-identical to the private resolver
+// that used to live here; `edge` is read only for *timing* (effectTiming.js),
+// not for the spatial point, so resolveAnchorPoint ignores it.
 
 function interpolateAnchor(startAnchor, endAnchor, progress, composition, ctx) {
   const start = resolveAnchorPoint(startAnchor, composition, ctx);
@@ -148,10 +93,29 @@ export function resolveCamera(cameraSpec, ctx) {
     actions,
     durationInFrames: cameraSpec.durationInFrames ?? null,
     speed: cameraSpec.speed ?? 1,
+    // Additive, defaults false -> identical resolved output to before this
+    // field existed. Only meaningful when cameraSpec.easeZoom is explicitly
+    // authored true.
+    easeZoom: Boolean(cameraSpec.easeZoom),
   };
 }
-
-export function resolveCameraTransform(cameraSpec, composition, frame, durationInFrames, ctx) {
+/**
+ * Resolves a scene's camera transform for a single render frame.
+ *
+ * `depth` (new, optional, default 1) makes this parallax-aware: it's a
+ * multiplier on how much THIS plane responds to the camera's zoom/pan,
+ * relative to the anchor plane (depth === 1, the pre-existing behavior).
+ *   depth === 1   -> byte-identical to the original single-plane formula
+ *   depth < 1     -> moves/zooms less than the anchor (background plane)
+ *   depth === 0   -> completely pinned (scale stays 1, no translate at all
+ *                    regardless of camera motion — e.g. a HUD/kicker layer)
+ *   depth > 1     -> moves/zooms more than the anchor (foreground pop)
+ *
+ * Callers that never pass `depth` get exactly the old single-plane output;
+ * this is what makes per-layer parallax additive rather than a breaking
+ * change to every existing camera spec.
+ */
+export function resolveCameraTransform(cameraSpec, composition, frame, durationInFrames, ctx, depth = 1) {
   if (!cameraSpec) {
     return {
       translateX: 0,
@@ -194,10 +158,20 @@ export function resolveCameraTransform(cameraSpec, composition, frame, durationI
     : Math.min(Math.max((progress - current.at) / (next.at - current.at), 0), 1);
 
   const anchor = interpolateAnchor(current.anchor, next.anchor, segmentProgress, composition, ctx);
-  // Zoom snaps instantly to the current action's level instead of easing
-  // into the next one, so the camera reaches its zoomed position immediately
-  // rather than spending frames interpolating between zoom levels.
-  const scale = current.zoomPercent / 100;
+
+  // Zoom: snaps instantly by default (unchanged legacy behavior — see the
+  // original comment this replaces). Opt-in continuous easing across the
+  // segment via cameraSpec.easeZoom: true. Every camera spec that doesn't
+  // set easeZoom keeps the exact old snap behavior.
+  const zoomPercent = cameraSpec.easeZoom
+    ? current.zoomPercent + (next.zoomPercent - current.zoomPercent) * segmentProgress
+    : current.zoomPercent;
+  const baseScale = zoomPercent / 100;
+
+  // Depth-scaled zoom around the SAME anchor point every plane shares.
+  // depth=1 reduces to `scale = baseScale` exactly, so translateX/Y below
+  // collapse to the original formula for the default case.
+  const scale = 1 + (baseScale - 1) * depth;
 
   const translateX = (composition.width / 2 - anchor.x) * (scale - 1);
   const translateY = (composition.height / 2 - anchor.y) * (scale - 1);
@@ -208,4 +182,17 @@ export function resolveCameraTransform(cameraSpec, composition, frame, durationI
     scale,
     transformOrigin: "50% 50%",
   };
+}
+
+/**
+ * Reads a resolved asset's/effect's parallax depth. Looked up from
+ * resolvedStyle.depth (an ordinary styleOverride passthrough — `depth`
+ * contains no "color"/"typography"/"easing"/"texture" substring, so
+ * resolveAssetStyle already carries it through untouched with no schema
+ * change needed). Missing/invalid values default to 1 — the pre-existing
+ * single-plane behavior.
+ */
+export function resolveAssetDepth(item) {
+  const d = item?.resolvedStyle?.depth;
+  return typeof d === "number" && Number.isFinite(d) ? d : 1;
 }

@@ -1,0 +1,62 @@
+{
+  "id": "s3",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-3",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "url": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=1080",
+        "alt": "Empty wallet",
+        "src": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=1080"
+      },
+      "styleOverride": {
+        "scale": 1
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "bc-1",
+      "assetType": "BarChartRace",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "items": [
+          {
+            "label": "Top 1%",
+            "value": 90
+          },
+          {
+            "label": "Bottom 90%",
+            "value": 10
+          }
+        ],
+        "bars": [
+          {
+            "label": "Top 1%",
+            "value": 90
+          },
+          {
+            "label": "Bottom 90%",
+            "value": 10
+          }
+        ]
+      },
+      "styleOverride": {
+        "accentColor": "#FF0000"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

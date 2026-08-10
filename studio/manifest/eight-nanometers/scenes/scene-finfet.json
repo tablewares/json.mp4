@@ -1,0 +1,67 @@
+{
+  "id": "scene-finfet",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "finfetText",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "text": "Eight nanometers. That is where FinFET architecture lives."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 1600,
+        "align": "center",
+        "useNarrationTiming": true
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "finfetHighlight",
+      "assetType": "TextHighlight",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 18
+      },
+      "contentOverride": {
+        "text": "FinFET Architecture"
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "width": 900,
+        "markerColorToken": "accentWarm",
+        "markerHeight": 40
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n2",
+  "camera": {
+    "durationInFrames": 150,
+    "speed": 1,
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 110
+      },
+      {
+        "id": "onHighlight",
+        "at": 0.6,
+        "anchor": {
+          "followAssetId": "finfetHighlight",
+          "offsetYPercent": 6
+        },
+        "zoomPercent": 260
+      }
+    ]
+  }
+}

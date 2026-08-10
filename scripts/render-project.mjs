@@ -79,12 +79,8 @@ if (!fs.existsSync(manifestPath)) {
 const relManifest = path.relative(repoRoot, manifestPath);
 process.stdout.write(`[1/4] validate  ${relManifest}\n`);
 let result;
-try {
   result = validateProject(manifestPath);
-} catch (e) {
-  console.error(`\nvalidate FAILED:\n${e.message}`);
-  process.exit(1);
-}
+
 console.log(`OK: ${result.scenes.length} scene(s) validated for project "${result.manifest.projectId}"`);
 
 // --- stage 2: generate registry (subprocess — script has no exported main) ----

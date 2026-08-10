@@ -1,0 +1,163 @@
+{
+  "id": "ledger",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "TextBlock-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 8
+      },
+      "contentOverride": {
+        "text": "HOW BITCOIN WORKS"
+      },
+      "styleOverride": {
+        "typography": "kicker1",
+        "align": "left",
+        "width": 700,
+        "height": 60
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "headline",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": -6
+      },
+      "contentOverride": {
+        "text": "You send a bitcoin. Ten minutes later, it is settled. No bank, no clearinghouse, no one in the middle. Just thousands of computers agreeing on a single ledger."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 1600,
+        "align": "center",
+        "useNarrationTiming": true,
+        "wordPopScale": 1.18
+      },
+      "enterAt": 0.05,
+      "exitAt": 1
+    },
+    {
+      "id": "TextHighlight-3",
+      "assetType": "TextHighlight",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 8
+      },
+      "contentOverride": {
+        "text": "HOW BITCOIN WORKS"
+      },
+      "styleOverride": {
+        "markerColorToken": "accentWarm",
+        "typography": "kicker1",
+        "markerHeight": 30,
+        "markerOpacity": 0.72,
+        "markerBlur": 5,
+        "direction": "right",
+        "width": 700,
+        "height": 60
+      },
+      "enterAt": 0.18,
+      "exitAt": 1
+    },
+    {
+      "id": "ticker",
+      "assetType": "TickerTape",
+      "anchor": {
+        "position": "bottom",
+        "offsetXPercent": 0,
+        "offsetYPercent": -3
+      },
+      "contentOverride": {
+        "tickers": [
+          {
+            "symbol": "BTC",
+            "price": 67842.13,
+            "change": 1.74
+          },
+          {
+            "symbol": "ETH",
+            "price": 3541.88,
+            "change": -0.62
+          },
+          {
+            "symbol": "BTC",
+            "price": 67842.13,
+            "change": 1.74
+          },
+          {
+            "symbol": "BTC.D",
+            "price": 52.3,
+            "change": 0.21
+          },
+          {
+            "symbol": "HASH",
+            "price": 651.8,
+            "change": 3.1
+          },
+          {
+            "symbol": "FEES",
+            "price": 12.4,
+            "change": -1.05
+          }
+        ]
+      },
+      "styleOverride": {
+        "width": 1700,
+        "scrollPxPerSec": 80,
+        "trackFill": "#1E1C16",
+        "trackHeight": 96
+      },
+      "enterAt": 0.32,
+      "exitAt": 1
+    },
+    {
+      "id": "WavyLine-5",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "points": [
+          {
+            "x": 960,
+            "y": 560
+          },
+          {
+            "x": 960,
+            "y": 920
+          }
+        ]
+      },
+      "styleOverride": {
+        "strokeColorToken": "accentWarm",
+        "strokeColor": "#FFE600",
+        "strokeWidth": 50,
+        "curveAmount": 0,
+        "drawDurationFraction": 0.1,
+        "width": 1920,
+        "height": 1080
+      },
+      "enterAt": 0.55,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "SplitScreen",
+    "durationInFrames": 24,
+    "params": {
+      "splitDirection": "right-up-left-down",
+      "gap": 16
+    }
+  }
+}

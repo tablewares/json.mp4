@@ -1,0 +1,20 @@
+{
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "defaultSceneDurationInFrames": 150,
+  "postEffects": {
+    "vignette": {
+      "strength": 0.6
+    },
+    "grain": {
+      "strength": 20
+    },
+    "colorGrade": {
+      "contrast": 1.1,
+      "brightness": -0.05,
+      "saturation": 0.7,
+      "gamma": 1.0
+    }
+  }
+}

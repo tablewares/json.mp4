@@ -20,6 +20,13 @@
 //   list-assets <projectId> [sceneId]     viewer: assets currently in the project (or one scene)
 //   list-transitions <projectId>          viewer: each scene's current transitionOut (or null)
 //
+// File-system organization (auto-group visible assets & collection outputs):
+//   fs-status                              scan public/ + studio/manifest: visible assets, project references, orphaned files
+//   group-public '<json>'                  move loose public/assets & public/audio files into named group subdirs; rewrite manifest paths across all projects ('<json>': { groups: {assets?, audio?}, files?: {assets?, audio?}, dryRun?: true })
+//   ungroup-public '<json>'                flatten <bin>/<group>/* back to <bin>/* and rewrite manifest paths back ('<json>': { group, dryRun?: true })
+//   assign-project '<json>'               copy/move visible files referenced by a project into a project-scoped group subdir; rewrite that project's manifest paths ('<json>': { projectId, files?: [...], group?, copy?: true, dryRun?: true })
+//   auto-project [limit]                  list orphaned visible files (referenced by no project) + suggested group — read-only, non-prescriptive
+//
 // Build commands (write files automatically):
 //   init '<json>'                                  create a project
 //   add-scene <projectId> '<json>'                 add a scene
@@ -39,6 +46,8 @@
 //   add-audio <projectId> '<json>'                 append a manifest.audioOverlay entry
 //
 // Verify / render:
+//   timeline <projectId>                  resolve + build the global-frame timeline (read-only)
+//   inject-effects <projectId> '<rules>'  fan sfx/visual effects out across matching asset segments (after scenes are built)
 //   validate <projectId>                  schema + cross-reference check (no render)
 //   render <projectId> [outputMp4]        validate -> registry -> resolve -> render
 //
@@ -54,6 +63,8 @@
 //   node scripts/agent-cli.mjs add-asset demo scene-001 '{"assetType":"TextBlock","anchor":{"position":"center"},"contentOverride":{"text":"Hello."}}'
 //   node scripts/agent-cli.mjs update-asset demo scene-001 TextBlock-1 '{"contentOverride":{"text":"Hello again."}}'
 //   node scripts/agent-cli.mjs list-assets demo
+//   node scripts/agent-cli.mjs timeline demo
+//   node scripts/agent-cli.mjs inject-effects demo '[{"match":{"assetType":"KineticText"},"anchor":"enter","effect":{"id":"kt-whoosh","kind":"sfx","path":"audio/whoosh.mp3","volume":0.6}}]'
 //   node scripts/agent-cli.mjs render demo out/demo.mp4
 
 import fs from "node:fs";
@@ -150,6 +161,7 @@ function printHelp() {
 
 const [, , command, ...rest] = process.argv;
 
+(async () => {
 try {
   switch (command) {
     case undefined:
@@ -196,6 +208,7 @@ try {
     case "list-transitions":
       ok(builder.listCurrentTransitions(rest[0]));
       break;
+
 
     // -- build -----------------------------------------------------------------
     case "init":
@@ -253,6 +266,12 @@ try {
       break;
 
     // -- verify / render ---------------------------------------------------------
+    case "timeline":
+      ok(await builder.getTimeline(rest[0]));
+      break;
+    case "inject-effects":
+      ok(await builder.injectTimelineEffects(rest[0], parseJsonArg(rest[1], "effects rules array")));
+      break;
     case "validate":
       ok(builder.validateProjectFiles(rest[0]));
       break;
@@ -266,3 +285,5 @@ try {
 } catch (e) {
   fail(e);
 }
+})();
+

@@ -1,0 +1,65 @@
+{
+  "id": "s3-line",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "text": "The richest 1%"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "center",
+        "wordPopScale": 1.25
+      },
+      "enterAt": 0,
+      "exitAt": 0.45
+    },
+    {
+      "id": "KineticText-2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "text": "own more than"
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "align": "center",
+        "wordPopScale": 1.1
+      },
+      "enterAt": 0.2,
+      "exitAt": 0.7
+    },
+    {
+      "id": "KineticText-3",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 22
+      },
+      "contentOverride": {
+        "text": "the bottom 50%."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "center",
+        "wordPopScale": 1.25,
+        "highlighter": {
+          "enabled": true,
+          "mode": "highlight",
+          "color": "#EA3943"
+        }
+      },
+      "enterAt": 0.4,
+      "exitAt": 1
+    }
+  ]
+}

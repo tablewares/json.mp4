@@ -49,4 +49,74 @@ export function resolveAnchor(anchor, composition, assetSize) {
   };
 }
 
+/**
+ * Resolves one of two equivalent anchor specs to a composition-space *point*
+ * (not a box left/top):
+ *
+ *  A. { position, offsetXPercent, offsetYPercent }  — the named-corner +
+ *     composition-space % nudge vocabulary every asset's `anchor` uses
+ *     (the same math `resolveAnchor` does for its anchorX/Y, minus the
+ *     asset-box pull-back).
+ *
+ *  B. { followAssetId, offsetXPercent, offsetYPercent (... edge) }  — the
+ *     camera-anchor "track an asset's center" shape: resolve to the followed
+ *     asset's resolved center, then nudge by composition-space % offsets.
+ *
+ * This is the shared resolver underpinning both camera anchors (camera.js's
+ * `resolveAnchorPoint`) and any other templated coordinate — e.g. WavyLine
+ * endpoints, which author in the same "named corner + nudge" or
+ * "follow another asset + nudge" vocabulary rather than raw composition
+ * pixels. Returns composition-space { x, y }.
+ *
+ * `ctx` mirrors the shape `resolveCameraTransform` already passes for camera
+ * usage: { resolvedAssetsById, sceneId } for `followAssetId` lookups. A bare
+ * (no ctx) call still works for the composition-frame branch — only the
+ * follow branch needs ctx.
+ *
+ * @param {{ position?: string, followAssetId?: string, offsetXPercent?: number, offsetYPercent?: number, edge?: string }} anchor
+ * @param {{width:number, height:number}} composition
+ * @param {{resolvedAssetsById?: Record<string, object>, sceneId?: string}=} ctx
+ * @returns {{ x: number, y: number }}
+ */
+export function resolveAnchorPoint(anchor, composition, ctx) {
+  const position = anchor?.position;
+  const offsetXPercent = anchor?.offsetXPercent ?? 0;
+  const offsetYPercent = anchor?.offsetYPercent ?? 0;
+
+  // followAssetId: resolve to the target asset's resolved center, then nudge
+  // by composition-space %. Identical math to the composition-frame branch —
+  // offsets are always a % of the composition, not the asset, so nudges read
+  // predictably regardless of asset content size. A missing target throws
+  // with the same shape as camera.js' followAssetId error.
+  if (typeof anchor?.followAssetId === "string") {
+    const target = ctx?.resolvedAssetsById?.[anchor.followAssetId];
+    if (!target) {
+      throw new Error(
+        `Anchor follows asset "${anchor.followAssetId}" but no such asset was resolved ` +
+          `in scene "${ctx?.sceneId ?? "?"}". Known: ${
+            Object.keys(ctx?.resolvedAssetsById ?? {}).join(", ") || "(none)"
+          }. A followed asset must appear earlier in scene.assets than the referencing asset.`,
+      );
+    }
+    const pos = target.resolvedPosition ?? { left: 0, top: 0 };
+    const w = target.resolvedStyle?.width ?? 0;
+    const h = target.resolvedStyle?.height ?? 0;
+    return {
+      x: pos.left + w / 2 + (offsetXPercent / 100) * composition.width,
+      y: pos.top + h / 2 + (offsetYPercent / 100) * composition.height,
+    };
+  }
+
+  const align = ANCHOR_ALIGN[position ?? "center"];
+  if (!align) {
+    throw new Error(
+      `Unknown anchor position "${position}". Valid: ${Object.keys(ANCHOR_ALIGN).join(", ")}`,
+    );
+  }
+  return {
+    x: align.x * composition.width + (offsetXPercent / 100) * composition.width,
+    y: align.y * composition.height + (offsetYPercent / 100) * composition.height,
+  };
+}
+
 export const ANCHOR_POSITIONS = Object.keys(ANCHOR_ALIGN);

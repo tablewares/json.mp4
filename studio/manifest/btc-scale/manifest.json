@@ -1,0 +1,20 @@
+{
+  "projectId": "btc-scale",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "race",
+      "path": "scenes/race.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "There will only ever be twenty one million bitcoin. Not a million more. The supply is fixed in the code, while the machines mining it have grown a billion times faster."
+      }
+    ],
+    "fullTranscript": "There will only ever be twenty one million bitcoin. Not a million more. The supply is fixed in the code, while the machines mining it have grown a billion times faster."
+  }
+}

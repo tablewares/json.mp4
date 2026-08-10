@@ -1,0 +1,6 @@
+{
+  "projectId": "depth-demo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": []
+}

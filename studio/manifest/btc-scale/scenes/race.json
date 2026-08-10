@@ -1,0 +1,136 @@
+{
+  "id": "race",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "bg",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "bottom-right",
+        "offsetXPercent": -2,
+        "offsetYPercent": -6
+      },
+      "contentOverride": {
+        "src": "assets/bitcoin_logo.png",
+        "alt": "bitcoin symbol receding into sepia ground"
+      },
+      "styleOverride": {
+        "width": 760,
+        "height": 760,
+        "borderRadius": 28,
+        "revealDirection": "center-out"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "hashrace",
+      "assetType": "BarChartRace",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 12
+      },
+      "contentOverride": {
+        "bars": [
+          {
+            "label": "2009",
+            "value": 0.0001,
+            "fillStyle": "#A89A7C"
+          },
+          {
+            "label": "2012",
+            "value": 0.02,
+            "fillStyle": "#A89A7C"
+          },
+          {
+            "label": "2015",
+            "value": 1.2,
+            "fillStyle": "#A89A7C"
+          },
+          {
+            "label": "2017",
+            "value": 28,
+            "fillStyle": "#FFE600"
+          },
+          {
+            "label": "2020",
+            "value": 178,
+            "fillStyle": "#FFE600"
+          },
+          {
+            "label": "2024",
+            "value": 651,
+            "fillStyle": "#E0382E"
+          }
+        ]
+      },
+      "styleOverride": {
+        "width": 1500,
+        "height": 460,
+        "canvasFill": "#241F16",
+        "borderLine": "#3A3120",
+        "axisLine": "#3A3120",
+        "valueFill": "#F4ECD8",
+        "labelFill": "#A89A7C",
+        "valueFormat": "compact",
+        "barWidth": 96,
+        "staggerFrames": 8
+      },
+      "enterAt": 0.1,
+      "exitAt": 1
+    },
+    {
+      "id": "cap",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": -16
+      },
+      "contentOverride": {
+        "text": "21 MILLION"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 1700,
+        "align": "center",
+        "useNarrationTiming": false,
+        "wordPopScale": 1.3,
+        "staggerFrames": 6
+      },
+      "enterAt": 0.32,
+      "exitAt": 1
+    },
+    {
+      "id": "TextBlock-4",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 8
+      },
+      "contentOverride": {
+        "text": "FIXED SUPPLY"
+      },
+      "styleOverride": {
+        "typography": "kicker1",
+        "align": "left",
+        "width": 600,
+        "height": 60
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "WhipPan",
+    "durationInFrames": 14,
+    "params": {
+      "direction": "right",
+      "distance": 220,
+      "blurPx": 28
+    }
+  }
+}

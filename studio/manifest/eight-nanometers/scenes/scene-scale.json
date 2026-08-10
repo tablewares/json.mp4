@@ -1,0 +1,117 @@
+{
+  "id": "scene-scale",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "bg",
+      "assetType": "BackdropImage",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/silicon-macro-cover.jpg",
+        "alt": "Macro photograph of a silicon microchip"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "dim": 0.55,
+        "blurPx": 3,
+        "borderRadius": 0,
+        "revealDirection": "fade"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "headline",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 14
+      },
+      "contentOverride": {
+        "text": "A human hair is eighty thousand nanometers wide. The finest features on a modern chip are just eight."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 1500,
+        "align": "left",
+        "useNarrationTiming": true
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "scale",
+      "assetType": "ScaleComparison",
+      "anchor": {
+        "position": "bottom",
+        "offsetXPercent": 0,
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "reference": {
+          "label": "human hair",
+          "widthPercent": 100
+        },
+        "items": [
+          {
+            "label": "human hair",
+            "value": 80000
+          },
+          {
+            "label": "chip feature",
+            "value": 8
+          }
+        ]
+      },
+      "styleOverride": {
+        "width": 1200,
+        "height": 280,
+        "unitLabel": "nm",
+        "tickCount": 5
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "camera": {
+    "durationInFrames": 180,
+    "speed": 1,
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "id": "onScale",
+        "at": 0.55,
+        "anchor": {
+          "followAssetId": "scale",
+          "offsetYPercent": -6
+        },
+        "zoomPercent": 230
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 110
+      }
+    ]
+  },
+  "transitionOut": {
+    "type": "WhipPan",
+    "params": {
+      "direction": "right"
+    },
+    "durationInFrames": 14
+  }
+}

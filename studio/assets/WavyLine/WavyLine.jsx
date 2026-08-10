@@ -5,23 +5,33 @@ import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
  * WavyLine — a self-drawing curved SVG path (default a vivid red) between
  * two endpoints.
  *
- * Authored two ways:
+ * Authored three ways, all funnelled through the SAME anchor templating
+ * resolver (src/templating/anchor.js `resolveAnchorPoint`):
  *
- *  1. Connector (plan.md recipe "curvy line leading to another asset"):
- *     contentOverride.fromAssetId + toAssetId. resolveRefs.js pass 2
- *     replaces `content.points` with `[{x,y},{x,y}]` of the two target
- *     assets' resolved centers BEFORE the renderer ever mounts this
- *     component. The renderer then just reads `content.points`.
+ *  1. Connector: contentOverride.fromAssetId + toAssetId. Pass 2 books
+ *     each endpoint as `{ followAssetId: <id> }` and resolves it via
+ *     `resolveAnchorPoint` — the exact same vocabulary `cameraAnchor`
+ *     uses in camera.schema.json — so the connector case shares one
+ *     resolver with the templated-endpoint case instead of being a
+ *     separate path that bakes raw pixel centers.
  *
- *  2. Standalone: contentOverride.points: [{x,y},{x,y}] authored directly,
- *     in composition-space pixels. Used when there's no target asset to
- *     be tied to.
+ *  2. Standalone, templated: contentOverride.points authored in the
+ *     anchor vocabulary. Each item is one of:
+ *       - { position, offsetXPercent, offsetYPercent }   named corner + composition-space % nudge
+ *       - { followAssetId, offsetXPercent, offsetYPercent } follow an asset's center + % nudge
+ *     Pass 2 resolves each item to composition-space pixels via the
+ *     shared resolver before the renderer mounts this component.
  *
- * Either way the component turns the two endpoints into a cubic-bezier
- * `d` string by offsetting the control points perpendicular to the
- * straight segment by `curveAmount * segmentLength`, so the line bows
- * rather than being a flat diagonal. A signed `curveAmount` flips the
- * bow direction.
+ *  3. Standalone, legacy: contentOverride.points authored directly as
+ *     `[{x,y},{x,y}]` raw composition-space pixels. Pass-through only —
+ *     kept so older manifests render byte-identically. New authoring
+ *     should use the templated shapes above.
+ *
+ * Either way the component turns the two resolved endpoints into a
+ * cubic-bezier `d` string by offsetting the control points perpendicular
+ * to the straight segment by `curveAmount * segmentLength`, so the line
+ * bows rather than being a flat diagonal. A signed `curveAmount` flips
+ * the bow direction.
  *
  * Draw-in: stroke-dashoffset animates from the path's total length -> 0
  * over `drawDurationFraction` of the active window, then holds. The
@@ -29,8 +39,8 @@ import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
  *
  * Contract received: resolvedPosition, resolvedStyle, content, timing.
  * WavyLine ignores resolvedPosition/Size for its own painting — the SVG
- * sits at composition origin and the path coordinates ARE composition
- * pixels (because resolveSceneRefs wrote composition-space centers). The
+ * sits at composition origin and the path coordinates are the
+ * composition-space pixels pass 2 already wrote into content.points. The
  * resolved box is only used for the bounding rect of the SVG so it covers
  * the whole composition.
  */

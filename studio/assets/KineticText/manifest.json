@@ -40,7 +40,7 @@
           "color": { "type": "string", "description": "raw hex color (#RRGGBB). Resolved by the framework's color-token resolver like any 'color'-named style key, so a theme token (e.g. 'accentWarm') is also accepted and resolved to a hex at pass 1." },
           "colorToken": { "type": "string", "description": "explicit theme color token name; takes precedence over 'color' when both are set" },
           "mode": { "type": "string", "enum": ["band", "underline"], "description": "band: filled marker over the text (default). underline: thin stroke beneath the text." },
-          "height": { "type": "number", "description": "band height in px (band mode only). Default 32." },
+          "height": { "type": "number", "description": "band height in px (band mode only). Omit to auto-fit each band to its wrapped line's measured glyph height so the marker covers the full text. Default: auto." },
           "barThickness": { "type": "number", "description": "underline thickness in px (underline mode only). Default 4." },
           "opacity": { "type": "number", "minimum": 0, "maximum": 1, "description": "marker opacity 0..1, multiplied by the host asset's enter/exit envelope. Default 0.75." },
           "blur": { "type": "number", "description": "gaussian blur in px on the band (band mode only). Default 4." },

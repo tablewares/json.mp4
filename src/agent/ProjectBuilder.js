@@ -23,6 +23,12 @@ import addFormats from "ajv-formats";
 
 import { loadAssetRegistry, loadTransitionRegistry } from "../registry/assetRegistry.js";
 import { validateProject } from "../pipelines/pipeline1-validate/validate.js";
+import { resolveProject } from "../pipelines/pipeline2-resolve/resolve.js";
+import {
+  buildTimeline,
+  findAssetSegments,
+  segmentToSceneEffectAnchor,
+} from "../timing/buildTimeline.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, "../..");
@@ -103,17 +109,40 @@ let _cachedCameraValidator = null;
 function checkCameraSpec(cameraSpec) {
   if (cameraSpec == null) return [];
   if (_cachedCameraValidator === null) {
-    const schemaPath = path.join(
+    const schemaDir = path.join(
       __dirname,
-      "../pipelines/pipeline1-validate/schema/scene.schema.json",
+      "../pipelines/pipeline1-validate/schema",
     );
-    const sceneSchema = JSON.parse(fs.readFileSync(schemaPath, "utf-8"));
+    const sceneSchema = JSON.parse(
+      fs.readFileSync(path.join(schemaDir, "scene.schema.json"), "utf-8"),
+    );
     const ajv = new Ajv({ allErrors: true, strict: false, allowUnionTypes: true });
-    ajv.addSchema(sceneSchema, "scene.schema.json");
-    // getSchema resolves the #/definitions/cameraSpec sub-schema against
-    // the registered parent — exactly the $ref path validate.js uses at
-    // run time, so a cameraSpec that passes here will also pass validate.
-    _cachedCameraValidator = ajv.getSchema("scene.schema.json#/definitions/cameraSpec");
+    // scene.schema.json $refs three sibling schema files
+    // (transition.schema.json, shared.schema.json, camera.schema.json);
+    // all must be registered with this Ajv instance before any sub-schema
+    // is resolved, otherwise getSchema throws "can't resolve reference".
+    for (const sib of [
+      "transition.schema.json",
+      "shared.schema.json",
+      "camera.schema.json",
+    ]) {
+      const sibPath = path.join(schemaDir, sib);
+      if (!ajv.getSchema(sib)) {
+        ajv.addSchema(
+          JSON.parse(fs.readFileSync(sibPath, "utf-8")),
+          sib,
+        );
+      }
+    }
+    if (!ajv.getSchema("scene.schema.json")) {
+      ajv.addSchema(sceneSchema, "scene.schema.json");
+    }
+    // getSchema resolves the #/definitions/cameraSpec sub-schema. The
+    // cameraSpec definition lives in camera.schema.json (scene.schema.json
+    // only $refs it); resolving against the owning $id returns the compiled
+    // validator function, which is exactly what validate.js uses at run
+    // time, so a cameraSpec that passes here will also pass validate.
+    _cachedCameraValidator = ajv.getSchema("camera.schema.json#/definitions/cameraSpec");
   }
   if (_cachedCameraValidator(cameraSpec)) return [];
   return (_cachedCameraValidator.errors || []).map((e) => `${e.instancePath || "(root)"} ${e.message}`);
@@ -695,6 +724,174 @@ export class ProjectBuilder {
       const scene = this._readScene(projectId, s.id);
       return { sceneId: s.id, transitionOut: scene.transitionOut ?? null };
     });
+  }
+
+  /**
+   * Resolves the project (the same stage-2 pass `render` runs) and builds the
+   * global-frame timeline from the resolved manifest via `buildTimeline`.
+   *
+   * This is the read-only "where does everything sit on the final render's
+   * frame axis?" view: every scene's global startFrame/endFrame and every
+   * asset's global enter/exit frames, plus the total composition duration.
+   * Use it to decide *what* effect to inject *where* before calling
+   * `injectTimelineEffects`.
+   *
+   * Resolving reads the same on-disk scene/config/manifest files every other
+   * command here reads, so the timeline it returns always matches what a
+   * subsequent `render` would produce — it never consults a stale
+   * `studio/resolved.json`.
+   */
+  async getTimeline(projectId) {
+    const manifestPath = this.manifestPath(projectId);
+    if (!fs.existsSync(manifestPath)) {
+      throw new Error(`No project "${projectId}" (expected ${manifestPath}).`);
+    }
+    const resolved = await resolveProject(manifestPath);
+    return buildTimeline(resolved);
+  }
+
+  /**
+   * Timeline-driven effect injection: harvests asset segments from the
+   * resolved manifest and writes scene-relative effects onto each matching
+   * scene's `transitionOut.effects[]` — after scenes are already built.
+   *
+   * Each rule selects which asset segments to target and what effect to drop
+   * on each:
+   *   {
+   *     match: { assetType: "KineticText" } | { predicate: "enter"|"exit"|"all" }
+   *            // assetType matches by exact type; "predicate" picks the
+   *            // edge: "enter"=segment start frame, "exit"=segment end frame,
+   *            // "all"=segment span (default "enter").
+   *     anchor: "enter" | "exit"  // which edge of the matched segment to
+   *            // anchor the effect to; default "enter".
+   *     effect: {
+   *       kind: "sfx" | "visual",
+   *       id: <effect id>,                     // required; used for idempotency
+   *       // sfx:        { path, volume?, durationInFrames? }
+   *       // visual:     { assetType, anchor?, contentOverride?, styleOverride?, durationInFrames? }
+   *       ...plus the kind-specific keys
+   *     }
+   *   }
+   *
+   * The effect's `offsetPercent` is computed from the segment's scene-relative
+   * edge: 0 = scene's visible end frame (the boundary `add-effect` anchors to);
+   * negative = earlier in the scene. So an effect anchored to a segment that
+   * starts at 40% of a scene lands at `offsetPercent = -0.6`.
+   *
+   * Idempotent: before writing, any existing effect whose `id` matches a rule
+   * id is removed from that scene's `effects[]`. Re-running with the same
+   * rules therefore updates rather than stacks. Scenes with no matching
+   * segments are left untouched; scenes matched but with no `transitionOut`
+   * get a `{ type: "default" }` transition created for them (mirroring
+   * `addTransitionEffect`'s auto-create behavior).
+   *
+   * @returns per-rule summary: how many segments matched, which scenes were
+   *   written, and the per-scene effect lists that landed.
+   */
+  async injectTimelineEffects(projectId, rules) {
+    if (!Array.isArray(rules) || rules.length === 0) {
+      throw new Error("injectTimelineEffects requires a non-empty rules array");
+    }
+
+    const manifestPath = this.manifestPath(projectId);
+    if (!fs.existsSync(manifestPath)) {
+      throw new Error(`No project "${projectId}" (expected ${manifestPath}).`);
+    }
+    const resolved = await resolveProject(manifestPath);
+    const timeline = buildTimeline(resolved);
+
+    // Per-scene accumulator: sceneId -> array of effects to append.
+    // We resolve-then-write so each scene file is touched at most once.
+    const pendingByScene = new Map();
+
+    for (const rule of rules) {
+      const { match = {}, anchor = "enter", effect } = rule;
+      if (!effect || !effect.kind) throw new Error("injectTimelineEffects: each rule needs an `effect` with a `kind`");
+      if (!effect.id) throw new Error("injectTimelineEffects: each rule's `effect` needs a string `id`");
+      if (effect.kind !== "sfx" && effect.kind !== "visual") {
+        throw new Error(`injectTimelineEffects: effect.kind must be "sfx" or "visual" (got "${effect.kind}")`);
+      }
+      if (anchor !== "enter" && anchor !== "exit") {
+        throw new Error(`injectTimelineEffects: anchor must be "enter" or "exit" (got "${anchor}")`);
+      }
+
+      const { assetType, predicate = "enter" } = match;
+      if (!assetType || typeof assetType !== "string") {
+        throw new Error("injectTimelineEffects: rule.match.assetType (string) is required");
+      }
+      // `predicate` ("enter"|"exit"|"all", default "enter") documents which
+      // edge of each segment the rule targets. Today every segment is
+      // harvested by exact assetType; `anchor` then picks the segment edge
+      // the effect's offsetPercent is computed from.
+      void predicate;
+
+      const segments = findAssetSegments(
+        timeline,
+        (asset) => asset.assetType === assetType,
+      );
+
+      segments.forEach((segment, segIndex) => {
+        const sceneAnchor = segmentToSceneEffectAnchor(timeline, segment);
+        // offsetPercent: 0 = the scene's visible end frame (the boundary
+        // `add-effect` anchors to). A segment that starts at 40% of the
+        // scene therefore lands at offsetPercent = -0.6.
+        const shifted = anchor === "exit" ? sceneAnchor.exitPercent : sceneAnchor.enterPercent;
+        const offsetPercent = +(shifted - 1).toFixed(4);
+
+        // When a rule matches N segments, each effect needs a unique id so
+        // the idempotent replace-by-id (see flush below) tracks per-segment,
+        // not per-rule. Append the segment index to the user-supplied id.
+        const segId = `${effect.id}-${segIndex}`;
+
+        const effectEntry =
+          effect.kind === "sfx"
+            ? {
+                id: segId,
+                kind: "sfx",
+                offsetPercent,
+                path: effect.path,
+                ...(effect.volume !== undefined ? { volume: effect.volume } : {}),
+                ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
+              }
+            : {
+                id: segId,
+                kind: "visual",
+                offsetPercent,
+                assetType: effect.assetType,
+                ...(effect.anchor ? { anchor: effect.anchor } : {}),
+                ...(effect.contentOverride ? { contentOverride: effect.contentOverride } : {}),
+                ...(effect.styleOverride ? { styleOverride: effect.styleOverride } : {}),
+                ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
+              };
+
+        const list = pendingByScene.get(segment.sceneId) ?? [];
+        list.push(effectEntry);
+        pendingByScene.set(segment.sceneId, list);
+      });
+    }
+
+    // Flush: one read-modify-write per touched scene, with idempotent replace
+    // by effect.id.
+    const written = [];
+    for (const [sceneId, effects] of pendingByScene) {
+      const scene = this._readScene(projectId, sceneId);
+      if (!scene.transitionOut) scene.transitionOut = { type: "default" };
+      if (!Array.isArray(scene.transitionOut.effects)) scene.transitionOut.effects = [];
+
+      const idsToReplace = new Set(effects.map((e) => e.id));
+      scene.transitionOut.effects = scene.transitionOut.effects.filter(
+        (existing) => !idsToReplace.has(existing.id),
+      );
+      scene.transitionOut.effects.push(...effects);
+      this._writeScene(projectId, sceneId, scene);
+      written.push({ sceneId, effects: scene.transitionOut.effects });
+    }
+
+    return {
+      rules: rules.length,
+      scenesWritten: written.length,
+      scenes: written,
+    };
   }
 
   /** Runs the real schema + cross-reference validation (Ajv, narrationRef

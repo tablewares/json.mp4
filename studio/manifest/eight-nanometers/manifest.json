@@ -1,0 +1,39 @@
+{
+  "projectId": "eight-nanometers",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-scale",
+      "path": "scenes/scene-scale.json"
+    },
+    {
+      "id": "scene-finfet",
+      "path": "scenes/scene-finfet.json"
+    }
+  ],
+  "music": [
+    {
+      "id": "bgm-ambient",
+      "path": "audio/ambient-cinematic-bg.mp3",
+      "volume": 0.22,
+      "start": 0,
+      "loop": true,
+      "fadeInSeconds": 1.5,
+      "fadeOutSeconds": 2
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "A human hair is eighty thousand nanometers wide. The finest features on a modern chip are just eight."
+      },
+      {
+        "id": "n2",
+        "text": "Eight nanometers. That is where FinFET architecture lives."
+      }
+    ],
+    "fullTranscript": "A human hair is eighty thousand nanometers wide. The finest features on a modern chip are just eight. Eight nanometers. That is where FinFET architecture lives."
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "s2-ticker",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "TextBlock-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "Wealth, live"
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "align": "center"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "TickerTape-2",
+      "assetType": "TickerTape",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "tickers": [
+          {
+            "symbol": "BILLIONAIRES",
+            "price": 2781,
+            "change": 4.2
+          },
+          {
+            "symbol": "CEO PAY",
+            "price": 278,
+            "change": 1.1
+          },
+          {
+            "symbol": "WORKER WAGE",
+            "price": 56,
+            "change": -0.4
+          },
+          {
+            "symbol": "BOTTOM 50%",
+            "price": 1,
+            "change": -1.2
+          },
+          {
+            "symbol": "MEDIAN SAVINGS",
+            "price": 8,
+            "change": -0.3
+          }
+        ]
+      },
+      "styleOverride": {
+        "trackFill": "#161B26",
+        "trackHeight": 140,
+        "borderLine": "#3D7BFD",
+        "scrollPxPerSec": 110
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "transitionOut": {
+    "type": "WhipPan",
+    "durationInFrames": 14
+  }
+}

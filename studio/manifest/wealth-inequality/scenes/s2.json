@@ -1,0 +1,43 @@
+{
+  "id": "s2",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "img-2",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "url": "https://images.unsplash.com/photo-1454165833767-027ffbc9793a?q=80&w=1080",
+        "alt": "Luxury high rise",
+        "src": "https://images.unsplash.com/photo-1454165833767-027ffbc9793a?q=80&w=1080"
+      },
+      "styleOverride": {
+        "scale": 1.1
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "kt-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom"
+      },
+      "contentOverride": {
+        "text": "A Growing Canyon"
+      },
+      "styleOverride": {
+        "fontSize": 80
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "WhipPan",
+    "durationInFrames": 14
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "$id": "scene.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "assets"],
+  "properties": {
+    "id": { "type": "string" },
+    "narrationRef": {
+      "type": "string",
+      "description": "id into manifest.narration.entries; resolved timing drives this scene's duration"
+    },
+    "transitionIn": { "$ref": "#/definitions/transitionRef" },
+    "transitionOut": { "$ref": "#/definitions/transitionRef" },
+    "background": { "$ref": "#/definitions/tokenOrLiteral" },
+    "camera": { "$ref": "#/definitions/cameraSpec" },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["assetType", "anchor"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "assetType": { "type": "string", "description": "must match a folder name under src/assets" },
+          "anchor": {
+            "type": "object",
+            "required": ["position"],
+            "additionalProperties": false,
+            "properties": {
+              "position": {
+                "type": "string",
+                "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]
+              },
+              "offsetXPercent": { "type": "number", "default": 0 },
+              "offsetYPercent": { "type": "number", "default": 0 }
+            }
+          },
+          "contentOverride": { "type": "object" },
+          "styleOverride": { "type": "object" },
+          "enterAt": { "type": "number", "minimum": 0, "maximum": 1, "description": "fraction of scene duration" },
+          "exitAt": { "type": "number", "minimum": 0, "maximum": 1 },
+          "z": {
+            "type": "number",
+            "description": "stacking order within a scene, resolved at runtime. Lower z paints first (further from the viewer), higher z paints last (on top). Default 0. Stable sort: assets sharing a z keep their declared order. Existing manifests are unaffected."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "tokenOrLiteral": {
+      "oneOf": [
+        { "type": "string", "description": "a style registry token, e.g. 'shade1'" },
+        { "type": "object" }
+      ]
+    },
+    "timingAnchor": {
+      "type": "object",
+      "description": "A timing anchor for an effect/camera event. Exactly one of: offsetPercent (legacy % of scene end), relativeToAsset (asset edge ± offsetFrames), relativeToCameraAction (camera action frame ± offsetFrames). The resolver discriminates on the first-present key.",
+      "additionalProperties": false,
+      "properties": {
+        "offsetPercent": { "type": "number" },
+        "relativeToAsset": { "type": "string" },
+        "relativeToCameraAction": { "oneOf": [{ "type": "number" }, { "type": "string" }] },
+        "edge": { "type": "string", "enum": ["enter", "exit"], "default": "enter" },
+        "offsetFrames": { "type": "number", "default": 0 }
+      }
+    },
+    "transitionRef": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "description": "'default' or a folder name under src/transitions" },
+        "durationInFrames": { "type": "number" },
+        "params": { "type": "object" },
+        "effects": {
+          "type": "array",
+          "description": "Optional. Per-render SFX/visual effects timed against THIS scene's resolved ending frame. Timing is authored as exactly one of: `offsetPercent` (legacy — % of scene end; 0 = last frame, -10 = 90% of scene, +10 = 10% into the transition overlap), `relativeToAsset` (fire relative to an asset's enterAtFrame/exitAtFrame ± offsetFrames), `relativeToCameraAction` (fire relative to a camera action's resolved frame ± offsetFrames), or `timing` (an envelope object carrying those same keys for grouping). Omit entirely for scenes with no boundary effects.",
+          "items": {
+            "type": "object",
+            "required": ["kind"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "kind": { "type": "string", "enum": ["sfx", "visual"] },
+              "offsetPercent": { "type": "number", "description": "Legacy timing: % of scene end (0 = last frame). Optional now that alternatives exist; if absent defaults to 0." },
+              "relativeToAsset": { "type": "string", "description": "id of an asset already resolved in this scene. Effect fires at that asset's enterAtFrame (or exitAtFrame when edge: 'exit') ± offsetFrames." },
+              "relativeToCameraAction": { "description": "Index (number) or id (string) of a camera action resolved on this scene. Effect fires at that action's resolved frame ± offsetFrames.", "oneOf": [{ "type": "number" }, { "type": "string" }] },
+              "edge": { "type": "string", "enum": ["enter", "exit"], "description": "For relativeToAsset: which frame edge to anchor to. Defaults to 'enter'.", "default": "enter" },
+              "offsetFrames": { "type": "number", "description": "Signed frames added to the resolved anchor. Defaults to 0.", "default": 0 },
+              "timing": { "$ref": "#/definitions/timingAnchor", "description": "Envelope grouping the timing keys above. Mutually exclusive with authoring them flat — use whichever reads clearer." },
+              "durationInFrames": {
+                "type": "number",
+                "description": "sfx: omit to let the clip play its natural length. visual: how long the effect asset stays mounted (default 30)."
+              },
+              "path": { "type": "string", "description": "sfx only: audio file path relative to public/" },
+              "volume": { "type": "number", "description": "sfx only: 0-1, default 1" },
+              "assetType": { "type": "string", "description": "visual only: must match a registered assetType" },
+              "anchor": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "position": {
+                    "type": "string",
+                    "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]
+                  },
+                  "offsetXPercent": { "type": "number", "default": 0 },
+                  "offsetYPercent": { "type": "number", "default": 0 }
+                }
+              },
+              "contentOverride": { "type": "object" },
+              "styleOverride": { "type": "object" }
+            }
+          }
+        }
+      }
+    },
+    "cameraSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "start": { "$ref": "#/definitions/cameraAnchor" },
+        "end": { "$ref": "#/definitions/cameraAnchor" },
+        "durationInFrames": { "type": "number", "minimum": 1, "description": "Optional camera motion duration; if omitted it follows the scene duration" },
+        "speed": { "type": "number", "minimum": 0.01, "description": "Optional multiplier; >1 makes the camera move faster, <1 slower" },
+        "actions": {
+          "type": "array",
+          "description": "Optional camera sequence. Each action's `at` is between 0 and 1, representing normalized scene progress.",
+          "items": { "$ref": "#/definitions/cameraAction" }
+        },
+        "zoomStartPercent": { "type": "number", "minimum": 1, "description": "Percentage zoom at the start of the scene; 100 means no zoom" },
+        "zoomEndPercent": { "type": "number", "minimum": 1, "description": "Percentage zoom at the end of the scene" },
+        "zoomPercent": { "type": "number", "minimum": 1, "description": "Shortcut when both start and end zoom should match" }
+      }
+    },
+    "cameraAction": {
+      "type": "object",
+      "required": ["at"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Optional stable id so timing anchors can reference this action by id (relativeToCameraAction: 'zoom1'). When omitted, index-based (0,1,…) anchoring applies." },
+        "at": { "type": "number", "minimum": 0, "maximum": 1, "description": "Normalized scene progress, from 0.0 to 1.0" },
+        "anchor": { "$ref": "#/definitions/cameraAnchor" },
+        "zoomPercent": { "type": "number", "minimum": 1, "description": "Zoom at this point in the camera path" }
+      }
+    },
+    "cameraAnchor": {
+      "type": "object",
+      "description": "Either a composition-frame anchor (position + percent offsets) OR an asset-follow anchor (followAssetId). When following an asset, position is omitted and the anchor resolves to the target's resolved center.",
+      "oneOf": [
+        {
+          "required": ["position"],
+          "additionalProperties": false,
+          "properties": {
+            "position": {
+              "type": "string",
+              "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]
+            },
+            "offsetXPercent": { "type": "number", "default": 0 },
+            "offsetYPercent": { "type": "number", "default": 0 }
+          }
+        },
+        {
+          "required": ["followAssetId"],
+          "additionalProperties": false,
+          "properties": {
+            "followAssetId": {
+              "type": "string",
+              "description": "id of an asset resolved earlier in this scene's scene.assets. The camera anchor tracks that asset's center; offsetXPercent/offsetYPercent nudge from there in composition-space percent."
+            },
+            "edge": { "type": "string", "enum": ["enter", "exit"], "description": "Which edge of the target the anchor subscribes to. Currently purely spatial (anchor = center), reserved for future enter/exit-aware framing.", "default": "enter" },
+            "offsetXPercent": { "type": "number", "default": 0 },
+            "offsetYPercent": { "type": "number", "default": 0 }
+          }
+        }
+      ]
+    }
+  }
+}

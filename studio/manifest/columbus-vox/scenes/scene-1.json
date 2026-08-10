@@ -1,0 +1,98 @@
+{
+  "id": "scene-1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "map-bg",
+      "assetType": "BackdropImage",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/vintage-world.jpg"
+      },
+      "styleOverride": {
+        "width": 1080,
+        "height": 1920
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "columbus-pic",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "top-right"
+      },
+      "contentOverride": {
+        "src": "assets/columbus.jpg"
+      },
+      "styleOverride": {
+        "borderRadius": 320,
+        "width": 640,
+        "height": 640
+      },
+      "enterAt": 0.1,
+      "exitAt": 1
+    },
+    {
+      "id": "columbus-name",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top-right",
+        "offsetYPercent": 35,
+        "offsetXPercent": 0
+      },
+      "contentOverride": {
+        "text": "Christopher Columbus"
+      },
+      "styleOverride": {
+        "highlighter": {
+          "enabled": true,
+          "mode": "underline",
+          "markerColorToken": "accentWarm"
+        },
+        "align": "right"
+      },
+      "enterAt": 0.2,
+      "exitAt": 1
+    },
+    {
+      "id": "target-asset",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "left",
+        "offsetYPercent": 30
+      },
+      "contentOverride": {
+        "src": "assets/new-world.jpg"
+      },
+      "styleOverride": {
+        "borderRadius": 24,
+        "width": 640,
+        "height": 640
+      },
+      "enterAt": 0.4,
+      "exitAt": 1
+    },
+    {
+      "id": "conn-line",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "fromAssetId": "columbus-pic",
+        "toAssetId": "target-asset"
+      },
+      "styleOverride": {
+        "strokeWidth": 30,
+        "drawDurationFraction": 0.3
+      },
+      "enterAt": 0.3,
+      "exitAt": 0.6
+    }
+  ]
+}

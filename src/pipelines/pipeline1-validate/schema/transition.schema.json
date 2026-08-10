@@ -1,0 +1,51 @@
+{
+  "$id": "transition.schema.json",
+  "definitions": {
+    "transitionRef": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string" },
+        "durationInFrames": { "type": "number" },
+        "params": { "type": "object" },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["kind"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "kind": { "type": "string", "enum": ["sfx", "visual"] },
+              "offsetPercent": { "type": "number" },
+              "relativeToAsset": { "type": "string" },
+              "relativeToCameraAction": { "oneOf": [{ "type": "number" }, { "type": "string" }] },
+              "edge": { "type": "string", "enum": ["enter", "exit"], "default": "enter" },
+              "offsetFrames": { "type": "number", "default": 0 },
+              "timing": { "$ref": "shared.schema.json#/definitions/timingAnchor" },
+              "durationInFrames": { "type": "number" },
+              "path": { "type": "string" },
+              "volume": { "type": "number" },
+              "assetType": { "type": "string" },
+              "anchor": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "position": {
+                    "type": "string",
+                    "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]
+                  },
+                  "offsetXPercent": { "type": "number", "default": 0 },
+                  "offsetYPercent": { "type": "number", "default": 0 }
+                }
+              },
+              "contentOverride": { "type": "object" },
+              "styleOverride": { "type": "object" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

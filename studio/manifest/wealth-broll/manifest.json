@@ -1,0 +1,19 @@
+{
+  "projectId": "wealth-broll",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1-bars",
+      "path": "scenes/s1-bars.json"
+    },
+    {
+      "id": "s2-ticker",
+      "path": "scenes/s2-ticker.json"
+    },
+    {
+      "id": "s3-line",
+      "path": "scenes/s3-line.json"
+    }
+  ]
+}

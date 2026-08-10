@@ -79,6 +79,23 @@ export function resolveAssetStyle(styles, assetManifest, styleOverride = {}) {
       resolved[key] = resolveEasingToken(styles, value);
     } else if (key.toLowerCase().includes("texture") && typeof value === "string") {
       resolved[key] = resolveTextureToken(styles, value);
+    } else if (key === "highlighter" && value && typeof value === "object" && !Array.isArray(value)) {
+      // The highlighter block is a nested object whose own color fields
+      // (color, colorToken, markerColor, markerColorToken, …) carry theme
+      // tokens that the top-level loop never reaches. Resolve them here so
+      // the inline overlay (HighlighterOverlay) receives hex literals at
+      // render time, mirroring how the standalone TextHighlight asset's
+      // top-level markerColor is resolved. Fields unrelated to color pass
+      // through untouched (additive — no change to non-color keys).
+      const out = {};
+      for (const [hk, hv] of Object.entries(value)) {
+        if (hk.toLowerCase().includes("color") && typeof hv === "string") {
+          out[hk] = resolveColorToken(styles, hv);
+        } else {
+          out[hk] = hv;
+        }
+      }
+      resolved[key] = out;
     } else {
       resolved[key] = value;
     }

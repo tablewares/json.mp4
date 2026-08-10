@@ -1,0 +1,44 @@
+{
+  "projectId": "wealth-inequality",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1",
+      "path": "scenes/s1.json"
+    },
+    {
+      "id": "s2",
+      "path": "scenes/s2.json"
+    },
+    {
+      "id": "s3",
+      "path": "scenes/s3.json"
+    },
+    {
+      "id": "s4",
+      "path": "scenes/s4.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Imagine a mountain of money. Now imagine that one person owns the peak, while everyone else shares the pebbles at the bottom."
+      },
+      {
+        "id": "n2",
+        "text": "In America, the gap isn't just growing; it is becoming a canyon."
+      },
+      {
+        "id": "n3",
+        "text": "The top one percent hold more wealth than the entire bottom ninety percent combined."
+      },
+      {
+        "id": "n4",
+        "text": "This isn't just about luxury. It is about the fundamental breaking of the American Dream."
+      }
+    ],
+    "fullTranscript": "Imagine a mountain of money. Now imagine that one person owns the peak, while everyone else shares the pebbles at the bottom. In America, the gap isn't just growing; it is becoming a canyon. The top one percent hold more wealth than the entire bottom ninety percent combined. This isn't just about luxury. It is about the fundamental breaking of the American Dream."
+  }
+}

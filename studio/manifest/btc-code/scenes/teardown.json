@@ -1,0 +1,93 @@
+{
+  "id": "teardown",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "hashPanel",
+      "assetType": "CodeBlock",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 6,
+        "offsetYPercent": -4
+      },
+      "contentOverride": {
+        "language": "python",
+        "highlightLines": [
+          3,
+          4
+        ],
+        "code": "from hashlib import sha256\n\ndef proof_of_work(block, target):\n    nonce = 0\n    while True:\n        h = sha256(f'{block}{nonce}'.encode()).hexdigest()\n        if h < target:\n            return nonce, h\n        nonce += 1\n\n# change one bit, the hash collapses.\n"
+      },
+      "styleOverride": {
+        "width": 1000,
+        "height": 660,
+        "fontSizePx": 34,
+        "lineHeightPx": 1.5,
+        "backgroundFill": "#12161C",
+        "borderLine": "#33D8E0",
+        "accentFill": "#22D3EE",
+        "textFill": "#E6EDF3",
+        "lineNumberFill": "#7D8590"
+      },
+      "enterAt": 0.05,
+      "exitAt": 1
+    },
+    {
+      "id": "network",
+      "assetType": "SignalBloom",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -4,
+        "offsetYPercent": -4
+      },
+      "contentOverride": {
+        "title": "the peer-to-peer network",
+        "seed": 21,
+        "caption": "thousands of machines / one answer"
+      },
+      "styleOverride": {
+        "width": 700,
+        "height": 620,
+        "canvasFill": "#0C0E12",
+        "borderLine": "#1C2740",
+        "nodeFill": "#22D3EE",
+        "coreFill": "#FFFFFF",
+        "pulseFill": "#FFE600",
+        "lineFill": "#33415C",
+        "nodeCount": 48,
+        "pulseCount": 5,
+        "pulseSpeed": 0.7
+      },
+      "enterAt": 0.12,
+      "exitAt": 1
+    },
+    {
+      "id": "TextBlock-3",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "text": "PROOF OF WORK"
+      },
+      "styleOverride": {
+        "typography": "kicker1",
+        "align": "left",
+        "width": 600,
+        "height": 60
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "pivotZoom",
+    "durationInFrames": 22,
+    "params": {
+      "carryAssetId": "hashPanel"
+    }
+  }
+}

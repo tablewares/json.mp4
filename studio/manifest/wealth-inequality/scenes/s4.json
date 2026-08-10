@@ -1,0 +1,40 @@
+{
+  "id": "s4",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "img-4",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "url": "https://images.unsplash.com/photo-1486406146926-c627a92fb1ab?q=80&w=1080",
+        "alt": "Modern office skyscraper",
+        "src": "https://images.unsplash.com/photo-1486406146926-c627a92fb1ab?q=80&w=1080"
+      },
+      "styleOverride": {
+        "scale": 1.3
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "tb-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "The American Dream is Breaking"
+      },
+      "styleOverride": {
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n4"
+}

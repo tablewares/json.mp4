@@ -3,7 +3,7 @@ import { AbsoluteFill, Sequence, Audio, staticFile, useCurrentFrame, useVideoCon
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { AudioOverlay } from "../../audio/overlay.jsx";
 import registryManifest from "../../../studio/generated/registry.generated.json";
-import { resolveCameraTransform } from "../../templating/camera.js";
+import { resolveAssetDepth, resolveCameraTransform } from "../../templating/camera.js";
 
 // ==========================================
 // 1. COMPONENT MODULE LOADING
@@ -137,60 +137,62 @@ function SceneLayer({ scene, compositionSize }) {
   const sceneDuration = Math.max(scene.durationInFrames, 1);
   const clampedFrame = Math.min(Math.max(frame, 0), sceneDuration - 1);
   const frameForCamera = compositionDurationInFrames > 0 ? clampedFrame : frame;
-  // Index scene.assets by id so resolveCameraTransform can resolve a
-  // `followAssetId` camera anchor to the target asset's resolved box.
   const resolvedAssetsById = Object.fromEntries(
     (scene.assets ?? []).map((a) => [a.id, a]).filter(([id]) => id != null),
   );
-  const resolvedCameraTransform = resolveCameraTransform(
-    scene.camera,
-    compositionSize,
-    frameForCamera,
-    sceneDuration,
-    { resolvedAssetsById, sceneId: scene.id },
-  );
 
-  // Z-ordering: lower z paints first (furthest from the viewer), higher z
-  // last (on top). Numeric stable sort — Array.prototype.sort on modern V8
-  // is stable, so authored-order is preserved among assets sharing a z.
-  // pipeline2 always attaches z (default 0), so every asset has a real
-  // number here; legacy manifests declared no z, so all assets sit at 0
-  // and their relative order is unchanged from before this field existed.
+  // Z-ordering unchanged: lower z paints first, stable sort preserves
+  // authored order among assets sharing a z.
   const layeredAssets = [...scene.assets].sort((a, b) => (a.z ?? 0) - (b.z ?? 0));
+  const visualEffects = (scene.effects ?? []).filter((effect) => effect.kind !== "sfx");
+  const depthGroups = groupPaintablesByDepth(layeredAssets, visualEffects);
 
   return (
     <AbsoluteFill style={{ background: scene.background ?? "#000" }}>
-      <AbsoluteFill
-        style={{
-          transform: `translate(${resolvedCameraTransform.translateX}px, ${resolvedCameraTransform.translateY}px) scale(${resolvedCameraTransform.scale})`,
-          transformOrigin: resolvedCameraTransform.transformOrigin,
-          width: `${compositionSize.width}px`,
-          height: `${compositionSize.height}px`,
-          overflow: "hidden",
-        }}
-      >
-      {layeredAssets.map((asset) => {
-        const AssetComponent = ASSET_COMPONENTS[asset.assetType];
-        if (!AssetComponent) {
-          throw new Error(`No renderer registered for assetType "${asset.assetType}"`);
-        }
+      {depthGroups.map(({ depth, items }) => {
+        const cameraTransform = resolveCameraTransform(
+          scene.camera,
+          compositionSize,
+          frameForCamera,
+          sceneDuration,
+          { resolvedAssetsById, sceneId: scene.id },
+          depth,
+        );
+
         return (
-          <Suspense key={asset.id} fallback={null}>
-            <AssetComponent
-              resolvedPosition={asset.resolvedPosition}
-              resolvedStyle={asset.resolvedStyle}
-              content={asset.content}
-              timing={asset.timing}
-            />
-          </Suspense>
+          <AbsoluteFill
+            key={`depth-${depth}`}
+            style={{
+              transform: `translate(${cameraTransform.translateX}px, ${cameraTransform.translateY}px) scale(${cameraTransform.scale})`,
+              transformOrigin: cameraTransform.transformOrigin,
+              width: `${compositionSize.width}px`,
+              height: `${compositionSize.height}px`,
+              overflow: "hidden",
+            }}
+          >
+            {items.map((item) => {
+              if (item.kind === "effect") {
+                return <SceneEffectLayer key={item.effect.id} effect={item.effect} />;
+              }
+              const asset = item.asset;
+              const AssetComponent = ASSET_COMPONENTS[asset.assetType];
+              if (!AssetComponent) {
+                throw new Error(`No renderer registered for assetType "${asset.assetType}"`);
+              }
+              return (
+                <Suspense key={asset.id} fallback={null}>
+                  <AssetComponent
+                    resolvedPosition={asset.resolvedPosition}
+                    resolvedStyle={asset.resolvedStyle}
+                    content={asset.content}
+                    timing={asset.timing}
+                  />
+                </Suspense>
+              );
+            })}
+          </AbsoluteFill>
         );
       })}
-      {(scene.effects ?? [])
-        .filter((effect) => effect.kind !== "sfx")
-        .map((effect) => (
-          <SceneEffectLayer key={effect.id} effect={effect} />
-        ))}
-      </AbsoluteFill>
     </AbsoluteFill>
   );
 }
@@ -277,3 +279,36 @@ export function VideoComposition({ resolvedGraph }) {
     </AbsoluteFill>
   );
 }
+
+/**
+ * Groups scene assets (and transitionOut visual effects) into ordered
+ * "depth planes" for parallax camera rendering. Each item is tagged with
+ * its resolvedStyle.depth (default 1). Groups are emitted in the order
+ * their depth value is FIRST encountered while walking the already
+ * z-sorted asset list followed by effects — so the default case (nobody
+ * authors depth) produces exactly one group, in exactly the original
+ * assets-then-effects order, which is what makes this change a no-op for
+ * every existing scene.
+ */
+function groupPaintablesByDepth(sortedAssets, visualEffects) {
+  const order = [];
+  const byDepth = new Map();
+
+  const push = (depth, item) => {
+    if (!byDepth.has(depth)) {
+      byDepth.set(depth, []);
+      order.push(depth);
+    }
+    byDepth.get(depth).push(item);
+  };
+
+  for (const asset of sortedAssets) {
+    push(resolveAssetDepth(asset), { kind: "asset", asset });
+  }
+  for (const effect of visualEffects) {
+    push(resolveAssetDepth(effect), { kind: "effect", effect });
+  }
+
+  return order.map((depth) => ({ depth, items: byDepth.get(depth) }));
+}
+

@@ -1,0 +1,23 @@
+{
+  "$id": "shared.schema.json",
+  "definitions": {
+    "tokenOrLiteral": {
+      "oneOf": [
+        { "type": "string", "description": "a style registry token, e.g. 'shade1'" },
+        { "type": "object" }
+      ]
+    },
+    "timingAnchor": {
+      "type": "object",
+      "description": "A timing anchor for an effect/camera event. Exactly one of: offsetPercent, relativeToAsset, relativeToCameraAction.",
+      "additionalProperties": false,
+      "properties": {
+        "offsetPercent": { "type": "number" },
+        "relativeToAsset": { "type": "string" },
+        "relativeToCameraAction": { "oneOf": [{ "type": "number" }, { "type": "string" }] },
+        "edge": { "type": "string", "enum": ["enter", "exit"], "default": "enter" },
+        "offsetFrames": { "type": "number", "default": 0 }
+      }
+    }
+  }
+}

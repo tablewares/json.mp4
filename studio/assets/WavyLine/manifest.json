@@ -16,19 +16,22 @@
     "properties": {
       "fromAssetId": {
         "type": "string",
-        "description": "id of an asset resolved earlier in this scene. Pass 2 writes its center into content.points[0]. When both fromAssetId + toAssetId are set, explicit points below are ignored."
+        "description": "Connector shorthand: id of an asset resolved earlier in this scene. Pass 2 books `{ followAssetId: <fromAssetId> }` for endpoint[0] and resolves it through the same anchor templating resolver the rest of the framework uses (src/templating/anchor.js). See `points` below for per-endpoint nudge. Overrides explicit `points[0]`."
       },
       "toAssetId": {
         "type": "string",
-        "description": "id of an asset resolved earlier in this scene. Pass 2 writes its center into content.points[1]."
+        "description": "Connector shorthand: id of an asset resolved earlier in this scene. Pass 2 books `{ followAssetId: <toAssetId> }` for endpoint[1] and resolves it through the anchor templating resolver (src/templating/anchor.js). Overrides explicit `points[1]`."
       },
       "points": {
         "type": "array",
-        "description": "Explicit endpoints as [{x,y},{y,y}] in composition-space pixels. Ignored when fromAssetId + toAssetId are authored; used verbatim otherwise.",
+        "description": "Two endpoints. Each item is authored in the anchor templating vocabulary (the SAME shape `cameraAnchor` accepts in camera.schema.json), NOT exact composition-space pixels:\n  - { position: 'top-left'|'center'|... , offsetXPercent?, offsetYPercent? } — named composition-frame corner + composition-space % nudge.\n  - { followAssetId, offsetXPercent?, offsetYPercent? } — follow another asset's resolved center, nudge by composition-space %.\n  - { x, y } — raw composition-space pixels (backward-compatible passthrough; not the preferred form).\nignored for an item when the matching fromAssetId/toAssetId is set. Resolved to pixels by pass 2 before the renderer mounts.",
         "items": {
           "type": "object",
-          "required": ["x", "y"],
           "properties": {
+            "position": { "type": "string", "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"] },
+            "followAssetId": { "type": "string" },
+            "offsetXPercent": { "type": "number", "default": 0 },
+            "offsetYPercent": { "type": "number", "default": 0 },
             "x": { "type": "number" },
             "y": { "type": "number" }
           }

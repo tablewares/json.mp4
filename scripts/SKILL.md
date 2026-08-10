@@ -240,63 +240,6 @@ node scripts/agent-cli.mjs add-effect <projectId> <sceneId> '{ "id": "...", "kin
 Visual effects are resolved through the same asset pipeline as a normal
 scene asset — run `envelope` if you forget the shape.
 
-### Camera (per scene)
-
-Camera is first-class: every scene can carry an optional `camera` block
-(either authored at `add-scene` time or added/edited later through the
-four commands below — they mirror `set-transition` / `update-transition` /
-`remove-transition` / `add-effect` for parity). A scene with no camera
-renders as a static centered view at scale 1.
-
-The camera spec lives in `scene.schema.json#/definitions/cameraSpec` and
-`set-camera` / `update-camera` / `add-camera-action` validate against
-that sub-schema at write time, so a bad spec throws at the CLI call
-rather than waiting for `validate` / `render`. Two anchor shapes:
-
-- composition-frame: `{ position, offsetXPercent?, offsetYPercent? }`
-  (the 9 anchor positions from `anchors`)
-- asset-follow: `{ followAssetId, edge?, offsetXPercent?, offsetYPercent? }`
-  — the camera anchor tracks an asset resolved earlier in the scene
-  (must already exist via `add-asset`); optional percent nudges frame
-  around the target's center. Pass 2's resolveSceneRefs resolves the
-  reference against the asset's real resolved box at render time.
-
-```bash
-# set a scene's camera from scratch (replaces any existing one)
-node scripts/agent-cli.mjs set-camera <projectId> <sceneId> '{
-  "durationInFrames": <number>,
-  "speed": <number>,
-  "actions": [
-    { "at": 0,   "anchor": { "position": "center" }, "zoomPercent": 100 },
-    { "id": "snap", "at": 0.5, "anchor": { "followAssetId": "kt1", "offsetYPercent": -10 }, "zoomPercent": 300 }
-  ]
-}'
-
-# patch an existing camera in place (shallow merge; actions replace wholesale)
-node scripts/agent-cli.mjs update-camera <projectId> <sceneId> '{ "speed": 2, "zoomPercent": 150 }'
-
-# append one action to camera.actions[] (auto-creates the camera if none exists)
-node scripts/agent-cli.mjs add-camera-action <projectId> <sceneId> '{ "at": 0.8, "anchor": { "followAssetId": "kt2" }, "zoomPercent": 260 }'
-
-# clear a scene's camera entirely (back to a static centered view)
-node scripts/agent-cli.mjs remove-camera <projectId> <sceneId>
-```
-
-Notes:
-
-- Zoom snaps (`camera.js`'s `resolveCameraTransform` jumps to each
-  action's `zoomPercent` instantly rather than easing across the
-  segment). Anchor still interpolates smoothly between actions.
-- `update-camera` throws if the scene has no camera yet — use
-  `set-camera` to create one first, or `add-camera-action` which
-  auto-creates a `{ actions: [] }` camera when none exists.
-- `cameraSpec`'s `actions[]` items optionally carry an `id` so transition
-  effects can reference them by id: `transitionOut.effects[].relativeToCameraAction`
-  accepts a numeric index or a string id.
-- Camera refs (`followAssetId`) and action ids both flow into
-  `transitionOut.effects` via `relativeToCameraAction` — see the
-  timing-anchor section of `envelope` for the full effect timing shape.
-
 ### Audio: overlays, music, TTS humanization
 
 There are three independent audio concerns. They layer onto the same audio

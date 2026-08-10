@@ -1,0 +1,78 @@
+{
+  "id": "scene-1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "BackdropImage-1",
+      "assetType": "BackdropImage",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "assets/bitcoin_gold.png"
+      },
+      "styleOverride": {
+        "depth": 0.35,
+        "blurPx": 4
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "KineticText-2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "text": "DEPTH AWARE"
+      },
+      "styleOverride": {
+        "depth": 1,
+        "align": "center"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "TextBlock-3",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top-right"
+      },
+      "contentOverride": {
+        "text": "Pinned HUD Element"
+      },
+      "styleOverride": {
+        "depth": 0
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "camera": {
+    "durationInFrames": 90,
+    "speed": 1,
+    "easeZoom": true,
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 250
+      }
+    ]
+  }
+}
