@@ -197,8 +197,33 @@ export function resolveOneRef(asset, byId, opts = {}) {
   if (typeof fromId === "string" && typeof toId === "string") {
     requireTarget(byId, fromId, sceneId);
     requireTarget(byId, toId, sceneId);
-    const fromPt = resolveEndpoint({ followAssetId: fromId }, composition, { byId, sceneId });
-    const toPt = resolveEndpoint({ followAssetId: toId }, composition, { byId, sceneId });
+    // fromEdge/toEdge (optional): which point on the TARGET's own box to
+    // anchor to — the same ANCHOR_ALIGN vocabulary a normal asset `anchor`
+    // uses (top-left, bottom, center, ...). Omitted = "center", identical
+    // to the connector's behavior before this field existed.
+    // fromOffsetXPercent/YPercent and toOffsetXPercent/YPercent nudge from
+    // the resolved edge point in composition-space %, the same convention
+    // every other anchor offset in the framework already uses.
+    const fromPt = resolveEndpoint(
+      {
+        followAssetId: fromId,
+        anchorEdge: content.fromEdge,
+        offsetXPercent: content.fromOffsetXPercent,
+        offsetYPercent: content.fromOffsetYPercent,
+      },
+      composition,
+      { byId, sceneId },
+    );
+    const toPt = resolveEndpoint(
+      {
+        followAssetId: toId,
+        anchorEdge: content.toEdge,
+        offsetXPercent: content.toOffsetXPercent,
+        offsetYPercent: content.toOffsetYPercent,
+      },
+      composition,
+      { byId, sceneId },
+    );
     asset.content = {
       ...content,
       from: fromPt,

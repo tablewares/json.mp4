@@ -11,7 +11,7 @@
         "offsetYPercent": 10
       },
       "contentOverride": {
-        "src": "public/assets/city-map.jpg"
+        "src": "assets/city-map.jpg"
       },
       "styleOverride": {},
       "enterAt": 0,

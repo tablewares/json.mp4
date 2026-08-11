@@ -16,20 +16,39 @@
     "properties": {
       "fromAssetId": {
         "type": "string",
-        "description": "Connector shorthand: id of an asset resolved earlier in this scene. Pass 2 books `{ followAssetId: <fromAssetId> }` for endpoint[0] and resolves it through the same anchor templating resolver the rest of the framework uses (src/templating/anchor.js). See `points` below for per-endpoint nudge. Overrides explicit `points[0]`."
+        "description": "Connector shorthand: id of an asset resolved earlier in this scene. Pass 2 books `{ followAssetId: <fromAssetId>, anchorEdge: fromEdge }` for endpoint[0] and resolves it through the same anchor templating resolver the rest of the framework uses (src/templating/anchor.js). See `points` below for the full endpoint vocabulary. Overrides explicit `points[0]`."
       },
+      "fromEdge": {
+        "type": "string",
+        "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"],
+        "description": "Which point on the fromAssetId target's OWN box the line originates from. Default 'center'. Use e.g. 'bottom' to leave from the bottom edge of a text block instead of cutting through its middle."
+      },
+      "fromOffsetXPercent": { "type": "number", "default": 0, "description": "Composition-space % nudge applied after resolving fromEdge." },
+      "fromOffsetYPercent": { "type": "number", "default": 0, "description": "Composition-space % nudge applied after resolving fromEdge." },
       "toAssetId": {
         "type": "string",
-        "description": "Connector shorthand: id of an asset resolved earlier in this scene. Pass 2 books `{ followAssetId: <toAssetId> }` for endpoint[1] and resolves it through the anchor templating resolver (src/templating/anchor.js). Overrides explicit `points[1]`."
+        "description": "Connector shorthand: id of an asset resolved earlier in this scene. Pass 2 books `{ followAssetId: <toAssetId>, anchorEdge: toEdge }` for endpoint[1] and resolves it through the anchor templating resolver (src/templating/anchor.js). Overrides explicit `points[1]`."
       },
+      "toEdge": {
+        "type": "string",
+        "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"],
+        "description": "Which point on the toAssetId target's OWN box the line arrives at. Default 'center'."
+      },
+      "toOffsetXPercent": { "type": "number", "default": 0, "description": "Composition-space % nudge applied after resolving toEdge." },
+      "toOffsetYPercent": { "type": "number", "default": 0, "description": "Composition-space % nudge applied after resolving toEdge." },
       "points": {
         "type": "array",
-        "description": "Two endpoints. Each item is authored in the anchor templating vocabulary (the SAME shape `cameraAnchor` accepts in camera.schema.json), NOT exact composition-space pixels:\n  - { position: 'top-left'|'center'|... , offsetXPercent?, offsetYPercent? } — named composition-frame corner + composition-space % nudge.\n  - { followAssetId, offsetXPercent?, offsetYPercent? } — follow another asset's resolved center, nudge by composition-space %.\n  - { x, y } — raw composition-space pixels (backward-compatible passthrough; not the preferred form).\nignored for an item when the matching fromAssetId/toAssetId is set. Resolved to pixels by pass 2 before the renderer mounts.",
+        "description": "Two endpoints. Each item is authored in the anchor templating vocabulary (the SAME shape `cameraAnchor` accepts in camera.schema.json), NOT exact composition-space pixels:\n  - { position: 'top-left'|'center'|... , offsetXPercent?, offsetYPercent? } — named composition-frame corner + composition-space % nudge.\n  - { followAssetId, anchorEdge?, offsetXPercent?, offsetYPercent? } — follow another asset's resolved box; anchorEdge picks WHICH point on that box (default 'center'), then nudge by composition-space %.\n  - { x, y } — raw composition-space pixels (backward-compatible passthrough; not the preferred form).\nignored for an item when the matching fromAssetId/toAssetId is set. Resolved to pixels by pass 2 before the renderer mounts.",
         "items": {
           "type": "object",
           "properties": {
             "position": { "type": "string", "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"] },
             "followAssetId": { "type": "string" },
+            "anchorEdge": {
+              "type": "string",
+              "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"],
+              "description": "Only used with followAssetId. Which point on the followed asset's box to resolve to. Default 'center'."
+            },
             "offsetXPercent": { "type": "number", "default": 0 },
             "offsetYPercent": { "type": "number", "default": 0 },
             "x": { "type": "number" },

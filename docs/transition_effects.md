@@ -174,10 +174,14 @@ mounts exactly on the last frame and stays for 10 frames.
   against that assetType's own `contentOverrideSchema`/`styleOverrideSchema`
   by Ajv the way scene assets implicitly are expected to be — worth adding
   if effect authoring becomes common.
-- There's no boundary after the *last* scene (no scene to attach
-  `transitionOut.effects` to). If an "outro" effect is needed, it would
-  need either a synthetic final boundary or a different attachment point
-  (e.g. `manifest`-level `outro.effects`).
+- The last scene's authored `transitionOut.effects` now resolve and render
+  (`resolve.js` pass 2 runs `resolveTransitionEffects` on a trailing scene
+  even when there's no incoming scene to build a `transitionOut` bundle
+  for). There is still no `transitionOut` *bundle* on a trailing scene —
+  effects fire within the scene's own Sequence, not overlapping into a
+  following cut — but the boundary placement (`offsetPercent: 0` = the
+  scene's visible end frame) is honored. A manifest-level `outro.effects`
+  remains a non-goal unless a true post-composition outro is wanted.
 - `sfx` effects don't currently get anchor/position resolution (audio has
   none) — only `frame`/`durationInFrames`/`path`/`volume` are resolved, by
   design.

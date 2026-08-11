@@ -1,0 +1,88 @@
+{
+  "id": "s2-ticker",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "ticker-title",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "text": "The Leaders"
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "align": "center"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ticker-1",
+      "assetType": "TickerTape",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "tickers": [
+          {
+            "symbol": "XLK",
+            "price": 224.31,
+            "change": 40.2
+          },
+          {
+            "symbol": "XLC",
+            "price": 98.74,
+            "change": 33.7
+          },
+          {
+            "symbol": "XLF",
+            "price": 49.82,
+            "change": 25.3
+          },
+          {
+            "symbol": "XLY",
+            "price": 215.4,
+            "change": 19.5
+          },
+          {
+            "symbol": "XLI",
+            "price": 143.2,
+            "change": 17.5
+          },
+          {
+            "symbol": "XLB",
+            "price": 89.15,
+            "change": 9.2
+          },
+          {
+            "symbol": "XLE",
+            "price": 93.8,
+            "change": 1.8
+          },
+          {
+            "symbol": "XLV",
+            "price": 162.45,
+            "change": 1.4
+          }
+        ]
+      },
+      "styleOverride": {
+        "trackFill": "#161B26",
+        "trackHeight": 140,
+        "borderLine": "#3D7BFD",
+        "scrollPxPerSec": 100
+      },
+      "enterAt": 0.05,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

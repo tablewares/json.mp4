@@ -1,0 +1,51 @@
+{
+  "id": "s4-takeaway",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "hl-takeaway",
+      "assetType": "TextHighlight",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "text": "the picks and shovels won."
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "markerColorToken": "accentWarm",
+        "markerHeight": 40,
+        "markerOpacity": 0.78,
+        "markerBlur": 5,
+        "direction": "right",
+        "width": 900
+      },
+      "enterAt": 0.4,
+      "exitAt": 1
+    },
+    {
+      "id": "kt-setup-final",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "text": "The lesson."
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "align": "center",
+        "wordPopScale": 1.18
+      },
+      "enterAt": 0,
+      "exitAt": 0.35
+    }
+  ],
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

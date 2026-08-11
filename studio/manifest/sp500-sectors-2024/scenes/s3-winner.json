@@ -1,0 +1,53 @@
+{
+  "id": "s3-winner",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "kt-setup",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -12
+      },
+      "contentOverride": {
+        "text": "Information Technology."
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "align": "center",
+        "wordPopScale": 1.18
+      },
+      "enterAt": 0,
+      "exitAt": 0.45
+    },
+    {
+      "id": "kt-punch",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 4
+      },
+      "contentOverride": {
+        "text": "forty percent"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "center",
+        "wordPopScale": 1.3,
+        "highlighter": {
+          "enabled": true,
+          "mode": "highlight",
+          "color": "#EA3943"
+        },
+        "width": 1200
+      },
+      "enterAt": 0.5,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

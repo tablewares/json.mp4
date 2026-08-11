@@ -1,0 +1,44 @@
+{
+  "projectId": "sp500-sectors-2024",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1-overview",
+      "path": "scenes/s1-overview.json"
+    },
+    {
+      "id": "s2-ticker",
+      "path": "scenes/s2-ticker.json"
+    },
+    {
+      "id": "s3-winner",
+      "path": "scenes/s3-winner.json"
+    },
+    {
+      "id": "s4-takeaway",
+      "path": "scenes/s4-takeaway.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Eleven sectors. One clear winner. This is how the S and P 500 broke down in 2024."
+      },
+      {
+        "id": "n2",
+        "text": "Technology and communication services led the market, both clearing thirty percent annual returns."
+      },
+      {
+        "id": "n3",
+        "text": "But the single best performing sector was Information Technology, up over forty percent for the year."
+      },
+      {
+        "id": "n4",
+        "text": "The lesson: in a year driven by artificial intelligence, the picks and shovels won."
+      }
+    ],
+    "fullTranscript": "Eleven sectors. One clear winner. This is how the S and P 500 broke down in 2024. Technology and communication services led the market, both clearing thirty percent annual returns. But the single best performing sector was Information Technology, up over forty percent for the year. The lesson: in a year driven by artificial intelligence, the picks and shovels won."
+  }
+}

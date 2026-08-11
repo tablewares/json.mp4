@@ -1,67 +1,8 @@
-import { getAsset } from "../../registry/assetRegistry.js";
-import { resolveAssetStyle } from "../../registry/styleRegistry.js";
-import { resolveAnchor } from "../../templating/anchor.js";
-import { resolveTimingAnchor } from "../../timing/effectTiming.js";
-import { indexAssetsById } from "./resolveRefs.js";
+Here's the implementation. Only `resolveTransitions.js` changes — everything else (schema, registry scanning, `ProjectBuilder`, `introspect.js`) already treats `params`/`consumes` as opaque passthrough objects, so no other file needs touching.
 
-/**
- * Resolves a scene's transitionOut.effects into render-ready entries.
- */
-export function resolveTransitionEffects(effectsSpec, outgoingScene, styles, assetRegistry, compositionSize) {
-  if (!Array.isArray(effectsSpec) || effectsSpec.length === 0) return [];
+**`src/pipelines/pipeline2-resolve/resolveTransitions.js`** — new/changed code in `buildTransitionBundle`:
 
-  const resolvedAssetsById = indexAssetsById(outgoingScene.assets ?? []);
-  const timingCtx = {
-    sceneDurationInFrames: outgoingScene.durationInFrames,
-    resolvedAssetsById,
-    camera: outgoingScene.camera,
-    sceneId: outgoingScene.id,
-  };
-
-  return effectsSpec.map((effect, i) => {
-    const timingAnchor = effect.timing ?? effect;
-    const frame = resolveTimingAnchor(timingAnchor, timingCtx);
-
-    if (effect.kind === "sfx") {
-      return {
-        id: effect.id ?? `sfx-${i}`,
-        kind: "sfx",
-        frame,
-        durationInFrames: effect.durationInFrames ?? null,
-        path: effect.path,
-        volume: effect.volume ?? 1,
-      };
-    }
-
-    const { manifest: assetManifest } = getAsset(assetRegistry, effect.assetType);
-    const size = {
-      width: effect.styleOverride?.width ?? assetManifest.defaultSize.width,
-      height: effect.styleOverride?.height ?? assetManifest.defaultSize.height,
-    };
-    const anchor = effect.anchor ?? { position: "center", offsetXPercent: 0, offsetYPercent: 0 };
-    const resolvedPosition = resolveAnchor(anchor, compositionSize, size);
-    const resolvedStyle = {
-      ...resolveAssetStyle(styles, assetManifest, effect.styleOverride),
-      ...size,
-    };
-    const durationInFrames = effect.durationInFrames ?? 30;
-
-    return {
-      id: effect.id ?? `fx-${i}`,
-      kind: "visual",
-      assetType: effect.assetType,
-      content: effect.contentOverride ?? {},
-      resolvedPosition,
-      resolvedStyle,
-      timing: {
-        durationInFrames,
-        enterAtFrame: frame,
-        exitAtFrame: Math.min(frame + durationInFrames, outgoingScene.durationInFrames),
-      },
-    };
-  });
-}
-
+```js
 export function buildTransitionBundle(transitionSpec, outgoingScene, incomingScene, transitionRegistry) {
   const type = transitionSpec?.type ?? "default";
   const { manifest: transitionManifest } = transitionRegistry[type] ?? transitionRegistry["default"];
@@ -133,3 +74,10 @@ export function buildTransitionBundle(transitionSpec, outgoingScene, incomingSce
 
   return bundle;
 }
+```
+
+**Assumptions/out-of-scope flags:**
+
+- I don't have `pivotZoom`'s (or `irisWipe`'s/`shatterWipe`'s) `manifest.json`/component in context, so I haven't touched them. To actually use `carryAssetIds` or the scene-styles props, their `manifest.json` needs `consumes.outgoingSceneStyles`/`incomingSceneStyles: true` set (already schematically valid — `consumes` is read as a plain object, no schema constrains its keys), and the component needs to read `props.carriesFrom`/`props.carriesTo`/`props.outgoingSceneStyles`/`props.incomingSceneStyles`. Say the word and I'll draft that component logic too, once I can see the existing `pivotZoom` component to match its animation style.
+- `outgoingSceneStyles`/`incomingSceneStyles` shape is currently just `{ background }` — a guess at what's most immediately useful (color-matched wipes). If you had something else in mind (e.g. dominant asset color, typography token), tell me and I'll widen it — it's additive either way.
+- No schema changes were needed: `transition.schema.json`'s `params: { "type": "object" }` is already unconstrained, so `carryAssetIds` validates today with zero schema edits.

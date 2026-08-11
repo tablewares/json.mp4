@@ -13,7 +13,10 @@
     "build": "node scripts/render-project.mjs",
     "build:help": "node scripts/render-project.mjs --help",
     "extract:configurable": "node scripts/extract-configurable-manifests.mjs",
-    "agent:project": "node scripts/agent-project-interface.js"
+    "agent:project": "node scripts/agent-project-interface.js",
+    "score:server": "node studio/scoring/server.mjs",
+    "score:scan": "node studio/scoring/scanner.mjs",
+    "insights": "node bin/video-insights.mjs"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",
@@ -25,6 +28,9 @@
     "ajv-formats": "^2.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "remotion": "^4.0.0"
+    "remotion": "^4.0.0",
+    "better-sqlite3": "^13.0.3",
+    "express": "^5.2.1"
+
   }
 }

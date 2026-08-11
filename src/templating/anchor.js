@@ -58,9 +58,11 @@ export function resolveAnchor(anchor, composition, assetSize) {
  *     (the same math `resolveAnchor` does for its anchorX/Y, minus the
  *     asset-box pull-back).
  *
- *  B. { followAssetId, offsetXPercent, offsetYPercent (... edge) }  — the
+ *  B. { followAssetId, anchorEdge?, offsetXPercent, offsetYPercent (... edge) }  — the
  *     camera-anchor "track an asset's center" shape: resolve to the followed
- *     asset's resolved center, then nudge by composition-space % offsets.
+ *     asset's resolved box (center by default, or the point named by
+ *     anchorEdge — same ANCHOR_ALIGN vocabulary as `position` below), then
+ *     nudge by composition-space % offsets.
  *
  * This is the shared resolver underpinning both camera anchors (camera.js's
  * `resolveAnchorPoint`) and any other templated coordinate — e.g. WavyLine
@@ -101,9 +103,22 @@ export function resolveAnchorPoint(anchor, composition, ctx) {
     const pos = target.resolvedPosition ?? { left: 0, top: 0 };
     const w = target.resolvedStyle?.width ?? 0;
     const h = target.resolvedStyle?.height ?? 0;
+
+    // anchorEdge picks a point on the TARGET's own box (top-left/bottom/etc,
+    // the same ANCHOR_ALIGN vocabulary the composition-frame branch below
+    // uses) instead of always the target's center. Default "center" means
+    // every { followAssetId } anchor authored before this field existed
+    // resolves to the identical point it always has.
+    const edgeAlign = ANCHOR_ALIGN[anchor.anchorEdge ?? "center"];
+    if (!edgeAlign) {
+      throw new Error(
+        `Unknown anchorEdge "${anchor.anchorEdge}" on a followAssetId anchor. Valid: ${Object.keys(ANCHOR_ALIGN).join(", ")}`,
+      );
+    }
+
     return {
-      x: pos.left + w / 2 + (offsetXPercent / 100) * composition.width,
-      y: pos.top + h / 2 + (offsetYPercent / 100) * composition.height,
+      x: pos.left + edgeAlign.x * w + (offsetXPercent / 100) * composition.width,
+      y: pos.top + edgeAlign.y * h + (offsetYPercent / 100) * composition.height,
     };
   }
 

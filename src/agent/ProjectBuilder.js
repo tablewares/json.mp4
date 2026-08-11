@@ -13,302 +13,96 @@
 // scripts/render-project.mjs consumes, so `render()` at the end is always
 // working off exactly what the agent asked for — no separate in-memory
 // model that could drift from disk.
+//
+// ---------------------------------------------------------------------------
+// Architecture: this module is the facade. Concerns that used to live in
+// one 1000+ line file are split into sibling modules under src/agent/:
+//
+//   defaults.js      — DEFAULT_CONFIG / DEFAULT_THEME / mergeTheme
+//   projectIO.js     — ProjectIO: path helpers + low-level JSON read/write
+// validators.js      — checkAgainstSchema / checkCameraSpec /
+//                      checkMotionSpec / checkMotionAliases (lazy Ajv)
+//  checkAssetRefs.js — checkAssetRefs (in-scene reference ordering rule)
+//   transitions.js   — normalizeTransitionOut (registry duration backfill)
+//
+// ProjectBuilder holds a ProjectIO and forwards its private _readJson /
+// _writeJson / _readManifest / _readScene / _writeScene aliases straight
+// through to it, so the method bodies below read identically to the old
+// monolith — they still touch the same files via the same paths.
+// ---------------------------------------------------------------------------
 
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
-import Ajv from "ajv";
-import addFormats from "ajv-formats";
 
 import { loadAssetRegistry, loadTransitionRegistry } from "../registry/assetRegistry.js";
 import { validateProject } from "../pipelines/pipeline1-validate/validate.js";
 import { resolveProject } from "../pipelines/pipeline2-resolve/resolve.js";
-import { resolveMotion } from "../motion/motion.js";
 import {
   buildTimeline,
   findAssetSegments,
   segmentToSceneEffectAnchor,
 } from "../timing/buildTimeline.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DEFAULT_REPO_ROOT = path.resolve(__dirname, "../..");
+import { DEFAULT_REPO_ROOT, ProjectIO } from "./projectIO.js";
+import { DEFAULT_CONFIG, DEFAULT_THEME, mergeTheme } from "./defaults.js";
+import {
+  checkAgainstSchema,
+  checkCameraSpec,
+  checkMotionSpec,
+  checkMotionAliases,
+} from "./validators.js";
+import { checkAssetRefs } from "./checkAssetRefs.js";
+import { normalizeTransitionOut } from "./transitions.js";
 
-// ---------------------------------------------------------------------------
-// Sensible defaults — an agent only overrides what it cares about. Colors,
-// typography, spacing, easing are merged key-by-key (mergeTheme), so e.g.
-// passing colors: { accentBg: "#FF0000" } keeps every other token intact.
-// ---------------------------------------------------------------------------
-
-export const DEFAULT_CONFIG = {
-  fps: 30,
-  width: 1920,
-  height: 1080,
-  defaultSceneDurationInFrames: 150,
-};
-
-export const DEFAULT_THEME = {
-  colors: {
-    shade1: "#0B0E14",
-    shade2: "#161B26",
-    main1: "#F5F7FA",
-    main2: "#8B93A7",
-    accentBg: "#3D7BFD",
-    accentGreen: "#16C784",
-    accentRed: "#EA3943",
-    accentViolet: "#C04CFD",
-    accentWarm: "#FFD166",
-    transparent: "#00000000",
-  },
-  typography: {
-    heading1: { fontFamily: "Inter, sans-serif", fontSize: 84, fontWeight: 800, lineHeight: 1.05, colorToken: "main1" },
-    heading2: { fontFamily: "Inter, sans-serif", fontSize: 56, fontWeight: 700, lineHeight: 1.1, colorToken: "main1" },
-    body1: { fontFamily: "Inter, sans-serif", fontSize: 36, fontWeight: 400, lineHeight: 1.35, colorToken: "main1" },
-    caption1: { fontFamily: "Inter, sans-serif", fontSize: 28, fontWeight: 600, lineHeight: 1.2, colorToken: "main2" },
-    kicker1: { fontFamily: "Inter, sans-serif", fontSize: 24, fontWeight: 700, lineHeight: 1.1, colorToken: "accentBg" },
-  },
-  spacing: { sceneMargin: 96, gutter: 32 },
-  easing: {
-    gentleSpring: { damping: 16, mass: 0.7, stiffness: 110 },
-    snappySpring: { damping: 12, mass: 0.4, stiffness: 180 },
-  },
-};
-
-function mergeTheme(base, overrides = {}) {
-  const merged = {
-    colors: { ...base.colors },
-    typography: { ...base.typography },
-    spacing: { ...base.spacing },
-    easing: { ...base.easing },
-  };
-  for (const category of ["colors", "typography", "spacing", "easing"]) {
-    if (overrides[category]) Object.assign(merged[category], overrides[category]);
-  }
-  return merged;
-}
-
-function checkAgainstSchema(schema, value) {
-  if (!schema) return [];
-  const ajv = new Ajv({ allErrors: true, strict: false });
-  addFormats(ajv);
-  const validateFn = ajv.compile(schema);
-  if (validateFn(value)) return [];
-  return validateFn.errors.map((e) => `${e.instancePath || "(root)"} ${e.message}`);
-}
-
-/**
- * Caches a compiled `scene.schema.json#/definitions/cameraSpec` validator
- * (Ajv) so setCamera / updateCamera / addCameraAction can sanity-check a
- * cameraSpec at write time, standing parallel to addAsset's content-schema
- * check. Returns an empty array when the spec is clean, or human-readable
- * error strings when not — same return shape as `checkAgainstSchema`.
- *
- * Lazy-loaded on first call so a CLI run that doesn't touch camera never
- * pays the compile cost.
- */
-let _cachedCameraValidator = null;
-function checkCameraSpec(cameraSpec) {
-  if (cameraSpec == null) return [];
-  if (_cachedCameraValidator === null) {
-    const schemaDir = path.join(
-      __dirname,
-      "../pipelines/pipeline1-validate/schema",
-    );
-    const sceneSchema = JSON.parse(
-      fs.readFileSync(path.join(schemaDir, "scene.schema.json"), "utf-8"),
-    );
-    const ajv = new Ajv({ allErrors: true, strict: false, allowUnionTypes: true });
-    // scene.schema.json $refs three sibling schema files
-    // (transition.schema.json, shared.schema.json, camera.schema.json);
-    // all must be registered with this Ajv instance before any sub-schema
-    // is resolved, otherwise getSchema throws "can't resolve reference".
-    for (const sib of [
-      "transition.schema.json",
-      "shared.schema.json",
-      "camera.schema.json",
-    ]) {
-      const sibPath = path.join(schemaDir, sib);
-      if (!ajv.getSchema(sib)) {
-        ajv.addSchema(
-          JSON.parse(fs.readFileSync(sibPath, "utf-8")),
-          sib,
-        );
-      }
-    }
-    if (!ajv.getSchema("scene.schema.json")) {
-      ajv.addSchema(sceneSchema, "scene.schema.json");
-    }
-    // getSchema resolves the #/definitions/cameraSpec sub-schema. The
-    // cameraSpec definition lives in camera.schema.json (scene.schema.json
-    // only $refs it); resolving against the owning $id returns the compiled
-    // validator function, which is exactly what validate.js uses at run
-    // time, so a cameraSpec that passes here will also pass validate.
-    _cachedCameraValidator = ajv.getSchema("camera.schema.json#/definitions/cameraSpec");
-  }
-  if (_cachedCameraValidator(cameraSpec)) return [];
-  return (_cachedCameraValidator.errors || []).map((e) => `${e.instancePath || "(root)"} ${e.message}`);
-}
-
-/**
- * Caches a compiled `scene.schema.json#/definitions/motionSpec` validator,
- * standing parallel to checkCameraSpec. Returns [] when clean, or
- * human-readable error strings when not.
- */
-let _cachedMotionValidator = null;
-function checkMotionSpec(motionSpec) {
-  if (motionSpec == null) return [];
-  if (_cachedMotionValidator === null) {
-    const schemaDir = path.join(
-      __dirname,
-      "../pipelines/pipeline1-validate/schema",
-    );
-    const sceneSchema = JSON.parse(
-      fs.readFileSync(path.join(schemaDir, "scene.schema.json"), "utf-8"),
-    );
-    const ajv = new Ajv({ allErrors: true, strict: false, allowUnionTypes: true });
-    for (const sib of [
-      "transition.schema.json",
-      "shared.schema.json",
-      "camera.schema.json",
-    ]) {
-      const sibPath = path.join(schemaDir, sib);
-      if (!ajv.getSchema(sib)) {
-        ajv.addSchema(JSON.parse(fs.readFileSync(sibPath, "utf-8")), sib);
-      }
-    }
-    if (!ajv.getSchema("scene.schema.json")) {
-      ajv.addSchema(sceneSchema, "scene.schema.json");
-    }
-    _cachedMotionValidator = ajv.getSchema("scene.schema.json#/definitions/motionSpec");
-  }
-  if (_cachedMotionValidator(motionSpec)) return [];
-  return (_cachedMotionValidator.errors || []).map((e) => `${e.instancePath || "(root)"} ${e.message}`);
-}
-
-function checkMotionAliases(motionSpec) {
-  if (motionSpec == null) return [];
-  try {
-    resolveMotion(motionSpec);
-    return [];
-  } catch (e) {
-    return [e.message];
-  }
-}
-
-/**
- * Enforces the in-scene reference ordering rule (plan.md §1): an asset that
- * references another asset via contentOverride.refAssetId /
- * fromAssetId / toAssetId must be authored AFTER its target within
- * scene.assets — pass 2's resolveSceneRefs reads the pass-1 map, which the
- * target must already populate. Same intent as transitionOut's
- * `carryAssetId` requiring the asset to exist in both adjacent scenes.
- *
- * Used by both addAsset (against the existing scene.assets) and updateAsset
- * (after a contentOverride patch may have introduced new refs). The asset
- * being checked is allowed to already exist in scene.assets (updateAsset
- * case); its own listing is excluded from the "valid earlier target" set so
- * an asset can't reference itself.
- *
- * @param {{id?:string, contentOverride?:object}} asset  asset being checked
- * @param {{assets?:Array}} scene
- * @param {string} sceneId
- * @throws {Error} when any referenced id isn't found earlier in scene.assets
- */
-function checkAssetRefs(asset, scene, sceneId) {
-  const contentOverride = asset?.contentOverride ?? {};
-  const refIds = [
-    contentOverride.refAssetId,
-    contentOverride.fromAssetId,
-    contentOverride.toAssetId,
-  ].filter((v) => typeof v === "string" && v.length > 0);
-  if (refIds.length === 0) return;
-
-  const knownIds = new Set(
-    (scene?.assets ?? []).map((a) => a.id).filter((x) => x != null && x !== asset?.id),
-  );
-  const missing = refIds.filter((ref) => !knownIds.has(ref));
-  if (missing.length > 0) {
-    throw new Error(
-      `Asset "${asset?.id ?? "?"}" (scene "${sceneId}") references ${missing.map((m) => `"${m}"`).join(", ")} ` +
-        `but that target hasn't been added to the scene yet. Author the target first with addAsset() (referenced assets must appear EARLIER in scene.assets than the asset that references them). ` +
-        `Known asset ids in this scene: ${[...knownIds].join(", ") || "(none)"}.`,
-    );
-  }
-}
-
-// Backfills `durationInFrames` from the transition registry's
-// `defaultDurationInFrames` when the agent omits it — so a
-// `{"type":"default"}`-style spec produces a `{"type":"default", ...
-// "durationInFrames":18}` on disk that matches what the renderer will
-// actually play. Without this, resolve.js's scene-padding computation
-// (resolve.js:211-213) reads `scene.transitionOut?.durationInFrames ?? 0`,
-// gets 0, and the scene runs back-to-back with no pad — but the
-// transition-overlay itself still plays for the registry default 18
-// frames, silently eating the next scene's first 18 frames for the cut.
-function normalizeTransitionOut(spec, registry) {
-  const reg = registry ?? loadTransitionRegistry();
-  const type = spec?.type;
-  const entry = reg[type];
-  if (!entry) {
-    throw new Error(`Unknown transitionType "${type}". Available: ${Object.keys(reg).join(", ")}`);
-  }
-  const out = { ...spec };
-  if (out.durationInFrames === undefined) {
-    const def = entry.manifest?.defaultDurationInFrames;
-    if (typeof def === "number" && def > 0) out.durationInFrames = def;
-  }
-  return out;
-}
+// Re-exported for backward compatibility — the old monolith exported
+// DEFAULT_CONFIG / DEFAULT_THEME at module top level; keep that surface so
+// any importer (including tests or scripts that destructure them) keeps
+// working without a second import. builders built before the split
+// imported { DEFAULT_CONFIG } from "./ProjectBuilder.js" directly.
+export { DEFAULT_CONFIG, DEFAULT_THEME };
 
 export class ProjectBuilder {
   constructor({ repoRoot = DEFAULT_REPO_ROOT } = {}) {
     this.repoRoot = repoRoot;
-    this.manifestRoot = path.join(repoRoot, "studio/manifest");
+    this._io = new ProjectIO({ repoRoot });
+    this.manifestRoot = this._io.manifestRoot;
   }
 
-  // -- path helpers ----------------------------------------------------------
+  // -- path helpers (forwarded to ProjectIO) ----------------------------------
 
   projectDir(projectId) {
-    return path.join(this.manifestRoot, projectId);
+    return this._io.projectDir(projectId);
   }
   manifestPath(projectId) {
-    return path.join(this.projectDir(projectId), "manifest.json");
+    return this._io.manifestPath(projectId);
   }
   configPath(projectId) {
-    return path.join(this.projectDir(projectId), "config.json");
+    return this._io.configPath(projectId);
   }
   stylePath(projectId) {
-    return path.join(this.projectDir(projectId), "styles/theme.json");
+    return this._io.stylePath(projectId);
   }
   scenePath(projectId, sceneId) {
-    return path.join(this.projectDir(projectId), "scenes", `${sceneId}.json`);
+    return this._io.scenePath(projectId, sceneId);
   }
 
-  // -- low-level IO ------------------------------------------------------------
+  // -- low-level IO (forwarded to ProjectIO) -----------------------------------
 
   _readJson(p) {
-    return JSON.parse(fs.readFileSync(p, "utf-8"));
+    return this._io.readJson(p);
   }
   _writeJson(p, obj) {
-    fs.mkdirSync(path.dirname(p), { recursive: true });
-    fs.writeFileSync(p, JSON.stringify(obj, null, 2) + "\n");
+    return this._io.writeJson(p, obj);
   }
   _readManifest(projectId) {
-    const p = this.manifestPath(projectId);
-    if (!fs.existsSync(p)) {
-      throw new Error(`No project "${projectId}" (expected ${p}). Call createProject() first.`);
-    }
-    return this._readJson(p);
+    return this._io.readManifest(projectId);
   }
   _readScene(projectId, sceneId) {
-    const p = this.scenePath(projectId, sceneId);
-    if (!fs.existsSync(p)) {
-      throw new Error(`No scene "${sceneId}" in project "${projectId}" (expected ${p}). Call addScene() first.`);
-    }
-    return this._readJson(p);
+    return this._io.readScene(projectId, sceneId);
   }
   _writeScene(projectId, sceneId, scene) {
-    this._writeJson(this.scenePath(projectId, sceneId), scene);
+    return this._io.writeScene(projectId, sceneId, scene);
   }
 
   // -- project lifecycle ------------------------------------------------------
@@ -872,14 +666,72 @@ export class ProjectBuilder {
         throw new Error(`injectTimelineEffects: anchor must be "enter" or "exit" (got "${anchor}")`);
       }
 
-      const { assetType, predicate = "enter" } = match;
+      const { assetType, predicate = "enter", scene: sceneMatch } = match;
+
+      // scene-boundary match path: place one effect per scene regardless of
+      // which assets a scene contains. Bypasses findAssetSegments entirely;
+      // the placement is relative to the scene's own timeline, not to any
+      // asset's enter/exit frame.
+      //
+      // offsetPercent on transitionOut.effects reads against the scene's
+      // visible end frame as a PERCENT (per effectTiming.js:
+      // frame = round(durationInFrames * (1 + offsetPercent/100)), clamped to
+      // [0, durationInFrames]):
+      //   0    -> scene's last frame (offsetPercent 0 = +0% past end = end)
+      //   -100 -> scene's first frame (-100% of duration earlier = start)
+      // So:
+      //   anchor === "exit"  -> offsetPercent 0   (scene end)
+      //   anchor === "enter" -> offsetPercent -100 (scene start)
+      const sceneBoundary = sceneMatch === "all" || predicate === "sceneEnd" || predicate === "sceneStart";
+      if (sceneBoundary) {
+        // predicate aliases: "sceneEnd" === exit, "sceneStart" === enter.
+        // When match.scene === "all" and predicate isn't given, anchor is
+        // the source of truth (defaults to "enter" per the rule-level default).
+        const resolvedAnchor =
+          predicate === "sceneEnd" ? "exit" : predicate === "sceneStart" ? "enter" : anchor;
+        if (resolvedAnchor !== "enter" && resolvedAnchor !== "exit") {
+          throw new Error(
+            `injectTimelineEffects: scene-boundary match requires anchor "enter" or "exit" (got "${resolvedAnchor}")`,
+          );
+        }
+        const offsetPercent = resolvedAnchor === "exit" ? 0 : -100;
+        const sceneIds = timeline.scenes.map((s) => s.sceneId);
+        sceneIds.forEach((sceneId, sceneIndex) => {
+          const sceneEffectId = `${effect.id}-${sceneIndex}`;
+          const effectEntry =
+            effect.kind === "sfx"
+              ? {
+                  id: sceneEffectId,
+                  kind: "sfx",
+                  offsetPercent,
+                  path: effect.path,
+                  ...(effect.volume !== undefined ? { volume: effect.volume } : {}),
+                  ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
+                }
+              : {
+                  id: sceneEffectId,
+                  kind: "visual",
+                  offsetPercent,
+                  assetType: effect.assetType,
+                  ...(effect.anchor ? { anchor: effect.anchor } : {}),
+                  ...(effect.contentOverride ? { contentOverride: effect.contentOverride } : {}),
+                  ...(effect.styleOverride ? { styleOverride: effect.styleOverride } : {}),
+                  ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
+                };
+          const list = pendingByScene.get(sceneId) ?? [];
+          list.push(effectEntry);
+          pendingByScene.set(sceneId, list);
+        });
+        continue;
+      }
+
       if (!assetType || typeof assetType !== "string") {
         throw new Error("injectTimelineEffects: rule.match.assetType (string) is required");
       }
-      // `predicate` ("enter"|"exit"|"all", default "enter") documents which
-      // edge of each segment the rule targets. Today every segment is
-      // harvested by exact assetType; `anchor` then picks the segment edge
-      // the effect's offsetPercent is computed from.
+      // predicate ("enter"|"exit"|"all", default "enter") documents which edge
+      // of each segment the rule targets. Today every segment is harvested by
+      // exact assetType; `anchor` then picks the segment edge the effect's
+      // offsetPercent is computed from.
       void predicate;
 
       const segments = findAssetSegments(

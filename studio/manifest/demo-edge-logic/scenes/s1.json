@@ -1,0 +1,53 @@
+{
+  "id": "s1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "asset1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "text": "Source Asset (Bottom Edge)"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "asset2",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom-right"
+      },
+      "contentOverride": {
+        "text": "Target Asset (Top Edge)"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "line1",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "fromAssetId": "asset1",
+        "fromEdge": "bottom",
+        "toAssetId": "asset2",
+        "toEdge": "top"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1"
+}

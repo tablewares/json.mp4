@@ -68,13 +68,26 @@ export async function resolveProject(manifestPath) {
     }),
   );
 
-  // Pass 2: Bundle transition context 
+  // Pass 2: Bundle transition context
   for (let i = 0; i < resolvedScenes.length; i += 1) {
     const outgoing = resolvedScenes[i];
     const incoming = resolvedScenes[i + 1];
-    
-    if (!incoming) continue;
-    
+
+    if (!incoming) {
+      // Last scene: no transitionOut bundle (no incoming scene to cut to),
+      // but still honor any authored effects on its own outgoing boundary
+      // so inject-effects / hand-authored effects on the final scene render
+      // instead of being silently dropped.
+      outgoing.effects = resolveTransitionEffects(
+        scenes[i].transitionOut?.effects,
+        outgoing,
+        styles,
+        assetRegistry,
+        { width: config.width, height: config.height },
+      );
+      continue;
+    }
+
     outgoing.transitionOut = buildTransitionBundle(
       scenes[i].transitionOut,
       outgoing,

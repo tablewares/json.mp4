@@ -1,0 +1,103 @@
+{
+  "id": "s1-overview",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "title-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 4
+      },
+      "contentOverride": {
+        "text": "S&P 500 Sector Returns 2024"
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "align": "center"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "bars-1",
+      "assetType": "BarChartRace",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 4
+      },
+      "contentOverride": {
+        "bars": [
+          {
+            "label": "Info Tech",
+            "value": 40,
+            "fillStyle": "#3D7BFD"
+          },
+          {
+            "label": "Comm Svcs",
+            "value": 34,
+            "fillStyle": "#C04CFD"
+          },
+          {
+            "label": "Financials",
+            "value": 25,
+            "fillStyle": "#16C784"
+          },
+          {
+            "label": "Cons Disc",
+            "value": 20,
+            "fillStyle": "#FFD166"
+          },
+          {
+            "label": "Industrials",
+            "value": 18,
+            "fillStyle": "#8B93A7"
+          },
+          {
+            "label": "Materials",
+            "value": 9,
+            "fillStyle": "#5db8a6"
+          },
+          {
+            "label": "Energy",
+            "value": 2,
+            "fillStyle": "#cc785c"
+          },
+          {
+            "label": "Healthcare",
+            "value": 1,
+            "fillStyle": "#e8a55a"
+          },
+          {
+            "label": "Utilities",
+            "value": 1,
+            "fillStyle": "#506378"
+          },
+          {
+            "label": "Real Estate",
+            "value": -1,
+            "fillStyle": "#EA3943"
+          },
+          {
+            "label": "Cons Staples",
+            "value": 1,
+            "fillStyle": "#7A8499"
+          }
+        ]
+      },
+      "styleOverride": {
+        "valueFormat": "number",
+        "sortByValue": "desc",
+        "barWidth": 140,
+        "staggerFrames": 4
+      },
+      "enterAt": 0.05,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

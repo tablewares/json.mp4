@@ -32,6 +32,8 @@ If about to `view`, `cat`, or `str_replace` anything under `studio/` to learn wh
 
 Same trap with the asset library: if about to `ls`/`tree`/`find` `studio/assets/**`, `studio/graphics/**`, `studio/transitions/**`, or `public/assets/**` to "see what's available" before sourcing new images/audio/SFX, stop — that folder-walk yields filenames, not what each type accepts or how to source more. Use the collection workflow instead: `node scripts/agent-cli.mjs collections` lists every asset-library workflow; `node scripts/agent-cli.mjs collection <Name>` gives exact command + destination + output fields for one (`image`, `youtube`, `ytdlp`, `sfx`, `manifest`, …). For images specifically, see `avoid.md`'s Yandex connection-test rule before wiring any URL.
 
+**CRITICAL: Trust the contract, not the name.** Asset types like `ImageReveal` may use `src` whereas others use `url` or `text`. ALWAYS run `node scripts/agent-cli.mjs asset <Type>` to verify the exact key name for `contentOverride` before authoring. Using `url` when `src` is required will pass `validate` (since it's a generic object) but crash the render with `TypeError: Cannot read properties of undefined`.
+
 ### What the CLI shows — and what it hides
 
 `asset <Type>` / `transition <Type>` print the live contract: required vs optional content keys, style keys with defaults, enums, and bounded-value constraints (the output carries any `minimum`/`maximum`/`minItems`/`maxItems`/`pattern` from the underlying manifest schema). Author inside those bounds the first time — the AJV validators behind `validate` reject out-of-range values and unknown keys (`additionalProperties: false` on the scene envelope, the camera spec, and most manifests), so guessing silently fails.
