@@ -270,7 +270,7 @@ export function describeSceneEnvelope() {
       enterAt: "fraction 0-1 of the scene's duration (default 0)",
       exitAt: "fraction 0-1 of the scene's duration (default 1)",
       z: "number, stacking order resolved at runtime. Lower z paints first (further from viewer), higher z last (on top). Default 0. Stable within a z value — authored order is preserved.",
-      motion: "optional: { in?, out?, rotateDeg? } — in: 'fade'|'fadeUp'|'fadeDown'|'fadeLeft'|'fadeRight' (or object with alias/distancePx/durationInFrames/rotateFromDeg); out: 'fadeOut'|'fadeOutUp'|'fadeOutDown'|'fadeOutLeft'|'fadeOutRight' (same object shape); rotateDeg: static rotation held for the whole on-screen duration",
+      motion: "optional: { in?, out?, rotateDeg?, rotate? } — in: 'fade'|'fadeUp'|'fadeDown'|'fadeLeft'|'fadeRight' (or object with alias/distancePx/durationInFrames/rotateFromDeg); out: 'fadeOut'|'fadeOutUp'|'fadeOutDown'|'fadeOutLeft'|'fadeOutRight' (same object shape); rotateDeg: static rotation held for the whole on-screen duration; rotate: animated phase { toDeg (required), fromDeg? (defaults to rotateDeg or 0), durationInFrames? (default 18), delayFrames? (default 0), startAt?: 'afterIn'|'withIn'|'atFrame' (default 'afterIn'), atFrame? (required when startAt is 'atFrame'), easing?: 'linear'|'easeIn'|'easeOut'|'easeInOut' (default 'easeInOut') } — begins after the entrance resolves by default; see scripts/curate/asset/motion.md for full composition rules",
     },
     transitionEffect: {
       id: "optional",
