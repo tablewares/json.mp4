@@ -1,55 +1,54 @@
 {
-  "projectId": "example-project",
+  "projectId": "timing-demo",
   "config": {
     "fps": 30,
     "width": 1920,
     "height": 1080,
-    "defaultSceneDurationInFrames": 90,
-    "ttsProvider": "http"
+    "defaultSceneDurationInFrames": 150
   },
   "audioOverlay": [
     {
       "id": "voiceover",
       "start": 0,
-      "end": 7.04,
-      "path": "audio/tts_1f84f06cc929c2e36700ee0727c0c2c8c89604d280c3baecac8b979c7301941f.wav",
+      "end": 3.16,
+      "path": "audio/tts_aa7ba89f4650a281c5b639f0f2e94c383f73a669ce4b0d3f851e93385082e759.wav",
       "volume": 1
     }
   ],
   "scenes": [
     {
-      "id": "scene-001",
-      "durationInFrames": 88,
+      "id": "scene-1",
+      "durationInFrames": 95,
       "effects": [],
       "camera": null,
       "ttsWindow": {
         "narrationRef": "n1",
         "startSeconds": 0,
-        "endSeconds": 2.122,
+        "endSeconds": 3.16,
         "startFrame": 0,
-        "endFrame": 64
+        "endFrame": 95
       },
       "background": "#0B0E14",
       "assets": [
         {
-          "id": "titleText",
+          "id": "asset-1",
           "assetType": "TextBlock",
           "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
           "content": {
-            "text": "Why most AI videos look like slideshows"
+            "text": "First Asset"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 115.19999999999999,
-            "top": 108,
-            "transformOrigin": "0% 0%"
+            "left": 510,
+            "top": 440,
+            "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
             "typography": {
               "fontFamily": "Inter, sans-serif",
-              "fontSize": 72,
-              "fontWeight": 700,
-              "lineHeight": 1.1,
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
               "colorToken": "main1",
               "color": "#F5F7FA"
             },
@@ -59,333 +58,58 @@
               "mass": 0.7,
               "stiffness": 110
             },
-            "align": "left",
             "width": 900,
             "height": 200
           },
           "resolvedMotion": null,
           "timing": {
-            "durationInFrames": 88,
-            "enterAtFrame": 0,
-            "exitAtFrame": 58,
+            "durationInFrames": 95,
+            "enterAtFrame": 10,
+            "exitAtFrame": 95,
             "words": null
           }
         },
         {
-          "id": "heroImage",
-          "assetType": "ImageReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "id": "asset-2",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
           "content": {
-            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg",
-            "alt": "hero"
+            "text": "Second Asset"
           },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 1126.4,
-            "top": 220,
-            "transformOrigin": "100% 50%"
+            "left": 510,
+            "top": 440,
+            "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
-            "borderRadius": 32,
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
             "easing": {
               "damping": 16,
               "mass": 0.7,
               "stiffness": 110
             },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
+            "width": 900,
+            "height": 200
           },
-          "resolvedMotion": {
-            "in": {
-              "fade": true,
-              "translateXFrom": 0,
-              "translateYFrom": 80,
-              "rotateFromDeg": 0,
-              "durationInFrames": 18
-            },
-            "out": null,
-            "staticRotateDeg": 0,
-            "rotate": {
-              "fromDeg": 0,
-              "toDeg": 8,
-              "durationInFrames": 24,
-              "delayFrames": 0,
-              "startAt": "afterIn",
-              "atFrame": null,
-              "easingName": "easeOut"
-            }
-          },
+          "resolvedMotion": null,
           "timing": {
-            "durationInFrames": 88,
-            "enterAtFrame": 3,
-            "exitAtFrame": 64,
+            "durationInFrames": 95,
+            "enterAtFrame": 20,
+            "exitAtFrame": 95,
             "words": null
           }
         }
       ],
       "transitionIn": null,
-      "transitionOut": {
-        "type": "slideContinuity",
-        "durationInFrames": 24,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
-        "props": {
-          "carryAssetId": "heroImage",
-          "carryFrom": {
-            "position": "absolute",
-            "left": 1126.4,
-            "top": 220,
-            "transformOrigin": "100% 50%",
-            "borderRadius": 32,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
-          },
-          "carryTo": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 129.6,
-            "transformOrigin": "0% 0%",
-            "borderRadius": 16,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 420,
-            "height": 420
-          },
-          "outgoingSceneStyles": {
-            "background": "#0B0E14"
-          },
-          "incomingSceneStyles": {
-            "background": {
-              "color": "#161B26",
-              "texturePath": "assets/bank_vault.jpg",
-              "blendMode": "multiply",
-              "opacity": 0.5
-            }
-          }
-        }
-      }
-    },
-    {
-      "id": "scene-002",
-      "durationInFrames": 147,
-      "effects": [],
-      "camera": null,
-      "ttsWindow": {
-        "narrationRef": "n2",
-        "startSeconds": 2.122,
-        "endSeconds": 7.04,
-        "startFrame": 64,
-        "endFrame": 211
-      },
-      "background": {
-        "color": "#161B26",
-        "texturePath": "assets/bank_vault.jpg",
-        "blendMode": "multiply",
-        "opacity": 0.5
-      },
-      "assets": [
-        {
-          "id": "heroImage",
-          "assetType": "ImageReveal",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
-          "content": {
-            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg/960px-January_2025_Official_Presidential_Portrait_of_Donald_J._Trump.jpg",
-            "alt": "hero"
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 129.6,
-            "transformOrigin": "0% 0%"
-          },
-          "resolvedStyle": {
-            "borderRadius": 16,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 420,
-            "height": 420
-          },
-          "resolvedMotion": null,
-          "timing": {
-            "durationInFrames": 147,
-            "enterAtFrame": 0,
-            "exitAtFrame": 147,
-            "words": null
-          }
-        },
-        {
-          "id": "bodyText",
-          "assetType": "KineticText",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/KineticText/KineticText.jsx",
-          "content": {
-            "text": "Because they resolve every asset independently, with no shared registry and no continuity."
-          },
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 704.8,
-            "top": 712,
-            "transformOrigin": "100% 100%"
-          },
-          "resolvedStyle": {
-            "typography": {
-              "fontFamily": "Inter, sans-serif",
-              "fontSize": 36,
-              "fontWeight": 400,
-              "lineHeight": 1.4,
-              "colorToken": "main2",
-              "color": "#8B93A7"
-            },
-            "easing": {
-              "damping": 12,
-              "mass": 0.4,
-              "stiffness": 180
-            },
-            "staggerFrames": 6,
-            "wordPopScale": 1.15,
-            "useNarrationTiming": true,
-            "highlighter": null,
-            "align": "right",
-            "width": 1100,
-            "height": 260
-          },
-          "resolvedMotion": null,
-          "timing": {
-            "durationInFrames": 147,
-            "enterAtFrame": 0,
-            "exitAtFrame": 140,
-            "words": [
-              {
-                "word": "Because",
-                "startFrame": 15,
-                "endFrame": 23
-              },
-              {
-                "word": "they",
-                "startFrame": 24,
-                "endFrame": 27
-              },
-              {
-                "word": "resolve",
-                "startFrame": 28,
-                "endFrame": 39
-              },
-              {
-                "word": "every",
-                "startFrame": 41,
-                "endFrame": 46
-              },
-              {
-                "word": "asset",
-                "startFrame": 49,
-                "endFrame": 57
-              },
-              {
-                "word": "independently,",
-                "startFrame": 59,
-                "endFrame": 77
-              },
-              {
-                "word": "with",
-                "startFrame": 82,
-                "endFrame": 86
-              },
-              {
-                "word": "no",
-                "startFrame": 88,
-                "endFrame": 91
-              },
-              {
-                "word": "shared",
-                "startFrame": 92,
-                "endFrame": 98
-              },
-              {
-                "word": "registry",
-                "startFrame": 99,
-                "endFrame": 112
-              },
-              {
-                "word": "and",
-                "startFrame": 116,
-                "endFrame": 118
-              },
-              {
-                "word": "no",
-                "startFrame": 119,
-                "endFrame": 123
-              },
-              {
-                "word": "continuity.",
-                "startFrame": 124,
-                "endFrame": 140
-              }
-            ]
-          }
-        }
-      ],
-      "transitionIn": {
-        "type": "slideContinuity",
-        "durationInFrames": 24,
-        "componentPath": "/home/tablewares/json.mp4/studio/transitions/slideContinuity/SlideContinuity.jsx",
-        "props": {
-          "carryAssetId": "heroImage",
-          "carryFrom": {
-            "position": "absolute",
-            "left": 1126.4,
-            "top": 220,
-            "transformOrigin": "100% 50%",
-            "borderRadius": 32,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 640,
-            "height": 640
-          },
-          "carryTo": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 129.6,
-            "transformOrigin": "0% 0%",
-            "borderRadius": 16,
-            "easing": {
-              "damping": 16,
-              "mass": 0.7,
-              "stiffness": 110
-            },
-            "revealDirection": "left-to-right",
-            "width": 420,
-            "height": 420
-          },
-          "outgoingSceneStyles": {
-            "background": "#0B0E14"
-          },
-          "incomingSceneStyles": {
-            "background": {
-              "color": "#161B26",
-              "texturePath": "assets/bank_vault.jpg",
-              "blendMode": "multiply",
-              "opacity": 0.5
-            }
-          }
-        }
-      },
       "transitionOut": null
     }
   ]

@@ -1,0 +1,26 @@
+{
+  "id": "s4",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "COST-PUSH"
+      },
+      "styleOverride": {
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "pivotZoom",
+    "durationInFrames": 20
+  }
+}

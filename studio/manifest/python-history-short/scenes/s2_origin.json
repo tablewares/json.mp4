@@ -1,0 +1,72 @@
+{
+  "id": "s2_origin",
+  "background": "#1a1a1a",
+  "assets": [
+    {
+      "id": "img_logo",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "public/assets/logo.png"
+      },
+      "styleOverride": {},
+      "enterAt": 0.1,
+      "exitAt": 0.6,
+      "z": 1,
+      "motion": {
+        "out": "fadeOutLeft"
+      }
+    },
+    {
+      "id": "img_code",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "public/assets/code.png"
+      },
+      "styleOverride": {},
+      "enterAt": 0.3,
+      "exitAt": 0.9,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp",
+        "rotate": {
+          "toDeg": -2
+        }
+      }
+    },
+    {
+      "id": "line_founder",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "fromAssetId": "img_logo",
+        "fromEdge": "bottom",
+        "toAssetId": "img_code",
+        "toEdge": "top"
+      },
+      "styleOverride": {},
+      "enterAt": 0.4,
+      "exitAt": 0.9,
+      "z": 0
+    }
+  ],
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "pivotZoom",
+    "durationInFrames": 30,
+    "params": {
+      "carryAssetId": "img_code"
+    }
+  }
+}

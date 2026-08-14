@@ -1,0 +1,26 @@
+{
+  "id": "s7",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "SILENT TAX"
+      },
+      "styleOverride": {
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n7",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

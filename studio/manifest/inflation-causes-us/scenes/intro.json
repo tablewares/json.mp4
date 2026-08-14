@@ -1,0 +1,119 @@
+{
+  "id": "intro",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "title-text",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -16,
+        "offsetYPercent": -20
+      },
+      "contentOverride": {
+        "text": "What is inflation?"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "left"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "kicker-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 8
+      },
+      "contentOverride": {
+        "text": "U.S. ECONOMY · 2024"
+      },
+      "styleOverride": {
+        "typography": "kicker1",
+        "align": "left"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 3,
+      "motion": {
+        "in": "fade"
+      }
+    },
+    {
+      "id": "hero-cpi",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 18,
+        "offsetYPercent": 12
+      },
+      "contentOverride": {
+        "src": "assets/inflation.jpg",
+        "alt": "CPI inflation report headline"
+      },
+      "styleOverride": {
+        "borderRadius": 24,
+        "revealDirection": "left-to-right",
+        "width": 720,
+        "height": 480
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "motion": {
+        "in": {
+          "alias": "fadeUp",
+          "distancePx": 80,
+          "durationInFrames": 18
+        },
+        "rotate": {
+          "toDeg": 4,
+          "startAt": "afterIn",
+          "durationInFrames": 30,
+          "easing": "easeOut"
+        }
+      }
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "slideContinuity",
+    "durationInFrames": 24,
+    "params": {
+      "carryAssetId": "hero-cpi"
+    },
+    "effects": [
+      {
+        "id": "whoosh-intro",
+        "kind": "sfx",
+        "path": "audio/sfx.mp3",
+        "volume": 0.5,
+        "timing": {
+          "offsetPercent": 0
+        }
+      }
+    ]
+  },
+  "camera": {
+    "start": {
+      "position": "center",
+      "offsetXPercent": 0,
+      "offsetYPercent": 0
+    },
+    "end": {
+      "position": "center",
+      "offsetXPercent": -3,
+      "offsetYPercent": -2
+    },
+    "zoomStartPercent": 108,
+    "zoomEndPercent": 124,
+    "easeZoom": true
+  }
+}

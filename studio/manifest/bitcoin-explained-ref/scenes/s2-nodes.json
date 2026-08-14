@@ -1,0 +1,58 @@
+{
+  "id": "s2-nodes",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "global-nodes",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "public/assets/global-nodes.jpg"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 10
+    },
+    {
+      "id": "btc-coin",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "top-left"
+      },
+      "contentOverride": {
+        "src": "public/assets/btc-coin.png"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 0.15,
+      "z": 1
+    }
+  ],
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "camera": {
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "followAssetId": "global-nodes"
+        },
+        "zoomPercent": 180
+      }
+    ],
+    "easeZoom": true
+  }
+}

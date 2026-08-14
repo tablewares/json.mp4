@@ -6,6 +6,10 @@
     {
       "id": "teardown",
       "path": "scenes/teardown.json"
+    },
+    {
+      "id": "ledger",
+      "path": "scenes/ledger.json"
     }
   ],
   "narration": {

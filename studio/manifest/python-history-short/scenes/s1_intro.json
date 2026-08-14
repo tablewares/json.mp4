@@ -1,0 +1,71 @@
+{
+  "id": "s1_intro",
+  "background": "#0a0a0a",
+  "assets": [
+    {
+      "id": "img_guido",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "public/assets/guido.jpg"
+      },
+      "styleOverride": {},
+      "enterAt": 0.1,
+      "exitAt": 0.9,
+      "z": 1,
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "txt_founder",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom",
+        "offsetXPercent": 0,
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "text": "The Founder"
+      },
+      "styleOverride": {},
+      "enterAt": 0.4,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "img_logo",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "top-right",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "public/assets/logo.png"
+      },
+      "styleOverride": {},
+      "enterAt": 0.7,
+      "exitAt": 1,
+      "z": 3,
+      "motion": {
+        "in": "fade"
+      }
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "slideContinuity",
+    "durationInFrames": 30,
+    "params": {
+      "carryAssetId": "img_logo"
+    }
+  }
+}

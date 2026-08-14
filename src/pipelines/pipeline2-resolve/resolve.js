@@ -8,6 +8,7 @@ import { resolveNarrationTiming } from "../../timing/ttsTiming.js";
 // Extracted modules
 import { resolveScene } from "./resolveScene.js";
 import { resolveTransitionEffects, buildTransitionBundle } from "./resolveTransitions.js";
+import { enforceCompositionPlugins } from "./plugins/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -103,6 +104,12 @@ export async function resolveProject(manifestPath) {
       { width: config.width, height: config.height },
     );
   }
+
+  // Opt-in, config-driven composition checks (e.g. similarSceneGuard).
+  // config.compositionPlugins is absent on every existing project, so
+  // this is a strict no-op — runCompositionPlugins short-circuits on an
+  // empty/missing array and enforceCompositionPlugins never throws.
+  // enforceCompositionPlugins(resolvedScenes, config.compositionPlugins);
 
   const musicTracks = (manifest.music ?? []).map((m) => ({
     id: m.id,

@@ -1,0 +1,96 @@
+{
+  "id": "demand-pull",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "hero-demand",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -14,
+        "offsetYPercent": -6
+      },
+      "contentOverride": {
+        "src": "assets/money_injection.jpg",
+        "alt": "money being injected into the economy"
+      },
+      "styleOverride": {
+        "borderRadius": 24,
+        "revealDirection": "left-to-right",
+        "width": 880,
+        "height": 560
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "motion": {
+        "in": {
+          "alias": "fadeRight",
+          "distancePx": 120,
+          "durationInFrames": 22
+        },
+        "rotate": {
+          "toDeg": -4,
+          "startAt": "afterIn",
+          "durationInFrames": 28,
+          "easing": "easeInOut"
+        }
+      }
+    },
+    {
+      "id": "callout-3",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "bottom-right",
+        "offsetXPercent": -6,
+        "offsetYPercent": -12
+      },
+      "contentOverride": {
+        "text": "When demand outpaces supply, buyers bid prices up. That is demand-pull inflation."
+      },
+      "styleOverride": {
+        "typography": "caption1",
+        "align": "right",
+        "width": 640,
+        "height": 140
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      }
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18,
+    "effects": [
+      {
+        "id": "whoosh-demand-pull",
+        "kind": "sfx",
+        "path": "audio/sfx.mp3",
+        "volume": 0.5,
+        "timing": {
+          "offsetPercent": 0
+        }
+      }
+    ]
+  },
+  "camera": {
+    "start": {
+      "position": "center",
+      "offsetXPercent": 2,
+      "offsetYPercent": 0
+    },
+    "end": {
+      "position": "center",
+      "offsetXPercent": -2,
+      "offsetYPercent": 0
+    },
+    "zoomStartPercent": 112,
+    "zoomEndPercent": 138,
+    "easeZoom": true
+  }
+}

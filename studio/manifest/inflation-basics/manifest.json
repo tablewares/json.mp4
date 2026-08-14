@@ -1,0 +1,43 @@
+{
+  "projectId": "inflation-basics",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1",
+      "path": "scenes/s1.json"
+    },
+    {
+      "id": "s2",
+      "path": "scenes/s2.json"
+    },
+    {
+      "id": "s3",
+      "path": "scenes/s3.json"
+    },
+    {
+      "id": "s4",
+      "path": "scenes/s4.json"
+    },
+    {
+      "id": "s5",
+      "path": "scenes/s5.json"
+    },
+    {
+      "id": "s6",
+      "path": "scenes/s6.json"
+    },
+    {
+      "id": "s7",
+      "path": "scenes/s7.json"
+    }
+  ],
+  "audioOverlay": [
+    {
+      "id": "bed",
+      "start": 0,
+      "end": 60,
+      "path": "audio/ambient-cinematic-bg.mp3"
+    }
+  ]
+}

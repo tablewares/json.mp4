@@ -1,0 +1,71 @@
+{
+  "id": "what-cpi",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "hero-cpi",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -18,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "assets/inflation.jpg",
+        "alt": "CPI inflation report headline"
+      },
+      "styleOverride": {
+        "borderRadius": 24,
+        "revealDirection": "left-to-right",
+        "width": 560,
+        "height": 420
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "motion": {
+        "in": "fade"
+      }
+    },
+    {
+      "id": "caption-2",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top-right",
+        "offsetXPercent": -8,
+        "offsetYPercent": 20
+      },
+      "contentOverride": {
+        "text": "The US tracks this with the Consumer Price Index, a basket of goods the average household actually buys."
+      },
+      "styleOverride": {
+        "typography": "body1",
+        "align": "left",
+        "width": 760,
+        "height": 220
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      }
+    }
+  ],
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18,
+    "effects": [
+      {
+        "id": "whoosh-what-cpi",
+        "kind": "sfx",
+        "path": "audio/sfx.mp3",
+        "volume": 0.5,
+        "timing": {
+          "offsetPercent": 0
+        }
+      }
+    ]
+  }
+}

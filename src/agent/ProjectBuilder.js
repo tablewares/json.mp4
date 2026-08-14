@@ -51,6 +51,7 @@ import {
   checkCameraSpec,
   checkMotionSpec,
   checkMotionAliases,
+  checkTimingAnchor,
 } from "./validators.js";
 import { checkAssetRefs } from "./checkAssetRefs.js";
 import { normalizeTransitionOut } from "./transitions.js";
@@ -275,6 +276,8 @@ export class ProjectBuilder {
       ...checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride),
       ...checkMotionSpec(asset.motion),
       ...checkMotionAliases(asset.motion),
+      ...checkTimingAnchor(asset.enterAt),
+      ...checkTimingAnchor(asset.exitAt),
     ];
 
     scene.assets.push(asset);
@@ -340,6 +343,8 @@ export class ProjectBuilder {
       ...checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride),
       ...checkMotionSpec(asset.motion),
       ...checkMotionAliases(asset.motion),
+      ...checkTimingAnchor(asset.enterAt),
+      ...checkTimingAnchor(asset.exitAt),
     ];
 
     this._writeScene(projectId, sceneId, scene);
@@ -495,6 +500,17 @@ export class ProjectBuilder {
     const warnings = checkCameraSpec(scene.camera);
     this._writeScene(projectId, sceneId, scene);
     return { actions: scene.camera.actions, warnings };
+  }
+
+  /** Sets (replaces wholesale) config.compositionPlugins — the include-or-not
+   * switch for pipeline2's composition plugin system (see
+   * src/pipelines/pipeline2-resolve/plugins/index.js). Pass an empty array
+   * or omit entirely to disable all composition enforcement. */
+  setCompositionPlugins(projectId, pluginsConfig = []) {
+    const config = this._readJson(this.configPath(projectId));
+    config.compositionPlugins = pluginsConfig;
+    this._writeJson(this.configPath(projectId), config);
+    return config.compositionPlugins;
   }
 
   /** Removes a scene's camera entirely (falls back to a static centered

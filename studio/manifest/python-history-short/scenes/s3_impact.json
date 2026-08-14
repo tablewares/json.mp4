@@ -1,0 +1,69 @@
+{
+  "id": "s3_impact",
+  "background": "#0a0a0a",
+  "assets": [
+    {
+      "id": "img_code",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "public/assets/code.png"
+      },
+      "styleOverride": {},
+      "enterAt": 0.1,
+      "exitAt": 0.6,
+      "z": 1,
+      "motion": {
+        "out": "fadeOutLeft"
+      }
+    },
+    {
+      "id": "img_ai",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "public/assets/ai.png"
+      },
+      "styleOverride": {},
+      "enterAt": 0.4,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "txt_data",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetXPercent": 0,
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "Data Science & AI"
+      },
+      "styleOverride": {},
+      "enterAt": 0.5,
+      "exitAt": 1,
+      "z": 3,
+      "motion": {
+        "in": "fadeDown"
+      }
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 30,
+    "params": {}
+  }
+}

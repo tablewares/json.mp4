@@ -1,0 +1,40 @@
+{
+  "id": "scene-1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "asset-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "text": "First Asset"
+      },
+      "styleOverride": {},
+      "enterAt": 0.1,
+      "exitAt": 1
+    },
+    {
+      "id": "asset-2",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "text": "Second Asset"
+      },
+      "styleOverride": {},
+      "enterAt": {
+        "relativeToAsset": "asset-1",
+        "offsetFrames": 10
+      },
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n1"
+}

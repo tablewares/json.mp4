@@ -1,0 +1,36 @@
+{
+  "id": "s5-outro",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "btc-coin-final",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "public/assets/btc-coin.png"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 10
+    }
+  ],
+  "narrationRef": "n5",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "camera": {
+    "start": {
+      "position": "center"
+    },
+    "end": {
+      "position": "center"
+    },
+    "zoomStartPercent": 150,
+    "zoomEndPercent": 100,
+    "easeZoom": true
+  }
+}

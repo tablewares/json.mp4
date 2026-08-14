@@ -1,0 +1,70 @@
+{
+  "projectId": "inflation-causes-us",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "intro",
+      "path": "scenes/intro.json"
+    },
+    {
+      "id": "what-cpi",
+      "path": "scenes/what-cpi.json"
+    },
+    {
+      "id": "demand-pull",
+      "path": "scenes/demand-pull.json"
+    },
+    {
+      "id": "cost-push",
+      "path": "scenes/cost-push.json"
+    },
+    {
+      "id": "wage-spiral",
+      "path": "scenes/wage-spiral.json"
+    },
+    {
+      "id": "fed",
+      "path": "scenes/fed.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Inflation is when your money buys less, because prices across the economy are rising."
+      },
+      {
+        "id": "n2",
+        "text": "The US tracks this with the Consumer Price Index, a basket of goods the average household actually buys."
+      },
+      {
+        "id": "n3",
+        "text": "When demand outpaces supply, buyers bid prices up. That is demand-pull inflation."
+      },
+      {
+        "id": "n4",
+        "text": "When a key input gets scarce, oil, labor, chips, producers pass the cost along. That is cost-push."
+      },
+      {
+        "id": "n5",
+        "text": "And once everyone expects prices to rise, workers demand higher wages, which raises prices again. That is the built-in spiral."
+      },
+      {
+        "id": "n6",
+        "text": "The Federal Reserve fights all three by raising interest rates, cooling demand, and breaking the cycle."
+      }
+    ],
+    "fullTranscript": "Inflation is when your money buys less, because prices across the economy are rising. The US tracks this with the Consumer Price Index, a basket of goods the average household actually buys. When demand outpaces supply, buyers bid prices up. That is demand-pull inflation. When a key input gets scarce, oil, labor, chips, producers pass the cost along. That is cost-push. And once everyone expects prices to rise, workers demand higher wages, which raises prices again. That is the built-in spiral. The Federal Reserve fights all three by raising interest rates, cooling demand, and breaking the cycle."
+  },
+  "music": [
+    {
+      "id": "bgm-1",
+      "volume": 0.18,
+      "loop": true,
+      "fadeInSeconds": 2,
+      "fadeOutSeconds": 2.5,
+      "path": "/audio/ambient-cinematic-bg.mp3"
+    }
+  ]
+}

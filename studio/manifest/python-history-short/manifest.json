@@ -1,0 +1,52 @@
+{
+  "projectId": "python-history-short",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1_intro",
+      "path": "scenes/s1_intro.json"
+    },
+    {
+      "id": "s2_origin",
+      "path": "scenes/s2_origin.json"
+    },
+    {
+      "id": "s3_impact",
+      "path": "scenes/s3_impact.json"
+    },
+    {
+      "id": "s4_outro",
+      "path": "scenes/s4_outro.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Meet Guido van Rossum."
+      },
+      {
+        "id": "n2",
+        "text": "In 1989, he created Python to be simple, readable, and powerful."
+      },
+      {
+        "id": "n3",
+        "text": "Today, it is the backbone of data science and AI."
+      },
+      {
+        "id": "n4",
+        "text": "From automation to Neural Networks, Python runs the modern world."
+      }
+    ],
+    "fullTranscript": "Meet Guido van Rossum. In 1989, he created Python to be simple, readable, and powerful. Today, it is the backbone of data science and AI. From automation to Neural Networks, Python runs the modern world."
+  },
+  "music": [
+    {
+      "id": "bgm_fast",
+      "volume": 0.2,
+      "loop": true,
+      "path": "audio/bgm_fast.mp3"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "cost-push",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "hero-scarce",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 14,
+        "offsetYPercent": 8
+      },
+      "contentOverride": {
+        "src": "assets/central_bank.jpg",
+        "alt": "scarce resource - banking institution"
+      },
+      "styleOverride": {
+        "borderRadius": 24,
+        "revealDirection": "left-to-right",
+        "width": 860,
+        "height": 580
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "motion": {
+        "in": {
+          "alias": "fadeLeft",
+          "distancePx": 120,
+          "durationInFrames": 22
+        },
+        "rotate": {
+          "toDeg": 5,
+          "startAt": "afterIn",
+          "durationInFrames": 32,
+          "easing": "easeOut"
+        }
+      }
+    },
+    {
+      "id": "callout-4",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 6,
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "When a key input gets scarce, oil, labor, chips, producers pass the cost along. That is cost-push."
+      },
+      "styleOverride": {
+        "typography": "caption1",
+        "align": "left",
+        "width": 700,
+        "height": 160
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      }
+    }
+  ],
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18,
+    "effects": [
+      {
+        "id": "whoosh-cost-push",
+        "kind": "sfx",
+        "path": "audio/sfx.mp3",
+        "volume": 0.5,
+        "timing": {
+          "offsetPercent": 0
+        }
+      }
+    ]
+  },
+  "camera": {
+    "start": {
+      "position": "center",
+      "offsetXPercent": -2,
+      "offsetYPercent": 0
+    },
+    "end": {
+      "position": "center",
+      "offsetXPercent": 3,
+      "offsetYPercent": 2
+    },
+    "zoomStartPercent": 118,
+    "zoomEndPercent": 135,
+    "easeZoom": true
+  }
+}

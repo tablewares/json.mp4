@@ -1,0 +1,79 @@
+{
+  "id": "fed",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "hero-fed",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 16,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "assets/family-paying-bills.jpg",
+        "alt": "family paying bills - household impact of interest rates"
+      },
+      "styleOverride": {
+        "borderRadius": 24,
+        "revealDirection": "left-to-right",
+        "width": 560,
+        "height": 760
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "motion": {
+        "in": {
+          "alias": "fadeRight",
+          "distancePx": 100,
+          "durationInFrames": 20
+        },
+        "rotate": {
+          "toDeg": -3,
+          "startAt": "afterIn",
+          "durationInFrames": 28,
+          "easing": "easeOut"
+        }
+      }
+    },
+    {
+      "id": "closing",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -16,
+        "offsetYPercent": -16
+      },
+      "contentOverride": {
+        "text": "Break the cycle."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "left"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      }
+    }
+  ],
+  "narrationRef": "n6",
+  "camera": {
+    "start": {
+      "position": "center",
+      "offsetXPercent": 0,
+      "offsetYPercent": 0
+    },
+    "end": {
+      "position": "center",
+      "offsetXPercent": 2,
+      "offsetYPercent": 0
+    },
+    "zoomStartPercent": 122,
+    "zoomEndPercent": 108,
+    "easeZoom": true
+  }
+}

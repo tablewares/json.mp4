@@ -1,0 +1,30 @@
+{
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "defaultSceneDurationInFrames": 150,
+  "ttsProvider": "http",
+  "postEffects": {
+    "vignette": {
+      "strength": 0.35
+    },
+    "grain": {
+      "strength": 12
+    },
+    "colorGrade": {
+      "contrast": 1.08,
+      "brightness": 0,
+      "saturation": 1.05,
+      "gamma": 1
+    }
+  },
+    "compositionPlugins": [
+    {
+      "name": "similarSceneGuard",
+      "options": {
+        "maxConsecutiveSimilar": 2,
+        "severity": "error"
+      }
+    }
+  ]
+}

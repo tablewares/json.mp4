@@ -1,0 +1,79 @@
+{
+  "id": "s3-chain",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "block-1",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "left"
+      },
+      "contentOverride": {
+        "src": "public/assets/block-element.jpg"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 10
+    },
+    {
+      "id": "block-2",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "right"
+      },
+      "contentOverride": {
+        "src": "public/assets/block-element.jpg"
+      },
+      "styleOverride": {},
+      "enterAt": 0.3,
+      "exitAt": 1,
+      "z": 10
+    },
+    {
+      "id": "line-1",
+      "assetType": "DrawLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "from": {
+          "position": "left"
+        },
+        "to": {
+          "position": "right"
+        }
+      },
+      "styleOverride": {
+        "strokeColorToken": "accentWarm"
+      },
+      "enterAt": 0.3,
+      "exitAt": 0.7,
+      "z": 5
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "camera": {
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "followAssetId": "block-2"
+        },
+        "zoomPercent": 140
+      }
+    ],
+    "easeZoom": true
+  }
+}

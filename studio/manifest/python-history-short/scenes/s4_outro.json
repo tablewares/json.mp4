@@ -1,0 +1,50 @@
+{
+  "id": "s4_outro",
+  "background": "#1a1a1a",
+  "assets": [
+    {
+      "id": "img_ai",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": 0,
+        "offsetYPercent": 0
+      },
+      "contentOverride": {
+        "src": "public/assets/ai.png"
+      },
+      "styleOverride": {},
+      "enterAt": 0.2,
+      "exitAt": 0.8,
+      "z": 1,
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "txt_modern",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom",
+        "offsetXPercent": 0,
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "text": "Python Runs the World"
+      },
+      "styleOverride": {},
+      "enterAt": 0.5,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      }
+    }
+  ],
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 0,
+    "params": {}
+  }
+}

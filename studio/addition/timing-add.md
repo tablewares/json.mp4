@@ -1,3 +1,8 @@
+Here's the implementation. It moves camera resolution earlier (safe — `resolveCamera` never actually reads its `ctx` param) so `enterAt`/`exitAt` anchors can reference camera actions, and switches the asset loop from `.map` to an incremental build so `enterAt`/`exitAt` anchors can reference an *earlier* asset in the same scene — same ordering rule `checkAssetRefs` already enforces elsewhere.
+
+## `src/pipelines/pipeline2-resolve/resolveScene.js`
+
+```js
 import { getAsset } from "../../registry/assetRegistry.js";
 import { resolveColorToken, resolveAssetStyle, resolveBackground } from "../../registry/styleRegistry.js";
 import { resolveAnchor } from "../../templating/anchor.js";
@@ -18,7 +23,7 @@ function resolveKineticWordTimings(assetSpec, assetManifest, sceneWords, narrati
   const assetText = (assetSpec.contentOverride?.text ?? "").trim();
   if (assetText !== narrationText.trim()) return null;
 
-  const assetWordCount = assetText.split(/\\s+/).filter(Boolean).length;
+  const assetWordCount = assetText.split(/\s+/).filter(Boolean).length;
   if (assetWordCount !== sceneWords.length) return null;
 
   return sceneWords.map((w) => ({ word: w.word, startFrame: w.startFrame, endFrame: w.endFrame }));
@@ -38,7 +43,7 @@ function resolveKineticWordTimings(assetSpec, assetManifest, sceneWords, narrati
  * an asset's entrance/exit be anchored to another asset's edge or a camera
  * action instead of a hand-guessed fraction. Resolved via the same
  * `resolveTimingAnchor` transition effects use, so the semantics (and the
- * \"target must be resolved earlier in scene.assets\" ordering rule) are
+ * "target must be resolved earlier in scene.assets" ordering rule) are
  * identical across both call sites.
  *
  * `exitAtFrame`'s legacy branch keeps its original `Math.min` clamp;
@@ -170,3 +175,103 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
     transitionOut: null,
   };
 }
+```
+
+Note the final `indexAssetsById(resolvedAssets)` call is gone — `resolvedAssetsById` is now built incrementally during the loop and already covers every asset by the time `resolveSceneRefs` runs after it, so the separate full-array indexing pass was redundant. `indexAssetsById` is still imported/used elsewhere (`resolveRefs.js` itself, `resolveTransitions.js`), so no export changes needed.
+
+## `src/pipelines/pipeline1-validate/schema/scene.schema.json`
+
+`enterAt`/`exitAt` now accept the legacy fraction **or** the shared timing-anchor object:
+
+```json
+          "enterAt": {
+            "oneOf": [
+              { "type": "number", "minimum": 0, "maximum": 1 },
+              { "$ref": "shared.schema.json#/definitions/timingAnchor" }
+            ],
+            "description": "Legacy: fraction (0-1) of the scene's TTS/duration window, default 0. Or a timing anchor: { relativeToAsset, edge?, offsetFrames? } to fire relative to an earlier asset's enter/exit edge, { relativeToCameraAction, offsetFrames? } to fire relative to a camera action, or { offsetPercent } for a scene-end-relative percent. The referenced asset must be authored EARLIER in scene.assets."
+          },
+          "exitAt": {
+            "oneOf": [
+              { "type": "number", "minimum": 0, "maximum": 1 },
+              { "$ref": "shared.schema.json#/definitions/timingAnchor" }
+            ],
+            "description": "Same shape as enterAt; legacy default 1 (scene's TTS/duration window end)."
+          },
+```
+
+## `src/agent/validators.js`
+
+A `checkTimingAnchor` matching the existing `checkCameraSpec`/`checkMotionSpec` pattern, so `addAsset`/`updateAsset` can surface a bad anchor object as a non-fatal warning instead of only failing at `resolve`:
+
+```js
+/**
+ * Caches a compiled `shared.schema.json#/definitions/timingAnchor` validator
+ * for the NEW enterAt/exitAt object form. A bare number (the legacy
+ * fraction form) is always valid and short-circuits without touching Ajv.
+ * Returns [] when clean, or human-readable error strings when not — same
+ * contract as checkCameraSpec/checkMotionSpec.
+ */
+let _cachedTimingAnchorValidator = null;
+export function checkTimingAnchor(value) {
+  if (value == null || typeof value !== "object") return []; // legacy number form, or omitted
+  if (_cachedTimingAnchorValidator === null) {
+    const ajv = loadSchemaAjv();
+    // shared.schema.json isn't registered under its own $id by
+    // loadSchemaAjv's sibling loop when only scene.schema.json is the
+    // entry point being resolved — it IS one of the three siblings
+    // scene.schema.json $refs, so it's already added; getSchema just
+    // needs the fragment path.
+    _cachedTimingAnchorValidator = ajv.getSchema("shared.schema.json#/definitions/timingAnchor");
+  }
+  if (_cachedTimingAnchorValidator(value)) return [];
+  return (_cachedTimingAnchorValidator.errors || []).map((e) => `${e.instancePath || "(root)"} ${e.message}`);
+}
+```
+
+Wired into `ProjectBuilder.addAsset`/`updateAsset` warnings (in `src/agent/ProjectBuilder.js`), alongside the existing motion checks:
+
+```js
+    const warnings = [
+      ...checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride),
+      ...checkMotionSpec(asset.motion),
+      ...checkMotionAliases(asset.motion),
+      ...checkTimingAnchor(asset.enterAt),
+      ...checkTimingAnchor(asset.exitAt),
+    ];
+```
+
+(applies identically in both `addAsset` and `updateAsset`; add `checkTimingAnchor` to the existing import line from `./validators.js`).
+
+## `src/agent/introspect.js`
+
+`describeSceneEnvelope`'s `asset.enterAt`/`exitAt` doc strings, so an agent discovers this via `agent-cli.mjs` instead of reading source:
+
+```js
+      enterAt: "fraction 0-1 of the scene's duration (default 0), OR a timing anchor object: { relativeToAsset, edge?: 'enter'|'exit', offsetFrames? } to fire relative to an EARLIER asset's edge, { relativeToCameraAction, offsetFrames? } to fire relative to a camera action, or { offsetPercent } for scene-end-relative percent — same shape as transitionEffect timing anchors",
+      exitAt: "same shape as enterAt; legacy default 1 (scene end)",
+```
+
+## Example: no more guessed fractions
+
+A highlighter that should enter exactly when the caption it trails finishes its own entrance, not at some hand-picked `0.34`:
+
+```json
+{
+  "id": "caption-1",
+  "assetType": "KineticText",
+  "anchor": { "position": "center" },
+  "enterAt": 0.1
+}
+```
+```json
+{
+  "id": "highlighter-1",
+  "assetType": "TextHighlight",
+  "anchor": { "position": "center" },
+  "contentOverride": { "refAssetId": "caption-1" },
+  "enterAt": { "relativeToAsset": "caption-1", "edge": "enter", "offsetFrames": 6 }
+}
+```
+
+`highlighter-1` must still be authored after `caption-1` in `scene.assets` — same rule as connectors — and `resolveAssetEdgeFrame` will throw the same descriptive "known asset ids" error `resolveAssetRelative` already gives if it isn't.

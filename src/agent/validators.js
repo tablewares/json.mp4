@@ -117,3 +117,26 @@ export function checkMotionAliases(motionSpec) {
     return [e.message];
   }
 }
+
+/**
+ * Caches a compiled `shared.schema.json#/definitions/timingAnchor` validator
+ * for the NEW enterAt/exitAt object form. A bare number (the legacy
+ * fraction form) is always valid and short-circuits without touching Ajv.
+ * Returns [] when clean, or human-readable error strings when not — same
+ * contract as checkCameraSpec/checkMotionSpec.
+ */
+let _cachedTimingAnchorValidator = null;
+export function checkTimingAnchor(value) {
+  if (value == null || typeof value !== "object") return []; // legacy number form, or omitted
+  if (_cachedTimingAnchorValidator === null) {
+    const ajv = loadSchemaAjv();
+    // shared.schema.json isn't registered under its own $id by
+    // loadSchemaAjv's sibling loop when only scene.schema.json is the
+    // entry point being resolved — it IS one of the three siblings
+    // scene.schema.json $refs, so it's already added; getSchema just
+    // needs the fragment path.
+    _cachedTimingAnchorValidator = ajv.getSchema("shared.schema.json#/definitions/timingAnchor");
+  }
+  if (_cachedTimingAnchorValidator(value)) return [];
+  return (_cachedTimingAnchorValidator.errors || []).map((e) => `${e.instancePath || "(root)"} ${e.message}`);
+}

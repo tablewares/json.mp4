@@ -1,0 +1,118 @@
+{
+  "id": "wage-spiral",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "backdrop-wages",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -12,
+        "offsetYPercent": -6
+      },
+      "contentOverride": {
+        "src": "assets/wall-street-skyline.webp",
+        "alt": "wall street skyline"
+      },
+      "styleOverride": {
+        "borderRadius": 24,
+        "revealDirection": "top-to-bottom",
+        "width": 1080,
+        "height": 720
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 0,
+      "motion": {
+        "in": "fade"
+      }
+    },
+    {
+      "id": "chart-spiral",
+      "assetType": "BarChartRace",
+      "anchor": {
+        "position": "bottom-right",
+        "offsetXPercent": -6,
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "bars": [
+          {
+            "label": "Wages",
+            "value": 32,
+            "fillStyle": "#3D7BFD"
+          },
+          {
+            "label": "Prices",
+            "value": 48,
+            "fillStyle": "#EA3943"
+          }
+        ]
+      },
+      "styleOverride": {
+        "valueFormat": "number",
+        "barWidth": 72,
+        "width": 560,
+        "height": 380,
+        "easing": "gentleSpring"
+      },
+      "enterAt": 0.15,
+      "exitAt": 0.95,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "callout-5",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 6,
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "And once everyone expects prices to rise, workers demand higher wages, which raises prices again. That is the built-in spiral."
+      },
+      "styleOverride": {
+        "typography": "kicker1",
+        "align": "left",
+        "width": 720,
+        "height": 160
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 3,
+      "motion": {
+        "in": "fadeUp"
+      }
+    }
+  ],
+  "narrationRef": "n5",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18,
+    "effects": [
+      {
+        "id": "tick-5",
+        "kind": "sfx",
+        "path": "audio/sfx.mp3",
+        "volume": 0.4,
+        "timing": {
+          "relativeToAsset": "chart-spiral",
+          "edge": "enter",
+          "offsetFrames": 6
+        }
+      },
+      {
+        "id": "whoosh-wage-spiral",
+        "kind": "sfx",
+        "path": "audio/sfx.mp3",
+        "volume": 0.5,
+        "timing": {
+          "offsetPercent": 0
+        }
+      }
+    ]
+  }
+}

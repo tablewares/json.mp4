@@ -34,8 +34,20 @@
           },
           "contentOverride": { "type": "object" },
           "styleOverride": { "type": "object" },
-          "enterAt": { "type": "number", "minimum": 0, "maximum": 1 },
-          "exitAt": { "type": "number", "minimum": 0, "maximum": 1 },
+          "enterAt": {
+            "oneOf": [
+              { "type": "number", "minimum": 0, "maximum": 1 },
+              { "$ref": "shared.schema.json#/definitions/timingAnchor" }
+            ],
+            "description": "Legacy: fraction (0-1) of the scene's TTS/duration window, default 0. Or a timing anchor: { relativeToAsset, edge?, offsetFrames? } to fire relative to an earlier asset's enter/exit edge, { relativeToCameraAction, offsetFrames? } to fire relative to a camera action, or { offsetPercent } for a scene-end-relative percent. The referenced asset must be authored EARLIER in scene.assets."
+          },
+          "exitAt": {
+            "oneOf": [
+              { "type": "number", "minimum": 0, "maximum": 1 },
+              { "$ref": "shared.schema.json#/definitions/timingAnchor" }
+            ],
+            "description": "Same shape as enterAt; legacy default 1 (scene's TTS/duration window end)."
+          },
           "z": { "type": "number" },
           "motion": { "$ref": "#/definitions/motionSpec" }
         }

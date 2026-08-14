@@ -1,0 +1,26 @@
+{
+  "id": "s3",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "DEMAND-PULL"
+      },
+      "styleOverride": {
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "WhipPan",
+    "durationInFrames": 14
+  }
+}

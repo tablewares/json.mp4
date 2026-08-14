@@ -1,0 +1,44 @@
+{
+  "id": "s4-mining",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "mining-rig",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "public/assets/mining-rig.webp"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 10
+    }
+  ],
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "camera": {
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "followAssetId": "mining-rig"
+        },
+        "zoomPercent": 200
+      }
+    ],
+    "easeZoom": true
+  }
+}

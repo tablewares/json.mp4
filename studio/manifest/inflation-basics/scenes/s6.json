@@ -1,0 +1,26 @@
+{
+  "id": "s6",
+  "background": "shade2",
+  "assets": [
+    {
+      "id": "KineticText-1",
+      "assetType": "KineticText",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "INTEREST RATES"
+      },
+      "styleOverride": {
+        "width": 900
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "narrationRef": "n6",
+  "transitionOut": {
+    "type": "pivotZoom",
+    "durationInFrames": 20
+  }
+}

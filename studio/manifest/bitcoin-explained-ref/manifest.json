@@ -1,0 +1,52 @@
+{
+  "projectId": "bitcoin-explained-ref",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1-intro",
+      "path": "scenes/s1-intro.json"
+    },
+    {
+      "id": "s2-nodes",
+      "path": "scenes/s2-nodes.json"
+    },
+    {
+      "id": "s3-chain",
+      "path": "scenes/s3-chain.json"
+    },
+    {
+      "id": "s4-mining",
+      "path": "scenes/s4-mining.json"
+    },
+    {
+      "id": "s5-outro",
+      "path": "scenes/s5-outro.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Bitcoin is more than just a currency; it is a revolution in how we think about money."
+      },
+      {
+        "id": "n2",
+        "text": "Unlike traditional banks, Bitcoin is decentralized. It runs on a global network of computers called nodes."
+      },
+      {
+        "id": "n3",
+        "text": "Every transaction is recorded on a public ledger known as the blockchain—a chain of blocks that cannot be altered."
+      },
+      {
+        "id": "n4",
+        "text": "New bitcoins are created through mining, where powerful computers solve complex puzzles to secure the network."
+      },
+      {
+        "id": "n5",
+        "text": "A transparent, secure, and borderless system. That is the essence of Bitcoin."
+      }
+    ],
+    "fullTranscript": "Bitcoin is more than just a currency; it is a revolution in how we think about money. Unlike traditional banks, Bitcoin is decentralized. It runs on a global network of computers called nodes. Every transaction is recorded on a public ledger known as the blockchain—a chain of blocks that cannot be altered. New bitcoins are created through mining, where powerful computers solve complex puzzles to secure the network. A transparent, secure, and borderless system. That is the essence of Bitcoin."
+  }
+}
