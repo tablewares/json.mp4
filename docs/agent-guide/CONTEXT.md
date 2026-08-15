@@ -38,7 +38,10 @@ When a reference file describes a contract, it links the source that enforces
 it. Keep this mapping in mind:
 
 - Manifest / config / scene / styles contracts → `src/pipelines/pipeline1-validate/`
+- Schema file contracts flattened for agent consumption → `src/agent/schemaIndex.js` (reads the schema/ dir, resolves `$ref`s, exports a detached API: `listSchemas`, `describeSchema`, `findDefinition`, `describeSchemaPath`, `describeAllSchemas`; also wired as CLI commands `schemas` / `schema` / `definition` in `agent-cli.mjs`)
 - Token + anchor resolution → `src/registry/styleRegistry.js`, `src/templating/anchor.js`
+- Per-asset visual effects (filter / grain / scanlines) → `src/effects/assetEffects.js`
+- Timing-anchor resolution (asset/camera-relative enterAt/exitAt) → `src/timing/effectTiming.js`
 - Asset + transition discovery → `src/registry/assetRegistry.js`
 - Overlap warnings → `src/pipelines/pipeline2-resolve/overlap_warn.js`
 - TTS timing seam → `src/timing/ttsTiming.js`

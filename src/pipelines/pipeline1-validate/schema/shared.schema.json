@@ -29,11 +29,23 @@
     },
     "timingAnchor": {
       "type": "object",
-      "description": "A timing anchor for an effect/camera event. Exactly one of: offsetPercent, relativeToAsset, relativeToCameraAction.",
+      "description": "A timing anchor for an effect/camera event. Exactly one of: offsetPercent, relativeToAsset, relativeToCameraAction, relativeToWord (relativeToWord may also be combined with relativeToAsset to read that asset's own word timing instead of the scene's narration).",
       "additionalProperties": false,
       "properties": {
         "offsetPercent": { "type": "number" },
         "relativeToAsset": { "type": "string" },
+        "relativeToWord": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "string" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "string" }] }
+            }
+          ],
+          "description": "A word index, exact word text, or array of words/indices (a phrase/set) to anchor to. Without relativeToAsset, resolves against the SCENE's own narration word timing (requires scene.narrationRef with word-level alignment) — use this to place something at a spoken word/phrase with no asset needing to display that text. With relativeToAsset, resolves against that asset's own resolved timing.words instead. For an array, edge 'enter' (default) anchors to the FIRST word's start frame and edge 'exit' anchors to the LAST word's end frame."
+        },
         "relativeToCameraAction": { "oneOf": [{ "type": "number" }, { "type": "string" }] },
         "edge": { "type": "string", "enum": ["enter", "exit"], "default": "enter" },
         "offsetFrames": { "type": "number", "default": 0 }

@@ -10,9 +10,13 @@ that matches the file you're editing.
 - `scene.md`     — one file per scene: assets, anchor, transition, narrationRef.
 - `styles.md`    — the style registry: color/typography/spacing/easing tokens.
 - `asset-spec.md`— the shape of one entry inside a scene's `assets[]`
-                    (anchor, contentOverride, styleOverride, enterAt/exitAt).
+                    (anchor, contentOverride, styleOverride, effects,
+                    enterAt/exitAt as fractions or timing anchors).
                     Distinct from `../assets/` which covers authoring a new
                     asset *component*, not using one.
+- `asset-effects.md`— the `effects[]` array on a scene asset: per-asset
+                     CSS filters (grayscale/contrast/brightness/sepia/blur)
+                     and grain/scanline overlays scoped to one asset's box.
 - `narration.md` — optional. Drives per-scene timing via TTS.
 - `audio-overlay.md` — optional. Places audio files on the timeline.
 

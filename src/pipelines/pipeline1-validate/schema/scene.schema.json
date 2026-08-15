@@ -49,12 +49,33 @@
             "description": "Same shape as enterAt; legacy default 1 (scene's TTS/duration window end)."
           },
           "z": { "type": "number" },
-          "motion": { "$ref": "#/definitions/motionSpec" }
+          "motion": { "$ref": "#/definitions/motionSpec" },
+          "effects": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/assetEffect" }
+          }
         }
       }
     }
   },
   "definitions": {
+    "assetEffect": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "enum": ["grain", "scanlines", "filter"] },
+        "intensity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "monochrome": { "type": "boolean" },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "lineHeight": { "type": "number", "minimum": 1 },
+        "grayscale": { "type": "number", "minimum": 0, "maximum": 1 },
+        "contrast": { "type": "number", "minimum": 0 },
+        "brightness": { "type": "number", "minimum": 0 },
+        "sepia": { "type": "number", "minimum": 0, "maximum": 1 },
+        "blur": { "type": "number", "minimum": 0 }
+      }
+    },
     "motionSpec": {
       "type": "object",
       "additionalProperties": false,

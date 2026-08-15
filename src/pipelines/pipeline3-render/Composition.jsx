@@ -5,6 +5,7 @@ import { AudioOverlay } from "../../audio/overlay.jsx";
 import registryManifest from "../../../studio/generated/registry.generated.json";
 import { resolveAssetDepth, resolveCameraTransform } from "../../templating/camera.js";
 import { computeMotionTransform } from "../../motion/motion.js";
+import { computeAssetEffectStyle } from "../../effects/assetEffects.js";
 
 // ==========================================
 // 1. COMPONENT MODULE LOADING
@@ -132,6 +133,39 @@ function SceneEffectLayer({ effect }) {
 // 2. SCENE LAYER & COMPOSITION
 // ==========================================
 
+function AssetEffectOverlay({ overlay, uid }) {
+  if (overlay.type === "grain") {
+    const filterId = `${uid}-grain`;
+    return (
+      <svg
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: overlay.intensity, mixBlendMode: "overlay", pointerEvents: "none" }}
+      >
+        <filter id={filterId}>
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+          {overlay.monochrome && <feColorMatrix type="saturate" values="0" />}
+        </filter>
+        <rect width="100%" height="100%" filter={`url(#${filterId})`} />
+      </svg>
+    );
+  }
+  if (overlay.type === "scanlines") {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          opacity: overlay.opacity,
+          pointerEvents: "none",
+          backgroundImage: `repeating-linear-gradient(to bottom, rgba(0,0,0,0.9) 0px, rgba(0,0,0,0.9) 1px, transparent 1px, transparent ${overlay.lineHeight}px)`,
+        }}
+      />
+    );
+  }
+  return null;
+}
+
 function SceneLayer({ scene, compositionSize }) {
   const frame = useCurrentFrame();
   const { durationInFrames: compositionDurationInFrames } = useVideoConfig();
@@ -141,7 +175,7 @@ function SceneLayer({ scene, compositionSize }) {
   const resolvedAssetsById = Object.fromEntries(
     (scene.assets ?? []).map((a) => [a.id, a]).filter(([id]) => id != null),
   );
-
+  
   // Z-ordering unchanged: lower z paints first, stable sort preserves
   // authored order among assets sharing a z.
   const layeredAssets = [...scene.assets].sort((a, b) => (a.z ?? 0) - (b.z ?? 0));
@@ -208,6 +242,7 @@ function SceneLayer({ scene, compositionSize }) {
                 throw new Error(`No renderer registered for assetType "${asset.assetType}"`);
               }
               const motionTransform = computeMotionTransform(asset.resolvedMotion, frame, asset.timing);
+              const assetEffectStyle = computeAssetEffectStyle(asset.resolvedEffects);
               const { left, top, ...restPosition } = asset.resolvedPosition;
               return (
                 <div
@@ -221,6 +256,8 @@ function SceneLayer({ scene, compositionSize }) {
                     opacity: motionTransform.opacity,
                     transform: `translate(${motionTransform.translateX}px, ${motionTransform.translateY}px) rotate(${motionTransform.rotateDeg}deg)`,
                     transformOrigin: restPosition.transformOrigin ?? "50% 50%",
+                    filter: assetEffectStyle.filter,
+                    overflow: assetEffectStyle.overlays.length > 0 ? "hidden" : undefined,
                   }}
                 >
                   <Suspense fallback={null}>
@@ -231,6 +268,9 @@ function SceneLayer({ scene, compositionSize }) {
                       timing={asset.timing}
                     />
                   </Suspense>
+                  {assetEffectStyle.overlays.map((overlay, idx) => (
+                    <AssetEffectOverlay key={`${asset.id}-fx-${idx}`} overlay={overlay} uid={`${asset.id}-fx-${idx}`} />
+                  ))}
                 </div>
               );
             })}

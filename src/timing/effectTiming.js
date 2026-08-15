@@ -34,6 +34,46 @@ function resolveAssetRelative(anchor, ctx) {
         }. A referencing asset/effect must be resolved AFTER its target (target must appear earlier in scene.assets).`,
     );
   }
+
+  // relativeToWord: anchor to a specific spoken word's real TTS timestamp
+  // on the target, rather than the target's overall enter/exit frame.
+  // Only meaningful when the target resolved word-level timing — today
+  // that's KineticText assets whose contentOverride.text exactly matches
+  // its scene's narration text (see resolveKineticWordTimings in
+  // resolveScene.js). `edge` here picks the word's own start vs end frame
+  // (default "enter" -> startFrame), NOT the asset's enter/exit — reusing
+  // the same enter/exit vocabulary keeps one mental model across both
+  // anchor shapes.
+  if (anchor.relativeToWord != null) {
+    const words = target.timing?.words;
+    if (!Array.isArray(words) || words.length === 0) {
+      throw new Error(
+        `Timing anchor references relativeToWord on asset "${id}" but that asset has no resolved ` +
+          `word timing in scene "${ctx.sceneId ?? "?"}". Word timing only resolves when the asset is a ` +
+          `KineticText whose contentOverride.text exactly matches its scene's narration text ` +
+          `(word-for-word, including word count).`,
+      );
+    }
+    const word =
+      typeof anchor.relativeToWord === "number"
+        ? words[anchor.relativeToWord]
+        : words.find((w) => w.word === anchor.relativeToWord);
+    if (!word) {
+      const available =
+        typeof anchor.relativeToWord === "number"
+          ? `0-${words.length - 1}`
+          : words.map((w) => w.word).join(", ");
+      throw new Error(
+        `Timing anchor references relativeToWord ${JSON.stringify(anchor.relativeToWord)} on asset "${id}" ` +
+          `but it wasn't found. Available: ${available}.`,
+      );
+    }
+    const edge = anchor.edge === "exit" ? "endFrame" : "startFrame";
+    const base = word[edge];
+    const offset = anchor.offsetFrames ?? 0;
+    return clamp(Math.round(base + offset), 0, ctx.sceneDurationInFrames);
+  }
+
   const edge = anchor.edge === "exit" ? "exitAtFrame" : "enterAtFrame";
   const base = target.timing[edge];
   const offset = anchor.offsetFrames ?? 0;
@@ -66,11 +106,42 @@ function resolveCameraRelative(anchor, ctx) {
   return clamp(frame + offset, 0, ctx.sceneDurationInFrames);
 }
 
+function resolveWordRelative(anchor, ctx) {
+  const words = ctx.words;
+  if (!Array.isArray(words) || words.length === 0) {
+    throw new Error(
+      `Timing anchor references relativeToWord ${JSON.stringify(anchor.relativeToWord)} but scene ` +
+        `"${ctx.sceneId ?? "?"}" has no resolved narration word timing. This requires the scene to have ` +
+        `a narrationRef with word-level (WhisperX/TTS) alignment.`,
+    );
+  }
+
+  const specs = Array.isArray(anchor.relativeToWord) ? anchor.relativeToWord : [anchor.relativeToWord];
+  const matched = specs.map((s) => {
+    const w = typeof s === "number" ? words[s] : words.find((word) => word.word === s);
+    if (!w) {
+      const available = typeof s === "number" ? `0-${words.length - 1}` : words.map((word) => word.word).join(", ");
+      throw new Error(
+        `Timing anchor references relativeToWord ${JSON.stringify(s)} but it wasn't found in scene ` +
+          `"${ctx.sceneId ?? "?"}"'s narration. Available: ${available}.`,
+      );
+    }
+    return w;
+  });
+
+  const first = matched[0];
+  const last = matched[matched.length - 1];
+  const base = anchor.edge === "exit" ? last.endFrame : first.startFrame;
+  const offset = anchor.offsetFrames ?? 0;
+  return clamp(Math.round(base + offset), 0, ctx.sceneDurationInFrames);
+}
+
 /**
  * @typedef {object} TimingAnchorCtx
  * @property {number} sceneDurationInFrames  fully-resolved scene length
  * @property {Record<string, object>=} resolvedAssetsById  pass-1 asset map
  * @property {{durationInFrames?:number, speed?:number, actions?:Array}=} camera
+ * @property {Array<=object>=} words  scene-level narration word timing
  * @property {string=} sceneId  for error messages
  */
 
@@ -105,6 +176,13 @@ export function resolveTimingAnchor(anchor, ctx) {
   }
   if (anchor.relativeToCameraAction !== undefined) {
     return resolveCameraRelative(anchor, ctx);
+  }
+  // Standalone relativeToWord — no relativeToAsset — anchors to the scene's
+  // own narration word timing directly. When relativeToAsset IS present,
+  // resolveAssetRelative handles relativeToWord against that asset's own
+  // resolved word array instead (see its branch above).
+  if (anchor.relativeToWord !== undefined) {
+    return resolveWordRelative(anchor, ctx);
   }
   return resolveEffectFrame(anchor.offsetPercent ?? 0, ctx.sceneDurationInFrames);
 }

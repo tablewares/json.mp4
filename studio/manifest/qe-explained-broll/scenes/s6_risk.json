@@ -1,0 +1,29 @@
+{
+  "id": "s6_risk",
+  "background": "#1a0505",
+  "assets": [
+    {
+      "id": "vid_inflation",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_inflation_grocery_prices_35226314.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "catch.",
+        "offsetFrames": -2
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ],
+  "narrationRef": "n6"
+}

@@ -17,8 +17,13 @@ Source: `src/pipelines/pipeline2-resolve/resolve.js`
    anchor to pixels (`resolveAnchor`), resolve the style
    (`resolveAssetStyle` → merges `defaultStyle` + override, resolves tokens)
    including a `backgroundColor` if `backgroundColorToken` is overridden,
-   and attach `timing` (enter/exit frames derived from `enterAt`/`exitAt`
-   fractions × scene duration).
+   resolve per-asset visual effects (`resolveAssetEffects` — null if no
+   `effects` key; see `../reference/asset-effects.md`), resolve the camera
+   if present (so timing anchors can reference camera actions), and attach
+   `timing` (enter/exit frames derived from `enterAt`/`exitAt`). The timing
+   anchor `resolvedAssetsById` map is built up incrementally as assets
+   resolve, so a later asset's `enterAt`/`exitAt` can anchor to an earlier
+   one's edge via `resolveTimingAnchor` (`src/timing/effectTiming.js`).
 2. **Pass 2** — for each adjacent scene pair, `buildTransitionBundle`
    snapshots the carried asset's resolved position+style on both sides and
    attaches `outgoing.transitionOut` / `incoming.transitionIn`.
@@ -35,6 +40,9 @@ Source: `src/pipelines/pipeline2-resolve/resolve.js`
 | `TTS timing for "X" has non-positive duration (start=..., end=...)` | TTS provider returned start ≥ end for a narration id | re-run TTS or check the transcript; the provider's output is wrong |
 | `No TTS timing resolved for narrationRef "X"` | a scene's `narrationRef` had no timing entry — usually the TTS provider didn't return that id | check `narration.entries[].id` spelling vs the TTS output |
 | `Transition "X" on scene "Y" requested carryAssetId "Z" but it wasn't found in both the outgoing and incoming scene.` | continuity transition's `carryAssetId` missing from one side | add an asset with that id to both scenes, or drop the carry |
+| `Timing anchor references asset "X" but no such asset was found ... A referencing asset/effect must be resolved AFTER its target (target must appear earlier in scene.assets).` | `enterAt`/`exitAt` object form references an id that doesn't exist or appears later in `scene.assets[]` | move the target asset earlier in the array, or fix the id |
+| `Timing anchor references camera action X but scene "Y" has no camera.actions.` | `relativeToCameraAction` anchor authored on a scene with no camera | author a camera with actions, or use a different anchor type |
+| `asset.effects[i] must be an object` / `Unknown asset effect type "X" at effects[i]. Available: grain, scanlines, filter` | malformed `effects` entry on an asset | see `../reference/asset-effects.md` for the valid shapes |
 
 ## Resolved output shape
 
@@ -56,6 +64,8 @@ Source: `src/pipelines/pipeline2-resolve/resolve.js`
           "content": { "text": "..." },
           "resolvedPosition": { "position": "absolute", "left": ..., "top": ..., "transformOrigin": "..." },
           "resolvedStyle": { "typography": { ...resolved... }, "easing": { ...resolved... }, "width": ..., "height": ..., "backgroundColor"?: "..." },
+          "resolvedMotion":  null | { ...resolved... },
+          "resolvedEffects": null | [ { "type": "filter", ... }, { "type": "grain", ... }, { "type": "scanlines", ... } ],
           "timing": { "durationInFrames": 90, "enterAtFrame": 0, "exitAtFrame": 81 }
         }
       ],
@@ -84,26 +94,6 @@ bounding rectangles intersect. Computation:
 - Build a rect `{left, top, width, height}` per asset from `resolvedPosition`
   + `resolvedStyle`.
 - If rects intersect AND timing overlaps → warn. Area/percent is informational.
-
-Root cause 9 in 10: `studio/assets/TextBlock/manifest.json` ships
-`defaultSize: { width: 900, height: 200 }`. A text asset whose `styleOverride`
-omits `width`/`height` gets a 900×200 box far larger than the actual text, so a
-short kicker anchored `top-left` swallows a centered headline.
-
-Fix: give the text asset explicit `styleOverride.width` + `height` matching the
-rendered text. The override propagates into `resolveAnchor`, so the box nudges
-with the asset. If boxes still overlap, nudge one asset's `offsetYPercent` (rarely
-`offsetXPercent`) by ±2–4 percent (signed % of the 1920×1080 composition). Then
-re-run resolve — validate does not check overlaps, only resolve does.
-
-Trap: tightening sizes can push the box off the 1920×1080 frame. After patching,
-check resolved `top`/`top+height` lie in `[0, 1080]` and `left`/`left+width`
-lie in `[0, 1920]`. For `bottom-left` anchored assets a *positive* y% pushes the
-anchor below the frame — use small **negative** `offsetYPercent` (e.g. -3 to -16).
-
-See the `json-to-mp4-overlap-warnings` skill for the Python rect model that
-catches second-order overlaps before re-running resolve, plus a worked
-`packet-journey` case.
 
 ## CLI
 

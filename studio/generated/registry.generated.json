@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T04:32:25.486Z",
+  "generatedAt": "2026-08-15T01:26:24.304Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics",
@@ -100,6 +100,11 @@
     "default": {
       "folderName": "default",
       "entryFile": "DefaultTransition.jsx",
+      "rootIndex": 0
+    },
+    "fade": {
+      "folderName": "fade",
+      "entryFile": "Fade.jsx",
       "rootIndex": 0
     },
     "pivotZoom": {

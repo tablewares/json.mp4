@@ -1,7 +1,7 @@
 {
   "transitionType": "default",
   "component": "DefaultTransition.jsx",
-  "description": "A fade+slight-slide handoff. Used when a scene doesn't request continuity with a specific carried asset.",
+  "description": "Just cuts to the next scene, with no continuity of motion or carried assets. Used when a scene doesn't request continuity with a specific carried asset.",
   "defaultDurationInFrames": 18,
   "consumes": {
     "outgoingSceneStyles": false,

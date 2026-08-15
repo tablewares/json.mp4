@@ -1,0 +1,33 @@
+{
+  "id": "s4_liquidity",
+  "background": "#0a192f",
+  "assets": [
+    {
+      "id": "vid_lend",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_financial_trading_market_8480474.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "lowers",
+        "offsetFrames": -2
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ],
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

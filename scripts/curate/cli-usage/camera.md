@@ -22,7 +22,7 @@ node scripts/agent-cli.mjs set-camera <projectId> <sceneId> '{
   "zoomStartPercent": 120,
   "zoomEndPercent":   180,
   "durationInFrames": 60,
-  "speed":            1.2,
+  "speed":            1.0,
   "easeZoom":         true
 }'
 ```

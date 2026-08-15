@@ -15,6 +15,7 @@ export function resolveTransitionEffects(effectsSpec, outgoingScene, styles, ass
     sceneDurationInFrames: outgoingScene.durationInFrames,
     resolvedAssetsById,
     camera: outgoingScene.camera,
+    words: outgoingScene.narrationWords,
     sceneId: outgoingScene.id,
   };
 

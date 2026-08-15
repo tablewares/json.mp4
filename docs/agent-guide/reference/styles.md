@@ -80,9 +80,3 @@ Example (paper grain over a dark base):
 
 See `docs/agent-guide/reference/scene.md` for the full scene key table.
 
-## Adding tokens
-
-Add a key to the relevant section. That's the entire change — any scene
-or asset already referencing that token name picks it up. Do not remove a
-token while scenes still reference it (resolve will throw listing the
-offending scene).

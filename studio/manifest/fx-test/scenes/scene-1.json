@@ -1,0 +1,79 @@
+{
+  "id": "scene-1",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "ImageReveal-1",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/cyberpunk-city-1.jpg"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1,
+      "effects": [
+        {
+          "type": "filter",
+          "grayscale": 0.5,
+          "contrast": 1.2,
+          "brightness": 0.8
+        }
+      ]
+    },
+   {
+      "id": "img_frb",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -10
+      },
+      "contentOverride": {
+        "src": "assets/img_Federal_Reserve_building_Eccles_6534073.jpg",
+        "alt": "Federal Reserve building exterior with USA flags"
+      },
+      "styleOverride": {
+        "width": 1280,
+        "height": 720,
+        "borderRadius": 16,
+        "revealDirection": "top-to-bottom"
+      },
+      "enterAt": {
+        "relativeToWord": ["computers", "agreeing"],
+        "offsetFrames": -2
+      },
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "ImageReveal-3",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+        },
+      "contentOverride": {
+        "src": "assets/cyberpunk-city-3.jpg"
+      },
+      "styleOverride": {},
+      "enterAt": 0,
+      "exitAt": 1,
+      "effects": [
+        {
+          "type": "scanlines",
+          "opacity": 0.4,
+          "lineHeight": 3
+        }
+      ]
+    }
+  ],
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

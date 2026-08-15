@@ -21,6 +21,14 @@ Source: `src/pipelines/pipeline1-validate/validate.js` (`validateProject`)
    - ⛔ If narration present, check the scene's `narrationRef` exists in
      `narration.entries[].id`.
 
+The `scene.schema.json` now accepts `effects[]` on each asset (the
+`assetEffect` definition) and `enterAt`/`exitAt` as either a legacy float or
+a timing-anchor object (`shared.schema.json#/definitions/timingAnchor`).
+Ajv validates these structurally; `ProjectBuilder.addAsset`/`updateAsset`
+also calls `checkAssetEffects` (`src/agent/validators.js`) which round-trips
+through `resolveAssetEffects` to catch semantic errors (unknown effect type)
+at build time, surfaced as warnings.
+
 ## Errors and their causes
 
 | thrown text (paraphrased) | cause | fix |

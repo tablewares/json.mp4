@@ -1,0 +1,11 @@
+{
+  "transitionType": "fade",
+  "component": "Fade.jsx",
+  "description": "A fade+slight-slide handoff. Used when a scene doesn't request continuity with a specific carried asset.",
+  "defaultDurationInFrames": 18,
+  "consumes": {
+    "outgoingSceneStyles": false,
+    "incomingSceneStyles": false,
+    "carriedAssets": false
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "pexels-cli",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "pexels": "./index.js"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^5.0.0",
+    "cli-progress": "^3.12.0",
+    "commander": "^12.0.0",
+    "dotenv": "^16.4.0"
+  }
+}

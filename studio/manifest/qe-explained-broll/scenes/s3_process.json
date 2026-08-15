@@ -1,0 +1,94 @@
+{
+  "id": "s3_process",
+  "background": "#0a192f",
+  "assets": [
+    {
+      "id": "img_money",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -8,
+        "offsetYPercent": -28.15
+      },
+      "contentOverride": {
+        "src": "assets/img_United_States_Federal_Reserve_seal_32688415.jpg",
+        "alt": "United States Federal Reserve System seal on currency"
+      },
+      "styleOverride": {
+        "width": 540,
+        "height": 280,
+        "borderRadius": 24,
+        "revealDirection": "top-to-bottom"
+      },
+      "enterAt": {
+        "relativeToWord": "money",
+        "offsetFrames": -2
+      },
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "img_bonds",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -8
+      },
+      "contentOverride": {
+        "src": "assets/img_US_Treasury_bond_certificate_32688417.jpg",
+        "alt": "US Treasury bond certificate close-up"
+      },
+      "styleOverride": {
+        "width": 540,
+        "height": 280,
+        "borderRadius": 8,
+        "revealDirection": "center-out"
+      },
+      "enterAt": {
+        "relativeToWord": "bonds,",
+        "offsetFrames": -2
+      },
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      }
+    },
+    {
+      "id": "img_liquidity",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -8,
+        "offsetYPercent": 28.15
+      },
+      "contentOverride": {
+        "src": "assets/img_US_Treasury_bond_certificate_32688414.jpg",
+        "alt": "US Treasury security features detail"
+      },
+      "styleOverride": {
+        "width": 540,
+        "height": 280,
+        "borderRadius": 0,
+        "revealDirection": "left-to-right"
+      },
+      "enterAt": {
+        "relativeToWord": "flooding",
+        "offsetFrames": -2
+      },
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      }
+    }
+  ],
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

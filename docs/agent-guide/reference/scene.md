@@ -108,7 +108,7 @@ After pipeline 2, this file becomes a resolved scene object (see
   "id": "scene-001",
   "durationInFrames": 90,
   "background": "#0B0E14",
-  "assets": [ /* each asset now has resolvedPosition, resolvedStyle, timing */ ],
+  "assets": [ /* each asset now has resolvedPosition, resolvedStyle, resolvedMotion, resolvedEffects, timing */ ],
   "transitionIn":  null | { type, durationInFrames, componentPath, props },
   "transitionOut": null | { type, durationInFrames, componentPath, props }
 }

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { validateProject } from "../pipeline1-validate/validate.js";
 import { loadAssetRegistry, loadTransitionRegistry } from "../../registry/assetRegistry.js";
+import { resolveAliasesDeep } from "../../registry/aliasRegistry.js";
 import { resolveNarrationTiming } from "../../timing/ttsTiming.js";
 
 // Extracted modules
@@ -57,7 +58,15 @@ export async function resolveProject(manifestPath) {
     }
   }
 
-  const resolvedScenes = scenes.map((scene, i) =>
+  // Expand aliases once across all scenes — covers transitionOut (which
+  // resolve.js's pass-2 reads directly from `scenes[i].transitionOut` via
+  // resolveTransitionEffects / buildTransitionBundle), plus every
+  // per-asset alias in each scene's body. Returns new objects; the
+  // original `scenes` array is untouched. No-op when no "$alias" key is
+  // present anywhere.
+  const expandedScenes = scenes.map((s) => resolveAliasesDeep(s));
+
+  const resolvedScenes = expandedScenes.map((scene, i) =>
     resolveScene(scene, {
       styles,
       assetRegistry,
@@ -80,7 +89,7 @@ export async function resolveProject(manifestPath) {
       // so inject-effects / hand-authored effects on the final scene render
       // instead of being silently dropped.
       outgoing.effects = resolveTransitionEffects(
-        scenes[i].transitionOut?.effects,
+        expandedScenes[i].transitionOut?.effects,
         outgoing,
         styles,
         assetRegistry,
@@ -90,14 +99,15 @@ export async function resolveProject(manifestPath) {
     }
 
     outgoing.transitionOut = buildTransitionBundle(
-      scenes[i].transitionOut,
+      expandedScenes[i].transitionOut,
       outgoing,
       incoming,
       transitionRegistry,
     );
     incoming.transitionIn = outgoing.transitionOut;
+
     outgoing.effects = resolveTransitionEffects(
-      scenes[i].transitionOut?.effects,
+      expandedScenes[i].transitionOut?.effects,
       outgoing,
       styles,
       assetRegistry,

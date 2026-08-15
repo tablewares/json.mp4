@@ -9,7 +9,6 @@
 
 import { loadAssetRegistry, loadTransitionRegistry } from "../registry/assetRegistry.js";
 import { ANCHOR_POSITIONS } from "../templating/anchor.js";
-import { AVAILABLE_COMPOSITION_PLUGINS } from "../pipelines/pipeline2-resolve/plugins/index.js";
 
 // Boundary/range constraints the agent needs to author values that survive
 // validate. AJV's per-asset content/style schemas carry these on the same
@@ -117,16 +116,6 @@ export function describeTransition(transitionType) {
     consumes: m.consumes ?? {},
     params,
   };
-}
-
-export function listCompositionPlugins() {
-  return Object.keys(AVAILABLE_COMPOSITION_PLUGINS).map((name) => ({
-    name,
-    description:
-      name === "similarSceneGuard"
-        ? "Flags runs of consecutive scenes sharing the same background/asset types/camera/transition; throws by default when the run exceeds maxConsecutiveSimilar."
-        : undefined,
-  }));
 }
 
 export function listAnchorPositions() {
@@ -278,8 +267,8 @@ export function describeSceneEnvelope() {
       anchor: "{ position, offsetXPercent?, offsetYPercent? } — position is one of the 'anchors' command's output",
       contentOverride: "asset-specific — see `asset <type>` command's 'content' field",
       styleOverride: "asset-specific — see `asset <type>` command's 'style' field; width/height also settable here",
-      enterAt: "fraction 0-1 of the scene's duration (default 0), OR a timing anchor object: { relativeToAsset, edge?: 'enter'|'exit', offsetFrames? } to fire relative to an EARLIER asset's edge, { relativeToCameraAction, offsetFrames? } to fire relative to a camera action, or { offsetPercent } for scene-end-relative percent — same shape as transitionEffect timing anchors",
-      exitAt: "same shape as enterAt; legacy default 1 (scene end)",
+      enterAt: "fraction 0-1 of the scene's duration (default 0), OR a timing anchor object: { relativeToAsset, edge?: 'enter'|'exit', offsetFrames? } to fire relative to an EARLIER asset's edge, { relativeToWord, edge?, offsetFrames? } to fire at a specific spoken word or phrase in the SCENE's own narration (relativeToWord: a word index, exact word text, or array of words/indices for a phrase — no asset needs to display that text), { relativeToAsset, relativeToWord, edge?, offsetFrames? } to read word timing from a specific asset's own resolved words instead, { relativeToCameraAction, offsetFrames? } to fire relative to a camera action, or { offsetPercent } for scene-end-relative percent — same shape as transitionEffect timing anchors",
+      exitAt: "fraction 0-1 of the scene's duration (default 1)",
       z: "number, stacking order resolved at runtime. Lower z paints first (further from viewer), higher z last (on top). Default 0. Stable within a z value — authored order is preserved.",
       motion: "optional: { in?, out?, rotateDeg?, rotate? } — in: 'fade'|'fadeUp'|'fadeDown'|'fadeLeft'|'fadeRight' (or object with alias/distancePx/durationInFrames/rotateFromDeg); out: 'fadeOut'|'fadeOutUp'|'fadeOutDown'|'fadeOutLeft'|'fadeOutRight' (same object shape); rotateDeg: static rotation held for the whole on-screen duration; rotate: animated phase { toDeg (required), fromDeg? (defaults to rotateDeg or 0), durationInFrames? (default 18), delayFrames? (default 0), startAt?: 'afterIn'|'withIn'|'atFrame' (default 'afterIn'), atFrame? (required when startAt is 'atFrame'), easing?: 'linear'|'easeIn'|'easeOut'|'easeInOut' (default 'easeInOut') } — begins after the entrance resolves by default; see scripts/curate/asset/motion.md for full composition rules",
     },

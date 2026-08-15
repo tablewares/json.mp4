@@ -31,8 +31,9 @@ Source: `src/pipelines/pipeline2-resolve/resolve.js` (`resolveScene`)
 | `anchor` | required | object | See below. ⛔ `position` must be one of the 9 valid anchors. |
 | `contentOverride` | optional | object | Shape = the asset's `manifest.contentOverrideSchema`. ⛔ Missing a `required` field from that schema → validate throw. |
 | `styleOverride` | optional | object | Shape = the asset's `manifest.styleOverrideSchema`. Unknown fields silently ignored; missing fields fall back to manifest `defaultStyle`. |
-| `enterAt` | optional | float `[0,1]` | Fraction of scene duration when the asset enters. Default `0`. |
-| `exitAt` | optional | float `[0,1]` | Fraction of scene duration when the asset exits. Default `1`. |
+| `enterAt` | optional | float `[0,1]` **or** timing-anchor object | Fraction of scene duration when the asset enters. Default `0`. Also accepts the timing-anchor object shape (see below). |
+| `exitAt` | optional | float `[0,1]` **or** timing-anchor object | Fraction of scene duration when the asset exits. Default `1`. Also accepts the timing-anchor object shape (see below). |
+| `effects` | optional | array | Per-asset visual effects (filter / grain / scanlines), scoped to this asset's box. See `asset-effects.md`. Defaults to absent (no-op). |
 
 ## anchor shape
 
@@ -64,13 +65,46 @@ author pixels.
 If you're unsure which section a key belongs to, open the asset's
 `manifest.json` — the two schemas are side-by-side and named explicitly.
 
-## enterAt/exitAt are fractions, not frames
+## enterAt/exitAt — fractions or timing anchors
 
-These are multiplied by the scene's resolved `durationInFrames`. A value
-of `0.9` = "leave 10% of the scene as tail". The resolver produces
+### Legacy: fractions (0–1)
+
+A bare number is multiplied by the scene's resolved `durationInFrames`. A
+value of `0.9` = "leave 10% of the scene as tail". The resolver produces
 `enterAtFrame` and `exitAtFrame` in absolute frames for the renderer. If a
 scene has no narration, `durationInFrames` is
 `config.defaultSceneDurationInFrames`.
+
+### Timing-anchor objects — fire relative to another asset or camera action
+
+`enterAt`/`exitAt` also accept the same timing-anchor shape
+`transitionOut.effects` uses (`shared.schema.json#/definitions/timingAnchor`),
+resolved via `src/timing/effectTiming.js` (`resolveTimingAnchor`). One of
+three keys discriminates the shape:
+
+```json
+"enterAt": { "relativeToAsset": "heroImage", "edge": "exit", "offsetFrames": -6 }
+"enterAt": { "relativeToCameraAction": 0, "offsetFrames": 12 }
+"enterAt": { "offsetPercent": -10 }
+```
+
+| key | type | notes |
+|---|---|---|
+| `relativeToAsset` | string (asset id) | Fire relative to an earlier asset's `enterAtFrame` (`edge: "enter"`, the default) or `exitAtFrame` (`edge: "exit"`). The target asset **must be authored earlier** in `scene.assets[]` — the resolver builds an incrementally-populated `resolvedAssetsById` map during pass 1. ⛔ Unknown id → throw listing known assets and the ordering rule. |
+| `edge` | `"enter"` \| `"exit"` | Default `"enter"`. Which edge of the target asset to anchor to. |
+| `relativeToCameraAction` | number (index) or string (action id) | Fire relative to a camera action's resolved frame. The scene must have `camera.actions` authored. ⛔ Unknown index → throw listing available indices. |
+| `offsetFrames` | number | Signed frame offset from the resolved anchor point. Default `0`. |
+| `offsetPercent` | number | Legacy form. Percent of the scene's resolved end: `0` = last frame, `-10` = 90% of the scene. For legacy effect-frame callers; assets typically use the fraction form above or the relative forms, not `offsetPercent`. |
+
+Camera-relative anchors compute the action's frame as
+`round(action.at * (motionDuration - 1))` where `motionDuration` is
+`camera.durationInFrames ?? sceneDuration / camera.speed`. The result is
+always clamped to `[0, sceneDurationInFrames]`.
+
+Same ordering rule as `checkAssetRefs` and `resolveSceneRefs`: a referencing
+asset must appear AFTER its target in `scene.assets[]`. Both forms
+(fraction and object) are strictly backward-compatible — a bare number is
+byte-identical to the previous behavior.
 
 ## Width / height
 

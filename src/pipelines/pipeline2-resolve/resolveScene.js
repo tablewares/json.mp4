@@ -3,6 +3,7 @@ import { resolveColorToken, resolveAssetStyle, resolveBackground } from "../../r
 import { resolveAnchor } from "../../templating/anchor.js";
 import { resolveCamera } from "../../templating/camera.js";
 import { resolveMotion } from "../../motion/motion.js";
+import { resolveAssetEffects } from "../../effects/assetEffects.js";
 import { sceneTimingBudget } from "../../timing/ttsTiming.js";
 import { resolveTimingAnchor } from "../../timing/effectTiming.js";
 import { indexAssetsById, resolveSceneRefs } from "./resolveRefs.js";
@@ -106,6 +107,7 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
       sceneDurationInFrames: timing.durationInFrames,
       resolvedAssetsById,
       camera,
+      words: timing.words, // scene-level narration word timing, for standalone relativeToWord anchors
       sceneId: scene.id,
     };
     const enterAtFrame = resolveAssetEdgeFrame(assetSpec.enterAt, 0, timingAnchorCtx);
@@ -126,6 +128,7 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
       resolvedPosition,
       resolvedStyle,
       resolvedMotion: resolveMotion(assetSpec.motion),
+      resolvedEffects: resolveAssetEffects(assetSpec.effects),
       timing: {
         durationInFrames: sceneDurationInFrames,
         enterAtFrame,
@@ -155,6 +158,11 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
     durationInFrames: sceneDurationInFrames,
     effects: [],
     camera,
+    // Scene-level narration word timing, exposed so transitionOut.effects
+    // (resolved later, outside this function) can also anchor to a spoken
+    // word/phrase without needing a KineticText asset to already display
+    // matching text. null when the scene has no narration.
+    narrationWords: timing.words ?? null,
     ttsWindow: hasNarration
       ? {
           narrationRef: scene.narrationRef,

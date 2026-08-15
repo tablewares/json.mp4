@@ -22,6 +22,7 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
 import { resolveMotion } from "../motion/motion.js";
+import { resolveAssetEffects } from "../effects/assetEffects.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SCHEMA_DIR = path.join(
@@ -126,6 +127,16 @@ export function checkMotionAliases(motionSpec) {
  * contract as checkCameraSpec/checkMotionSpec.
  */
 let _cachedTimingAnchorValidator = null;
+export function checkAssetEffects(effectsSpec) {
+  if (effectsSpec == null) return [];
+  try {
+    resolveAssetEffects(effectsSpec);
+    return [];
+  } catch (e) {
+    return [e.message];
+  }
+}
+
 export function checkTimingAnchor(value) {
   if (value == null || typeof value !== "object") return []; // legacy number form, or omitted
   if (_cachedTimingAnchorValidator === null) {

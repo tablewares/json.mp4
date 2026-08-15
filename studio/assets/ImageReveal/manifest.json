@@ -21,7 +21,7 @@
     "properties": {
       "borderRadius": { "type": "number" },
       "easing": { "type": "string" },
-      "revealDirection": { "type": "string", "enum": ["left-to-right", "top-to-bottom", "center-out"] }
+      "revealDirection": { "type": "string", "enum": ["left-to-right", "top-to-bottom", "center-out", "none"] }
     }
   }
 }

@@ -13,6 +13,9 @@
 //   transition <transitionType>           full param schema for one transition type
 //   anchors                               valid anchor.position values
 //   envelope                              scene/asset/effect envelope field reference
+//   aliases [category]                    list every registered alias, grouped by category (optional filter)
+//   alias <name>                          full info + expanded shape for one alias
+//   alias-categories                      list known category names (motion, camera, effects, timing, transition)
 //   collections                           list every asset-library collection workflow
 //   collection <collectionType>           full command + output contract for one collection workflow
 //   projects                              list existing project ids
@@ -83,6 +86,12 @@ import {
   describeAssetCollection,
 } from "../src/agent/introspect.js";
 
+import {
+  listAliases,
+  describeAlias,
+  listAliasCategories,
+} from "../src/registry/aliasRegistry.js";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 const builder = new ProjectBuilder({ repoRoot });
@@ -110,30 +119,39 @@ function renderText(value, indent = 0) {
 
   if (value === null) return "null";
   if (value === undefined) return "undefined";
-  if (typeof value === "string") return value;
+  if (typeof value === "string") return value.includes("\n") ? `"${value}"` : value;
   if (typeof value === "number" || typeof value === "boolean") return String(value);
 
+  // Handle Arrays
   if (Array.isArray(value)) {
     if (value.length === 0) return "[]";
     return value
       .map((item) => {
-        const rendered = renderText(item, indent + 2).split("\n").map((line) => `${pad}- ${line}`).join("\n");
-        return rendered;
+        // Primitive values in lists stay on one line
+        if (typeof item !== "object" || item === null) {
+          return `${pad}- ${renderText(item, 0)}`;
+        }
+        // Nested objects start on a new indented block
+        return `${pad}-\n${renderText(item, indent + 2)}`;
       })
       .join("\n");
   }
 
+  // Handle Objects
   if (typeof value === "object") {
     const entries = Object.entries(value);
     if (entries.length === 0) return "{}";
     return entries
-      .map(([key, item]) => {
-        const rendered = renderText(item, indent + 2);
-        const prefix = `${pad}${key}: `;
-        if (rendered.includes("\n")) {
-          return `${prefix}${rendered.split("\n").join(`\n${" ".repeat(prefix.length)}`)}`;
+      .map(([key, val]) => {
+        if (val === null || val === undefined) return `${pad}${key}: ${val}`;
+        
+        // Handle nested primitives inline
+        if (typeof val !== "object") {
+          return `${pad}${key}: ${renderText (val, 0)}`;
         }
-        return `${prefix}${rendered}`;
+
+        // Handle nested structures with clear clean indentation
+        return `${pad}${key}:\n${renderText(val, indent + 2)}`;
       })
       .join("\n");
   }
@@ -189,6 +207,15 @@ try {
       break;
     case "envelope":
       ok(describeSceneEnvelope());
+      break;
+    case "aliases":
+      ok(listAliases(rest[0]));
+      break;
+    case "alias":
+      ok(describeAlias(rest[0]));
+      break;
+    case "alias-categories":
+      ok(listAliasCategories());
       break;
     case "collections":
       ok(listAssetCollections());

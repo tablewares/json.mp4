@@ -1,0 +1,33 @@
+{
+  "id": "s5_goal",
+  "background": "#0a192f",
+  "assets": [
+    {
+      "id": "vid_growth",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_city_construction_cranes_5917216.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "investment",
+        "offsetFrames": -2
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ],
+  "narrationRef": "n5",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

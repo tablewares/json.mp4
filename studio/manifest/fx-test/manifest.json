@@ -1,0 +1,20 @@
+{
+  "projectId": "fx-test",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-1",
+      "path": "scenes/scene-1.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "You send a bitcoin. Ten minutes later, it is settled. No bank, no clearinghouse, no one in the middle. Just thousands of computers agreeing on a single ledger."
+      }
+    ],
+    "fullTranscript": "You send a bitcoin. Ten minutes later, it is settled. No bank, no clearinghouse, no one in the middle. Just thousands of computers agreeing on a single ledger."
+  }
+}

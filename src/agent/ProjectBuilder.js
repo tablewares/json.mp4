@@ -51,6 +51,7 @@ import {
   checkCameraSpec,
   checkMotionSpec,
   checkMotionAliases,
+  checkAssetEffects,
   checkTimingAnchor,
 } from "./validators.js";
 import { checkAssetRefs } from "./checkAssetRefs.js";
@@ -271,6 +272,7 @@ export class ProjectBuilder {
     // keys, not eight.
     if (spec.z !== undefined) asset.z = spec.z;
     if (spec.motion !== undefined) asset.motion = spec.motion;
+    if (spec.effects !== undefined) asset.effects = spec.effects;
 
     const warnings = [
       ...checkAgainstSchema(entry.manifest.contentOverrideSchema, asset.contentOverride),
@@ -327,6 +329,7 @@ export class ProjectBuilder {
     if (patch.styleOverride) asset.styleOverride = { ...asset.styleOverride, ...patch.styleOverride };
     if (patch.enterAt !== undefined) asset.enterAt = patch.enterAt;
     if (patch.exitAt !== undefined) asset.exitAt = patch.exitAt;
+    if (patch.effects) asset.effects = patch.effects;
     // Wholesale overwire (matches enterAt/exitAt's behavior — `z` is a single
     // number, not a deep-merge candidate).
     if (patch.z !== undefined) asset.z = patch.z;

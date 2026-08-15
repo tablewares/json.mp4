@@ -1,0 +1,61 @@
+{
+  "config": "config.json",
+  "projectId": "qe-explained-broll",
+  "scenes": [
+    {
+      "id": "s1_intro",
+      "path": "scenes/s1_intro.json"
+    },
+    {
+      "id": "s2_central",
+      "path": "scenes/s2_central.json"
+    },
+    {
+      "id": "s3_process",
+      "path": "scenes/s3_process.json"
+    },
+    {
+      "id": "s4_liquidity",
+      "path": "scenes/s4_liquidity.json"
+    },
+    {
+      "id": "s5_goal",
+      "path": "scenes/s5_goal.json"
+    },
+    {
+      "id": "s6_risk",
+      "path": "scenes/s6_risk.json"
+    }
+  ],
+  "styles": "styles/theme.json",
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Quantitative Easing."
+      },
+      {
+        "id": "n2",
+        "text": "When the economy stalls, central banks step in."
+      },
+      {
+        "id": "n3",
+        "text": "They create new digital money to buy government bonds, flooding the financial system with liquidity."
+      },
+      {
+        "id": "n4",
+        "text": "This lowers interest rates and encourages banks to lend."
+      },
+      {
+        "id": "n5",
+        "text": "The goal? To spark investment and jumpstart growth."
+      },
+      {
+        "id": "n6",
+        "text": "But there is a catch. Too much money chasing too few goods can lead to one thing: inflation."
+      }
+    ],
+    "fullTranscript": "Quantitative Easing. When the economy stalls, central banks step in. They create new digital money to buy government bonds, flooding the financial system with liquidity. This lowers interest rates and encourages banks to lend. The goal? To spark investment and jumpstart growth. But there is a catch. Too much money chasing too few goods can lead to one thing: inflation."
+  },
+  "audioOverlay": []
+}
