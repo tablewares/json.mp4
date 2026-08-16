@@ -183,7 +183,7 @@ const ASSET_COLLECTIONS = {
       "Validate the path contract and write finalized files from public/audio or public/assets into scene manifests.",
     destination: "Scene manifest paths relative to public/",
     prerequisites: ["None beyond final public files"],
-    command: "scene.assets[].src = 'assets/*.png' or scene.transitionOut.effects[].path = 'audio/*.mp3'",
+    command: "scene.assets[].src = 'assets/*.png' or scene.effects[].path = 'audio/*.mp3' (effects are scene-level, not transitionOut — see effects.schema.json)",
     outputFields: ["path", "assetType", "kind", "anchor", "volume"],
     docs: ["docs/skills/assetlibrary/05-manifest-wiring.md"],
     example: '{ "assetType": "ImageReveal", "src": "assets/hero.png" }',
@@ -258,7 +258,8 @@ export function describeSceneEnvelope() {
       narrationRef: "optional: id into manifest.narration.entries — drives this scene's duration via TTS",
       background: "color token (e.g. 'shade1'), a literal #RRGGBB hex string, or an object { color?, texture?, blendMode?, opacity? } — texture pulls a textures.* token overlaid above the color, behind all assets",
       camera: "optional: { start, end, zoomStartPercent, zoomEndPercent, zoomPercent } — start/end are anchor specs",
-      transitionOut: "optional: { type, durationInFrames?, params?, effects? } — omit for a hard cut",
+      transitionOut: "optional: { type, durationInFrames?, params? } — omit for a hard cut (effects live on scene.effects, not here — see below)",
+      effects: "optional: detached scene-level effects array (effects.schema.json). Each entry { id, kind, frame, ... } anchors to an EXACT scene-local frame (not a percent). Append via add-effect / inject-effects; resolve via resolveSceneEffects.",
       assets: "array of asset specs, see 'asset' below (managed via add-asset, not set directly)",
     },
     asset: {

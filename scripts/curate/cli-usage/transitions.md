@@ -32,9 +32,13 @@ and scene-style passthrough (the resolved `carriesFrom`/`carriesTo`/
   validates. The transition's `manifest.json` documents which params it
   reads; see `node scripts/agent-cli.mjs transition <Type>` for the per-type
   schema.
-- **`effects`** (array, optional): boundary effects fired on this scene's
-  exit cut — `sfx` and `visual` items, each with its own `timingAnchor`
-  (see `timing.md`). Covered in `build.md` (`add-effect`, `inject-effects`).
+- **`effects`** — **REMOVED from `transitionOut`** in the post-refactor
+  effects system. Effects are now detached scene-level entries living on
+  `scene.effects[]` (`effects.schema.json`), timed by an exact `frame`
+  instead of `timingAnchor`/`offsetPercent`. See `build.md`
+  (`add-effect`, `inject-effects`) and `docs/transition_effects.md`'s
+  post-refactor note for the new shape. The `transitionOut` object now
+  owns only `{ type, durationInFrames, params }`.
 
 ## Set / patch / clear
 
@@ -94,29 +98,56 @@ To enable these for a custom transition, set the flags in its `manifest.json`
 and have the component read the corresponding props — see
 `to_be_indexed/style-transition.md` for the component-side usage pattern.
 
-## `effects[]` — boundary effects
+## `scene.effects[]` — detached effects (post-refactor)
 
-Optional array on the transition. Each entry is a `sfx` or `visual` effect
-fired on the scene's exit cut, each pinned by its own `timingAnchor`:
+Boundary effects are now hosted on the **scene-level `effects[]` array**
+(`effects.schema.json#/definitions/effectsArray`), distinct from the previous
+`scene.transitionOut.effects` location. The `transitionOut` object now owns
+only `{type, durationInFrames, params}` — no `effects` key. Each effect
+entry is a `sfx` or `visual` block pinned to an **exact scene-local `frame`**
+(the primary post-refactor shape). The legacy `timing`/`offsetPercent` shape
+below is kept as a backward-compat bridge for the 7 migrated shipped manifests
+— `resolveSceneEffects` falls back to it only when `frame` is absent.
+
+Frame-first authoring:
 
 ```json
 "effects": [
-  { "id": "whoosh", "kind": "sfx",   "path": "audio/whoosh.mp3", "volume": 0.6, "timing": { "offsetPercent": 80 } },
-  { "id": "flash",  "kind": "visual", "assetType": "TextHighlight", "anchor": { "position": "center" }, "contentOverride": { "text": "" }, "durationInFrames": 6, "timing": { "relativeToAsset": "hero", "edge": "exit" } }
+  { "id": "whoosh", "kind": "sfx",   "frame": 120,                       "path": "audio/sfx.mp3",    "volume": 0.6 },
+  { "id": "flash",  "kind": "visual","frame": 18,                         "assetType": "ImageReveal", "anchor": { "position": "center" }, "contentOverride": { "src": "assets/flash.png", "alt": "" }, "durationInFrames": 6 }
+]
+```
+
+Legacy `timing`/`offsetPercent` form (only as a backward-compat bridge —
+new authoring should prefer `frame`):
+
+```json
+"effects": [
+  { "id": "whoosh", "kind": "sfx",   "path": "audio/sfx.mp3", "volume": 0.6, "timing": { "offsetPercent": 0 } },
+  { "id": "flash",  "kind": "visual", "assetType": "ImageReveal", "anchor": { "position": "center" }, "contentOverride": { "src": "assets/destination.png", "alt": "" }, "durationInFrames": 6, "timing": { "relativeToAsset": "hero", "edge": "exit" } }
 ]
 ```
 
 - `kind` (string, required): `sfx` | `visual`.
 - `id` (string, optional): auto-numbered `fx-${i}` / `sfx-${i}` if omitted.
-- `timing` (object, optional): a `timingAnchor` (see `timing.md`).
-- For `sfx`: `path` (string), `volume` (number, default 1), `durationInFrames`
-  (number, optional — null means "play to end of file").
+- `frame` (number, optional but primary now): exact scene-local frame at
+  which the effect fires (sfx: starts; visual: enters/view-spans from). 0 =
+  scene start; `scene.durationInFrames` = visible end. Wins over `timing`/
+  `offsetPercent` when present.
+- `timing` (object, optional, legacy): a `timingAnchor` (see `timing.md`).
+- `offsetPercent` (number, optional, legacy): percent of scene duration from
+  the end frame. See `timing.md` for the formula.
+- For `sfx`: `path` (string, relative to `public/`), `volume` (number, default
+  1), `durationInFrames` (number, optional — null means "play to end of file").
 - For `visual`: `assetType` (string, required), `anchor` (object, required),
-  `contentOverride` / `styleOverride` (objects, optional),
-  `durationInFrames` (number, default 30). Resolved through the same asset
-  pipeline as a normal scene asset — use `envelope` for the shape.
+  `contentOverride` / `styleOverride` (objects, optional), `durationInFrames`
+  (number, default 30). Resolved through the same asset pipeline as a normal
+  scene asset — use `envelope` for the shape.
 
-Author via `add-effect` / `inject-effects` (see `build.md`).
+Author via `add-effect` / `inject-effects` (see `build.md`). `inject-effects`
+always resolves + reads the project timeline FIRST and writes a `frame` for
+each effect — never an `offsetPercent` (legacy percent model is for
+hand-edits on migrated scenes only).
 
 ## Common pitfalls
 
@@ -136,7 +167,10 @@ Author via `add-effect` / `inject-effects` (see `build.md`).
   incoming scene to cut to) but still honors authored `effects[]` on the
   final scene's exit boundary — so `inject-effects` with `anchor:"exit"` on
   the last scene isn't silently dropped.
-- **`effects[]` on a transition ≠ `effects` on a scene.** Transit boundary
-  effects live on `transitionOut.effects`; scene-level effects are separate
-  and ride the scene's own enter/exit edges. `add-effect` writes to the
-  right place; don't hand-edit.
+- **Effects live on `scene.effects[]`, not `transitionOut.effects` (post-refactor).**
+  Transit boundary effects were detached during the refactor; `transitionOut`
+  now owns only `{type, durationInFrames, params}`. Scene-level effects are
+  authored on the detached `scene.effects[]` array (see `effects.schema.json`)
+  and timed by an exact `frame` (legacy `timing`/`offsetPercent` is a
+  backward-compat bridge). `add-effect` writes to `scene.effects[]`; don't
+  hand-edit `transitionOut` to host effects (the key is no longer schema-defined).

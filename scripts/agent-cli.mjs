@@ -39,7 +39,7 @@
 //   set-transition <projectId> <sceneId> '<json>'  set scene.transitionOut (replaces any existing one)
 //   update-transition <projectId> <sceneId> '<json>'        patch an existing transitionOut (merges params)
 //   remove-transition <projectId> <sceneId>        clear a scene's transitionOut (hard cut)
-//   add-effect <projectId> <sceneId> '<json>'      append a transitionOut effect
+//   add-effect <projectId> <sceneId> '<json>'      append a scene-level effect (scene.effects[]). Frame-first shape: `{ id, kind, frame, ... }` (sfx | visual). Legacy `timing`/`offsetPercent` keys still accepted by the schema for backward compatibility.
 //   set-camera <projectId> <sceneId> '<json>'      set scene.camera (replaces any existing one); null clears it
 //   update-camera <projectId> <sceneId> '<json>'   patch an existing scene.camera (shallow merge; actions replace)
 //   add-camera-action <projectId> <sceneId> '<json>' append one action to scene.camera.actions[] (creates camera if needed)
@@ -50,7 +50,7 @@
 //
 // Verify / render:
 //   timeline <projectId>                  resolve + build the global-frame timeline (read-only)
-//   inject-effects <projectId> '<rules>'  fan sfx/visual effects out across matching asset segments (after scenes are built)
+//   inject-effects <projectId> '<rules>'  fan sfx/visual effects out across matching asset SEGMENTS or every scene boundary — writes them to the DETACHED scene.effects[] array with an exact scene-local `frame` (no percent math), after first resolving + reading the project's timeline.
 //   validate <projectId>                  schema + cross-reference check (no render)
 //   render <projectId> [outputMp4]        validate -> registry -> resolve -> render
 //
@@ -67,7 +67,7 @@
 //   node scripts/agent-cli.mjs update-asset demo scene-001 TextBlock-1 '{"contentOverride":{"text":"Hello again."}}'
 //   node scripts/agent-cli.mjs list-assets demo
 //   node scripts/agent-cli.mjs timeline demo
-//   node scripts/agent-cli.mjs inject-effects demo '[{"match":{"assetType":"KineticText"},"anchor":"enter","effect":{"id":"kt-whoosh","kind":"sfx","path":"audio/whoosh.mp3","volume":0.6}}]'
+//   node scripts/agent-cli.mjs inject-effects demo '[{"match":{"assetType":"KineticText"},"anchor":"enter","effect":{"id":"kt-whoosh","kind":"sfx","path":"audio/sfx.mp3","volume":0.6}}]'
 //   node scripts/agent-cli.mjs render demo out/demo.mp4
 
 import fs from "node:fs";

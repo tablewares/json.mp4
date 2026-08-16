@@ -1,0 +1,31 @@
+{
+  "id": "s7_data",
+  "narrationRef": "n7",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "assets": [
+    {
+      "id": "vid_data",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_data_center_server_7140928.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "data"
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ]
+}

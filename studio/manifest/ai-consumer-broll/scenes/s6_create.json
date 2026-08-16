@@ -1,0 +1,31 @@
+{
+  "id": "s6_create",
+  "narrationRef": "n6",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "assets": [
+    {
+      "id": "vid_create",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_digital_art_ai_36318189.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "create."
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ]
+}

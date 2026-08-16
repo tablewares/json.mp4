@@ -1,0 +1,68 @@
+{
+  "id": "main",
+  "background": "#f0f0f0",
+  "assets": [
+    {
+      "id": "hill-phys",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": 5
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "rectangle",
+        "width": 1200,
+        "height": 20,
+        "fillColorToken": "accentBg"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "hill-visual",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": 5
+      },
+      "contentOverride": {
+        "points": [
+          {
+            "x": 300,
+            "y": 900
+          },
+          {
+            "x": 1500,
+            "y": 600
+          }
+        ]
+      },
+      "styleOverride": {
+        "curveAmount": 0,
+        "strokeWidth": 10,
+        "strokeColor": "#333"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ball",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -10,
+        "offsetYPercent": -20
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "circle",
+        "width": 60,
+        "height": 60,
+        "fillColorToken": "accentBg"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ]
+}

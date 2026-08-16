@@ -7,8 +7,13 @@ selector keys, checked in a fixed precedence by `resolveTimingAnchor`
 camera-relative selectors.
 
 Used by:
-- `transition.schema.json` effect items — each `effects[]` entry accepts an
-  optional `timing` of this shape (see `build.md` / `transitions.md`).
+- `transition.schema.json` effect items — **historical**: effects are now
+  detached, owned by `effects.schema.json#/definitions/effectsArray` on
+  `scene.effects[]`. The new frame-first shape uses an explicit `frame` key
+  (see `build.md` / `docs/transition_effects.md`'s post-refactor note); the
+  `timing` shape below is kept only as a backward-compat bridge for the 7
+  migrated shipped scenes (`resolveSceneEffects` falls back to it when
+  `frame` is absent).
 - `camera.schema.json` `cameraAction.at` is a simpler fraction form, but the
   `relativeToCameraAction` selector on a *timing anchor* is the way an effect
   keys itself to a camera keypoint.
@@ -72,15 +77,18 @@ The schema doesn't enforce mutual exclusion — `additionalProperties:false`
 is off so any combination validates — but only the first-present selector
 applies. Pass only the one you mean.
 
-## Where `timing` sits on an effect
+## Where `timing` sits on an effect (legacy)
 
-A transition boundary effect carries an optional `timing` object. The
-resolver in `resolveTransitions.js` reads `effect.timing ?? effect` — i.e.
-the structured `timing` object is preferred, and when absent the effect's
-own top-level `offsetPercent` / `relativeToAsset` / `relativeToCameraAction`
-are read as the anchor directly (legacy co-location). So authoring
-`timing` is the structured way; top-level fields are the legacy way; the two
-shouldn't be mixed on one effect.
+A detached scene-level effect (`scene.effects[]`) prefers an explicit `frame`
+key (post-refactor); when `frame` is absent, `resolveSceneEffects` falls back
+to a `timing` object described here. Before the refactor, the resolver in
+`resolveTransitions.js` read `effect.timing ?? effect` — i.e. the structured
+`timing` object was preferred, and when absent the effect's own top-level
+`offsetPercent` / `relativeToAsset` / `relativeToCameraAction` were read as
+the anchor directly (legacy co-location). So authoring `timing` is the
+structured legacy way; top-level fields are the co-located legacy way; an
+explicit `frame` is the post-refactor way and wins when present. Don't mix
+`frame` with `timing`/`offsetPercent` on one effect.
 
 ## CLI usage
 

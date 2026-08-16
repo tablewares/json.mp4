@@ -91,28 +91,28 @@
   "narrationRef": "n5",
   "transitionOut": {
     "type": "default",
-    "durationInFrames": 18,
-    "effects": [
-      {
-        "id": "tick-5",
-        "kind": "sfx",
-        "path": "audio/sfx.mp3",
-        "volume": 0.4,
-        "timing": {
-          "relativeToAsset": "chart-spiral",
-          "edge": "enter",
-          "offsetFrames": 6
-        }
-      },
-      {
-        "id": "whoosh-wage-spiral",
-        "kind": "sfx",
-        "path": "audio/sfx.mp3",
-        "volume": 0.5,
-        "timing": {
-          "offsetPercent": 0
-        }
+    "durationInFrames": 18
+  },
+  "effects": [
+    {
+      "id": "tick-5",
+      "kind": "sfx",
+      "path": "audio/sfx.mp3",
+      "volume": 0.4,
+      "timing": {
+        "relativeToAsset": "chart-spiral",
+        "edge": "enter",
+        "offsetFrames": 6
       }
-    ]
-  }
+    },
+    {
+      "id": "whoosh-wage-spiral",
+      "kind": "sfx",
+      "path": "audio/sfx.mp3",
+      "volume": 0.5,
+      "timing": {
+        "offsetPercent": 0
+      }
+    }
+  ]
 }

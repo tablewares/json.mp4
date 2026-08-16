@@ -1,0 +1,110 @@
+{
+  "$id": "physics.schema.json",
+  "definitions": {
+    "vector2": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" }
+      }
+    },
+    "scenePhysicsSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gravity": {
+          "$ref": "#/definitions/vector2",
+          "description": "Default { x: 0, y: 1 } — Matter's own 'earth gravity' unit (scaled internally by engine.gravity.scale, default 0.001), tuned for pixel-space worlds out of the box."
+        },
+        "gravityScale": { "type": "number", "minimum": 0, "description": "Override for engine.gravity.scale. Leave unset to use Matter's default (0.001)." },
+        "iterations": { "type": "integer", "minimum": 1, "description": "Matter constraint/position/velocity solver iterations. Default: Matter's own default (6)." },
+        "startFrame": { "type": "integer", "minimum": 0, "default": 0, "description": "Scene-local frame the simulation begins stepping at. Every frame before this holds all dynamic bodies at their initial resolved position (pre-drop)." }
+      }
+    },
+    "assetPhysicsSpec": {
+      "type": "object",
+      "required": ["bodyType"],
+      "additionalProperties": false,
+      "properties": {
+        "bodyType": {
+          "type": "string",
+          "enum": ["dynamic", "static"],
+          "description": "'dynamic': simulated — falls/bounces under gravity and collisions, and gets a baked resolvedPhysics.frames[] track. 'static': an immovable anchor other bodies can collide with (a ledge, floor, wall); never moves regardless of gravity, and gets NO resolvedPhysics track — it renders at its normal resolvedPosition, unchanged. Note: shape: 'path' requires bodyType: 'static'."
+        },
+        "shape": { "type": "string", "enum": ["rectangle", "circle", "path"], "default": "rectangle" },
+        "pathSegments": {
+          "type": "integer",
+          "minimum": 2,
+          "default": 12,
+          "description": "Only used with shape:'path'. Number of straight sub-segments the resolved curve (asset.content._path, e.g. a WavyLine) is chopped into to approximate a collision surface — Matter has no native bezier body. Higher = smoother collisions, more bodies."
+        },
+        "radius": { "type": "number", "minimum": 0, "description": "Circle radius in px. Only used when shape is 'circle'; defaults to min(width,height)/2." },
+        "restitution": { "type": "number", "minimum": 0, "maximum": 2, "default": 0.6, "description": "Bounciness. 0 = no bounce, 1 = elastic." },
+        "friction": { "type": "number", "minimum": 0, "default": 0.1 },
+        "frictionAir": { "type": "number", "minimum": 0, "default": 0.01, "description": "Air resistance. 0 lets a dynamic body fall/slide forever without damping." },
+        "density": { "type": "number", "minimum": 0.0001, "default": 0.001 },
+        "initialVelocity": { "$ref": "#/definitions/vector2", "description": "px/frame at simulation start. Default { x: 0, y: 0 }." },
+        "initialAngularVelocity": { "type": "number", "description": "Radians/frame at simulation start. Default 0." },
+        "angle": { "type": "number", "description": "Starting rotation in degrees. Default 0." },
+        "fixedRotation": { "type": "boolean", "default": false, "description": "Body never rotates (infinite inertia) — e.g. a card that should slide/bounce but stay upright." },
+        "collidesWith": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Asset ids (same scene) this body may collide with. Omit to collide with every other physics body in the scene (default)."
+        },
+        "force": {
+          "type": "object",
+          "required": ["vector"],
+          "additionalProperties": false,
+          "properties": {
+            "vector": {
+              "$ref": "#/definitions/vector2",
+              "description": "Acceleration in px/frame² — the SAME units as initialVelocity, deliberately NOT Matter's mass-scaled applyForce() API, so this stays predictable and composes cleanly with gravity/initialVelocity instead of needing a separate mental model."
+            },
+            "oneShot": {
+              "type": "boolean",
+              "default": false,
+              "description": "true: applied once, as an instantaneous velocity kick, at startFrame — a shove. false (default): applied every simulated frame within [startFrame, endFrame) — a sustained push, e.g. wind."
+            },
+            "startFrame": { "type": "integer", "minimum": 0, "default": 0 },
+            "endFrame": { "type": "integer", "minimum": 0, "description": "Scene-local frame the continuous force stops (exclusive). Omit to apply for the rest of the simulation. Ignored when oneShot is true." }
+          }
+        },
+        "magnet": {
+          "type": "object",
+          "required": ["targetAssetId"],
+          "additionalProperties": false,
+          "properties": {
+            "targetAssetId": {
+              "type": "string",
+              "description": "Another asset id in this scene that ALSO carries a `physics` block (dynamic or static — a static anchor is the common case, e.g. an invisible marker placed where you want the body to climb toward). This body accelerates toward that target's live simulated position every step."
+            },
+            "strength": { "type": "number", "minimum": 0, "default": 0.001, "description": "Attraction acceleration, px/frame². This is the energy source that can make a body climb — gravity+friction alone never will." },
+            "falloff": { "type": "string", "enum": ["none", "linear", "quadratic"], "default": "none", "description": "'none': constant pull regardless of distance (predictable, recommended for a deliberate 'climb to this point' effect). 'linear'/'quadratic': weaker the farther away." },
+            "maxDistance": { "type": "number", "minimum": 0, "description": "Only pulls within this px distance of the target. Omit for unlimited range." },
+            "startFrame": { "type": "integer", "minimum": 0, "default": 0 },
+            "endFrame": { "type": "integer", "minimum": 0, "description": "Scene-local frame the pull stops (exclusive). Omit to pull for the rest of the simulation." },
+            "attractTo": {
+              "type": "string",
+              "enum": ["centroid", "nearestSurfacePoint"],
+              "default": "centroid",
+              "description": "'centroid' (default, unchanged): pull toward the target body's center of mass. 'nearestSurfacePoint': pull toward the closest point on the target's boundary — for a rectangle/circle this is the nearest edge point; for a shape:'path' target (e.g. a WavyLine used as a magnet anchor), this is the nearest point on the actual curve, sampled from content._path, not the compound body's misleading centroid."
+            }
+          }
+        },
+        "carryFromScene": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sceneId": {
+              "type": "string",
+              "description": "An EARLIER scene (in manifest.scenes order) whose matching physics asset's FINAL baked frame — position, angle, and finite-differenced velocity — seeds this asset's initial simulation state, instead of starting from anchor/initialVelocity at rest. This is a resolve-time simulation-state carry, distinct from transitionOut.params.carryAssetId (which only passes resolvedPosition/resolvedStyle to the transition component for a visual crossfade during the cut, and never touches physics)."
+            },
+            "assetId": { "type": "string", "description": "Asset id within sceneId to carry from. Defaults to this asset's own id — the common case: same logical coin, same id, in both scenes." }
+          }
+        }
+      }
+    }
+  }
+}

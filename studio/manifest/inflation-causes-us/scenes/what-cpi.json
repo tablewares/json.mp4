@@ -55,17 +55,17 @@
   "narrationRef": "n2",
   "transitionOut": {
     "type": "default",
-    "durationInFrames": 18,
-    "effects": [
-      {
-        "id": "whoosh-what-cpi",
-        "kind": "sfx",
-        "path": "audio/sfx.mp3",
-        "volume": 0.5,
-        "timing": {
-          "offsetPercent": 0
-        }
+    "durationInFrames": 18
+  },
+  "effects": [
+    {
+      "id": "whoosh-what-cpi",
+      "kind": "sfx",
+      "path": "audio/sfx.mp3",
+      "volume": 0.5,
+      "timing": {
+        "offsetPercent": 0
       }
-    ]
-  }
+    }
+  ]
 }

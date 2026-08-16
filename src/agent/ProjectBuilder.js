@@ -41,7 +41,6 @@ import { resolveProject } from "../pipelines/pipeline2-resolve/resolve.js";
 import {
   buildTimeline,
   findAssetSegments,
-  segmentToSceneEffectAnchor,
 } from "../timing/buildTimeline.js";
 
 import { DEFAULT_REPO_ROOT, ProjectIO } from "./projectIO.js";
@@ -63,6 +62,46 @@ import { normalizeTransitionOut } from "./transitions.js";
 // working without a second import. builders built before the split
 // imported { DEFAULT_CONFIG } from "./ProjectBuilder.js" directly.
 export { DEFAULT_CONFIG, DEFAULT_THEME };
+
+/**
+ * Constructs a detached `scene.effects[]` entry from an `injectTimelineEffects`
+ * rule's `effect` descriptor and its computed exact scene-local `frame`.
+ *
+ * The shape mirrors `effects.schema.json`'s `sfxEffect` / `visualEffect`:
+ *   - Both kinds carry the explicit `frame` (and optional `durationInFrames`).
+ *   - sfx additionally carries `path` + optional `volume`.
+ *   - visual additionally carries `assetType` + optional `anchor` /
+ *     `contentOverride` / `styleOverride`.
+ *
+ * Only the keys actually present on the user's `effect` are spread in, so an
+ * omitted `volume` leaves the default (1) to the resolver rather than forcing
+ * `undefined` into the on-disk JSON. The caller-supplied `id` wins over any
+ * `effect.id` — `injectTimelineEffects` derives a per-segment / per-scene id
+ * so the idempotent replace-by-id flush tracks per-target, not per-rule.
+ */
+function buildInjectedEffect(effect, id, frame) {
+  if (effect.kind === "sfx") {
+    return {
+      id,
+      kind: "sfx",
+      frame,
+      path: effect.path,
+      ...(effect.volume !== undefined ? { volume: effect.volume } : {}),
+      ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
+    };
+  }
+  // kind === "visual"
+  return {
+    id,
+    kind: "visual",
+    frame,
+    assetType: effect.assetType,
+    ...(effect.anchor ? { anchor: effect.anchor } : {}),
+    ...(effect.contentOverride ? { contentOverride: effect.contentOverride } : {}),
+    ...(effect.styleOverride ? { styleOverride: effect.styleOverride } : {}),
+    ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
+  };
+}
 
 export class ProjectBuilder {
   constructor({ repoRoot = DEFAULT_REPO_ROOT } = {}) {
@@ -374,8 +413,16 @@ export class ProjectBuilder {
    * when present; `params` is merged key by key (so tweaking one param
    * doesn't drop the others); `effects` is replaced wholesale when present
    * — use addTransitionEffect for appending a single effect instead.
+   *
    * Throws if the scene has no transitionOut yet — use setTransitionOut to
    * create one first.
+   *
+   * **POST-REFACTOR NOTE**: `patch.effects` no longer writes onto
+   * `scene.transitionOut.effects` (that key is no longer schema-defined).
+   * It is redirected to `scene.effects[]` as a wholesale replace, mirroring
+   * the new detached scene-level effects surface. The `effects` arg is kept
+   * on this method's signature only so existing callers keep working —
+   * prefer `addEffect` for appending single entries.
    *
    * @param {{type?, durationInFrames?, params?, effects?}} patch
    */
@@ -393,13 +440,19 @@ export class ProjectBuilder {
     }
     if (patch.durationInFrames !== undefined) scene.transitionOut.durationInFrames = patch.durationInFrames;
     if (patch.params) scene.transitionOut.params = { ...(scene.transitionOut.params ?? {}), ...patch.params };
-    if (patch.effects) scene.transitionOut.effects = patch.effects;
+    // Effects now live on the detached scene-level surface (effects.schema.json);
+    // see addEffect for the append-single API. Kept on this patch signature for
+    // backward compatibility — writes route to scene.effects[] wholesale.
+    if (patch.effects) scene.effects = patch.effects;
 
     this._writeScene(projectId, sceneId, scene);
     return scene.transitionOut;
   }
 
-  /** Removes a scene's transitionOut entirely (falls back to a hard cut). */
+  /** Removes a scene's transitionOut entirely (falls back to a hard cut).
+   *  Does NOT touch the detached scene.effects[] array — call
+   *  `removeEffects(projectId, sceneId)` for that, or remove individual
+   *  entries by id via direct file edit (no per-id remove API exists yet). */
   removeTransitionOut(projectId, sceneId) {
     const scene = this._readScene(projectId, sceneId);
     const had = Boolean(scene.transitionOut);
@@ -408,16 +461,26 @@ export class ProjectBuilder {
     return { removed: had };
   }
 
-  /** Appends one boundary effect (sfx | visual) to a scene's transitionOut. */
+  /**
+   * Appends one boundary effect (sfx | visual) to a scene's detached
+   * `effects[]` array (the post-refactor scene-level surface owned by
+   * `effects.schema.json`). Replaces the older
+   * `scene.transitionOut.effects[]` write site; the new shape is frame-first
+   * — pass `{ id, kind, frame, ... }` for new authoring. Legacy
+   * `{ timing, offsetPercent, ... }` shapes still validate via the schema's
+   * backward-compat keys and will resolve at pass-2 via the legacy fallback
+   * branch in `resolveSceneEffects`.
+   *
+   * Auto-creates an empty `scene.effects = []` array when absent (no
+   * `transitionOut` is created — effects are independent of transitions
+   * post-refactor).
+   */
   addTransitionEffect(projectId, sceneId, effectSpec) {
     const scene = this._readScene(projectId, sceneId);
-    if (!scene.transitionOut) {
-      scene.transitionOut = { type: "default" };
-    }
-    if (!Array.isArray(scene.transitionOut.effects)) scene.transitionOut.effects = [];
-    scene.transitionOut.effects.push(effectSpec);
+    if (!Array.isArray(scene.effects)) scene.effects = [];
+    scene.effects.push(effectSpec);
     this._writeScene(projectId, sceneId, scene);
-    return scene.transitionOut.effects;
+    return scene.effects;
   }
 
   /**
@@ -622,41 +685,52 @@ export class ProjectBuilder {
 
   /**
    * Timeline-driven effect injection: harvests asset segments from the
-   * resolved manifest and writes scene-relative effects onto each matching
-   * scene's `transitionOut.effects[]` — after scenes are already built.
+   * resolved manifest and writes effects anchored to an *exact scene-local
+   * frame* onto each matching scene's detached `scene.effects[]` — after
+   * scenes are already built. Effects are no longer nested under
+   * `transitionOut`; the resolution step (`resolveSceneEffects`) and the
+   * renderer both read the scene-level `effects[]` array (see
+   * `effects.schema.json`).
    *
-   * Each rule selects which asset segments to target and what effect to drop
-   * on each:
+   * This method always resolves + reads the project's timeline FIRST so the
+   * frames it writes match what a subsequent `render` would actually play —
+   * no stale `studio/resolved.json`, no percent math converting back to
+   * frames at resolve time.
+   *
+   * Each rule selects which segments to target and what effect to drop:
    *   {
-   *     match: { assetType: "KineticText" } | { predicate: "enter"|"exit"|"all" }
-   *            // assetType matches by exact type; "predicate" picks the
-   *            // edge: "enter"=segment start frame, "exit"=segment end frame,
-   *            // "all"=segment span (default "enter").
+   *     match: { assetType: "KineticText" }
+   *            | { scene: "all" }                         // every scene, by boundary
+   *            | { predicate: "sceneEnd" | "sceneStart" } // alias of match.scene
    *     anchor: "enter" | "exit"  // which edge of the matched segment to
    *            // anchor the effect to; default "enter".
    *     effect: {
    *       kind: "sfx" | "visual",
    *       id: <effect id>,                     // required; used for idempotency
-   *       // sfx:        { path, volume?, durationInFrames? }
-   *       // visual:     { assetType, anchor?, contentOverride?, styleOverride?, durationInFrames? }
+   *       // sfx:    { path, volume?, durationInFrames? }
+   *       // visual: { assetType, anchor?, contentOverride?, styleOverride?, durationInFrames? }
    *       ...plus the kind-specific keys
    *     }
    *   }
    *
-   * The effect's `offsetPercent` is computed from the segment's scene-relative
-   * edge: 0 = scene's visible end frame (the boundary `add-effect` anchors to);
-   * negative = earlier in the scene. So an effect anchored to a segment that
-   * starts at 40% of a scene lands at `offsetPercent = -0.6`.
+   * The effect's `frame` is computed directly from the resolved timeline:
+   *   - `match.assetType` rule: the matched segment's `globalEnterFrame` /
+   *     `globalExitFrame` is lifted into scene-local space by subtracting the
+   *     timeline scene's `startFrame` (`anchor: "enter"` -> enter frame,
+   *     `anchor: "exit"` -> exit frame). So a KineticText that enters at
+   *     global frame 218 in a scene whose global startFrame is 88 lands at
+   *     scene-local frame 130 — exactly where the asset becomes visible.
+   *   - `match.scene: "all"` rule: `anchor: "enter"` -> `frame: 0` (scene
+   *     start); `anchor: "exit"` -> `frame: scene.durationInFrames` (scene
+   *     visible end). No percent math, no ambiguity.
    *
-   * Idempotent: before writing, any existing effect whose `id` matches a rule
-   * id is removed from that scene's `effects[]`. Re-running with the same
-   * rules therefore updates rather than stacks. Scenes with no matching
-   * segments are left untouched; scenes matched but with no `transitionOut`
-   * get a `{ type: "default" }` transition created for them (mirroring
-   * `addTransitionEffect`'s auto-create behavior).
+   * Idempotent: before writing, any existing effect whose `id` matches a
+   * rule id is removed from that scene's `effects[]`. Re-running with the
+   * same rules therefore updates rather than stacks. Scenes with no matching
+   * segments are left untouched.
    *
-   * @returns per-rule summary: how many segments matched, which scenes were
-   *   written, and the per-scene effect lists that landed.
+   * @returns per-rule summary: how many rules ran, which scenes were written,
+   *   and the per-scene effect lists that landed.
    */
   async injectTimelineEffects(projectId, rules) {
     if (!Array.isArray(rules) || rules.length === 0) {
@@ -667,12 +741,19 @@ export class ProjectBuilder {
     if (!fs.existsSync(manifestPath)) {
       throw new Error(`No project "${projectId}" (expected ${manifestPath}).`);
     }
+    // Resolve first so the exact-frame numbers below match what `render`
+    // would actually play — scenes are read from disk, never from a stale
+    // studio/resolved.json. `buildTimeline` lifts scene + asset timing onto
+    // the composition's global frame axis.
     const resolved = await resolveProject(manifestPath);
     const timeline = buildTimeline(resolved);
 
     // Per-scene accumulator: sceneId -> array of effects to append.
     // We resolve-then-write so each scene file is touched at most once.
     const pendingByScene = new Map();
+
+    const clampFrame = (frame, sceneDurationInFrames) =>
+      Math.max(0, Math.min(sceneDurationInFrames, Math.round(frame)));
 
     for (const rule of rules) {
       const { match = {}, anchor = "enter", effect } = rule;
@@ -689,23 +770,15 @@ export class ProjectBuilder {
 
       // scene-boundary match path: place one effect per scene regardless of
       // which assets a scene contains. Bypasses findAssetSegments entirely;
-      // the placement is relative to the scene's own timeline, not to any
-      // asset's enter/exit frame.
-      //
-      // offsetPercent on transitionOut.effects reads against the scene's
-      // visible end frame as a PERCENT (per effectTiming.js:
-      // frame = round(durationInFrames * (1 + offsetPercent/100)), clamped to
-      // [0, durationInFrames]):
-      //   0    -> scene's last frame (offsetPercent 0 = +0% past end = end)
-      //   -100 -> scene's first frame (-100% of duration earlier = start)
-      // So:
-      //   anchor === "exit"  -> offsetPercent 0   (scene end)
-      //   anchor === "enter" -> offsetPercent -100 (scene start)
+      // the placement is the scene's own timeline boundary, not any asset's
+      // enter/exit frame. The frame is exact scene-local:
+      //   anchor === "enter" -> 0                       (scene start)
+      //   anchor === "exit"  -> scene.durationInFrames   (scene visible end)
       const sceneBoundary = sceneMatch === "all" || predicate === "sceneEnd" || predicate === "sceneStart";
       if (sceneBoundary) {
-        // predicate aliases: "sceneEnd" === exit, "sceneStart" === enter.
-        // When match.scene === "all" and predicate isn't given, anchor is
-        // the source of truth (defaults to "enter" per the rule-level default).
+        // predicate aliases: "sceneEnd" === "exit", "sceneStart" === "enter".
+        // When match.scene === "all" and predicate isn't given, anchor is the
+        // source of truth (defaults to "enter" per the rule-level default).
         const resolvedAnchor =
           predicate === "sceneEnd" ? "exit" : predicate === "sceneStart" ? "enter" : anchor;
         if (resolvedAnchor !== "enter" && resolvedAnchor !== "exit") {
@@ -713,44 +786,28 @@ export class ProjectBuilder {
             `injectTimelineEffects: scene-boundary match requires anchor "enter" or "exit" (got "${resolvedAnchor}")`,
           );
         }
-        const offsetPercent = resolvedAnchor === "exit" ? 0 : -100;
-        const sceneIds = timeline.scenes.map((s) => s.sceneId);
-        sceneIds.forEach((sceneId, sceneIndex) => {
+
+        timeline.scenes.forEach((scene, sceneIndex) => {
+          const frame = clampFrame(
+            resolvedAnchor === "exit" ? scene.durationInFrames : 0,
+            scene.durationInFrames,
+          );
           const sceneEffectId = `${effect.id}-${sceneIndex}`;
-          const effectEntry =
-            effect.kind === "sfx"
-              ? {
-                  id: sceneEffectId,
-                  kind: "sfx",
-                  offsetPercent,
-                  path: effect.path,
-                  ...(effect.volume !== undefined ? { volume: effect.volume } : {}),
-                  ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
-                }
-              : {
-                  id: sceneEffectId,
-                  kind: "visual",
-                  offsetPercent,
-                  assetType: effect.assetType,
-                  ...(effect.anchor ? { anchor: effect.anchor } : {}),
-                  ...(effect.contentOverride ? { contentOverride: effect.contentOverride } : {}),
-                  ...(effect.styleOverride ? { styleOverride: effect.styleOverride } : {}),
-                  ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
-                };
-          const list = pendingByScene.get(sceneId) ?? [];
+          const effectEntry = buildInjectedEffect(effect, sceneEffectId, frame);
+          const list = pendingByScene.get(scene.sceneId) ?? [];
           list.push(effectEntry);
-          pendingByScene.set(sceneId, list);
+          pendingByScene.set(scene.sceneId, list);
         });
         continue;
       }
 
       if (!assetType || typeof assetType !== "string") {
-        throw new Error("injectTimelineEffects: rule.match.assetType (string) is required");
+        throw new Error(`injectTimelineEffects: rule.match.assetType (string) is required (or use match.scene="all" for scene-boundary placement)`);
       }
-      // predicate ("enter"|"exit"|"all", default "enter") documents which edge
-      // of each segment the rule targets. Today every segment is harvested by
-      // exact assetType; `anchor` then picks the segment edge the effect's
-      // offsetPercent is computed from.
+      // predicate ("enter"|"exit"|"all", default "enter") documents which
+      // edge of each segment the rule targets. Today every segment is
+      // harvested by exact assetType; `anchor` then picks the segment edge
+      // the effect's exact frame is read from.
       void predicate;
 
       const segments = findAssetSegments(
@@ -759,38 +816,22 @@ export class ProjectBuilder {
       );
 
       segments.forEach((segment, segIndex) => {
-        const sceneAnchor = segmentToSceneEffectAnchor(timeline, segment);
-        // offsetPercent: 0 = the scene's visible end frame (the boundary
-        // `add-effect` anchors to). A segment that starts at 40% of the
-        // scene therefore lands at offsetPercent = -0.6.
-        const shifted = anchor === "exit" ? sceneAnchor.exitPercent : sceneAnchor.enterPercent;
-        const offsetPercent = +(shifted - 1).toFixed(4);
+        // Lift the segment's global enter/exit frame into the scene's local
+        // frame space by subtracting the timeline scene's startFrame — the
+        // same coordinate space `scene.effects[].frame` and the resolver's
+        // `enterAtFrame`/`exitAtFrame` use. No percent math: the frame is
+        // exactly where the asset becomes visible / hides on the render axis.
+        const timelineScene = timeline.scenes.find((s) => s.sceneId === segment.sceneId);
+        const sceneDuration = timelineScene?.durationInFrames ?? 0;
+        const sceneStart = timelineScene?.startFrame ?? 0;
+        const globalEdge = anchor === "exit" ? segment.endFrame : segment.startFrame;
+        const localFrame = clampFrame(globalEdge - sceneStart, sceneDuration);
 
         // When a rule matches N segments, each effect needs a unique id so
         // the idempotent replace-by-id (see flush below) tracks per-segment,
         // not per-rule. Append the segment index to the user-supplied id.
         const segId = `${effect.id}-${segIndex}`;
-
-        const effectEntry =
-          effect.kind === "sfx"
-            ? {
-                id: segId,
-                kind: "sfx",
-                offsetPercent,
-                path: effect.path,
-                ...(effect.volume !== undefined ? { volume: effect.volume } : {}),
-                ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
-              }
-            : {
-                id: segId,
-                kind: "visual",
-                offsetPercent,
-                assetType: effect.assetType,
-                ...(effect.anchor ? { anchor: effect.anchor } : {}),
-                ...(effect.contentOverride ? { contentOverride: effect.contentOverride } : {}),
-                ...(effect.styleOverride ? { styleOverride: effect.styleOverride } : {}),
-                ...(effect.durationInFrames !== undefined ? { durationInFrames: effect.durationInFrames } : {}),
-              };
+        const effectEntry = buildInjectedEffect(effect, segId, localFrame);
 
         const list = pendingByScene.get(segment.sceneId) ?? [];
         list.push(effectEntry);
@@ -799,20 +840,20 @@ export class ProjectBuilder {
     }
 
     // Flush: one read-modify-write per touched scene, with idempotent replace
-    // by effect.id.
+    // by effect.id. Effects live on the detached scene-level `effects[]`
+    // array (effects.schema.json#/definitions/effectsArray) — NOT on
+    // transitionOut. A scene with no authored effects gets the array created
+    // here, matching how resolve.js pass-2 reads `expandedScenes[i].effects`.
     const written = [];
     for (const [sceneId, effects] of pendingByScene) {
       const scene = this._readScene(projectId, sceneId);
-      if (!scene.transitionOut) scene.transitionOut = { type: "default" };
-      if (!Array.isArray(scene.transitionOut.effects)) scene.transitionOut.effects = [];
+      if (!Array.isArray(scene.effects)) scene.effects = [];
 
       const idsToReplace = new Set(effects.map((e) => e.id));
-      scene.transitionOut.effects = scene.transitionOut.effects.filter(
-        (existing) => !idsToReplace.has(existing.id),
-      );
-      scene.transitionOut.effects.push(...effects);
+      scene.effects = scene.effects.filter((existing) => !idsToReplace.has(existing.id));
+      scene.effects.push(...effects);
       this._writeScene(projectId, sceneId, scene);
-      written.push({ sceneId, effects: scene.transitionOut.effects });
+      written.push({ sceneId, effects: scene.effects });
     }
 
     return {

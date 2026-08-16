@@ -6,7 +6,9 @@ import { resolveMotion } from "../../motion/motion.js";
 import { resolveAssetEffects } from "../../effects/assetEffects.js";
 import { sceneTimingBudget } from "../../timing/ttsTiming.js";
 import { resolveTimingAnchor } from "../../timing/effectTiming.js";
+import { findSceneDurationVideoAsset, probeVideoDurationSeconds } from "../../timing/videoTiming.js";
 import { indexAssetsById, resolveSceneRefs } from "./resolveRefs.js";
+import { resolveScenePhysics, getFinalPhysicsState } from "../../physics/resolvePhysics.js";
 import { warnOnAssetOverlaps } from "./overlap_warn.js";
 
 function resolveKineticWordTimings(assetSpec, assetManifest, sceneWords, narrationText) {
@@ -55,11 +57,32 @@ function resolveAssetEdgeFrame(raw, defaultFraction, ctx) {
   return Math.round(fraction * ctx.sceneDurationInFrames);
 }
 
-export function resolveScene(scene, { styles, assetRegistry, config, timingById, narrationTextById, hasNarration, isLastScene }) {
-  const timing =
+export function resolveScene(scene, { styles, assetRegistry, config, timingById, narrationTextById, hasNarration, isLastScene, publicDir, resolvedScenesById = {} }) {
+  // TTS timing (or the flat default) still resolves first — this is what
+  // feeds word-level KineticText sync below. useAsSceneDuration only
+  // overrides the *boundary* (durationInFrames), so a narrated scene whose
+  // video is the scene can still carry synced captions off the same
+  // narration if the author wants that.
+  let timing =
     hasNarration && scene.narrationRef
       ? sceneTimingBudget(scene.narrationRef, timingById)
       : { durationInFrames: config.defaultSceneDurationInFrames ?? 90 };
+
+  // \"The video is the scene\": an asset opting into useAsSceneDuration
+  // overrides TTS/default duration entirely with the video's own probed
+  // length. Strict no-op when no asset authors the flag.
+  const videoDurationAsset = findSceneDurationVideoAsset(scene);
+  if (videoDurationAsset) {
+    const src = videoDurationAsset.contentOverride?.src;
+    if (!src) {
+      throw new Error(
+        `Scene \"${scene.id}\": asset \"${videoDurationAsset.id ?? videoDurationAsset.assetType}\" has ` +
+          `contentOverride.useAsSceneDuration: true but no contentOverride.src to probe.`,
+      );
+    }
+    const seconds = probeVideoDurationSeconds(src, publicDir);
+    timing = { ...timing, durationInFrames: Math.round(seconds * config.fps) };
+  }
 
   const transitionPadding =
     !isLastScene && hasNarration && scene.narrationRef
@@ -79,7 +102,7 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
   const camera = resolveCamera(scene.camera, { sceneId: scene.id });
 
   // Built up as assets resolve so a later asset's enterAt/exitAt can
-  // anchor to an EARLIER asset's edge — same "target must come first"
+  // anchor to an EARLIER asset's edge — same \"target must come first\"
   // ordering rule resolveRefs.js's connector resolution and
   // ProjectBuilder's checkAssetRefs already enforce. Assets are looked up
   // here by their pass-1 (position/style/no-timing-anchor-yet) resolved
@@ -87,6 +110,7 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
   // exactly what resolveAssetRelative in effectTiming.js needs.
   const resolvedAssetsById = {};
   const resolvedAssets = [];
+  const physicsSpecsById = {};
 
   for (const assetSpec of scene.assets ?? []) {
     const { manifest: assetManifest } = getAsset(assetRegistry, assetSpec.assetType);
@@ -139,6 +163,7 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
 
     resolvedAssets.push(resolvedAsset);
     if (resolvedAsset.id != null) resolvedAssetsById[resolvedAsset.id] = resolvedAsset;
+    if (assetSpec.physics) physicsSpecsById[resolvedAsset.id] = assetSpec.physics;
   }
   
   warnOnAssetOverlaps(scene.id, resolvedAssets, sceneDurationInFrames, {
@@ -150,8 +175,38 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
   // FULL resolved array (unchanged) — content/connector resolution is
   // allowed to reference forward within the same loop-completed set exactly
   // as before; only enterAt/exitAt timing anchors above are restricted to
-  // "earlier in scene.assets", since those had to resolve incrementally.
+  // \"earlier in scene.assets\", since those had to resolve incrementally.
   resolveSceneRefs(resolvedAssets, { sceneId: scene.id, composition: compositionSize });
+
+  // carryFromScene: build initial-state overrides for any physics asset that
+  // wants to continue an earlier scene's simulation rather than start at
+  // rest.
+  const physicsInitialOverridesById = {};
+  for (const [assetId, spec] of Object.entries(physicsSpecsById)) {
+    if (!spec.carryFromScene) continue;
+    const sourceSceneId = spec.carryFromScene.sceneId;
+    const sourceAssetId = spec.carryFromScene.assetId ?? assetId;
+    const sourceScene = resolvedScenesById[sourceSceneId];
+    if (!sourceScene) {
+      throw new Error(
+        `Asset \"${assetId}\" (scene \"${scene.id}\") physics.carryFromScene references scene ` +
+          `\"${sourceSceneId}\", which hasn't been resolved yet (or doesn't exist). carryFromScene ` +
+          `can only reference a scene that appears EARLIER in manifest.scenes.`,
+      );
+    }
+    const sourceAsset = sourceScene.assets.find((a) => a.id === sourceAssetId);
+    const finalState = sourceAsset ? getFinalPhysicsState(sourceAsset) : null;
+    if (!finalState) {
+      throw new Error(
+        `Asset \"${assetId}\" (scene \"${scene.id}\") physics.carryFromScene references ` +
+          `\"${sourceSceneId}\"/\"${sourceAssetId}\", which has no baked physics track to carry ` +
+          `(the source asset must itself be a dynamic physics body).`,
+      );
+    }
+    physicsInitialOverridesById[assetId] = finalState;
+  }
+
+  resolveScenePhysics(resolvedAssets, physicsSpecsById, scene.physics, sceneDurationInFrames, config.fps, physicsInitialOverridesById);
 
   return {
     id: scene.id,

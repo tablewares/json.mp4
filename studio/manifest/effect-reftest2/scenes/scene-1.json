@@ -1,0 +1,14 @@
+{
+  "id": "scene-1",
+  "background": "shade1",
+  "assets": [],
+  "effects": [
+    {
+      "id": "boom",
+      "kind": "sfx",
+      "frame": 30,
+      "path": "audio/sfx.mp3",
+      "volume": 0.7
+    }
+  ]
+}

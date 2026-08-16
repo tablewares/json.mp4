@@ -4,24 +4,58 @@ import { resolveAnchor } from "../../templating/anchor.js";
 import { resolveTimingAnchor } from "../../timing/effectTiming.js";
 import { indexAssetsById } from "./resolveRefs.js";
 
+const clampFrame = (frame, sceneDurationInFrames) =>
+  Math.max(0, Math.min(sceneDurationInFrames, Math.round(frame)));
+
 /**
- * Resolves a scene's transitionOut.effects into render-ready entries.
+ * Resolves a scene's authored `effects[]` (the detached, scene-level effects
+ * owned by `effects.schema.json`) into render-ready entries keyed by an exact
+ * scene-local frame.
+ *
+ * Timing resolution rules (in priority order, per effect):
+ *   1. `effect.frame` (number) — the new explicit-frame shape. The effect fires
+ *      at exactly that frame. This is the form `ProjectBuilder.injectTimelineEffects`
+ *      writes after seeing the resolved timeline.
+ *   2. `effect.timing` (a timingAnchor object) — backward-compat legacy shape
+ *      carried over from the pre-refactor `transitionOut.effects` location. Routed
+ *      through `resolveTimingAnchor` (offsetPercent / relativeToAsset /
+ *      relativeToCameraAction / relativeToWord) so the 7 migrated studio manifests
+ *      that still author `timing` keep rendering byte-identically.
+ *   3. `effect.offsetPercent` (number) on the bare effect — the oldest legacy form
+ *      (`{ kind, offsetPercent }` with no `timing` wrapper). Also routed through
+ *      the same legacy resolver for byte-identical behavior.
+ *
+ * Visual effects resolve their own `AssetComponent` positioned by anchor exactly as
+ * before. The output shape (consumed by `Composition.jsx` SceneEffectLayer + the
+ * composition-root SFX <Sequence><Audio> loop) is unchanged from the prior
+ * `resolveTransitionEffects` output.
  */
-export function resolveTransitionEffects(effectsSpec, outgoingScene, styles, assetRegistry, compositionSize) {
+export function resolveSceneEffects(effectsSpec, scene, styles, assetRegistry, compositionSize) {
   if (!Array.isArray(effectsSpec) || effectsSpec.length === 0) return [];
 
-  const resolvedAssetsById = indexAssetsById(outgoingScene.assets ?? []);
+  const sceneDurationInFrames = scene.durationInFrames;
+  const resolvedAssetsById = indexAssetsById(scene.assets ?? []);
   const timingCtx = {
-    sceneDurationInFrames: outgoingScene.durationInFrames,
+    sceneDurationInFrames,
     resolvedAssetsById,
-    camera: outgoingScene.camera,
-    words: outgoingScene.narrationWords,
-    sceneId: outgoingScene.id,
+    camera: scene.camera,
+    words: scene.narrationWords,
+    sceneId: scene.id,
   };
 
   return effectsSpec.map((effect, i) => {
-    const timingAnchor = effect.timing ?? effect;
-    const frame = resolveTimingAnchor(timingAnchor, timingCtx);
+    // Frame resolution: explicit `frame` wins, then legacy `timing`, then bare
+    // `offsetPercent`. The output `frame` is always clamped to the scene's
+    // [0, durationInFrames] window so a hand-authored or injected value can
+    // never slip past the cut.
+    let frame;
+    if (typeof effect.frame === "number") {
+      frame = clampFrame(effect.frame, sceneDurationInFrames);
+    } else if (effect.timing) {
+      frame = resolveTimingAnchor(effect.timing, timingCtx);
+    } else {
+      frame = resolveTimingAnchor(effect.offsetPercent ?? 0, timingCtx);
+    }
 
     if (effect.kind === "sfx") {
       return {
@@ -34,6 +68,7 @@ export function resolveTransitionEffects(effectsSpec, outgoingScene, styles, ass
       };
     }
 
+    // kind === "visual"
     const { manifest: assetManifest } = getAsset(assetRegistry, effect.assetType);
     const size = {
       width: effect.styleOverride?.width ?? assetManifest.defaultSize.width,
@@ -57,11 +92,17 @@ export function resolveTransitionEffects(effectsSpec, outgoingScene, styles, ass
       timing: {
         durationInFrames,
         enterAtFrame: frame,
-        exitAtFrame: Math.min(frame + durationInFrames, outgoingScene.durationInFrames),
+        exitAtFrame: Math.min(frame + durationInFrames, sceneDurationInFrames),
       },
     };
   });
 }
+
+// Backward-compat alias. The pre-refactor name this module exported was
+// `resolveTransitionEffects`; resolve.js imports by that name. Keeping the
+// alias means consumers that still call the old symbol (including any
+// reference docs / snapshots) keep working without a coordinated rename.
+export const resolveTransitionEffects = resolveSceneEffects;
 
 export function buildTransitionBundle(transitionSpec, outgoingScene, incomingScene, transitionRegistry) {
   const type = transitionSpec?.type ?? "default";

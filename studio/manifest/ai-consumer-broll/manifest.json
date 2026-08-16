@@ -1,0 +1,29 @@
+{
+  "projectId": "ai-consumer-broll",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    { "id": "s1_title", "path": "scenes/s1_title.json" },
+    { "id": "s2_transform", "path": "scenes/s2_transform.json" },
+    { "id": "s3_phone", "path": "scenes/s3_phone.json" },
+    { "id": "s4_home", "path": "scenes/s4_home.json" },
+    { "id": "s5_work", "path": "scenes/s5_work.json" },
+    { "id": "s6_create", "path": "scenes/s6_create.json" },
+    { "id": "s7_data", "path": "scenes/s7_data.json" },
+    { "id": "s8_experience", "path": "scenes/s8_experience.json" }
+  ],
+  "narration": {
+    "entries": [
+      { "id": "n1", "text": "AI in Everyday Life." },
+      { "id": "n2", "text": "AI is quietly transforming the way we live." },
+      { "id": "n3", "text": "From the smartphones in our pockets," },
+      { "id": "n4", "text": "to the homes we sleep in," },
+      { "id": "n5", "text": "and the way we work" },
+      { "id": "n6", "text": "and create." },
+      { "id": "n7", "text": "It's not just about data centers and code." },
+      { "id": "n8", "text": "It's about a more connected, efficient, and creative everyday experience for everyone." }
+    ],
+    "fullTranscript": "AI in Everyday Life. AI is quietly transforming the way we live. From the smartphones in our pockets, to the homes we sleep in, and the way we work and create. It's not just about data centers and code. It's about a more connected, efficient, and creative everyday experience for everyone."
+  },
+  "audioOverlay": []
+}

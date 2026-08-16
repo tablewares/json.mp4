@@ -1,0 +1,66 @@
+{
+  "id": "main",
+  "background": "#f0f0f0",
+  "assets": [
+    {
+      "id": "hill",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "points": [
+          {
+            "x": 0,
+            "y": 0
+          },
+          {
+            "x": 1200,
+            "y": -200
+          }
+        ]
+      },
+      "styleOverride": {
+        "curveAmount": 0,
+        "strokeWidth": 20,
+        "strokeColor": "main2",
+        "width": 1200,
+        "height": 20
+      },
+      "physics": { 
+    "bodyType": "static", 
+    "shape": "rectangle", 
+    "restitution": 0.6, 
+    "friction": 0.2 
+},
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ball",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center",
+        "offsetXPercent": -15,
+        "offsetYPercent": -20
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "circle",
+        "fillColorToken": "accentBg",
+        "width": 60,
+        "height": 60
+      },
+      "physics": {
+    "bodyType": "dynamic",
+    "shape": "circle",
+    "restitution": 0.75,
+    "friction": 0.05,
+    "frictionAir": 0
+},
+
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "projectId": "physics-demo-project",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "physics-demo",
+      "path": "scenes/physics-demo.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "Physics demo."
+      }
+    ],
+    "fullTranscript": "Physics demo."
+  }
+}

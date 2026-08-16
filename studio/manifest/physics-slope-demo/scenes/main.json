@@ -1,0 +1,114 @@
+{
+  "id": "main",
+  "background": "#f0f0f0",
+
+  "assets": [
+  
+    {
+      "id": "hill-visual",
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "points": [
+{ "position": "center", "offsetXPercent": -10 },
+  { "position": "center", "offsetXPercent": 10, "offsetYPercent": -10 },
+  { "position": "center", "offsetXPercent": 19, "offsetYPercent": -25 },
+  { "position": "center", "offsetXPercent": 25, "offsetYPercent": -32 },
+  { "position": "center", "offsetXPercent": 32, "offsetYPercent": -35 },
+  { "position": "center", "offsetXPercent": 39, "offsetYPercent": -32 },
+  { "position": "center", "offsetXPercent": 46, "offsetYPercent": -23 },
+  { "position": "center", "offsetXPercent": 55, "offsetYPercent": -8 },
+  { "position": "center", "offsetXPercent": 65, "offsetYPercent": 12 }
+        ]
+      },
+      "styleOverride": {
+        "curveAmount": 0,
+        "strokeWidth": 2,
+        "strokeColor": "#EA3943",
+        "drawDurationFraction": 0.1,
+        "smoothCurve": true
+      },
+      "physics": {
+        "bodyType": "static",
+        "shape": "path",
+        "restitution": 0.75,
+        "pathSegments": 16,
+        "magnet": {
+          "targetAssetId": "hill-visual",
+          "strength": 0.0022,
+          "attractTo": "nearestSurfacePoint"  
+        }
+    },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ball",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -15
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "circle",
+        "width": 60,
+        "height": 60,
+        "fillColorToken": "accentBg"
+      },
+      "physics": {
+    "bodyType": "dynamic",
+    "shape": "circle",
+    "restitution": 0.75,
+    "friction": 0.05,
+    "frictionAir": 0,
+    "force": {"vector": {
+      "x": 0.5,
+      "y": 0.0
+    },
+    "oneShot": false,
+    "startFrame": 0,
+    "endFrame": 60
+    }
+  },
+      "enterAt": 0.9,
+      "exitAt": 1
+    },
+     {
+      "id": "downSlope",
+      "assetType": "PhysicsShape",
+      "anchor": { "position": "bottom-left", "offsetXPercent": 5, "offsetYPercent": -25 },
+      "styleOverride": { "shape": "rectangle", "width": 500, "height": 24, "fillColorToken": "main2" },
+      "physics": {
+        "bodyType": "static",
+        "shape": "rectangle",
+        "restitution": 0.75,
+        "pathSegments": 16,
+        "magnet": {
+          "targetAssetId": "downSlope",
+          "strength": 0.0022,
+          "attractTo": "nearestSurfacePoint"  
+        }
+      }
+        },
+    
+    {
+      "id": "coin",
+      "assetType": "PhysicsShape",
+      "anchor": { "position": "top-left", "offsetXPercent": 8, "offsetYPercent": 6 },
+      "styleOverride": { "shape": "circle", "width": 70, "height": 70, "fillColorToken": "accentWarm" },
+      "physics": {
+        "bodyType": "dynamic",
+        "shape": "circle",
+        "restitution": 0.5,
+        "friction": 0,
+        "frictionAir": 0
+      },
+      "enterAt": 0,
+      "exitAt": 1
+
+    }
+  ]
+}

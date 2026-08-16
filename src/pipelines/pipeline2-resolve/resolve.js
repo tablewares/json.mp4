@@ -8,10 +8,15 @@ import { resolveNarrationTiming } from "../../timing/ttsTiming.js";
 
 // Extracted modules
 import { resolveScene } from "./resolveScene.js";
-import { resolveTransitionEffects, buildTransitionBundle } from "./resolveTransitions.js";
+import { resolveTransitionEffects, resolveSceneEffects, buildTransitionBundle } from "./resolveTransitions.js";
+// `resolveTransitionEffects` above is a back-compat alias for `resolveSceneEffects`
+// (the post-refactor name) — kept exported so any stale consumer keeps resolving.
+// Pass-2 below reads scene.effects (the detached, frame-based effects surface) via
+// the renamed symbol.
 import { enforceCompositionPlugins } from "./plugins/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const publicDir = path.join(__dirname, "../../../public");
 
 function computeTotalDurationSeconds(resolvedScenes, fps) {
   let acc = 0;
@@ -40,7 +45,6 @@ export async function resolveProject(manifestPath) {
   let ttsAudioPath = null;
   const narrationTextById = {};
   
-  console.log("hasnarration", hasNarration);
   
   if (hasNarration) {
     const ttsProvider = manifest.ttsProvider ?? config.ttsProvider ?? config.tts?.provider ?? null;
@@ -62,21 +66,30 @@ export async function resolveProject(manifestPath) {
   // resolve.js's pass-2 reads directly from `scenes[i].transitionOut` via
   // resolveTransitionEffects / buildTransitionBundle), plus every
   // per-asset alias in each scene's body. Returns new objects; the
-  // original `scenes` array is untouched. No-op when no "$alias" key is
+  // original `scenes` array is untouched. No-op when no \"$alias\" key is
   // present anywhere.
   const expandedScenes = scenes.map((s) => resolveAliasesDeep(s));
 
-  const resolvedScenes = expandedScenes.map((scene, i) =>
-    resolveScene(scene, {
+  // Sequential (not .map()) so carryFromScene can reference an EARLIER
+  // scene's already-baked physics — each iteration's resolveScene call
+  // gets everything resolved so far via resolvedScenesById.
+  const resolvedScenes = [];
+  const resolvedScenesById = {};
+  for (let i = 0; i < expandedScenes.length; i += 1) {
+    const resolved = resolveScene(expandedScenes[i], {
       styles,
       assetRegistry,
       config,
       timingById,
       narrationTextById,
       hasNarration,
-      isLastScene: i === scenes.length - 1,
-    }),
-  );
+      isLastScene: i === expandedScenes.length - 1,
+      publicDir,
+      resolvedScenesById,
+    });
+    resolvedScenes.push(resolved);
+    resolvedScenesById[resolved.id] = resolved;
+  }
 
   // Pass 2: Bundle transition context
   for (let i = 0; i < resolvedScenes.length; i += 1) {
@@ -88,8 +101,8 @@ export async function resolveProject(manifestPath) {
       // but still honor any authored effects on its own outgoing boundary
       // so inject-effects / hand-authored effects on the final scene render
       // instead of being silently dropped.
-      outgoing.effects = resolveTransitionEffects(
-        expandedScenes[i].transitionOut?.effects,
+      outgoing.effects = resolveSceneEffects(
+        expandedScenes[i].effects,
         outgoing,
         styles,
         assetRegistry,
@@ -106,8 +119,8 @@ export async function resolveProject(manifestPath) {
     );
     incoming.transitionIn = outgoing.transitionOut;
 
-    outgoing.effects = resolveTransitionEffects(
-      expandedScenes[i].transitionOut?.effects,
+    outgoing.effects = resolveSceneEffects(
+      expandedScenes[i].effects,
       outgoing,
       styles,
       assetRegistry,

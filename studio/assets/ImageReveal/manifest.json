@@ -13,7 +13,11 @@
     "required": ["src"],
     "properties": {
       "src": { "type": "string" },
-      "alt": { "type": "string" }
+      "alt": { "type": "string" },
+      "useAsSceneDuration": {
+        "type": "boolean",
+        "description": "When true and this asset holds a video, the scene's durationInFrames is overridden with this video's own probed length (via ffprobe) instead of TTS narration timing. At most one asset per scene may set this."
+      }
     }
   },
   "styleOverrideSchema": {

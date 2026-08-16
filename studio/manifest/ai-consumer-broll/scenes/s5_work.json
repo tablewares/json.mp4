@@ -1,0 +1,32 @@
+{
+  "id": "s5_work",
+  "narrationRef": "n5",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "assets": [
+    {
+      "id": "vid_work",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_person_using_laptop_8523640.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "work",
+        "offsetFrames": -2
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ]
+}

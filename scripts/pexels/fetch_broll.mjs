@@ -62,7 +62,7 @@ if (queries.length === 0) {
   process.exit(1);
 }
 
-const outDir = path.join(process.cwd(), '..', '..', 'public', 'assets');
+const outDir = path.join(process.cwd(), 'public', 'assets');
 console.log('Output dir:', outDir);
 
 for (const query of queries) {

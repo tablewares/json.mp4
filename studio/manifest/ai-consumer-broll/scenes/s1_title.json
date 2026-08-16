@@ -1,0 +1,33 @@
+{
+  "id": "s1_title",
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "WhipPan",
+    "durationInFrames": 14
+  },
+  "assets": [
+    {
+      "id": "title_ai",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "AI in Everyday Life"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 1400,
+        "height": 180,
+        "align": "center",
+        "backgroundColorToken": "transparent"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 10,
+      "motion": {
+        "in": "fadeUp"
+      }
+    }
+  ]
+}

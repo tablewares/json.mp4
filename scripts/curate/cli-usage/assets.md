@@ -60,26 +60,38 @@ node scripts/agent-cli.mjs set-transition <projectId> <sceneId> '{
 # clear scene's transitionOut (back to hard cut)
 node scripts/agent-cli.mjs remove-transition <projectId> <sceneId>
 
-# append boundary effect on scene's transitionOut
-# kind:"sfx"    -> { id, kind:"sfx", offsetPercent, path, volume, durationInFrames? }
-# kind:"visual" -> { id, kind:"visual", assetType, anchor, contentOverride?, styleOverride?, durationInFrames? }
-node scripts/agent-cli.mjs add-effect <projectId> <sceneId> '{ "id":"...", "kind":"...", ... }'
+# append a boundary effect on scene.effects[] (post-refactor: detached from
+# transitions; frame-first shape; legacy `offsetPercent` / `timing` keys still
+# accepted by `effects.schema.json` for backward-compat with migrated scenes)
+# kind:"sfx"    -> { id, kind:"sfx",    frame, path, volume?, durationInFrames? }
+# kind:"visual" -> { id, kind:"visual", frame, assetType, anchor?, contentOverride?, styleOverride?, durationInFrames? }
+node scripts/agent-cli.mjs add-effect <projectId> <sceneId> '{ "id":"...", "kind":"...", "frame":42, ... }'
 ```
+
+> Full reference (one per command, named after it — see `cli-usage/README.md`):
+> `add-effect.md` appends one entry to `scene.effects[]`; `inject-effects.md`
+> is the timeline-driven bulk counterpart.
 
 Visual effects resolve through same asset pipeline as normal scene asset — run `envelope` if you forget the shape.
 
 ## Injecting effects at scene boundaries (timeline-driven)
 
-`inject-effects` can place an effect on every scene independently of which assets each scene contains — useful for "hit on every cut" SFX/visuals:
+> Full reference: `inject-effects.md` (filename = command name per
+> `cli-usage/README.md`). The snippets below are the executive summary.
+
+`inject-effects` can place an effect on every scene independently of which assets each scene contains — useful for \"hit on every cut\" SFX/visuals. It **resolves + reads the project's timeline FIRST**, then writes each effect with an **exact scene-local `frame`** derived from it — no percent math survives on disk (the `offsetPercent` snippets in older notes are historical; the CLI now writes `frame`).
 
 ```bash
-# one effect at the END of every scene (offsetPercent 0 = visible end frame)
+# one effect at the END of every scene (frame = scene.durationInFrames, the visible end)
 node scripts/agent-cli.mjs inject-effects <projectId> \
   '[{"match":{"scene":"all"},"anchor":"exit","effect":{"kind":"sfx","id":"hit","path":"audio/sfx.mp3","volume":0.6}}]'
 
-# one effect at the START of every scene (offsetPercent -1 = scene's first frame)
+# one effect at the START of every scene (frame = 0)
 node scripts/agent-cli.mjs inject-effects <projectId> \
   '[{"match":{"scene":"all"},"anchor":"enter","effect":{"kind":"sfx","id":"hit","path":"audio/sfx.mp3","volume":0.6}}]'
 ```
 
-`match.scene: "all"` (or the `predicate` aliases `"sceneEnd"` / `"sceneStart"`) bypasses the asset-segment path entirely — it iterates `timeline.scenes` and writes one effect per scene regardless of assets present. `anchor: "exit"` → `offsetPercent: 0` (last visible frame); `anchor: "enter"` → `offsetPercent: -100` (first frame — `offsetPercent` is a percent, not a fraction; -100% of scene duration earlier than the end frame). Idempotent by `effect.id` (each scene gets `${effect.id}-${sceneIndex}`); auto-creates `{type:"default"}` transition when a scene has none. The existing `match.assetType` path is unchanged — only the addition of `match.scene` selects this mode.
+`match.scene: "all"` (or the `predicate` aliases `"sceneEnd"` / `"sceneStart"`) bypasses the asset-segment path entirely — it iterates `timeline.scenes` and writes one effect per scene regardless of assets present. `anchor: "exit"` → `frame: scene.durationInFrames` (visible end); `anchor: "enter"` → `frame: 0` (scene start). Each scene gets `${effect.id}-${sceneIndex}`; idempotent by id (re-running a rule replaces, doesn't stack).
+
+The `match.assetType` path is also supported: it lifts each matched segment's global enter/exit frame into scene-local space by subtracting the scene's timeline start. So a KineticText entering at global frame 218 inside a scene whose global start is 88 writes `frame: 130` — exactly when the asset becomes visible.
+

@@ -1,0 +1,47 @@
+{
+  "id": "physics-demo",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "ledge",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -18
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "rectangle",
+        "fillColorToken": "main2"
+      },
+            "physics": { "bodyType": "static", "shape": "rectangle", "restitution": 0.6, "friction": 0.2 },
+
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ball",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 6,
+        "offsetXPercent": -8
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "circle",
+        "fillColorToken": "accentRed"
+      },
+        "physics": {
+        "bodyType": "dynamic",
+        "shape": "circle",
+        "restitution": 0.75,
+        "friction": 0.05,
+        "frictionAir": 0
+      },
+
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ]
+}

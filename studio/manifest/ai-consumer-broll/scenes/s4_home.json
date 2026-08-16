@@ -1,0 +1,31 @@
+{
+  "id": "s4_home",
+  "narrationRef": "n4",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "assets": [
+    {
+      "id": "vid_home",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_smart_home_automation_7641177.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "homes"
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ]
+}

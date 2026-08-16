@@ -1,0 +1,150 @@
+{
+  "$id": "effects.schema.json",
+  "definitions": {
+    "effectSpec": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/sfxEffect"
+        },
+        {
+          "$ref": "#/definitions/visualEffect"
+        }
+      ]
+    },
+    "effectsArray": {
+      "description": "Detached scene-level effects, resolved independently from transitions. Each entry is anchored to an exact scene-local frame (`frame` key) \u2014 never a percent. Resolved by resolveSceneEffects in pipeline2 and rendered by Composition.jsx SceneEffectLayer (visual) / composition-root <Sequence><Audio> (sfx).",
+      "items": {
+        "$ref": "#/definitions/effectSpec"
+      },
+      "type": "array"
+    },
+    "sfxEffect": {
+      "additionalProperties": false,
+      "description": "A SFX effect anchored to one exact scene-local frame. `frame` is 0-based against the scene's resolved durationInFrames (after TTS + transition-pad are baked in at resolve time). `durationInFrames` is optional and defaults to the audio file's own length when omitted. Backward-compat: a `timing` object (offsetPercent / relativeToAsset / relativeToCameraAction / relativeToWord) is still accepted and resolved to a concrete `frame` during pass-2 (see resolveSceneEffects), so existing manifests that author effects with `timing` keep validating and rendering. New authoring (and the agent `inject-effects` writer) should prefer the explicit `frame` form.",
+      "properties": {
+        "durationInFrames": {
+          "description": "Optional explicit duration. When omitted the <Audio> plays to the file's end.",
+          "minimum": 1,
+          "type": "number"
+        },
+        "frame": {
+          "description": "Exact scene-local frame at which the SFX starts. 0 = scene start; the scene's last frame equals scene.durationInFrames.",
+          "minimum": 0,
+          "type": "number"
+        },
+        "id": {
+          "description": "Unique effect id within the scene. Used for idempotent replace by `inject-effects`.",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "sfx"
+          ],
+          "type": "string"
+        },
+        "offsetPercent": {
+          "description": "Backward-compat legacy percent-of-scene-end (see effectTiming.js resolveEffectFrame). Deprecated \u2014 prefer `frame`. Used only when both `frame` and `timing` are absent.",
+          "type": "number"
+        },
+        "path": {
+          "description": "Path under public/, e.g. \"audio/sfx.mp3\". Resolved via Remotion staticFile().",
+          "type": "string"
+        },
+        "timing": {
+          "$ref": "shared.schema.json#/definitions/timingAnchor",
+          "description": "Backward-compat legacy timing-anchor shape. Deprecated for new authoring \u2014 prefer the explicit `frame` field. When present and `frame` is omitted, resolveSceneEffects converts it to a concrete `frame` using the shared timingAnchor vocabulary."
+        },
+        "volume": {
+          "default": 1,
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "path"
+      ],
+      "type": "object"
+    },
+    "visualEffect": {
+      "additionalProperties": false,
+      "description": "A freestanding visual-effect asset (its own AssetComponent positioned by anchor) anchored to one exact scene-local frame. `frame` is 0-based against the scene's resolved durationInFrames. `durationInFrames` defaults to 30 when omitted. Backward-compat `timing`/`offsetPercent` shapes are kept \u2014 see sfxEffect for the deprecation notes.",
+      "properties": {
+        "anchor": {
+          "additionalProperties": false,
+          "properties": {
+            "offsetXPercent": {
+              "default": 0,
+              "type": "number"
+            },
+            "offsetYPercent": {
+              "default": 0,
+              "type": "number"
+            },
+            "position": {
+              "enum": [
+                "center",
+                "top",
+                "bottom",
+                "left",
+                "right",
+                "top-left",
+                "top-right",
+                "bottom-left",
+                "bottom-right"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "assetType": {
+          "description": "Anything registered under studio/assets/ or studio/graphics/ that exposes an AssetComponent.",
+          "type": "string"
+        },
+        "contentOverride": {
+          "type": "object"
+        },
+        "durationInFrames": {
+          "default": 30,
+          "description": "Visible lifetime of the effect before it exits.",
+          "minimum": 1,
+          "type": "number"
+        },
+        "frame": {
+          "description": "Exact scene-local frame at which the visual effect enters (becomes visible).",
+          "minimum": 0,
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "visual"
+          ],
+          "type": "string"
+        },
+        "offsetPercent": {
+          "description": "Backward-compat legacy percent-of-scene-end. Deprecated \u2014 prefer `frame`.",
+          "type": "number"
+        },
+        "styleOverride": {
+          "type": "object"
+        },
+        "timing": {
+          "$ref": "shared.schema.json#/definitions/timingAnchor",
+          "description": "Backward-compat legacy timing-anchor shape. Deprecated for new authoring \u2014 prefer the explicit `frame` field."
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "assetType"
+      ],
+      "type": "object"
+    }
+  }
+}

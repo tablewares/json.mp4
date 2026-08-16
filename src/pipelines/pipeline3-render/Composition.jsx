@@ -5,6 +5,7 @@ import { AudioOverlay } from "../../audio/overlay.jsx";
 import registryManifest from "../../../studio/generated/registry.generated.json";
 import { resolveAssetDepth, resolveCameraTransform } from "../../templating/camera.js";
 import { computeMotionTransform } from "../../motion/motion.js";
+import { computePhysicsTransform } from "../../physics/computePhysicsTransform.js";
 import { computeAssetEffectStyle } from "../../effects/assetEffects.js";
 
 // ==========================================
@@ -242,20 +243,24 @@ function SceneLayer({ scene, compositionSize }) {
                 throw new Error(`No renderer registered for assetType "${asset.assetType}"`);
               }
               const motionTransform = computeMotionTransform(asset.resolvedMotion, frame, asset.timing);
+              const physicsFrame = computePhysicsTransform(asset.resolvedPhysics, frame);
               const assetEffectStyle = computeAssetEffectStyle(asset.resolvedEffects);
               const { left, top, ...restPosition } = asset.resolvedPosition;
+              const renderLeft = physicsFrame ? physicsFrame.left : left;
+              const renderTop = physicsFrame ? physicsFrame.top : top;
+              const physicsRotateDeg = physicsFrame ? physicsFrame.rotateDeg : 0;
               return (
                 <div
                   key={asset.id}
                   style={{
                     position: "absolute",
-                    left,
-                    top,
+                    left: renderLeft,
+                    top: renderTop,
                     width: asset.resolvedStyle.width,
                     height: asset.resolvedStyle.height,
                     opacity: motionTransform.opacity,
-                    transform: `translate(${motionTransform.translateX}px, ${motionTransform.translateY}px) rotate(${motionTransform.rotateDeg}deg)`,
-                    transformOrigin: restPosition.transformOrigin ?? "50% 50%",
+                    transform: `translate(${motionTransform.translateX}px, ${motionTransform.translateY}px) rotate(${motionTransform.rotateDeg + physicsRotateDeg}deg)`,
+                    transformOrigin: physicsFrame ? "50% 50%" : (restPosition.transformOrigin ?? "50% 50%"),
                     filter: assetEffectStyle.filter,
                     overflow: assetEffectStyle.overlays.length > 0 ? "hidden" : undefined,
                   }}

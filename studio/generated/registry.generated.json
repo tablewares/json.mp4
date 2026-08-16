@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T01:26:24.304Z",
+  "generatedAt": "2026-08-16T03:09:37.145Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics",
@@ -28,6 +28,11 @@
     "KineticText": {
       "folderName": "KineticText",
       "entryFile": "KineticText.jsx",
+      "rootIndex": 0
+    },
+    "PhysicsShape": {
+      "folderName": "PhysicsShape",
+      "entryFile": "PhysicsShape.jsx",
       "rootIndex": 0
     },
     "TextBlock": {

@@ -1,0 +1,31 @@
+{
+  "id": "s3_phone",
+  "narrationRef": "n3",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "assets": [
+    {
+      "id": "vid_phone",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_smartphone_app_4201543.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "smartphones"
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "assetType": "PhysicsShape",
+  "component": "PhysicsShape.jsx",
+  "description": "A minimal SVG circle/rect. Has no physics logic itself — pairing it with a `physics` block on the asset spec is what makes it fall/bounce; any other asset type works identically since resolvePhysics.js only ever reads/writes an asset's box (resolvedPosition + width/height).",
+  "defaultSize": { "width": 120, "height": 120 },
+  "defaultStyle": { "shape": "circle", "fillColorToken": "accentBg" },
+  "contentOverrideSchema": { "type": "object", "properties": {} },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "shape": { "type": "string", "enum": ["circle", "rectangle"] },
+      "fillColorToken": { "type": "string" },
+      "strokeColorToken": { "type": "string" },
+      "strokeWidth": { "type": "number" },
+      "borderRadius": { "type": "number" },
+      "width": { "type": "number" },
+      "height": { "type": "number" }
+    }
+  }
+}

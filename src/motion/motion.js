@@ -91,7 +91,6 @@ function resolvePhase(raw, aliasTable, phaseLabel) {
     }
     return normalizePhase(preset, raw);
   }
-
   throw new Error(`motion.${phaseLabel} must be a string alias or an object, got ${typeof raw}`);
 }
 

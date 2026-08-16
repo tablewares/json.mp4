@@ -26,6 +26,7 @@ import { validateProject } from "../src/pipelines/pipeline1-validate/validate.js
 import { resolveProject } from "../src/pipelines/pipeline2-resolve/resolve.js";
 import { bundle } from "@remotion/bundler";
 import { renderMedia, selectComposition } from "@remotion/renderer";
+import { getBundleOutDir } from "../src/pipelines/pipeline3-render/bundleOutDir.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
@@ -122,9 +123,15 @@ fs.mkdirSync(path.dirname(outputMp4), { recursive: true });
 
 process.stdout.write(`[4/4] render    -> ${path.relative(repoRoot, outputMp4) || outputMp4}\n`);
 const entryPoint = path.join(repoRoot, "src/index.jsx");
+// Remotion's `bundle()` defaults to creating a fresh
+// `remotion-webpack-bundle-XXXXXX` dir in os.tmpdir() on every run and never
+// removing the old ones. Pin it to one stable, repo-local dir so exactly one
+// bundle dir ever exists and is reused across all renders.
+const bundleOutDir = getBundleOutDir(repoRoot);
+
 try {
   console.log("Bundling...");
-  const bundleLocation = await bundle({ entryPoint });
+  const bundleLocation = await bundle({ entryPoint, outDir: bundleOutDir });
 
   console.log("Selecting composition...");
   const composition = await selectComposition({

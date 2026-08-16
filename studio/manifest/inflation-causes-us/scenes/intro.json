@@ -33,7 +33,7 @@
         "offsetYPercent": 8
       },
       "contentOverride": {
-        "text": "U.S. ECONOMY · 2024"
+        "text": "U.S. ECONOMY \u00b7 2024"
       },
       "styleOverride": {
         "typography": "kicker1",
@@ -88,18 +88,7 @@
     "durationInFrames": 24,
     "params": {
       "carryAssetId": "hero-cpi"
-    },
-    "effects": [
-      {
-        "id": "whoosh-intro",
-        "kind": "sfx",
-        "path": "audio/sfx.mp3",
-        "volume": 0.5,
-        "timing": {
-          "offsetPercent": 0
-        }
-      }
-    ]
+    }
   },
   "camera": {
     "start": {
@@ -115,5 +104,16 @@
     "zoomStartPercent": 108,
     "zoomEndPercent": 124,
     "easeZoom": true
-  }
+  },
+  "effects": [
+    {
+      "id": "whoosh-intro",
+      "kind": "sfx",
+      "path": "audio/sfx.mp3",
+      "volume": 0.5,
+      "timing": {
+        "offsetPercent": 0
+      }
+    }
+  ]
 }

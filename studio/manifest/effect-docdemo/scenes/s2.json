@@ -1,0 +1,38 @@
+{
+  "id": "s2",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "TextBlock-1",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "Scene 2 title"
+      },
+      "styleOverride": {
+        "width": 1200,
+        "height": 120
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "effects": [
+    {
+      "id": "tb-enter-1",
+      "kind": "sfx",
+      "frame": 0,
+      "path": "audio/sfx.mp3",
+      "volume": 0.6
+    },
+    {
+      "id": "end-flash-1",
+      "kind": "sfx",
+      "frame": 150,
+      "path": "audio/sfx.mp3",
+      "volume": 0.4
+    }
+  ]
+}

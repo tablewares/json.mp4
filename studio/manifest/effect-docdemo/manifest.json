@@ -1,0 +1,15 @@
+{
+  "projectId": "effect-docdemo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1",
+      "path": "scenes/s1.json"
+    },
+    {
+      "id": "s2",
+      "path": "scenes/s2.json"
+    }
+  ]
+}

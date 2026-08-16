@@ -65,18 +65,7 @@
   "narrationRef": "n4",
   "transitionOut": {
     "type": "default",
-    "durationInFrames": 18,
-    "effects": [
-      {
-        "id": "whoosh-cost-push",
-        "kind": "sfx",
-        "path": "audio/sfx.mp3",
-        "volume": 0.5,
-        "timing": {
-          "offsetPercent": 0
-        }
-      }
-    ]
+    "durationInFrames": 18
   },
   "camera": {
     "start": {
@@ -92,5 +81,16 @@
     "zoomStartPercent": 118,
     "zoomEndPercent": 135,
     "easeZoom": true
-  }
+  },
+  "effects": [
+    {
+      "id": "whoosh-cost-push",
+      "kind": "sfx",
+      "path": "audio/sfx.mp3",
+      "volume": 0.5,
+      "timing": {
+        "offsetPercent": 0
+      }
+    }
+  ]
 }

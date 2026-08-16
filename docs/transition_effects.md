@@ -1,25 +1,64 @@
 # Transition Effects — Design Doc
 
+> **POST-REFACTOR NOTE (scene-level effects, exact frames).**
+> Effects are **no longer nested under `transitionOut`**. They now live on the
+> detached scene-level `effects[]` array, owned by
+> `src/pipelines/pipeline1-validate/schema/effects.schema.json`, resolved by
+> `resolveSceneEffects` in
+> `src/pipelines/pipeline2-resolve/resolveTransitions.js`, and timed by an
+> **exact scene-local `frame` key** (not `offsetPercent`).
+>
+> - New authoring and the `agent-cli.mjs inject-effects` writer use the
+>   `frame` form exclusively: `{ kind, id, frame, ... }`. The resolver
+>   honors an explicit `frame` first.
+> - The legacy `timing` / `offsetPercent` shapes described in the rest of
+>   this document are kept for **backward compatibility** with the migrated
+>   shipped manifests (they were lifted from `transitionOut.effects` to
+>   `scene.effects` during the refactor). `resolveSceneEffects` falls back
+>   to `effect.timing` and then `effect.offsetPercent` only when `frame`
+>   is absent — so those scenes render byte-identically to before. New
+>   authoring should prefer `frame`.
+> - `transitionOut` itself now owns only `{ type, durationInFrames, params }`
+>   per `transition.schema.json`.
+> - The `inject-effects` CLI command and `ProjectBuilder.injectTimelineEffects`
+>   resolve + read the project's global-frame timeline FIRST, then write each
+>   effect with a scene-local `frame` derived directly from the timeline
+>   (asset-segment global edge − scene startFrame; scene-boundary: 0 or
+>   `scene.durationInFrames`). No percent math survives on disk for newly
+>   injected effects.
+
+---
+
 Adds optional per-render SFX and visual effects anchored to a scene
-boundary (i.e. "between scenes"), timed as a percentage offset from that
-scene's own **resolved** ending frame. Nothing about existing manifests,
+boundary (i.e. "between scenes") — originally timed as a percentage
+offset from that scene's own **resolved** ending frame. The percent
+form is preserved as a legacy bridge (see the note above); new authoring
+uses an exact scene-local `frame`. Nothing about existing manifests,
 scenes, or renders changes unless a manifest opts in.
 
-## Why on `transitionOut`, not a new top-level field
+## Why on the scene (post-refactor), not under `transitionOut`
 
-A boundary effect is conceptually about the cut, and the cut is already
-modeled per-scene as `scene.transitionOut`. Piggybacking there means:
+A boundary effect is conceptually about the cut, and previously lived
+on `scene.transitionOut`. The refactor detaches it to a top-level
+`scene.effects[]` so that:
 
-- no new schema top-level key to validate/thread through pipeline1,
-- effects and the transition they accompany travel together in one object,
-- the outgoing scene is already the thing pass-2 resolves both transition
-  bundles against, so effects reuse that same pass with no new plumbing.
+- effects and the transition have **independent schemas** —
+  `transition.schema.json` keeps only `transitionRef`, while
+  `effects.schema.json` owns the effect vocabulary and is reusable
+  elsewhere;
+- effects resolve via a dedicated `resolveSceneEffects` resolver that
+  reads the explicit `frame` (with legacy `timing`/`offsetPercent`
+  fallback) — no transition bundle needed to host them;
+- the timing model is an **exact frame**, not a percent — making it
+  possible to write effects by frame from the resolved timeline via
+  `inject-effects` without any percentage-to-frame arithmetic.
 
 ## New keys
 
-### `scene.transitionOut.effects` (optional array)
+### `scene.effects` (optional array)
 
-Lives in `scene.schema.json` under `transitionRef`. Omit it entirely for a
+Lives in `scene.schema.json` under `effects`
+(`effects.schema.json#/definitions/effectsArray`). Omit it entirely for a
 scene with no boundary effects — this is the default for every existing
 manifest in the repo.
 
@@ -29,7 +68,9 @@ Each entry:
 |---|---|---|
 | `id` | no | Effect id; auto-generated (`sfx-N` / `fx-N`) if omitted. |
 | `kind` | yes | `"sfx"` or `"visual"`. |
-| `offsetPercent` | yes | See timing model below. |
+| `frame` | yes (new authoring) | **Exact scene-local frame** at which the effect fires (sfx: starts; visual: enters). 0 = scene start; `scene.durationInFrames` = the scene's visible end. Post-refactor primary timing key — survives on disk verbatim (no percent math). |
+| `offsetPercent` | legacy | Kept as a backward-compat bridge; only used when both `frame` and `timing` are absent. See timing model below. New authoring should use `frame` instead. |
+| `timing` | legacy | A `timingAnchor` object (`offsetPercent` / `relativeToAsset` / `relativeToCameraAction` / `relativeToWord`); only used when `frame` is absent. Kept so the migrated shipped manifests still validate and render byte-identically. |
 | `durationInFrames` | no | `sfx`: omit to let the clip play its natural length. `visual`: how long the effect asset stays mounted (default `30`). |
 | `path` | sfx only | Audio file path relative to `public/`. |
 | `volume` | sfx only | `0–1`, default `1`. |

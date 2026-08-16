@@ -1,0 +1,27 @@
+{
+  "id": "s8_experience",
+  "narrationRef": "n8",
+  "assets": [
+    {
+      "id": "vid_happy",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_smartphone_app_7947490.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "experience"
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ]
+}

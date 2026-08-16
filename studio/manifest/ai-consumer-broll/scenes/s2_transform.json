@@ -1,0 +1,32 @@
+{
+  "id": "s2_transform",
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  },
+  "assets": [
+    {
+      "id": "vid_connected_city",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_connected_city_19297594.mp4",
+        "useAsSceneDuration": true
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": {
+        "relativeToWord": "quietly"
+      },
+      "exitAt": 1,
+      "z": 1
+    }
+  ]
+}

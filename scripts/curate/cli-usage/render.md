@@ -13,7 +13,10 @@ Source: `src/pipelines/pipeline3-render/render.js`, `src/pipelines/pipeline3-ren
 
 ```bash
 node src/pipelines/pipeline3-render/render.js [output.mp4]
+# or 
+npm run build -- studio/manifest/<project-id>/manifest.json 
 ```
+
 
 Default output: `out/video.mp4` at repo root.
 

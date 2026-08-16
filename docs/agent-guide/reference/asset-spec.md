@@ -77,10 +77,12 @@ scene has no narration, `durationInFrames` is
 
 ### Timing-anchor objects — fire relative to another asset or camera action
 
-`enterAt`/`exitAt` also accept the same timing-anchor shape
-`transitionOut.effects` uses (`shared.schema.json#/definitions/timingAnchor`),
-resolved via `src/timing/effectTiming.js` (`resolveTimingAnchor`). One of
-three keys discriminates the shape:
+`enterAt`/`exitAt` also accept the timing-anchor object shape
+(`shared.schema.json#/definitions/timingAnchor`) — the same shape the legacy
+detached scene-effects `timing` descriptor used before the post-refactor
+`frame`-first authoring became primary. Resolved via
+`src/timing/effectTiming.js` (`resolveTimingAnchor`). One of three keys
+discriminates the shape:
 
 ```json
 "enterAt": { "relativeToAsset": "heroImage", "edge": "exit", "offsetFrames": -6 }

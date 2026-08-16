@@ -69,7 +69,8 @@
       "drawDurationFraction": { "type": "number", "minimum": 0, "maximum": 1, "description": "fraction of the active window spent animating the dashoffset from full length to 0 (draw-in). Hold afterwards." },
       "easing": { "type": "string", "description": "easing token driving the draw-in spring entrance + opacity envelope" },
       "width": { "type": "number" },
-      "height": { "type": "number" }
+      "height": { "type": "number" },
+      "smoothCurve": { "type": "boolean", "description": "Whether to smooth the curve" }
     }
   }
 }

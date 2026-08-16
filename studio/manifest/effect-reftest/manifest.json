@@ -1,0 +1,15 @@
+{
+  "projectId": "effect-reftest",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene-a",
+      "path": "scenes/scene-a.json"
+    },
+    {
+      "id": "scene-b",
+      "path": "scenes/scene-b.json"
+    }
+  ]
+}

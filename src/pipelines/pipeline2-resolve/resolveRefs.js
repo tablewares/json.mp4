@@ -1,4 +1,5 @@
 import { resolveAnchorPoint } from "../../templating/anchor.js";
+import { resolveWavyPath } from "../../templating/wavyPath.js";
 
 /**
  * Asset-to-asset reference resolution within one already-pass-1-resolved
@@ -162,6 +163,21 @@ function resolveEndpoint(spec, composition, ctx) {
  * @param {{sceneId?: string, composition?: {width:number, height:number}}=} opts
  * @returns {object} the same asset, for chaining
  */
+function bakeWavyPathSurface(asset) {
+  const pts = asset.content?.points;
+  if (!Array.isArray(pts) || pts.length < 2 || pts[0] == null || pts[1] == null) return;
+  const curveAmount = asset.resolvedStyle?.curveAmount ?? 0;
+  // smoothCurve must be honored here (not just in WavyLine.jsx) because the
+  // baked `content._path.d` written by this pass is what the renderer reads
+  // first — any flag dropped here is silently lost for any asset that goes
+  // through pass-2 resolution (which is every WavyLine, standalone or else).
+  const smoothCurve = Boolean(asset.resolvedStyle?.smoothCurve);
+  asset.content = {
+    ...asset.content,
+    _path: resolveWavyPath(pts, curveAmount, smoothCurve),
+  };
+}
+
 export function resolveOneRef(asset, byId, opts = {}) {
   if (!asset || asset.assetType == null) return asset;
   const content = asset.content ?? {};
@@ -224,12 +240,16 @@ export function resolveOneRef(asset, byId, opts = {}) {
       composition,
       { byId, sceneId },
     );
+    const points = [fromPt, toPt];
+    const extra = {};
     asset.content = {
       ...content,
       from: fromPt,
       to: toPt,
-      points: [fromPt, toPt],
+      points,
+      ...extra,
     };
+    bakeWavyPathSurface(asset);
     return asset;
   }
 
@@ -245,6 +265,7 @@ export function resolveOneRef(asset, byId, opts = {}) {
     if (resolved.length > 0) {
       asset.content = { ...content, points: resolved };
     }
+    bakeWavyPathSurface(asset);
     return asset;
   }
 
