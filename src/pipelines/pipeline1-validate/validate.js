@@ -8,16 +8,19 @@ import { validateScene } from "./validateScene.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-function buildAjv() {
+export function buildAjv() {
   const ajv = new Ajv({ allErrors: true, strict: false });
   addFormats(ajv);
   const schemaDir = path.join(__dirname, "schema");
-  
-  // Dynamically load all fragmented schemas
+
+  // Dynamically load all fragmented schemas. Files are added under their own
+  // $id (e.g. "scene.schema.json", "shared.schema.json"), so the same AJV
+  // instance can be used to resolve cross-file $refs at introspection time
+  // (see src/agent/schemaIntrospect.js) as well as to validate manifests.
   for (const file of fs.readdirSync(schemaDir)) {
     ajv.addSchema(loadStructuredFile(path.join(schemaDir, file)));
   }
-  
+
   return ajv;
 }
 

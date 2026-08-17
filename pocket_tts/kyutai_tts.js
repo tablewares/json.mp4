@@ -9,7 +9,7 @@ const execFileAsync = promisify(execFile);
 
 function resolveProvider(provider, voice) {
   const raw = provider ?? voice?.provider ?? voice?.ttsProvider ?? process.env.TTS_PROVIDER;
-  if (typeof raw !== "string") return "python";
+  if (typeof raw !== "string") return "http";
 
   const normalized = raw.trim().toLowerCase();
   if (["http", "fetch", "local-server", "local", "server", "kyutai-http"].includes(normalized)) {

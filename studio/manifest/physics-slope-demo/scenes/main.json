@@ -12,7 +12,7 @@
       },
       "contentOverride": {
         "points": [
-{ "position": "center", "offsetXPercent": -10 },
+  { "position": "center", "offsetXPercent": -10 },
   { "position": "center", "offsetXPercent": 10, "offsetYPercent": -10 },
   { "position": "center", "offsetXPercent": 19, "offsetYPercent": -25 },
   { "position": "center", "offsetXPercent": 25, "offsetYPercent": -32 },
@@ -59,20 +59,18 @@
         "fillColorToken": "accentBg"
       },
       "physics": {
-    "bodyType": "dynamic",
-    "shape": "circle",
-    "restitution": 0.75,
-    "friction": 0.05,
-    "frictionAir": 0,
-    "force": {"vector": {
-      "x": 0.5,
-      "y": 0.0
-    },
-    "oneShot": false,
-    "startFrame": 0,
-    "endFrame": 60
-    }
-  },
+        "bodyType": "dynamic",
+        "shape": "circle",
+        "restitution": 0,
+        "force": {"vector": {
+          "x": 0.5,
+          "y": 0.0
+        },
+        "oneShot": false,
+        "startFrame": 0,
+        "endFrame": 60
+        }
+      },
       "enterAt": 0.9,
       "exitAt": 1
     },

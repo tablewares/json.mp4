@@ -1,0 +1,11 @@
+{
+  "projectId": "physics-slope-recreation",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "main",
+      "path": "scenes/main.json"
+    }
+  ]
+}

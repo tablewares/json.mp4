@@ -1,0 +1,276 @@
+[
+  {
+    "type": "config.set",
+    "value": {
+      "defaultSceneDurationInFrames": 150
+    }
+  },
+  {
+    "type": "scene.create",
+    "sceneId": "main",
+    "value": {
+      "background": "#f0f0f0"
+    }
+  },
+  {
+    "type": "asset.create",
+    "sceneId": "main",
+    "assetId": "hill-visual",
+    "value": {
+      "assetType": "WavyLine",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "points": [
+          {
+            "position": "center",
+            "offsetXPercent": -10
+          },
+          {
+            "position": "center",
+            "offsetXPercent": 10,
+            "offsetYPercent": -10
+          },
+          {
+            "position": "center",
+            "offsetXPercent": 19,
+            "offsetYPercent": -25
+          },
+          {
+            "position": "center",
+            "offsetXPercent": 25,
+            "offsetYPercent": -32
+          },
+          {
+            "position": "center",
+            "offsetXPercent": 32,
+            "offsetYPercent": -35
+          },
+          {
+            "position": "center",
+            "offsetXPercent": 39,
+            "offsetYPercent": -32
+          },
+          {
+            "position": "center",
+            "offsetXPercent": 46,
+            "offsetYPercent": -23
+          },
+          {
+            "position": "center",
+            "offsetXPercent": 55,
+            "offsetYPercent": -8
+          },
+          {
+            "position": "center",
+            "offsetXPercent": 65,
+            "offsetYPercent": 12
+          }
+        ]
+      },
+      "styleOverride": {
+        "curveAmount": 0,
+        "strokeWidth": 2,
+        "strokeColor": "#EA3943",
+        "drawDurationFraction": 0.1,
+        "smoothCurve": true
+      },
+      "physics": {
+        "bodyType": "static",
+        "shape": "path",
+        "restitution": 0.75,
+        "pathSegments": 16,
+        "magnet": {
+          "targetAssetId": "hill-visual",
+          "strength": 0.0022,
+          "attractTo": "nearestSurfacePoint"
+        }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  },
+  {
+    "type": "asset.create",
+    "sceneId": "main",
+    "assetId": "ball",
+    "value": {
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -15
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "circle",
+        "width": 60,
+        "height": 60,
+        "fillColorToken": "accentBg"
+      },
+      "physics": {
+        "bodyType": "dynamic",
+        "shape": "circle",
+        "restitution": 0,
+        "force": {
+          "vector": {
+            "x": 0.5,
+            "y": 0.0
+          },
+          "oneShot": false,
+          "startFrame": 0,
+          "endFrame": 60
+        }
+      },
+      "enterAt": 0.9,
+      "exitAt": 1
+    }
+  },
+  {
+    "type": "asset.create",
+    "sceneId": "main",
+    "assetId": "downSlope",
+    "value": {
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "bottom-left",
+        "offsetXPercent": 5,
+        "offsetYPercent": -25
+      },
+      "styleOverride": {
+        "shape": "rectangle",
+        "width": 500,
+        "height": 24,
+        "fillColorToken": "main2"
+      },
+      "physics": {
+        "bodyType": "static",
+        "shape": "rectangle",
+        "restitution": 0.75,
+        "pathSegments": 16,
+        "magnet": {
+          "targetAssetId": "downSlope",
+          "strength": 0.0022,
+          "attractTo": "nearestSurfacePoint"
+        }
+      }
+    }
+  },
+  {
+    "type": "asset.create",
+    "sceneId": "main",
+    "assetId": "coin",
+    "value": {
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 6
+      },
+      "styleOverride": {
+        "shape": "circle",
+        "width": 70,
+        "height": 70,
+        "fillColorToken": "accentWarm"
+      },
+      "physics": {
+        "bodyType": "dynamic",
+        "shape": "circle",
+        "restitution": 0.5,
+        "friction": 0,
+        "frictionAir": 0
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  },
+  {
+    "type": "styles.setFields",
+    "fields": {
+      "colors": {
+        "shade1": "#0B0E14",
+        "shade2": "#161B26",
+        "main1": "#F5F7FA",
+        "main2": "#8B93A7",
+        "accentBg": "#3D7BFD",
+        "accentGreen": "#16C784",
+        "accentRed": "#EA3943",
+        "accentViolet": "#C04CFD",
+        "accentWarm": "#FFD166",
+        "transparent": "#00000000"
+      }
+    },
+    "replace": false
+  },
+  {
+    "type": "styles.setFields",
+    "fields": {
+      "typography": {
+        "heading1": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": 84,
+          "fontWeight": 800,
+          "lineHeight": 1.05,
+          "colorToken": "main1"
+        },
+        "heading2": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": 56,
+          "fontWeight": 700,
+          "lineHeight": 1.1,
+          "colorToken": "main1"
+        },
+        "body1": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": 36,
+          "fontWeight": 400,
+          "lineHeight": 1.35,
+          "colorToken": "main1"
+        },
+        "caption1": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": 28,
+          "fontWeight": 600,
+          "lineHeight": 1.2,
+          "colorToken": "main2"
+        },
+        "kicker1": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": 24,
+          "fontWeight": 700,
+          "lineHeight": 1.1,
+          "colorToken": "accentBg"
+        }
+      }
+    },
+    "replace": false
+  },
+  {
+    "type": "styles.setFields",
+    "fields": {
+      "spacing": {
+        "sceneMargin": 96,
+        "gutter": 32
+      }
+    },
+    "replace": false
+  },
+  {
+    "type": "styles.setFields",
+    "fields": {
+      "easing": {
+        "gentleSpring": {
+          "damping": 16,
+          "mass": 0.7,
+          "stiffness": 110
+        },
+        "snappySpring": {
+          "damping": 12,
+          "mass": 0.4,
+          "stiffness": 180
+        }
+      }
+    },
+    "replace": false
+  }
+]

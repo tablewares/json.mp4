@@ -245,7 +245,6 @@ export function resolveScenePhysics(
   fps,
   initialOverridesById = {},
 ) {
-  console.log("resolveScenePhysics: physicsSpecsById", Object.keys(physicsSpecsById ?? {}).length, "bodies,", sceneDurationInFrames, "frames,", fps, "fps");
   const ids = Object.keys(physicsSpecsById ?? {});
   if (ids.length === 0) return;
 

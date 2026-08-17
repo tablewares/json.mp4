@@ -1,0 +1,16 @@
+{
+  "name": "agent-cli",
+  "version": "1.0.0",
+  "description": "CLI for an AI agent to generate and edit video-project manifests (scenes, assets, camera, effects, physics, styles) against the pipeline1-validate JSON schemas.",
+  "private": true,
+  "bin": {
+    "agent-cli": "./cli.js"
+  },
+  "main": "cli.js",
+  "scripts": {
+    "start": "node cli.js"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1"
+  }
+}

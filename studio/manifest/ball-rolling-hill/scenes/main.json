@@ -15,18 +15,23 @@
           {
             "position": "center",
             "offsetXPercent": -30,
-            "offsetYPercent": -30
+            "offsetYPercent": -20
+          },
+          {
+            "position": "center",
+            "offsetXPercent": 0,
+            "offsetYPercent": 0
           },
           {
             "position": "center",
             "offsetXPercent": 30,
-            "offsetYPercent": 30
+            "offsetYPercent": 20
           }
         ]
       },
       "styleOverride": {
         "strokeWidth": 5,
-        "strokeColor": "#EA3943",
+        "strokeColor": "#4CAF50",
         "smoothCurve": true
       },
       "enterAt": 0,
@@ -37,8 +42,8 @@
       "assetType": "PhysicsShape",
       "anchor": {
         "position": "center",
-        "offsetXPercent": 0,
-        "offsetYPercent": -40
+        "offsetXPercent": -30,
+        "offsetYPercent": -30
       },
       "contentOverride": {},
       "styleOverride": {
@@ -50,5 +55,8 @@
       "enterAt": 0,
       "exitAt": 1
     }
-  ]
+  ],
+  "physics": {
+    "gravityScale": 0.001
+  }
 }
