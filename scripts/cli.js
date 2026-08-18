@@ -5,6 +5,7 @@ const fs = require('fs');
 const { CliError } = require('./lib/errors');
 const commands = require('./lib/commands');
 const { runBatch } = require('./lib/batch');
+const { setDefaultMinify } = require('./lib/fsutil');
 
 function ok(payload) {
   process.stdout.write(JSON.stringify({ ok: true, ...payload }, null, 2) + '\n');
@@ -38,6 +39,21 @@ function extractFlags(args, names) {
   return { flags, rest };
 }
 
+// Pulls bare `--name` boolean switches (no value) out of an argv array.
+function extractSwitches(args, names) {
+  const switches = {};
+  const rest = [];
+  for (const a of args) {
+    const name = names.find((n) => a === `--${n}`);
+    if (name) {
+      switches[name] = true;
+    } else {
+      rest.push(a);
+    }
+  }
+  return { switches, rest };
+}
+
 function parsePairs(rest) {
   if (rest.length === 0 || rest.length % 2 !== 0) {
     throw new CliError('BadArguments', 'Expected alternating <field> <json> pairs.', { received: rest });
@@ -50,12 +66,13 @@ function parsePairs(rest) {
 function handleProject(args) {
   const sub = args[0];
   if (sub === 'create') {
-    const { flags, rest } = extractFlags(args.slice(1), ['width', 'height', 'fps', 'duration']);
+    const { flags, rest } = extractFlags(args.slice(1), ['width', 'height', 'fps', 'duration', 'theme']);
     const projectId = rest[0];
     const opts = {};
     for (const k of ['width', 'height', 'fps', 'duration']) {
       if (flags[k] !== undefined) opts[k] = Number(flags[k]);
     }
+    if (flags.theme !== undefined) opts.theme = flags.theme;
     return ok(commands.project.projectCreate(projectId, opts));
   }
   if (sub === 'set') return ok(commands.project.projectSet(args[1]));
@@ -109,6 +126,39 @@ function handleConfig(args) {
   return ok(commands.configSet(args[0]));
 }
 
+function handleTheme(args) {
+  const { switches, rest } = extractSwitches(args, ['overwrite', 'replace']);
+  const sub = rest[0];
+  if (sub === 'list') return ok(commands.theme.list());
+  if (sub === 'show') return ok(commands.theme.show(rest[1]));
+  if (sub === 'create') return ok(commands.theme.create(rest[1], rest[2], { overwrite: switches.overwrite }));
+  if (sub === 'delete') return ok(commands.theme.delete(rest[1]));
+  if (sub === 'use') return ok(commands.theme.use(rest[1], switches.replace));
+  throw new CliError('UnknownCommand', `Unknown "theme" subcommand "${sub}".`, {
+    allowed: ['list', 'show', 'create', 'delete', 'use'],
+  });
+}
+
+function handleAlias(args) {
+  const { switches, rest } = extractSwitches(args, ['overwrite']);
+  const sub = rest[0];
+  if (sub === 'list') return ok(commands.alias.list(rest[1]));
+  if (sub === 'show') return ok(commands.alias.show(rest[1]));
+  if (sub === 'create') return ok(commands.alias.create(rest[1], rest[2], rest[3], { overwrite: switches.overwrite }));
+  if (sub === 'delete') return ok(commands.alias.delete(rest[1]));
+  throw new CliError('UnknownCommand', `Unknown "alias" subcommand "${sub}".`, {
+    allowed: ['list', 'show', 'create', 'delete'],
+  });
+}
+
+function handleManifest(args) {
+  const sub = args[0];
+  if (sub === 'export') return ok(commands.manifestExport());
+  throw new CliError('UnknownCommand', `Unknown "manifest" subcommand "${sub}".`, {
+    allowed: ['export'],
+  });
+}
+
 function handleBatch(args) {
   const { flags, rest } = extractFlags(args, ['file']);
   let raw;
@@ -135,7 +185,17 @@ function printHelp() {
   process.stdout.write(
     `agent-cli — generate/edit a video project manifest (scenes, assets, camera, effects, physics, styles)
 
-  project create <projectId> [--width N] [--height N] [--fps N] [--duration N]
+Global flags (any position):
+  --minify    write every JSON file this invocation touches with no
+              whitespace (JSON.stringify(obj), no indent) instead of the
+              default pretty-printed 2-space format. Cuts on-disk/regen
+              size ~30-40% on typical scene files; still plain valid JSON.
+              Affects only files WRITTEN by this invocation — doesn't
+              reformat untouched files.
+
+  project create <projectId> [--width N] [--height N] [--fps N] [--duration N] [--theme <name>]
+      --theme seeds styles/theme.json from studio/library/themes/<name>.json
+              instead of the hardcoded default (see \`theme list\`).
   project set <projectId>
   project current
   project validate
@@ -159,6 +219,32 @@ function printHelp() {
   config '<json>'
       merges keys into config.json, e.g. '{"fps":60}'
 
+  theme list
+      list every named theme preset in studio/library/themes/
+  theme show <name>
+      full JSON for one theme preset
+  theme create <name> ['<json>'] [--overwrite]
+      save a new theme preset; omit the JSON to snapshot the ACTIVE
+      project's current styles/theme.json
+  theme delete <name>
+  theme use <name> [--replace]
+      merge (default) or replace (--replace) the ACTIVE project's
+      styles/theme.json with a saved preset
+
+  alias list [category]
+      list every custom alias (studio/library/aliases/*.json), optionally
+      filtered by category. Built-in code aliases: \`node scripts/discovery.mjs aliases\`.
+  alias show <category.name>
+  alias create <category.name> '<expansion-json>' ['<description>'] [--overwrite]
+      registers a new "$alias": "<category.name>" usable in any scene JSON
+      immediately (resolve.js loads studio/library/aliases/*.json on every run)
+  alias delete <category.name>
+
+  manifest export
+      dump the ACTIVE project's full manifest+config+styles+scenes tree as
+      one JSON object (read-only; combine with --minify for a compact
+      single-blob snapshot instead of stitching N file reads)
+
   batch '<json-array>' | --file <path> | -
       one Workspace, one commit: every command must validate before anything is written.
       item shapes:
@@ -172,12 +258,20 @@ function printHelp() {
         {"type":"config.set","value":{...}}
 
 Every command prints a single JSON object to stdout on success (exit 0) or stderr on failure (exit 1).
+
+Note: project CREATION now has its own dedicated CLI, \`scripts/project-cli.js\`
+(scaffold + optional immediate render). This cli.js still owns \`project create\`
+for backward compatibility (same underlying commands.project.projectCreate),
+but prefer project-cli.js for new scaffolding work — see \`node scripts/project-cli.js help\`.
 `
   );
 }
 
 function main() {
-  const argv = process.argv.slice(2);
+  const argvRaw = process.argv.slice(2);
+  const { switches: globalSwitches, rest: argv } = extractSwitches(argvRaw, ['minify']);
+  setDefaultMinify(globalSwitches.minify);
+
   const top = argv[0];
   if (!top || top === 'help' || top === '--help' || top === '-h') return printHelp();
 
@@ -192,11 +286,17 @@ function main() {
       return handleStyles(argv.slice(1));
     case 'config':
       return handleConfig(argv.slice(1));
+    case 'theme':
+      return handleTheme(argv.slice(1));
+    case 'alias':
+      return handleAlias(argv.slice(1));
+    case 'manifest':
+      return handleManifest(argv.slice(1));
     case 'batch':
       return handleBatch(argv.slice(1));
     default:
       throw new CliError('UnknownCommand', `Unknown command "${top}".`, {
-        allowed: ['project', 'scene', 'asset', 'styles', 'config', 'batch', 'help'],
+        allowed: ['project', 'scene', 'asset', 'styles', 'config', 'theme', 'alias', 'manifest', 'batch', 'help'],
       });
   }
 }
@@ -206,3 +306,4 @@ try {
 } catch (e) {
   fail(e);
 }
+

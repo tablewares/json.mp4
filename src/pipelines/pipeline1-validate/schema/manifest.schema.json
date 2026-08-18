@@ -15,13 +15,29 @@
         "entries": {
           "type": "array",
           "items": {
-            "type": "object",
-            "required": ["id", "text"],
-            "additionalProperties": false,
-            "properties": {
-              "id": { "type": "string" },
-              "text": { "type": "string" }
-            }
+            "oneOf": [
+              {
+                "type": "object",
+                "description": "Spoken narration entry, fed to TTS synthesis.",
+                "required": ["id", "text"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": { "type": "string" },
+                  "text": { "type": "string" }
+                }
+              },
+              {
+                "type": "object",
+                "description": "Silent block: no narration segment, but still occupies a real span of the composition's audio timeline. Positioned purely by its place in the entries[] array relative to its neighboring entry ids — never by an absolute offset. A scene can set narrationRef to a silence entry's id to size its duration off durationSeconds with no TTS synthesis involved.",
+                "required": ["id", "kind", "durationSeconds"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": { "type": "string" },
+                  "kind": { "type": "string", "const": "silence" },
+                  "durationSeconds": { "type": "number", "exclusiveMinimum": 0 }
+                }
+              }
+            ]
           }
         },
         "fullTranscript": { "type": "string" }
@@ -74,6 +90,10 @@
           "path": { "type": "string", "description": "relative path to this scene's json file" }
         }
       }
+    },
+    "physicsPresets": {
+      "type": "string",
+      "description": "Optional: relative path to a JSON file of reusable named physics specs, referenceable from scenes as \"$physics.<path>\" (e.g. \"$physics.presets.bouncyBall\")."
     }
   }
 }

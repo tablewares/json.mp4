@@ -1,0 +1,12 @@
+{
+  "projectId": "physics-demo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "physicsPresets": "physics-presets.json",
+  "scenes": [
+    {
+      "id": "main",
+      "path": "scenes/main.json"
+    }
+  ]
+}

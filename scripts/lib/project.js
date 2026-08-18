@@ -9,6 +9,7 @@ const state = require('./state');
 const { Workspace } = require('./workspace');
 const { validateRef } = require('./schema');
 const { assertValid } = require('./ops');
+const library = require('./library');
 
 const DEFAULT_COLORS = {
   shade1: '#0B0E14',
@@ -35,11 +36,22 @@ function projectCreate(id, opts = {}) {
     if (typeof v !== 'number') throw new CliError('BadArguments', `--${k} must be a number.`, { field: k, received: v });
   }
 
-  const styles = {
-    colors: DEFAULT_COLORS,
-    typography: {},
-    spacing: { sceneMargin: 96, gutter: 32 },
-  };
+  // Theme sourcing: --theme <name> pulls a preset from
+  // studio/library/themes/<name>.json (discoverable via
+  // `scripts/discovery.mjs themes` / `scripts/cli.js theme list`) instead
+  // of the hardcoded 3-token/no-typography default. Falls back to the
+  // historical inline default when omitted, so `project create` with no
+  // flags is byte-identical to before this option existed.
+  let styles;
+  if (opts.theme) {
+    styles = library.themeShow(opts.theme).theme;
+  } else {
+    styles = {
+      colors: DEFAULT_COLORS,
+      typography: {},
+      spacing: { sceneMargin: 96, gutter: 32 },
+    };
+  }
   assertValid('style.schema.json', styles, 'styles');
 
   // Note: manifest.schema.json requires scenes.length >= 1, which a brand
@@ -56,7 +68,7 @@ function projectCreate(id, opts = {}) {
 
   state.setProjectId(id);
 
-  return { projectId: id, active: true, manifest, config, styles, filesWritten: written };
+  return { projectId: id, active: true, manifest, config, styles, themeUsed: opts.theme ?? null, filesWritten: written };
 }
 
 function projectSet(id) {

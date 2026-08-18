@@ -2,22 +2,28 @@
   "$id": "camera.schema.json",
   "definitions": {
     "cameraSpec": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "start": { "$ref": "#/definitions/cameraAnchor" },
-        "end": { "$ref": "#/definitions/cameraAnchor" },
-        "durationInFrames": { "type": "number", "minimum": 1 },
-        "speed": { "type": "number", "minimum": 0.01 },
-        "actions": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/cameraAction" }
+      "description": "A camera spec, or a \"$alias\": \"camera.<name>\" shorthand (e.g. camera.dollyIn, camera.overshootHold) expanded to the object shape below by resolveAliasesDeep in pipeline2.",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "start": { "$ref": "#/definitions/cameraAnchor" },
+            "end": { "$ref": "#/definitions/cameraAnchor" },
+            "durationInFrames": { "type": "number", "minimum": 1 },
+            "speed": { "type": "number", "minimum": 0.01 },
+            "actions": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/cameraAction" }
+            },
+            "zoomStartPercent": { "type": "number", "minimum": 1 },
+            "zoomEndPercent": { "type": "number", "minimum": 1 },
+            "zoomPercent": { "type": "number", "minimum": 1 },
+            "easeZoom": { "type": "boolean" }
+          }
         },
-        "zoomStartPercent": { "type": "number", "minimum": 1 },
-        "zoomEndPercent": { "type": "number", "minimum": 1 },
-        "zoomPercent": { "type": "number", "minimum": 1 },
-        "easeZoom": { "type": "boolean" }
-      }
+        { "$ref": "shared.schema.json#/definitions/aliasRef" }
+      ]
     },
     "cameraAction": {
       "type": "object",

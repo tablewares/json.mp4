@@ -1,0 +1,4 @@
+{
+  "type": "module",
+  "description": "Scoped to this directory only — scripts/builder/*.js are all ESM. scripts/lib/*.js (sibling dir, CommonJS/require) is unaffected since Node resolves \"type\" from the nearest ancestor package.json."
+}

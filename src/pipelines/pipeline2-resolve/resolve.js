@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { validateProject } from "../pipeline1-validate/validate.js";
 import { loadAssetRegistry, loadTransitionRegistry } from "../../registry/assetRegistry.js";
 import { resolveAliasesDeep } from "../../registry/aliasRegistry.js";
+import { loadAliasLibrary } from "../../registry/aliasLibrary.js";
 import { resolveNarrationTiming } from "../../timing/ttsTiming.js";
 
 // Extracted modules
@@ -68,6 +69,15 @@ export async function resolveProject(manifestPath) {
   // per-asset alias in each scene's body. Returns new objects; the
   // original `scenes` array is untouched. No-op when no \"$alias\" key is
   // present anywhere.
+  //
+  // loadAliasLibrary() registers studio/library/aliases/*.json into the
+  // SAME registry the built-ins live in, before resolveAliasesDeep looks
+  // anything up — so a hand-authored "$alias": "custom.name" resolves
+  // exactly like a built-in. Cheap + idempotent (cached after first call
+  // per process); called here rather than at module load so a project
+  // resolved via a different repoRoot / test harness still finds its
+  // own library.
+  loadAliasLibrary();
   const expandedScenes = scenes.map((s) => resolveAliasesDeep(s));
 
   // Sequential (not .map()) so carryFromScene can reference an EARLIER
@@ -101,6 +111,19 @@ export async function resolveProject(manifestPath) {
       // but still honor any authored effects on its own outgoing boundary
       // so inject-effects / hand-authored effects on the final scene render
       // instead of being silently dropped.
+      
+      // FIX: If we have TTS narration, ensure the final scene's duration 
+      // stretches to cover the full synthesized audio length to prevent 
+      // premature cut-off.
+      if (hasNarration && ttsTotalDuration != null) {
+        const totalFrames = Math.round(ttsTotalDuration * config.fps);
+        const currentTotal = computeTotalDurationSeconds(resolvedScenes, config.fps) * config.fps;
+        const padding = totalFrames - currentTotal;
+        if (padding > 0) {
+          outgoing.durationInFrames += padding;
+        }
+      }
+
       outgoing.effects = resolveSceneEffects(
         expandedScenes[i].effects,
         outgoing,
@@ -110,6 +133,7 @@ export async function resolveProject(manifestPath) {
       );
       continue;
     }
+
 
     outgoing.transitionOut = buildTransitionBundle(
       expandedScenes[i].transitionOut,

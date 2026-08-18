@@ -54,8 +54,19 @@
           "motion": { "$ref": "#/definitions/motionSpec" },
           "physics": { "$ref": "physics.schema.json#/definitions/assetPhysicsSpec" },
           "effects": {
-            "type": "array",
-            "items": { "$ref": "#/definitions/assetEffect" }
+            "description": "Array of per-asset visual effects, or a \"$alias\": \"effects.<name>\" shorthand (e.g. effects.oldComputer) that expands to the array. Individual array items may also each be a \"$alias\".",
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    { "$ref": "#/definitions/assetEffect" },
+                    { "$ref": "shared.schema.json#/definitions/aliasRef" }
+                  ]
+                }
+              },
+              { "$ref": "shared.schema.json#/definitions/aliasRef" }
+            ]
           }
         }
       }
@@ -80,17 +91,23 @@
       }
     },
     "motionSpec": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "in": { "$ref": "#/definitions/motionInPhase" },
-        "out": { "$ref": "#/definitions/motionOutPhase" },
-        "rotateDeg": {
-          "type": "number",
-          "description": "Static base rotation (degrees) held once mounted. Used as the default `rotate.fromDeg` when an animated rotate phase is also authored."
+      "description": "A motion spec, or a \"$alias\": \"motion.<name>\" shorthand (e.g. motion.fadeIn, motion.spinIn) expanded to the object shape below by resolveAliasesDeep in pipeline2.",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "in": { "$ref": "#/definitions/motionInPhase" },
+            "out": { "$ref": "#/definitions/motionOutPhase" },
+            "rotateDeg": {
+              "type": "number",
+              "description": "Static base rotation (degrees) held once mounted. Used as the default `rotate.fromDeg` when an animated rotate phase is also authored."
+            },
+            "rotate": { "$ref": "#/definitions/motionRotatePhase" }
+          }
         },
-        "rotate": { "$ref": "#/definitions/motionRotatePhase" }
-      }
+        { "$ref": "shared.schema.json#/definitions/aliasRef" }
+      ]
     },
     "motionRotatePhase": {
       "type": "object",

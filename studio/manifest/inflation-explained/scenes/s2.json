@@ -1,0 +1,28 @@
+{
+  "narrationRef": "n2",
+  "transitionOut": {
+    "type": "default"
+  },
+  "id": "s2",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_inflation_grocery_prices_36024520.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "id": "vid_grocery"
+    }
+  ]
+}

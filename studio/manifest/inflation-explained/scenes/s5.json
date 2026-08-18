@@ -1,0 +1,29 @@
+{
+  "narrationRef": "n5",
+  "transitionOut": {
+    "type": "default"
+  },
+  "id": "s5",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_financial_trading_market_38209369.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "id": "vid_energy"
+    }
+  ]
+}

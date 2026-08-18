@@ -1,0 +1,23 @@
+{
+  "presets": {
+    "peg": {
+      "bodyType": "static",
+      "shape": "circle",
+      "restitution": 0.5,
+      "friction": 0.1
+    },
+    "ball": {
+      "bodyType": "dynamic",
+      "shape": "circle",
+      "restitution": 0.5,
+      "friction": 0.1,
+      "frictionAir": 0.01
+    },
+    "floor": {
+      "bodyType": "static",
+      "shape": "rectangle",
+      "restitution": 0.2,
+      "friction": 0.1
+    }
+  }
+}

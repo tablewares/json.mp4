@@ -1,0 +1,32 @@
+{
+  "narrationRef": "n1",
+  "transitionOut": {
+    "type": "WhipPan"
+  },
+  "id": "s1",
+  "assets": [
+    {
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "US Inflation: The Hidden Tax."
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 1400,
+        "height": 180,
+        "align": "center",
+        "backgroundColorToken": "transparent"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 10,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "title"
+    }
+  ]
+}

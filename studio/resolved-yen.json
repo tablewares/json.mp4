@@ -1,0 +1,376 @@
+{
+  "projectId": "yen-collapse",
+  "config": {
+    "fps": 30,
+    "width": 1080,
+    "height": 1920,
+    "defaultSceneDurationInFrames": 150
+  },
+  "audioOverlay": [
+    {
+      "id": "voiceover",
+      "start": 0,
+      "end": 21.490000000000002,
+      "path": "audio/tts_976a5fb4bb7bfabf8e6c2ff0e36cddca8042973fdcd76eac4da7d37810e4db5f.wav",
+      "volume": 1
+    }
+  ],
+  "scenes": [
+    {
+      "id": "s1_broll1",
+      "durationInFrames": 182,
+      "effects": [],
+      "camera": null,
+      "narrationWords": [
+        {
+          "word": "The",
+          "startFrame": 25,
+          "endFrame": 28
+        },
+        {
+          "word": "Japanese",
+          "startFrame": 29,
+          "endFrame": 43
+        },
+        {
+          "word": "yen",
+          "startFrame": 44,
+          "endFrame": 50
+        },
+        {
+          "word": "has",
+          "startFrame": 51,
+          "endFrame": 54
+        },
+        {
+          "word": "been",
+          "startFrame": 55,
+          "endFrame": 59
+        },
+        {
+          "word": "sliding",
+          "startFrame": 60,
+          "endFrame": 70
+        },
+        {
+          "word": "for",
+          "startFrame": 71,
+          "endFrame": 74
+        },
+        {
+          "word": "months,",
+          "startFrame": 76,
+          "endFrame": 84
+        },
+        {
+          "word": "and",
+          "startFrame": 97,
+          "endFrame": 100
+        },
+        {
+          "word": "this",
+          "startFrame": 101,
+          "endFrame": 106
+        },
+        {
+          "word": "week",
+          "startFrame": 107,
+          "endFrame": 113
+        },
+        {
+          "word": "Washington",
+          "startFrame": 114,
+          "endFrame": 127
+        },
+        {
+          "word": "finally",
+          "startFrame": 129,
+          "endFrame": 138
+        },
+        {
+          "word": "stepped",
+          "startFrame": 139,
+          "endFrame": 148
+        },
+        {
+          "word": "in.",
+          "startFrame": 149,
+          "endFrame": 151
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n1",
+        "startSeconds": 0,
+        "endSeconds": 5.48,
+        "startFrame": 0,
+        "endFrame": 164
+      },
+      "assets": [
+        {
+          "id": "vid_yen_bills",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/broll_japanese_yen_currency_banknotes_11471492.mp4"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 0,
+            "top": 0,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 0,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "none",
+            "width": 1080,
+            "height": 1920
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 182,
+            "enterAtFrame": 0,
+            "exitAtFrame": 164,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s2_news",
+      "durationInFrames": 300,
+      "effects": [],
+      "camera": null,
+      "narrationWords": [],
+      "ttsWindow": {
+        "narrationRef": "sil_news",
+        "startSeconds": 5.48,
+        "endSeconds": 14.89,
+        "startFrame": 164,
+        "endFrame": 447
+      },
+      "assets": [
+        {
+          "id": "vid_news_clip",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/news_yen_intervention.mp4",
+            "useAsSceneDuration": true
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 0,
+            "top": 0,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 0,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "none",
+            "width": 1080,
+            "height": 1920
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 300,
+            "enterAtFrame": 0,
+            "exitAtFrame": 282,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s3_broll2",
+      "durationInFrames": 199,
+      "effects": [],
+      "camera": null,
+      "narrationWords": [
+        {
+          "word": "That",
+          "startFrame": 17,
+          "endFrame": 21
+        },
+        {
+          "word": "kind",
+          "startFrame": 23,
+          "endFrame": 28
+        },
+        {
+          "word": "of",
+          "startFrame": 29,
+          "endFrame": 31
+        },
+        {
+          "word": "intervention",
+          "startFrame": 33,
+          "endFrame": 49
+        },
+        {
+          "word": "rarely",
+          "startFrame": 51,
+          "endFrame": 61
+        },
+        {
+          "word": "fixes",
+          "startFrame": 62,
+          "endFrame": 71
+        },
+        {
+          "word": "the",
+          "startFrame": 73,
+          "endFrame": 75
+        },
+        {
+          "word": "real",
+          "startFrame": 76,
+          "endFrame": 82
+        },
+        {
+          "word": "problem,",
+          "startFrame": 83,
+          "endFrame": 95
+        },
+        {
+          "word": "and",
+          "startFrame": 100,
+          "endFrame": 102
+        },
+        {
+          "word": "traders",
+          "startFrame": 103,
+          "endFrame": 114
+        },
+        {
+          "word": "know",
+          "startFrame": 115,
+          "endFrame": 120
+        },
+        {
+          "word": "it,",
+          "startFrame": 122,
+          "endFrame": 124
+        },
+        {
+          "word": "which",
+          "startFrame": 136,
+          "endFrame": 141
+        },
+        {
+          "word": "is",
+          "startFrame": 142,
+          "endFrame": 144
+        },
+        {
+          "word": "why",
+          "startFrame": 145,
+          "endFrame": 149
+        },
+        {
+          "word": "the",
+          "startFrame": 150,
+          "endFrame": 153
+        },
+        {
+          "word": "yen",
+          "startFrame": 154,
+          "endFrame": 161
+        },
+        {
+          "word": "keeps",
+          "startFrame": 162,
+          "endFrame": 169
+        },
+        {
+          "word": "sliding",
+          "startFrame": 170,
+          "endFrame": 180
+        },
+        {
+          "word": "back.",
+          "startFrame": 182,
+          "endFrame": 188
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n3",
+        "startSeconds": 14.89,
+        "endSeconds": 21.490000000000002,
+        "startFrame": 447,
+        "endFrame": 645
+      },
+      "assets": [
+        {
+          "id": "vid_trading_falling",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/broll_stock_market_trading_screen_falling_38557069.mp4"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 0,
+            "top": 0,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 0,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "none",
+            "width": 1080,
+            "height": 1920
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 198,
+            "enterAtFrame": 0,
+            "exitAtFrame": 198,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
+      "transitionOut": null
+    }
+  ]
+}

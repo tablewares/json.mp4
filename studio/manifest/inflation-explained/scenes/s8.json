@@ -1,0 +1,29 @@
+{
+  "narrationRef": "n8",
+  "transitionOut": {
+    "type": "default"
+  },
+  "id": "s8",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_economy_money_graph_35518228.mp4"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 1080,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+
+      "z": 1,
+      "id": "vid_cool"
+    }
+  ]
+}

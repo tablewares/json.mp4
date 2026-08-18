@@ -2,22 +2,28 @@
   "$id": "transition.schema.json",
   "definitions": {
     "transitionRef": {
-      "type": "object",
-      "required": [
-        "type"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "type": "string"
+      "description": "A transitionOut/transitionIn spec, or a \"$alias\": \"transition.<name>\" shorthand (e.g. transition.quickCut, transition.smoothSlide) expanded to the object shape below by resolveAliasesDeep in pipeline2.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "durationInFrames": {
+              "type": "number"
+            },
+            "params": {
+              "type": "object"
+            }
+          }
         },
-        "durationInFrames": {
-          "type": "number"
-        },
-        "params": {
-          "type": "object"
-        }
-      }
+        { "$ref": "shared.schema.json#/definitions/aliasRef" }
+      ]
     }
   }
 }

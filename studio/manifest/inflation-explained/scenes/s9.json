@@ -1,0 +1,29 @@
+{
+  "narrationRef": "n9",
+  "id": "s9",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/family-paying-bills.jpg"
+      },
+      "styleOverride": {
+        "width": 1600,
+        "height": 900,
+        "borderRadius": 16,
+        "revealDirection": "center-out"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "img_impact"
+    }
+  ]
+}

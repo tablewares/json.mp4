@@ -1,11 +1,13 @@
 import path from "node:path";
 import { loadStructuredFile } from "./parser.js";
+import { resolveThemeRefsDeep } from "../../registry/resolveThemeRefs.js";
 
-export function validateScene(ajv, sceneConfig, manifestDir, manifestNarration, fail) {
+export function validateScene(ajv, sceneConfig, manifestDir, manifestNarration, fail, themeSources = {}) {
   const { id, path: relPath } = sceneConfig;
   const scenePath = path.join(manifestDir, relPath);
   
-  const scene = loadStructuredFile(scenePath);
+  const raw = loadStructuredFile(scenePath);
+  const scene = resolveThemeRefsDeep(raw, themeSources);
   const validateSceneSchema = ajv.getSchema("scene.schema.json");
 
   if (!validateSceneSchema(scene)) {

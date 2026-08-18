@@ -1,0 +1,29 @@
+{
+  "narrationRef": "n1",
+  "id": "s1_broll1",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_japanese_yen_currency_banknotes_11471492.mp4"
+      },
+      "styleOverride": {
+        "width": 1080,
+        "height": 1920,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "id": "vid_yen_bills"
+    }
+  ],
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "narrationRef": "sil_news",
+  "id": "s2_news",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/news_yen_intervention.mp4",
+        "useAsSceneDuration": true,
+        "muted": false,
+        "volume": 1
+      },
+      "styleOverride": {
+        "width": 1080,
+        "height": 1920,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "id": "vid_news_clip"
+    }
+  ],
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

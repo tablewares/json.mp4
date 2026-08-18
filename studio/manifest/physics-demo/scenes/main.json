@@ -1,0 +1,735 @@
+{
+  "id": "main",
+  "assets": [
+    {
+      "id": "floor",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "bottom"
+      },
+      "styleOverride": {
+        "width": 1920,
+        "height": 40,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.floor"
+    },
+    {
+      "id": "peg_0_0",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_0_1",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_0_2",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_0_3",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_0_4",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_0_5",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_1_0",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_1_1",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_1_2",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_1_3",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_1_4",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_1_5",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_2_0",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_2_1",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_2_2",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_2_3",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_2_4",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_2_5",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_3_0",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_3_1",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_3_2",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_3_3",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_3_4",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_3_5",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_4_0",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_4_1",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_4_2",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_4_3",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_4_4",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_4_5",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_5_0",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_5_1",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_5_2",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_5_3",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_5_4",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_5_5",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_6_0",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_6_1",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_6_2",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_6_3",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_6_4",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_6_5",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_7_0",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_7_1",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_7_2",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_7_3",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_7_4",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "peg_7_5",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 20,
+        "height": 20,
+        "borderRadius": 10,
+        "fillColorToken": "main2"
+      },
+      "physics": "$physics.presets.peg"
+    },
+    {
+      "id": "ball_0",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 40,
+        "height": 40,
+        "borderRadius": 20,
+        "fillColorToken": "accentBg"
+      },
+      "physics": "$physics.presets.ball",
+      "enterAt": 0.1
+    },
+    {
+      "id": "ball_1",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 40,
+        "height": 40,
+        "borderRadius": 20,
+        "fillColorToken": "accentBg"
+      },
+      "physics": "$physics.presets.ball",
+      "enterAt": 0.15
+    },
+    {
+      "id": "ball_2",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "width": 40,
+        "height": 40,
+        "borderRadius": 20,
+        "fillColorToken": "accentBg"
+      },
+      "physics": "$physics.presets.ball",
+      "enterAt": 0.2
+    }
+  ]
+}

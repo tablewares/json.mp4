@@ -6,6 +6,7 @@ const state = require('./state');
 const { Workspace } = require('./workspace');
 const ops = require('./ops');
 const project = require('./project');
+const library = require('./library');
 
 function withWorkspace(fn) {
   const projectId = state.requireProjectId();
@@ -73,6 +74,93 @@ function configSet(json) {
   return withWorkspace((ws) => ops.configSet(ws, json));
 }
 
+// ---- theme library ------------------------------------------------------
+//
+// Named, reusable style presets that live OUTSIDE any one project (see
+// studio/library/README.md), discoverable via `scripts/discovery.mjs
+// themes|theme <name>`. `theme use` is the only one that touches the
+// ACTIVE project (merges/replaces its styles/theme.json from a preset);
+// list/show/create/delete operate on the library itself and don't need an
+// active project.
+
+function themeList() {
+  return { themes: library.themeList() };
+}
+
+function themeShow(name) {
+  return library.themeShow(name);
+}
+
+// `theme create <name> ['<json>']` — with json: save it as a new preset.
+// Without json: snapshot the ACTIVE project's current styles/theme.json.
+function themeCreate(name, json, opts) {
+  if (json !== undefined) return library.themeCreate(name, json, opts);
+  const projectId = state.requireProjectId();
+  const ws = new Workspace(projectId);
+  const styles = ws.getStyles();
+  return { projectId, ...library.themeCreate(name, styles, opts) };
+}
+
+function themeDelete(name) {
+  return library.themeDelete(name);
+}
+
+// `theme use <name> [--replace]` — pulls a saved preset into the ACTIVE
+// project's styles/theme.json. Default merges token-category by
+// token-category (same semantics as `styles <field> <json>`, so existing
+// tokens not present in the preset survive); --replace wipes first.
+function themeUse(name, replace) {
+  const preset = library.themeShow(name).theme;
+  const pairs = ['colors', 'typography', 'spacing', 'easing', 'textures']
+    .filter((k) => preset[k] !== undefined)
+    .map((k) => [k, preset[k]]);
+  const result = withWorkspace((ws) => ops.stylesSetFields(ws, pairs, !!replace));
+  return { themeUsed: name, ...result };
+}
+
+// ---- alias library --------------------------------------------------------
+//
+// Custom "$alias" presets (studio/library/aliases/*.json), loaded into the
+// SAME runtime registry the built-ins live in by
+// src/registry/aliasLibrary.js — see that file + resolve.js for the
+// resolve-time wiring. This CLI only owns the on-disk JSON; it never
+// touches the in-process registry (this process is short-lived CommonJS,
+// the registry lives in the ESM pipeline).
+
+function aliasList(category) {
+  return { aliases: library.aliasList(category) };
+}
+
+function aliasShow(name) {
+  return library.aliasShow(name);
+}
+
+function aliasCreate(name, expansionJson, description, opts) {
+  return library.aliasCreate(name, expansionJson, description, opts);
+}
+
+function aliasDelete(name) {
+  return library.aliasDelete(name);
+}
+
+// ---- manifest export (minified project snapshot) --------------------------
+//
+// Reads the active project's full manifest/config/styles/scene tree and
+// returns it as one in-memory object — the "give me the whole thing as
+// minified JSON" request. Doesn't touch disk (existing per-file JSON stays
+// pretty-printed unless the project itself was created/regenerated with
+// --minify); this is purely a read-side convenience so an agent doesn't
+// have to stitch N file reads together by hand.
+function manifestExport() {
+  const projectId = state.requireProjectId();
+  const ws = new Workspace(projectId);
+  const manifest = ws.getManifest();
+  const config = ws.getConfig();
+  const styles = ws.getStyles();
+  const scenes = ws.listSceneIds().map((id) => ws.getScene(id));
+  return { projectId, manifest, config, styles, scenes };
+}
+
 module.exports = {
   sceneCreate,
   sceneDelete,
@@ -85,4 +173,7 @@ module.exports = {
   stylesSetFields,
   configSet,
   project,
+  theme: { list: themeList, show: themeShow, create: themeCreate, delete: themeDelete, use: themeUse },
+  alias: { list: aliasList, show: aliasShow, create: aliasCreate, delete: aliasDelete },
+  manifestExport,
 };

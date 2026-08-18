@@ -1,0 +1,84 @@
+{
+  "projectId": "inflation-explained",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1",
+      "path": "scenes/s1.json"
+    },
+    {
+      "id": "s2",
+      "path": "scenes/s2.json"
+    },
+    {
+      "id": "s3",
+      "path": "scenes/s3.json"
+    },
+    {
+      "id": "s4",
+      "path": "scenes/s4.json"
+    },
+    {
+      "id": "s5",
+      "path": "scenes/s5.json"
+    },
+    {
+      "id": "s6",
+      "path": "scenes/s6.json"
+    },
+    {
+      "id": "s7",
+      "path": "scenes/s7.json"
+    },
+    {
+      "id": "s8",
+      "path": "scenes/s8.json"
+    },
+    {
+      "id": "s9",
+      "path": "scenes/s9.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      {
+        "id": "n1",
+        "text": "US Inflation: The Hidden Tax."
+      },
+      {
+        "id": "n2",
+        "text": "Over the last few years, the cost of living has surged."
+      },
+      {
+        "id": "n3",
+        "text": "But why? It started with a perfect storm."
+      },
+      {
+        "id": "n4",
+        "text": "First: Supply Chain Disruptions. Pandemic-era shutdowns broke the flow of goods."
+      },
+      {
+        "id": "n5",
+        "text": "Second: Energy Shocks. Geopolitical tensions sent gas and electricity prices soaring."
+      },
+      {
+        "id": "n6",
+        "text": "And third: Stimulus and Demand. More money chasing fewer goods."
+      },
+      {
+        "id": "n7",
+        "text": "To fight back, the Federal Reserve raised interest rates."
+      },
+      {
+        "id": "n8",
+        "text": "The goal: cool the economy without triggering a recession."
+      },
+      {
+        "id": "n9",
+        "text": "Inflation is easing, but the impact remains."
+      }
+    ],
+    "fullTranscript": "US Inflation: The Hidden Tax. Over the last few years, the cost of living has surged. But why? It started with a perfect storm. First: Supply Chain Disruptions. Pandemic-era shutdowns broke the flow of goods. Second: Energy Shocks. Geopolitical tensions sent gas and electricity prices soaring. And third: Stimulus and Demand. More money chasing fewer goods. To fight back, the Federal Reserve raised interest rates. The goal: cool the economy without triggering a recession. Inflation is easing, but the impact remains."
+  }
+}

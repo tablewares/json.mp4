@@ -1,0 +1,23 @@
+{
+  "effects.minified": {
+    "description": "Cheap, minified-JSON-friendly single-filter dim look — one effect entry instead of the 3-entry oldComputer stack. Useful when generation budget/token count for the resolved scene matters.",
+    "vars": [],
+    "expansion": [
+      {
+        "type": "filter",
+        "grayscale": 0.2,
+        "contrast": 1.05,
+        "brightness": 0.92
+      }
+    ]
+  },
+  "timing.quickFollow": {
+    "description": "Fixed-offset follow-on timing anchor for a chained reveal (0.15s-ish at 30fps): fires 5 frames after asset id 'prev'. Static (no vars) — for a parametrized version use timing.withPreviousExit instead.",
+    "vars": [],
+    "expansion": {
+      "relativeToAsset": "prev",
+      "edge": "exit",
+      "offsetFrames": 5
+    }
+  }
+}

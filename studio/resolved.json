@@ -1,3144 +1,377 @@
 {
-  "projectId": "physics-slope-recreation",
+  "projectId": "yen-collapse",
   "config": {
     "fps": 30,
-    "width": 1920,
-    "height": 1080,
+    "width": 1080,
+    "height": 1920,
     "defaultSceneDurationInFrames": 150
   },
-  "audioOverlay": [],
+  "audioOverlay": [
+    {
+      "id": "voiceover",
+      "start": 0,
+      "end": 21.490000000000002,
+      "path": "audio/tts_976a5fb4bb7bfabf8e6c2ff0e36cddca8042973fdcd76eac4da7d37810e4db5f.wav",
+      "volume": 1
+    }
+  ],
   "scenes": [
     {
-      "id": "main",
-      "durationInFrames": 150,
+      "id": "s1_broll1",
+      "durationInFrames": 182,
       "effects": [],
       "camera": null,
-      "narrationWords": null,
-      "ttsWindow": null,
-      "background": "#f0f0f0",
+      "narrationWords": [
+        {
+          "word": "The",
+          "startFrame": 25,
+          "endFrame": 28
+        },
+        {
+          "word": "Japanese",
+          "startFrame": 29,
+          "endFrame": 43
+        },
+        {
+          "word": "yen",
+          "startFrame": 44,
+          "endFrame": 50
+        },
+        {
+          "word": "has",
+          "startFrame": 51,
+          "endFrame": 54
+        },
+        {
+          "word": "been",
+          "startFrame": 55,
+          "endFrame": 59
+        },
+        {
+          "word": "sliding",
+          "startFrame": 60,
+          "endFrame": 70
+        },
+        {
+          "word": "for",
+          "startFrame": 71,
+          "endFrame": 74
+        },
+        {
+          "word": "months,",
+          "startFrame": 76,
+          "endFrame": 84
+        },
+        {
+          "word": "and",
+          "startFrame": 97,
+          "endFrame": 100
+        },
+        {
+          "word": "this",
+          "startFrame": 101,
+          "endFrame": 106
+        },
+        {
+          "word": "week",
+          "startFrame": 107,
+          "endFrame": 113
+        },
+        {
+          "word": "Washington",
+          "startFrame": 114,
+          "endFrame": 127
+        },
+        {
+          "word": "finally",
+          "startFrame": 129,
+          "endFrame": 138
+        },
+        {
+          "word": "stepped",
+          "startFrame": 139,
+          "endFrame": 148
+        },
+        {
+          "word": "in.",
+          "startFrame": 149,
+          "endFrame": 151
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n1",
+        "startSeconds": 0,
+        "endSeconds": 5.48,
+        "startFrame": 0,
+        "endFrame": 164
+      },
       "assets": [
         {
-          "id": "ball",
-          "assetType": "PhysicsShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/PhysicsShape/PhysicsShape.jsx",
-          "content": {},
+          "id": "vid_yen_bills",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/broll_japanese_yen_currency_banknotes_11471492.mp4"
+          },
           "resolvedPosition": {
             "position": "absolute",
-            "left": 930,
-            "top": 348,
+            "left": 0,
+            "top": 0,
             "transformOrigin": "50% 50%"
           },
           "resolvedStyle": {
-            "shape": "circle",
-            "fillColorToken": "#3D7BFD",
-            "width": 60,
-            "height": 60
+            "borderRadius": 0,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "none",
+            "width": 1080,
+            "height": 1920
           },
           "resolvedMotion": null,
           "resolvedEffects": null,
           "timing": {
-            "durationInFrames": 150,
+            "durationInFrames": 182,
             "enterAtFrame": 0,
-            "exitAtFrame": 150,
+            "exitAtFrame": 164,
             "words": null
-          },
-          "resolvedPhysics": {
-            "frames": [
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              },
-              {
-                "left": 930,
-                "top": 348,
-                "rotateDeg": 0
-              }
-            ]
-          }
-        },
-        {
-          "id": "coin",
-          "assetType": "PhysicsShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/PhysicsShape/PhysicsShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 153.6,
-            "top": 64.8,
-            "transformOrigin": "0% 0%"
-          },
-          "resolvedStyle": {
-            "shape": "circle",
-            "fillColorToken": "#FFD166",
-            "width": 70,
-            "height": 70
-          },
-          "resolvedMotion": null,
-          "resolvedEffects": null,
-          "timing": {
-            "durationInFrames": 150,
-            "enterAtFrame": 0,
-            "exitAtFrame": 150,
-            "words": null
-          },
-          "resolvedPhysics": {
-            "frames": [
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              },
-              {
-                "left": 153.6,
-                "top": 64.8,
-                "rotateDeg": 0
-              }
-            ]
-          }
-        },
-        {
-          "id": "ball-center",
-          "assetType": "PhysicsShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/PhysicsShape/PhysicsShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 910,
-            "top": 490,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "shape": "circle",
-            "fillColorToken": "#3D7BFD",
-            "width": 100,
-            "height": 100
-          },
-          "resolvedMotion": null,
-          "resolvedEffects": null,
-          "timing": {
-            "durationInFrames": 150,
-            "enterAtFrame": 0,
-            "exitAtFrame": 150,
-            "words": null
-          },
-          "resolvedPhysics": {
-            "frames": [
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 910,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 895.6865994884147,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 873.1992592071433,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 853.2227954051657,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 835.2947646181623,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 819.0444174380466,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 804.1743755944514,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 790.4459733020625,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 777.6675300269891,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 765.6849683945914,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 754.3743082165807,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 743.6356614195217,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 718.616923137803,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 690.2164951087223,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 664.6882219880493,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 641.5138314080511,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 620.2775823022619,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 600.6457811086755,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 582.3503942830305,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 565.1759378691542,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 540.0882129420518,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 512.0974017786605,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 486.3289301608339,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 462.40584663320146,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 440.02523970239173,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 418.94345685121425,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 396.7741308656347,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 372.01372223552124,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 348.4997236533806,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 326.0569665431792,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 301.8086117452975,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 276.3951444091924,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 253.36888463516186,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 228.8723161017208,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 203.23773109200835,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 176.82762233215144,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 149.97795041905727,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 122.78733992619146,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 95.28448949460926,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 67.4849296536574,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 39.39912043123613,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": 11.034656458278029,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -17.602178412448417,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -46.5056596611625,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -75.67034231035103,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -105.0909569948468,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -134.7623669479221,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -164.6795490425033,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -194.8375849497207,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -225.23165643765407,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -255.85704233214554,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -286.709116160084,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -317.78334408882773,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -349.0752830067714,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -380.58057868229434,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -412.29496397551026,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -444.2142570921714,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -476.3343598750513,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -508.65125613052265,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -541.1610099890124,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -573.8597642984116,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -606.7437390496827,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -639.8092298339806,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -673.0526063306415,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -706.4703108254172,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -740.0588567583446,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -773.8148273006606,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -807.7348739601772,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -841.8157152145504,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -876.0541351718833,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -910.4469822581166,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -944.9911679306721,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -979.6836654178235,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1014.5215084832789,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1049.5017902154723,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1084.6216618410685,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1119.8783315622,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1155.269063416956,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1190.7911761626638,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1226.4420421815046,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1262.2190864080158,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1298.1197852780438,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1334.1416656987187,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1370.2823040390272,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1406.5393251405767,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1442.9104013481424,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1479.3932515596039,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1515.9856402948833,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1552.6853767835044,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1589.4903140704,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1626.3983481396049,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1663.4074170554727,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1700.5155001210705,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1737.7206170534032,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1775.0208271751362,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1812.414228622482,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1849.8989575689275,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1887.4731874644913,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1925.135128290191,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1962.8830258274238,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2000.7151609419593,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2038.629848882251,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2076.6254385917837,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2114.7003120351733,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2152.852883537742,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2191.0815991383065,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2229.384935954907,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2267.7614015632234,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2306.2095333874204,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2344.72789810318,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2383.3150910526715,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2421.969735671221,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2460.6904829254463,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2499.476010762634,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2538.325023571125,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2577.2362516514936,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2616.208450698302,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2655.240401292221,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2694.330908402309,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2733.4788008982423,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2772.682931072304,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2811.942174170932,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2851.2554279356345,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2890.62161215309,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2930.0396682142436,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2969.508558682221,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3009.0272668688863,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3048.5947964198654,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3088.2101709078725,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3127.8724334341664,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3167.580646237981,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3207.3338903137665,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3247.1312650360837,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3286.971887792002,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3326.854893620848,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3366.7794348611646,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3406.7446808047225,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3446.7498173574563,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3486.794046707182,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3526.8765869979607,
-                "top": 490,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3566.996672010971,
-                "top": 490,
-                "rotateDeg": 0
-              }
-            ]
-          }
-        },
-        {
-          "id": "ball-follower",
-          "assetType": "PhysicsShape",
-          "componentPath": "/home/tablewares/json.mp4/studio/assets/PhysicsShape/PhysicsShape.jsx",
-          "content": {},
-          "resolvedPosition": {
-            "position": "absolute",
-            "left": 1324,
-            "top": 520,
-            "transformOrigin": "50% 50%"
-          },
-          "resolvedStyle": {
-            "shape": "circle",
-            "fillColorToken": "#FFD166",
-            "width": 40,
-            "height": 40
-          },
-          "resolvedMotion": null,
-          "resolvedEffects": null,
-          "timing": {
-            "durationInFrames": 150,
-            "enterAtFrame": 0,
-            "exitAtFrame": 150,
-            "words": null
-          },
-          "resolvedPhysics": {
-            "frames": [
-              {
-                "left": 1318.4444444444443,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1307.4444444444443,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1291.1088888888887,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1269.5444888888887,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1242.855821333333,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1211.145371573333,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1174.5135752529775,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1133.0588593034736,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1086.8776821174042,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1036.0645729195007,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 995.025570861585,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1004.670263653225,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1008.5665070334767,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 1006.8292699905678,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 999.5712221329616,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 986.9027796769519,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 968.9321505145069,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 945.7653783797552,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 917.506386132143,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 884.2570181739275,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 846.1170820193207,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 817.9558935947646,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 812.8763147846483,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 802.3427719951789,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 786.4643445059432,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 765.3479300109368,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 739.0982882502749,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 707.8180837692706,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 671.6079278223309,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 639.4271952204826,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 628.1515503883937,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 611.5458628973911,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 589.7167336006529,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 562.7686313342939,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 530.8039355577065,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 496.11312648533374,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 479.41646410312154,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 457.498179412998,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 430.4627048611214,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 401.14760627484816,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 380.083571035193,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 352.70788698991225,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 328.211313580243,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 302.5767276190993,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 276.16661981808465,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 249.3169484138122,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 222.12633802580243,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 194.62348761875123,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 166.82392779101704,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 138.7381185751856,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 110.37365460482201,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 81.73681973505899,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 52.83333848672443,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": 23.668655837691063,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -5.7519588467419815,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -35.42336879979224,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -65.34055089436355,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -95.49858680157695,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -125.89265828950873,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -156.51804418399956,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -187.37011801193782,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -218.44434594068136,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -249.73628485862494,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -281.24158053414794,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -312.95596582736385,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -344.875258944025,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -376.9953617269049,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -409.3122579823762,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -441.82201184086597,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -474.52076615026516,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -507.40474090153634,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -540.4702316858342,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -573.7136081824951,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -607.1313126772708,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -640.7198586101982,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -674.4758291525142,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -708.3958758120308,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -742.476717066404,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -776.7151370237369,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -811.1079841099702,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -845.6521697825257,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -880.3446672696771,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -915.1825103351325,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -950.1627920673259,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -985.2826636929223,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1020.5393334140535,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1055.9300652688096,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1091.4521780145174,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1127.1030440333582,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1162.8800882598694,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1198.7807871298974,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1234.8026675505723,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1270.9433058908808,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1307.2003269924303,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1343.571403199996,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1380.0542534114575,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1416.646642146737,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1453.346378635358,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1490.1513159222536,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1527.0593499914585,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1564.0684189073263,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1601.1765019729241,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1638.3816189052568,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1675.6818290269898,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1713.0752304743355,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1750.559959420781,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1788.1341893163449,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1825.7961301420446,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1863.5440276792774,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1901.376162793813,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1939.2908507341044,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -1977.2864404436375,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2015.3613138870269,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2053.513885389596,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2091.74260099016,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2130.045937806761,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2168.422403415077,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2206.870535239274,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2245.3888999550336,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2283.976092904525,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2322.6307375230745,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2361.3514847773,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2400.1370126144875,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2438.9860254229784,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2477.897253503347,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2516.8694525501555,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2555.9014031440747,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2594.9919102541626,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2634.139802750096,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2673.343932924158,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2712.6031760227856,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2751.916429787488,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2791.2826140049438,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2830.7006700660972,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2870.1695605340747,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2909.68826872074,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2949.255798271719,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -2988.871172759726,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3028.53343528602,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3068.2416480898346,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3107.99489216562,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3147.7922668879373,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3187.6328896438554,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3227.5158954727017,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3267.4404367130182,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3307.405682656576,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3347.41081920931,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3387.4550485590357,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3427.5375888498143,
-                "top": 520,
-                "rotateDeg": 0
-              },
-              {
-                "left": -3467.6576738628246,
-                "top": 520,
-                "rotateDeg": 0
-              }
-            ]
           }
         }
       ],
       "transitionIn": null,
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s2_news",
+      "durationInFrames": 300,
+      "effects": [],
+      "camera": null,
+      "narrationWords": [],
+      "ttsWindow": {
+        "narrationRef": "sil_news",
+        "startSeconds": 5.48,
+        "endSeconds": 14.89,
+        "startFrame": 164,
+        "endFrame": 447
+      },
+      "assets": [
+        {
+          "id": "vid_news_clip",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/news_yen_intervention.mp4",
+            "useAsSceneDuration": true,
+            "muted": false,
+            "volume": 1
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 0,
+            "top": 0,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 0,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "none",
+            "width": 1080,
+            "height": 1920
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 300,
+            "enterAtFrame": 0,
+            "exitAtFrame": 282,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s3_broll2",
+      "durationInFrames": 199,
+      "effects": [],
+      "camera": null,
+      "narrationWords": [
+        {
+          "word": "That",
+          "startFrame": 17,
+          "endFrame": 21
+        },
+        {
+          "word": "kind",
+          "startFrame": 23,
+          "endFrame": 28
+        },
+        {
+          "word": "of",
+          "startFrame": 29,
+          "endFrame": 31
+        },
+        {
+          "word": "intervention",
+          "startFrame": 33,
+          "endFrame": 49
+        },
+        {
+          "word": "rarely",
+          "startFrame": 51,
+          "endFrame": 61
+        },
+        {
+          "word": "fixes",
+          "startFrame": 62,
+          "endFrame": 71
+        },
+        {
+          "word": "the",
+          "startFrame": 73,
+          "endFrame": 75
+        },
+        {
+          "word": "real",
+          "startFrame": 76,
+          "endFrame": 82
+        },
+        {
+          "word": "problem,",
+          "startFrame": 83,
+          "endFrame": 95
+        },
+        {
+          "word": "and",
+          "startFrame": 100,
+          "endFrame": 102
+        },
+        {
+          "word": "traders",
+          "startFrame": 103,
+          "endFrame": 114
+        },
+        {
+          "word": "know",
+          "startFrame": 115,
+          "endFrame": 120
+        },
+        {
+          "word": "it,",
+          "startFrame": 122,
+          "endFrame": 124
+        },
+        {
+          "word": "which",
+          "startFrame": 136,
+          "endFrame": 141
+        },
+        {
+          "word": "is",
+          "startFrame": 142,
+          "endFrame": 144
+        },
+        {
+          "word": "why",
+          "startFrame": 145,
+          "endFrame": 149
+        },
+        {
+          "word": "the",
+          "startFrame": 150,
+          "endFrame": 153
+        },
+        {
+          "word": "yen",
+          "startFrame": 154,
+          "endFrame": 161
+        },
+        {
+          "word": "keeps",
+          "startFrame": 162,
+          "endFrame": 169
+        },
+        {
+          "word": "sliding",
+          "startFrame": 170,
+          "endFrame": 180
+        },
+        {
+          "word": "back.",
+          "startFrame": 182,
+          "endFrame": 188
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n3",
+        "startSeconds": 14.89,
+        "endSeconds": 21.490000000000002,
+        "startFrame": 447,
+        "endFrame": 645
+      },
+      "assets": [
+        {
+          "id": "vid_trading_falling",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/broll_stock_market_trading_screen_falling_38557069.mp4"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 0,
+            "top": 0,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 0,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "none",
+            "width": 1080,
+            "height": 1920
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 198,
+            "enterAtFrame": 0,
+            "exitAtFrame": 198,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
       "transitionOut": null
     }
   ]

@@ -1,0 +1,32 @@
+{
+  "narrationRef": "n7",
+  "transitionOut": {
+    "type": "default"
+  },
+  "id": "s7",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/img_Federal_Reserve_building_Eccles_6534073.jpg"
+      },
+      "styleOverride": {
+        "width": 1600,
+        "height": 900,
+        "borderRadius": 16,
+        "revealDirection": "top-to-bottom"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "img_fed"
+    }
+  ]
+}

@@ -76,6 +76,11 @@ export function registerAlias(name, fn, meta = {}) {
     shortName,
     description: meta.description ?? "",
     vars: meta.vars ?? [],
+    // "builtin": registered at module load from the hardcoded map below.
+    // "custom": registered by src/registry/aliasLibrary.js from
+    // studio/library/aliases/*.json. Surfaced by listAliases/describeAlias
+    // so the CLI can show which layer an alias comes from.
+    source: meta.source ?? "builtin",
     fn,
   });
 }
@@ -190,6 +195,7 @@ export function listAliases(category) {
       shortName: entry.shortName,
       description: entry.description,
       vars: entry.vars,
+      source: entry.source,
     });
   }
   return byCat;
@@ -218,6 +224,7 @@ export function describeAlias(name) {
     shortName: entry.shortName,
     description: entry.description,
     vars: entry.vars,
+    source: entry.source,
     expanded,
     error,
   };

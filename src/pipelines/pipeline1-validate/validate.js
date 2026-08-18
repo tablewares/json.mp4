@@ -45,9 +45,20 @@ export function validateProject(manifestPath) {
 
   const config = loadStructuredFile(path.join(manifestDir, manifest.config));
 
+  // "$theme.*" / "$physics.*" / "$config.*" — the read-only environment
+  // scenes can point into. `theme` is always available. `physics` is
+  // additive: only present when manifest.physicsPresets is declared, a
+  // reusable library of named physics specs an agent can point a whole
+  // `physics` field at instead of re-guessing restitution/friction/force
+  // numbers per asset. Strict no-op for every project that doesn't declare it.
+  const themeSources = { theme: styles, config };
+  if (manifest.physicsPresets) {
+    themeSources.physics = loadStructuredFile(path.join(manifestDir, manifest.physicsPresets));
+  }
+
   // Utilize isolated scene validation
   const scenes = manifest.scenes.map((sceneConfig) => 
-    validateScene(ajv, sceneConfig, manifestDir, manifest.narration, fail)
+    validateScene(ajv, sceneConfig, manifestDir, manifest.narration, fail, themeSources)
   );
 
   return { manifest, manifestDir, config, styles, scenes };

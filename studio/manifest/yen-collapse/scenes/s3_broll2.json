@@ -1,0 +1,25 @@
+{
+  "narrationRef": "n3",
+  "id": "s3_broll2",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/broll_stock_market_trading_screen_falling_38557069.mp4"
+      },
+      "styleOverride": {
+        "width": 1080,
+        "height": 1920,
+        "borderRadius": 0,
+        "revealDirection": "none"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "id": "vid_trading_falling"
+    }
+  ]
+}

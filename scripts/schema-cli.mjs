@@ -42,7 +42,7 @@ import {
   listDefinitions,
   describeDefinition,
   searchSchemas,
-} from "../src/agent/schemaIntrospect.js";
+} from "./schema-lib/schemaIntrospect.js";
 
 function renderText(value, indent = 0) {
   const pad = " ".repeat(indent);

@@ -1,0 +1,27 @@
+{
+  "projectId": "yen-collapse",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "narration": {
+    "entries": [
+      { "id": "n1", "text": "The Japanese yen has been sliding for months, and this week Washington finally stepped in." },
+      { "id": "sil_news", "kind": "silence", "durationSeconds": 9.41 },
+      { "id": "n3", "text": "That kind of intervention rarely fixes the real problem, and traders know it, which is why the yen keeps sliding back." }
+    ],
+    "fullTranscript": "The Japanese yen has been sliding for months, and this week Washington finally stepped in. That kind of intervention rarely fixes the real problem, and traders know it, which is why the yen keeps sliding back."
+  },
+  "scenes": [
+    {
+      "id": "s1_broll1",
+      "path": "scenes/s1_broll1.json"
+    },
+    {
+      "id": "s2_news",
+      "path": "scenes/s2_news.json"
+    },
+    {
+      "id": "s3_broll2",
+      "path": "scenes/s3_broll2.json"
+    }
+  ]
+}
