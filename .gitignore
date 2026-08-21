@@ -8,3 +8,5 @@
 **/.chattervenv/
 **/.env
 studio/addition/
+**/tmp/
+**/*.mp4
