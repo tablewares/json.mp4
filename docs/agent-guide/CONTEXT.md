@@ -43,7 +43,7 @@ it. Keep this mapping in mind:
 - Per-asset visual effects (filter / grain / scanlines) → `src/effects/assetEffects.js`
 - Timing-anchor resolution (asset/camera-relative enterAt/exitAt) → `src/timing/effectTiming.js`
 - Asset + transition discovery → `src/registry/assetRegistry.js`
-- Overlap warnings → `src/pipelines/pipeline2-resolve/overlap_warn.js`
+- Overlap / composition checks → `src/pipelines/pipeline2-resolve/plugins/overlapGuard.js` (opt-in via `config.compositionPlugins`; see `pipelines/2-resolve.md`)
 - TTS timing seam → `src/timing/ttsTiming.js`
 - Audio overlay → `src/audio/overlay.jsx`
 - Render entry → `src/pipelines/pipeline3-render/render.js`,
@@ -66,9 +66,10 @@ them via `skill_view` when the task fits:
   (`full-bleed-centering`, `transitions-and-tts`, `audio-pipeline`,
   `asset-gathering`).
 - **`json-to-mp4-overlap-warnings`** — silencing `[overlap-warning]` from
-  resolve. Root cause 9×/10 is the `TextBlock` `defaultSize: 900×200` shadowing
-  real text. Recipe: explicit `styleOverride.width`/`height`, ±2–4% nudge,
-  on-frame check, re-run resolve.
+  the opt-in `overlapGuard` composition plugin (only fires when a project's
+  `config.compositionPlugins` names it). Root cause 9×/10 is the `TextBlock`
+  `defaultSize: 900×200` shadowing real text. Recipe: explicit
+  `styleOverride.width`/`height`, ±2–4% nudge, on-frame check, re-run resolve.
 - **`json-to-mp4-render`** — producing an MP4. Repo layout, boilerplate fill
   recipe, pipeline commands (`validate` → `resolve` → `render`), TTS-skip path,
   `ffprobe` verification, stale-`resolved.json` and registry-out-of-date

@@ -13,9 +13,11 @@
  * nothing else in pipeline2 needs to change.
  */
 import * as similarSceneGuard from "./similarSceneGuard.js";
+import * as overlapGuard from "./overlapGuard.js";
 
 const REGISTRY = {
   similarSceneGuard,
+  overlapGuard,
 };
 
 function normalizePluginEntry(entry) {
@@ -29,8 +31,13 @@ function normalizePluginEntry(entry) {
  *
  * @param {Array} resolvedScenes
  * @param {Array<string|{name:string, enabled?:boolean, options?:object}>=} pluginsConfig
+ * @param {object=} ctx  shared read-only context threaded to every plugin's
+ *   `run(resolvedScenes, ctx, options)` (e.g. `{ compositionSize }`). Plugins
+ *   that don't need it can ignore it; kept as one shared object so a new
+ *   plugin never has to change this function's signature to get project-wide
+ *   info that isn't itself part of resolvedScenes.
  */
-export function runCompositionPlugins(resolvedScenes, pluginsConfig) {
+export function runCompositionPlugins(resolvedScenes, pluginsConfig, ctx = {}) {
   if (!Array.isArray(pluginsConfig) || pluginsConfig.length === 0) return [];
 
   const findings = [];
@@ -43,7 +50,7 @@ export function runCompositionPlugins(resolvedScenes, pluginsConfig) {
         `Unknown composition plugin "${pluginName}". Available: ${Object.keys(REGISTRY).join(", ")}`,
       );
     }
-    findings.push(...plugin.run(resolvedScenes, {}, options));
+    findings.push(...plugin.run(resolvedScenes, ctx, options));
   }
   return findings;
 }
@@ -57,8 +64,8 @@ export function runCompositionPlugins(resolvedScenes, pluginsConfig) {
  *
  * @returns {{warnings: Array, errors: Array}}
  */
-export function enforceCompositionPlugins(resolvedScenes, pluginsConfig) {
-  const findings = runCompositionPlugins(resolvedScenes, pluginsConfig);
+export function enforceCompositionPlugins(resolvedScenes, pluginsConfig, ctx = {}) {
+  const findings = runCompositionPlugins(resolvedScenes, pluginsConfig, ctx);
   const errors = findings.filter((f) => f.severity === "error");
   const warnings = findings.filter((f) => f.severity !== "error");
   console.log("composition plugin findings:", findings.length, "total,", warnings.length, "warnings,", errors.length, "errors");

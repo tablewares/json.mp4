@@ -19,7 +19,8 @@
             "zoomStartPercent": { "type": "number", "minimum": 1 },
             "zoomEndPercent": { "type": "number", "minimum": 1 },
             "zoomPercent": { "type": "number", "minimum": 1 },
-            "easeZoom": { "type": "boolean" }
+            "easeZoom": { "type": "boolean" },
+            "easing": { "$ref": "#/definitions/cameraEasing" }
           }
         },
         { "$ref": "shared.schema.json#/definitions/aliasRef" }
@@ -29,12 +30,24 @@
       "type": "object",
       "required": ["at"],
       "additionalProperties": false,
+      "description": "One keyframe in a multi-leg camera move. `at` is the PRIMARY, exact-first field — a fraction [0,1] of the camera's own motion duration (legacy, unchanged), OR a timing-anchor object (relativeToAsset/relativeToCameraAction/relativeToWord/offsetPercent — shared.schema.json#/definitions/timingAnchor) resolved to a scene-local frame and then converted to camera-progress internally, the same 'exact-first, legacy-percent-as-fallback' pattern effects.schema.json's `frame` uses.",
       "properties": {
         "id": { "type": "string" },
-        "at": { "type": "number", "minimum": 0, "maximum": 1 },
+        "at": {
+          "oneOf": [
+            { "type": "number", "minimum": 0, "maximum": 1 },
+            { "$ref": "shared.schema.json#/definitions/timingAnchor" }
+          ]
+        },
         "anchor": { "$ref": "#/definitions/cameraAnchor" },
-        "zoomPercent": { "type": "number", "minimum": 1 }
+        "zoomPercent": { "type": "number", "minimum": 1 },
+        "easing": { "$ref": "#/definitions/cameraEasing" }
       }
+    },
+    "cameraEasing": {
+      "type": "string",
+      "enum": ["linear", "easeIn", "easeOut", "easeInOut"],
+      "description": "Shapes the pace of the leg LEAVING this action (or, on the top-level start/end shorthand, the whole move) toward the next action. Default 'linear'. 'easeOut' gives a fast launch settling into place — the 'swoosh' zoom. Applies to both anchor pan and, when easeZoom is true, zoom."
     },
     "cameraAnchor": {
       "type": "object",
@@ -43,12 +56,9 @@
           "required": ["position"],
           "additionalProperties": false,
           "properties": {
-            "position": {
-              "type": "string",
-              "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]
-            },
-            "offsetXPercent": { "type": "number", "default": 0 },
-            "offsetYPercent": { "type": "number", "default": 0 }
+            "position": { "$ref": "shared.schema.json#/definitions/cornerPosition" },
+            "offsetXPercent": { "$ref": "shared.schema.json#/definitions/offsetXPercent" },
+            "offsetYPercent": { "$ref": "shared.schema.json#/definitions/offsetYPercent" }
           }
         },
         {
@@ -56,9 +66,9 @@
           "additionalProperties": false,
           "properties": {
             "followAssetId": { "type": "string" },
-            "edge": { "type": "string", "enum": ["enter", "exit"], "default": "enter" },
-            "offsetXPercent": { "type": "number", "default": 0 },
-            "offsetYPercent": { "type": "number", "default": 0 }
+            "edge": { "$ref": "shared.schema.json#/definitions/enterExitEdge" },
+            "offsetXPercent": { "$ref": "shared.schema.json#/definitions/offsetXPercent" },
+            "offsetYPercent": { "$ref": "shared.schema.json#/definitions/offsetYPercent" }
           }
         }
       ]

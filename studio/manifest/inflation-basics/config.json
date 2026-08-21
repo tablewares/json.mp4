@@ -20,7 +20,7 @@
   },
     "compositionPlugins": [
     {
-      "name": "similarSceneGuard",
+      "name": "overlapGuard",
       "options": {
         "maxConsecutiveSimilar": 2,
         "severity": "error"

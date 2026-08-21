@@ -1,0 +1,58 @@
+{
+  "narrationRef": "n1",
+  "id": "s1_hook",
+  "background": "shade1",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 5
+      },
+      "contentOverride": {
+        "src": "assets/img_rocket_launch_night_sky_586041.jpg",
+        "alt": "SpaceX rocket launch trail against starry night sky"
+      },
+      "styleOverride": {
+        "width": 900,
+        "height": 1120,
+        "borderRadius": 28,
+        "revealDirection": "center-out"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "img_rocket"
+    },
+    {
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "text": "SpaceX went public at $1.77T. Anthropic wants $2T."
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "width": 940,
+        "height": 220,
+        "align": "center"
+      },
+      "enterAt": 0.15,
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "txt_hook"
+    }
+  ],
+  "transitionOut": {
+    "type": "WhipPan",
+    "durationInFrames": 14
+  }
+}

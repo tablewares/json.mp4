@@ -1,0 +1,69 @@
+{
+  "projectId": "textemerge-scratch",
+  "config": {
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "defaultSceneDurationInFrames": 90
+  },
+  "audioOverlay": [],
+  "scenes": [
+    {
+      "id": "s1",
+      "durationInFrames": 90,
+      "effects": [],
+      "camera": null,
+      "narrationWords": null,
+      "ttsWindow": null,
+      "assets": [
+        {
+          "id": "title1",
+          "assetType": "TextEmerge",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextEmerge/TextEmerge.jsx",
+          "content": {
+            "text": "Quantitative Easing"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 210,
+            "top": 380,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 96,
+              "fontWeight": 700,
+              "lineHeight": 1.12
+            },
+            "curve": "easeOutExpo",
+            "staggerFrames": 8,
+            "revealDurationFrames": 26,
+            "driftDirection": "up",
+            "driftDistance": 34,
+            "blurAmount": 16,
+            "scaleFrom": 0.985,
+            "containerLift": true,
+            "containerDriftDistance": 26,
+            "containerScaleFrom": 0.975,
+            "useNarrationTiming": true,
+            "highlighter": null,
+            "align": "center",
+            "width": 1500,
+            "height": 320
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 90,
+            "enterAtFrame": 0,
+            "exitAtFrame": 90,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": null
+    }
+  ]
+}

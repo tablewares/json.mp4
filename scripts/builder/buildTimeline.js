@@ -360,6 +360,95 @@ export function findOpenFrameRanges(timeline, sceneId, opts = {}) {
 }
 
 /**
+ * Compact, hierarchical view over a full `buildTimeline()` result — the
+ * "table of contents" an agent should read FIRST instead of the full
+ * timeline. A full timeline repeats every scene's startFrame on every one
+ * of its assets/effects (globalEnterFrame/globalExitFrame) AND carries
+ * heavy per-node payload (content, resolvedPosition, resolvedStyle, word
+ * arrays) that's rarely needed just to answer "what scenes/assets exist and
+ * roughly when". This collapses that into a DAG-shaped outline —
+ * composition -> scene -> {assets, effects, camera actions} — where every
+ * child only carries ITS OWN local offsets (relative to its parent), never
+ * a value already implied by the parent. An agent that needs the full
+ * per-node detail (content/resolvedPosition/resolvedStyle/words) for one
+ * scene should follow up with `describeTimelineScene(timeline, sceneId)`
+ * rather than this function returning it for every scene up front.
+ *
+ * Shape:
+ *   {
+ *     fps, totalDurationInFrames, totalDurationInSeconds,
+ *     sceneCount, audioTrackCount,
+ *     scenes: [{
+ *       id, index, start, end, dur,
+ *       transitionIn, transitionOut,   // { type, dur } or null
+ *       cameraActions,                 // count, or omitted if no camera
+ *       assets: [{ id, type, enter, exit, hasMotion, hasPhysics, hasWords }],
+ *       effects: [{ id, kind, enter, exit }],
+ *     }],
+ *     audioTracks: [{ id, start, end }],
+ *   }
+ * All frame fields on a scene's children (`enter`/`exit`) are SCENE-LOCAL —
+ * add the scene's own `start` back on to recover the global frame, exactly
+ * like `describeFrame`'s `sceneLocalFrame` already does.
+ *
+ * @param {ReturnType<typeof buildTimeline>} timeline
+ */
+export function outlineTimeline(timeline) {
+  const scenes = timeline.scenes.map((scene) => ({
+    id: scene.sceneId,
+    index: scene.index,
+    start: scene.startFrame,
+    end: scene.endFrame,
+    dur: scene.durationInFrames,
+    transitionIn: scene.transitionIn ? { type: scene.transitionIn.type, dur: scene.transitionIn.durationInFrames } : null,
+    transitionOut: scene.transitionOut ? { type: scene.transitionOut.type, dur: scene.transitionOut.durationInFrames } : null,
+    ...(scene.camera?.actions?.length ? { cameraActions: scene.camera.actions.length } : {}),
+    assets: scene.assets.map((a) => ({
+      id: a.id,
+      type: a.assetType,
+      enter: a.localEnterFrame ?? null,
+      exit: a.localExitFrame ?? null,
+      ...(a.hasMotion ? { hasMotion: true } : {}),
+      ...(a.hasPhysics ? { hasPhysics: true } : {}),
+      ...(a.hasWordTiming ? { hasWords: true } : {}),
+    })),
+    effects: scene.effects.map((e) => ({
+      id: e.id,
+      kind: e.kind,
+      enter: e.localEnterFrame ?? null,
+      exit: e.localExitFrame ?? null,
+    })),
+  }));
+
+  return {
+    fps: timeline.fps,
+    totalDurationInFrames: timeline.totalDurationInFrames,
+    totalDurationInSeconds: timeline.totalDurationInSeconds,
+    sceneCount: scenes.length,
+    audioTrackCount: (timeline.audioTracks ?? []).length,
+    scenes,
+    audioTracks: (timeline.audioTracks ?? []).map((t) => ({ id: t.id, start: t.startFrame, end: t.endFrame })),
+  };
+}
+
+/**
+ * Drill-down counterpart to `outlineTimeline`: the full per-node detail
+ * (content, resolvedPosition, resolvedStyle, word timing, effect payload)
+ * for ONE scene — everything `outlineTimeline` deliberately left out to
+ * stay compact. Use this after `outlineTimeline` has told you which scene
+ * you actually care about, instead of reading the full multi-scene
+ * timeline just to inspect one scene's assets.
+ *
+ * @param {ReturnType<typeof buildTimeline>} timeline
+ * @param {string} sceneId
+ */
+export function describeTimelineScene(timeline, sceneId) {
+  const scene = timeline.scenes.find((s) => s.sceneId === sceneId);
+  if (!scene) throw new Error(`describeTimelineScene: unknown sceneId "${sceneId}"`);
+  return scene;
+}
+
+/**
  * Converts a global segment back into a scene-relative percentage offset —
  * the shape the scene-effects system anchors to (percentage-based timing
  * offset from scene boundaries). Use this when wiring an asset segment

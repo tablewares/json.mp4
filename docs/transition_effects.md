@@ -8,7 +8,7 @@
 > `src/pipelines/pipeline2-resolve/resolveTransitions.js`, and timed by an
 > **exact scene-local `frame` key** (not `offsetPercent`).
 >
-> - New authoring and the `agent-cli.mjs inject-effects` writer use the
+> - New authoring and the `timeline-cli.mjs inject-effects` writer use the
 >   `frame` form exclusively: `{ kind, id, frame, ... }`. The resolver
 >   honors an explicit `frame` first.
 > - The legacy `timing` / `offsetPercent` shapes described in the rest of

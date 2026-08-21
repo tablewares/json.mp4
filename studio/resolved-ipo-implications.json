@@ -1,0 +1,1403 @@
+{
+  "projectId": "ipo-implications",
+  "config": {
+    "fps": 30,
+    "width": 1080,
+    "height": 1920,
+    "defaultSceneDurationInFrames": 120,
+    "compositionPlugins": [
+      {
+        "name": "overlapGuard",
+        "options": {
+          "overlapSeverity": "error",
+          "offscreenSeverity": "error",
+          "tinySizeSeverity": "warn"
+        }
+      },
+      {
+        "name": "similarSceneGuard",
+        "options": {
+          "maxConsecutiveSimilar": 2,
+          "severity": "error"
+        }
+      }
+    ]
+  },
+  "audioOverlay": [
+    {
+      "id": "voiceover",
+      "start": 0,
+      "end": 36.28,
+      "path": "audio/tts_e374b5ff1944f90a2c830c1d7af9700c903a8ec7df7ec5b793c5b89c1e569b9a.wav",
+      "volume": 1
+    }
+  ],
+  "scenes": [
+    {
+      "id": "s1_hook",
+      "durationInFrames": 206,
+      "effects": [],
+      "camera": null,
+      "narrationWords": [
+        {
+          "word": "SpaceX",
+          "startFrame": 18,
+          "endFrame": 32
+        },
+        {
+          "word": "just",
+          "startFrame": 33,
+          "endFrame": 38
+        },
+        {
+          "word": "went",
+          "startFrame": 39,
+          "endFrame": 43
+        },
+        {
+          "word": "public",
+          "startFrame": 45,
+          "endFrame": 54
+        },
+        {
+          "word": "at",
+          "startFrame": 56,
+          "endFrame": 58
+        },
+        {
+          "word": "a",
+          "startFrame": 59,
+          "endFrame": 74
+        },
+        {
+          "word": "one",
+          "startFrame": 74,
+          "endFrame": 96
+        },
+        {
+          "word": "point",
+          "startFrame": 74,
+          "endFrame": 96
+        },
+        {
+          "word": "seven",
+          "startFrame": 74,
+          "endFrame": 96
+        },
+        {
+          "word": "seven",
+          "startFrame": 74,
+          "endFrame": 96
+        },
+        {
+          "word": "trillion",
+          "startFrame": 96,
+          "endFrame": 107
+        },
+        {
+          "word": "dollar",
+          "startFrame": 107,
+          "endFrame": 116
+        },
+        {
+          "word": "valuation.",
+          "startFrame": 116,
+          "endFrame": 134
+        },
+        {
+          "word": "Now",
+          "startFrame": 155,
+          "endFrame": 158
+        },
+        {
+          "word": "Anthropic",
+          "startFrame": 158,
+          "endFrame": 174
+        },
+        {
+          "word": "wants",
+          "startFrame": 174,
+          "endFrame": 180
+        },
+        {
+          "word": "to",
+          "startFrame": 181,
+          "endFrame": 183
+        },
+        {
+          "word": "beat",
+          "startFrame": 184,
+          "endFrame": 189
+        },
+        {
+          "word": "it.",
+          "startFrame": 191,
+          "endFrame": 192
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n1",
+        "startSeconds": 0,
+        "endSeconds": 6.415,
+        "startFrame": 0,
+        "endFrame": 192
+      },
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "img_rocket",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/img_rocket_launch_night_sky_586041.jpg",
+            "alt": "SpaceX rocket launch trail against starry night sky"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 90,
+            "top": 96,
+            "transformOrigin": "50% 0%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 28,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "center-out",
+            "width": 900,
+            "height": 1120
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 206,
+            "enterAtFrame": 0,
+            "exitAtFrame": 192,
+            "words": null
+          }
+        },
+        {
+          "id": "txt_hook",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "SpaceX went public at $1.77T. Anthropic wants $2T."
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 70,
+            "top": 1546.4,
+            "transformOrigin": "50% 100%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 52,
+              "fontWeight": 700,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "width": 940,
+            "height": 220,
+            "align": "center"
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 206,
+            "enterAtFrame": 29,
+            "exitAtFrame": 192,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": {
+        "type": "WhipPan",
+        "durationInFrames": 14,
+        "componentPath": "/home/tablewares/json.mp4/studio/vox-asset/transitions/WhipPan/WhipPan.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s2_context",
+      "durationInFrames": 171,
+      "effects": [],
+      "camera": {
+        "actions": [
+          {
+            "at": 0,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 100,
+            "easing": "linear"
+          },
+          {
+            "at": 1,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 108,
+            "easing": "easeInOut"
+          }
+        ],
+        "durationInFrames": null,
+        "speed": 1,
+        "easeZoom": false
+      },
+      "narrationWords": [
+        {
+          "word": "For",
+          "startFrame": 14,
+          "endFrame": 18
+        },
+        {
+          "word": "three",
+          "startFrame": 19,
+          "endFrame": 26
+        },
+        {
+          "word": "years,",
+          "startFrame": 28,
+          "endFrame": 36
+        },
+        {
+          "word": "the",
+          "startFrame": 40,
+          "endFrame": 44
+        },
+        {
+          "word": "AI",
+          "startFrame": 46,
+          "endFrame": 53
+        },
+        {
+          "word": "trade",
+          "startFrame": 55,
+          "endFrame": 62
+        },
+        {
+          "word": "had",
+          "startFrame": 63,
+          "endFrame": 67
+        },
+        {
+          "word": "no",
+          "startFrame": 69,
+          "endFrame": 73
+        },
+        {
+          "word": "public",
+          "startFrame": 75,
+          "endFrame": 83
+        },
+        {
+          "word": "price.",
+          "startFrame": 85,
+          "endFrame": 94
+        },
+        {
+          "word": "In",
+          "startFrame": 110,
+          "endFrame": 112
+        },
+        {
+          "word": "October,",
+          "startFrame": 114,
+          "endFrame": 128
+        },
+        {
+          "word": "that",
+          "startFrame": 133,
+          "endFrame": 138
+        },
+        {
+          "word": "changes.",
+          "startFrame": 140,
+          "endFrame": 152
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n2",
+        "startSeconds": 6.415,
+        "endSeconds": 11.498,
+        "startFrame": 192,
+        "endFrame": 345
+      },
+      "background": "#12234A",
+      "assets": [
+        {
+          "id": "img_nyse",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/img_New_York_Stock_Exchange_building_34862859.jpg",
+            "alt": "New York Stock Exchange facade with American flags"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 110,
+            "top": 505.20000000000005,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 24,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "left-to-right",
+            "width": 860,
+            "height": 1140
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 171,
+            "enterAtFrame": 0,
+            "exitAtFrame": 153,
+            "words": null
+          }
+        },
+        {
+          "id": "txt_context",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Two private giants, one public test"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 140,
+            "top": 192,
+            "transformOrigin": "50% 0%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 28,
+              "fontWeight": 700,
+              "colorToken": "accentBg",
+              "color": "#3D7BFD"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "width": 800,
+            "height": 60,
+            "align": "center"
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 171,
+            "enterAtFrame": 31,
+            "exitAtFrame": 153,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "WhipPan",
+        "durationInFrames": 14,
+        "componentPath": "/home/tablewares/json.mp4/studio/vox-asset/transitions/WhipPan/WhipPan.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s3_build",
+      "durationInFrames": 190,
+      "effects": [],
+      "camera": {
+        "actions": [
+          {
+            "at": 0,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 100,
+            "easing": "linear"
+          },
+          {
+            "at": 0.15,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 130,
+            "easing": "easeOut"
+          },
+          {
+            "at": 0.55,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 145,
+            "easing": "easeInOut"
+          },
+          {
+            "at": 0.85,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 170,
+            "easing": "easeOut"
+          },
+          {
+            "at": 1,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 170,
+            "easing": "linear"
+          }
+        ],
+        "durationInFrames": null,
+        "speed": 1,
+        "easeZoom": false
+      },
+      "narrationWords": [
+        {
+          "word": "Anthropic's",
+          "startFrame": 0,
+          "endFrame": 35
+        },
+        {
+          "word": "revenue",
+          "startFrame": 35,
+          "endFrame": 46
+        },
+        {
+          "word": "run",
+          "startFrame": 47,
+          "endFrame": 52
+        },
+        {
+          "word": "rate",
+          "startFrame": 54,
+          "endFrame": 59
+        },
+        {
+          "word": "exploded",
+          "startFrame": 61,
+          "endFrame": 76
+        },
+        {
+          "word": "from",
+          "startFrame": 77,
+          "endFrame": 81
+        },
+        {
+          "word": "nine",
+          "startFrame": 81,
+          "endFrame": 91
+        },
+        {
+          "word": "billion",
+          "startFrame": 91,
+          "endFrame": 101
+        },
+        {
+          "word": "to",
+          "startFrame": 102,
+          "endFrame": 104
+        },
+        {
+          "word": "forty",
+          "startFrame": 104,
+          "endFrame": 124
+        },
+        {
+          "word": "seven",
+          "startFrame": 104,
+          "endFrame": 124
+        },
+        {
+          "word": "billion",
+          "startFrame": 124,
+          "endFrame": 145
+        },
+        {
+          "word": "dollars",
+          "startFrame": 145,
+          "endFrame": 147
+        },
+        {
+          "word": "in",
+          "startFrame": 147,
+          "endFrame": 149
+        },
+        {
+          "word": "just",
+          "startFrame": 150,
+          "endFrame": 154
+        },
+        {
+          "word": "five",
+          "startFrame": 156,
+          "endFrame": 163
+        },
+        {
+          "word": "months.",
+          "startFrame": 164,
+          "endFrame": 172
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n3",
+        "startSeconds": 11.498,
+        "endSeconds": 17.242,
+        "startFrame": 345,
+        "endFrame": 517
+      },
+      "background": "#161B26",
+      "assets": [
+        {
+          "id": "img_data",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/img_financial_chart_screen_data_6770610.jpg",
+            "alt": "Close-up of stock market trading screen showing financial growth charts"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 100,
+            "top": 380,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 24,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "top-to-bottom",
+            "width": 880,
+            "height": 1160
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 190,
+            "enterAtFrame": 0,
+            "exitAtFrame": 172,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "fade",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/fade/Fade.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s4_build",
+      "durationInFrames": 211,
+      "effects": [],
+      "camera": null,
+      "narrationWords": [
+        {
+          "word": "Bankers",
+          "startFrame": 24,
+          "endFrame": 34
+        },
+        {
+          "word": "are",
+          "startFrame": 35,
+          "endFrame": 37
+        },
+        {
+          "word": "pricing",
+          "startFrame": 38,
+          "endFrame": 48
+        },
+        {
+          "word": "the",
+          "startFrame": 49,
+          "endFrame": 51
+        },
+        {
+          "word": "deal",
+          "startFrame": 52,
+          "endFrame": 58
+        },
+        {
+          "word": "off",
+          "startFrame": 59,
+          "endFrame": 64
+        },
+        {
+          "word": "twenty",
+          "startFrame": 64,
+          "endFrame": 89
+        },
+        {
+          "word": "twenty",
+          "startFrame": 64,
+          "endFrame": 89
+        },
+        {
+          "word": "eight",
+          "startFrame": 64,
+          "endFrame": 89
+        },
+        {
+          "word": "revenue,",
+          "startFrame": 89,
+          "endFrame": 101
+        },
+        {
+          "word": "not",
+          "startFrame": 106,
+          "endFrame": 111
+        },
+        {
+          "word": "this",
+          "startFrame": 112,
+          "endFrame": 117
+        },
+        {
+          "word": "year's",
+          "startFrame": 118,
+          "endFrame": 125
+        },
+        {
+          "word": "results,",
+          "startFrame": 126,
+          "endFrame": 138
+        },
+        {
+          "word": "betting",
+          "startFrame": 144,
+          "endFrame": 151
+        },
+        {
+          "word": "the",
+          "startFrame": 153,
+          "endFrame": 154
+        },
+        {
+          "word": "growth",
+          "startFrame": 156,
+          "endFrame": 163
+        },
+        {
+          "word": "curve",
+          "startFrame": 164,
+          "endFrame": 172
+        },
+        {
+          "word": "holds",
+          "startFrame": 174,
+          "endFrame": 181
+        },
+        {
+          "word": "for",
+          "startFrame": 183,
+          "endFrame": 187
+        },
+        {
+          "word": "years.",
+          "startFrame": 188,
+          "endFrame": 197
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n4",
+        "startSeconds": 17.242,
+        "endSeconds": 23.809,
+        "startFrame": 517,
+        "endFrame": 714
+      },
+      "background": "#0F1E3D",
+      "assets": [
+        {
+          "id": "img_nyse2",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/img_New_York_Stock_Exchange_building_28962712.jpg",
+            "alt": "New York Stock Exchange facade with columns and flags"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 43.2,
+            "top": 486.4,
+            "transformOrigin": "0% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "top-to-bottom",
+            "width": 480,
+            "height": 640
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 211,
+            "enterAtFrame": 20,
+            "exitAtFrame": 197,
+            "words": null
+          }
+        },
+        {
+          "id": "img_trading2",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/img_stock_market_trading_floor_16594725.jpg",
+            "alt": "Financial trading screen with colorful charts and data"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 556.8,
+            "top": 486.4,
+            "transformOrigin": "100% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 16,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "top-to-bottom",
+            "width": 480,
+            "height": 640
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 211,
+            "enterAtFrame": 59,
+            "exitAtFrame": 197,
+            "words": null
+          }
+        },
+        {
+          "id": "svg_anthropic",
+          "assetType": "SvgImage",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/SvgImage/SvgImage.jsx",
+          "content": {
+            "src": "svg/anthropic.svg"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 470,
+            "top": 76.8,
+            "transformOrigin": "50% 0%"
+          },
+          "resolvedStyle": {
+            "easing": {
+              "damping": 12,
+              "mass": 0.4,
+              "stiffness": 180
+            },
+            "showBoundary": true,
+            "boundaryStrokeColorToken": "#3D7BFD",
+            "boundaryStrokeWidth": 2,
+            "boundaryDashArray": 6,
+            "boundaryDashGap": 6,
+            "boundaryInset": 10,
+            "boundaryDrawDurationFraction": 0.6,
+            "boundaryDelayFraction": 0.15,
+            "boundaryRotate": false,
+            "width": 140,
+            "height": 140
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 211,
+            "enterAtFrame": 99,
+            "exitAtFrame": 197,
+            "words": null
+          }
+        },
+        {
+          "id": "txt_build",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Both bet on future growth, not booked revenue"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 90,
+            "top": 1674.8,
+            "transformOrigin": "50% 100%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 34,
+              "fontWeight": 500,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "width": 900,
+            "height": 130,
+            "align": "center"
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 211,
+            "enterAtFrame": 128,
+            "exitAtFrame": 197,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "fade",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/fade/Fade.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "WhipPan",
+        "durationInFrames": 14,
+        "componentPath": "/home/tablewares/json.mp4/studio/vox-asset/transitions/WhipPan/WhipPan.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s5_payoff",
+      "durationInFrames": 213,
+      "effects": [],
+      "camera": {
+        "actions": [
+          {
+            "at": 0,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 100,
+            "easing": "linear"
+          },
+          {
+            "at": 1,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 112,
+            "easing": "easeInOut"
+          }
+        ],
+        "durationInFrames": null,
+        "speed": 1,
+        "easeZoom": false
+      },
+      "narrationWords": [
+        {
+          "word": "SpaceX",
+          "startFrame": 17,
+          "endFrame": 33
+        },
+        {
+          "word": "and",
+          "startFrame": 35,
+          "endFrame": 37
+        },
+        {
+          "word": "Cerebras",
+          "startFrame": 37,
+          "endFrame": 55
+        },
+        {
+          "word": "both",
+          "startFrame": 55,
+          "endFrame": 61
+        },
+        {
+          "word": "fell",
+          "startFrame": 62,
+          "endFrame": 67
+        },
+        {
+          "word": "over",
+          "startFrame": 68,
+          "endFrame": 82
+        },
+        {
+          "word": "forty",
+          "startFrame": 82,
+          "endFrame": 94
+        },
+        {
+          "word": "percent",
+          "startFrame": 82,
+          "endFrame": 94
+        },
+        {
+          "word": "from",
+          "startFrame": 94,
+          "endFrame": 98
+        },
+        {
+          "word": "their",
+          "startFrame": 99,
+          "endFrame": 103
+        },
+        {
+          "word": "post",
+          "startFrame": 103,
+          "endFrame": 111
+        },
+        {
+          "word": "I",
+          "startFrame": 111,
+          "endFrame": 132
+        },
+        {
+          "word": "P",
+          "startFrame": 111,
+          "endFrame": 132
+        },
+        {
+          "word": "O",
+          "startFrame": 111,
+          "endFrame": 132
+        },
+        {
+          "word": "peaks",
+          "startFrame": 132,
+          "endFrame": 141
+        },
+        {
+          "word": "once",
+          "startFrame": 146,
+          "endFrame": 150
+        },
+        {
+          "word": "real",
+          "startFrame": 152,
+          "endFrame": 157
+        },
+        {
+          "word": "quarterly",
+          "startFrame": 159,
+          "endFrame": 171
+        },
+        {
+          "word": "numbers",
+          "startFrame": 172,
+          "endFrame": 181
+        },
+        {
+          "word": "arrived.",
+          "startFrame": 183,
+          "endFrame": 195
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n5",
+        "startSeconds": 23.809,
+        "endSeconds": 30.298,
+        "startFrame": 714,
+        "endFrame": 909
+      },
+      "background": "#16294F",
+      "assets": [
+        {
+          "id": "img_rocket2",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/img_rocket_launch_night_sky_23788.jpg",
+            "alt": "Dramatic rocket launch at night with reflection over the ocean"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 90,
+            "top": 360,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 24,
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "revealDirection": "center-out",
+            "width": 900,
+            "height": 1200
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 213,
+            "enterAtFrame": 0,
+            "exitAtFrame": 195,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "WhipPan",
+        "durationInFrames": 14,
+        "componentPath": "/home/tablewares/json.mp4/studio/vox-asset/transitions/WhipPan/WhipPan.jsx",
+        "props": {}
+      },
+      "transitionOut": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      }
+    },
+    {
+      "id": "s6_cta",
+      "durationInFrames": 179,
+      "effects": [],
+      "camera": null,
+      "narrationWords": [
+        {
+          "word": "A",
+          "startFrame": 16,
+          "endFrame": 17
+        },
+        {
+          "word": "two",
+          "startFrame": 17,
+          "endFrame": 26
+        },
+        {
+          "word": "trillion",
+          "startFrame": 26,
+          "endFrame": 37
+        },
+        {
+          "word": "dollar",
+          "startFrame": 37,
+          "endFrame": 47
+        },
+        {
+          "word": "bet",
+          "startFrame": 47,
+          "endFrame": 53
+        },
+        {
+          "word": "on",
+          "startFrame": 55,
+          "endFrame": 57
+        },
+        {
+          "word": "a",
+          "startFrame": 58,
+          "endFrame": 59
+        },
+        {
+          "word": "curve",
+          "startFrame": 61,
+          "endFrame": 70
+        },
+        {
+          "word": "that",
+          "startFrame": 71,
+          "endFrame": 74
+        },
+        {
+          "word": "hasn't",
+          "startFrame": 76,
+          "endFrame": 85
+        },
+        {
+          "word": "happened",
+          "startFrame": 85,
+          "endFrame": 94
+        },
+        {
+          "word": "yet.",
+          "startFrame": 95,
+          "endFrame": 100
+        },
+        {
+          "word": "Follow",
+          "startFrame": 117,
+          "endFrame": 126
+        },
+        {
+          "word": "for",
+          "startFrame": 126,
+          "endFrame": 129
+        },
+        {
+          "word": "more",
+          "startFrame": 130,
+          "endFrame": 135
+        },
+        {
+          "word": "finance",
+          "startFrame": 136,
+          "endFrame": 148
+        },
+        {
+          "word": "deep",
+          "startFrame": 150,
+          "endFrame": 156
+        },
+        {
+          "word": "dives.",
+          "startFrame": 157,
+          "endFrame": 166
+        }
+      ],
+      "ttsWindow": {
+        "narrationRef": "n6",
+        "startSeconds": 30.298,
+        "endSeconds": 36.28,
+        "startFrame": 909,
+        "endFrame": 1088
+      },
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "txt_cta",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "Follow for more finance deep dives"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 90,
+            "top": 850,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 52,
+              "fontWeight": 700,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "width": 900,
+            "height": 220,
+            "align": "center"
+          },
+          "resolvedMotion": {
+            "in": {
+              "fade": true,
+              "translateXFrom": 0,
+              "translateYFrom": 80,
+              "rotateFromDeg": 0,
+              "durationInFrames": 18
+            },
+            "out": null,
+            "staticRotateDeg": 0,
+            "rotate": null
+          },
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 179,
+            "enterAtFrame": 0,
+            "exitAtFrame": 179,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": {
+        "type": "default",
+        "durationInFrames": 18,
+        "componentPath": "/home/tablewares/json.mp4/studio/transitions/default/DefaultTransition.jsx",
+        "props": {}
+      },
+      "transitionOut": null
+    }
+  ]
+}

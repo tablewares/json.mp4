@@ -41,6 +41,8 @@ import {
   findAssetSegments,
   describeFrame,
   findOpenFrameRanges,
+  outlineTimeline,
+  describeTimelineScene,
 } from "./buildTimeline.js";
 
 import { DEFAULT_REPO_ROOT, ProjectIO } from "./projectio.js";
@@ -99,9 +101,9 @@ function buildInjectedEffect(effect, id, frame) {
 }
 
 export class ProjectBuilder {
-  constructor({ repoRoot = DEFAULT_REPO_ROOT } = {}) {
+  constructor({ repoRoot = DEFAULT_REPO_ROOT, minify } = {}) {
     this.repoRoot = repoRoot;
-    this._io = new ProjectIO({ repoRoot });
+    this._io = new ProjectIO({ repoRoot, minify });
     this.manifestRoot = this._io.manifestRoot;
   }
 
@@ -214,6 +216,29 @@ export class ProjectBuilder {
     }
     const resolved = await resolveProject(manifestPath);
     return buildTimeline(resolved);
+  }
+
+  /**
+   * Compact, hierarchical (DAG-shaped) view of the timeline — see
+   * `outlineTimeline` in buildTimeline.js for the exact shape. Read this
+   * FIRST instead of `getTimeline`; it's far cheaper in tokens because
+   * every scene/asset/effect only carries its own local offsets and a
+   * couple of flags, not the full resolved content/style/word payload.
+   */
+  async getTimelineOutline(projectId) {
+    const timeline = await this.getTimeline(projectId);
+    return outlineTimeline(timeline);
+  }
+
+  /**
+   * Drill-down for one scene's full per-node detail (content,
+   * resolvedPosition, resolvedStyle, word timing, effect payload) —
+   * the detail `getTimelineOutline` intentionally omits. Call this only
+   * for the scene(s) the outline told you actually matter.
+   */
+  async getTimelineScene(projectId, sceneId) {
+    const timeline = await this.getTimeline(projectId);
+    return describeTimelineScene(timeline, sceneId);
   }
 
   /**

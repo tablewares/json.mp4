@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>json.mp4 — framework reference</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg: #0b0e14; --panel: #131826; --border: #232a3b; --text: #e6e9f0;
+    --muted: #8a93a8; --accent: #3d7bfd; --accent2: #6ee7b7; --warn: #f0b429;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+  }
+  header {
+    padding: 48px 32px 24px; max-width: 1100px; margin: 0 auto;
+  }
+  header h1 { font-size: 32px; margin: 0 0 8px; }
+  header p.sub { color: var(--muted); max-width: 720px; }
+  header .generated { color: var(--muted); font-size: 12px; margin-top: 16px; }
+  nav.toc {
+    position: sticky; top: 0; z-index: 10; background: rgba(11,14,20,0.92);
+    backdrop-filter: blur(6px); border-bottom: 1px solid var(--border);
+    padding: 10px 32px; display: flex; gap: 4px; flex-wrap: wrap;
+  }
+  nav.toc a {
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    padding: 6px 10px; border-radius: 6px;
+  }
+  nav.toc a:hover { color: var(--text); background: var(--panel); }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px; }
+  section { margin-bottom: 56px; scroll-margin-top: 56px; }
+  section h2 {
+    font-size: 22px; border-bottom: 1px solid var(--border); padding-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .count {
+    font-size: 12px; color: var(--accent); background: rgba(61,123,253,0.12);
+    padding: 2px 8px; border-radius: 999px; font-weight: 600;
+  }
+  p.lede { color: var(--muted); max-width: 860px; }
+  p.note { color: var(--warn); font-size: 13px; }
+  code { background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre {
+    background: #0e1220; border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; overflow-x: auto; font-size: 12.5px; color: var(--accent2);
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-top: 18px; }
+  .grid.two { grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
+  .grid.three { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .card, .schema-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .card h3, .schema-card h3 { margin: 0 0 8px; font-size: 15px; color: var(--text); }
+  .card p, .schema-card p { margin: 0 0 6px; color: var(--muted); font-size: 13.5px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .pill {
+    font-size: 11px; color: var(--accent2); background: rgba(110,231,183,0.1);
+    border: 1px solid rgba(110,231,183,0.25); padding: 2px 8px; border-radius: 999px;
+  }
+  dl.props { margin: 0; }
+  dl.props dt { margin-top: 10px; font-size: 13.5px; }
+  dl.props dt:first-child { margin-top: 0; }
+  dl.props dd { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+  .req { color: var(--warn); font-size: 10px; text-transform: uppercase; margin-left: 4px; }
+  .opt { color: var(--muted); font-size: 10px; text-transform: uppercase; margin-left: 4px; }
+  .kind { color: var(--accent); }
+  ul.alias-list { list-style: none; margin: 0; padding: 0; }
+  ul.alias-list li { padding: 8px 0; border-top: 1px solid var(--border); font-size: 13px; }
+  ul.alias-list li:first-child { border-top: none; padding-top: 0; }
+  .alias-desc { color: var(--muted); }
+  .vars { color: var(--muted); font-size: 12px; }
+  .src { font-size: 10px; text-transform: uppercase; margin-left: 6px; padding: 1px 6px; border-radius: 999px; }
+  .src.builtin { color: var(--accent); background: rgba(61,123,253,0.1); }
+  .src.custom { color: var(--warn); background: rgba(240,180,41,0.1); }
+  .empty { color: var(--muted); font-style: italic; }
+  #search {
+    width: 100%; max-width: 420px; padding: 8px 12px; margin: 16px 0 0;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); font-size: 14px;
+  }
+  .hidden { display: none !important; }
+  footer { color: var(--muted); font-size: 12px; text-align: center; padding: 24px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>json.mp4 — framework reference</h1>
+  <p class="sub">An AI-agent-friendly JSON-to-MP4 video framework built on Remotion. Author small typed JSON (manifest → config → scenes); three pipelines (validate → resolve → render) turn it into an MP4. This page is a generated, browsable map of everything the framework exposes — assets, transitions, motion, camera, physics, effects, timing, aliases, themes, and the schema contracts behind them.</p>
+  <input id="search" type="search" placeholder="Filter assets / transitions / collections / schemas…">
+  <p class="generated">Generated 2026-08-20T21:52:50.357Z by <code>node scripts/build-index.mjs</code> from live registries and schema files — re-run after adding an asset, transition, alias, theme, or schema field.</p>
+</header>
+<nav class="toc"><a href="#pattern">The pattern</a><a href="#assets">Assets (20)</a><a href="#transitions">Transitions (8)</a><a href="#motion">Motion</a><a href="#camera">Camera</a><a href="#physics">Physics</a><a href="#effects">Effects</a><a href="#timing">Timing</a><a href="#aliases">$alias shorthand</a><a href="#background">Backgrounds &amp; themes</a><a href="#collections">Asset gathering</a><a href="#schemas">Schema files</a><a href="#cli">CLI surfaces</a></nav>
+<main>
+
+  <section id="pattern">
+    <h2>The pattern</h2>
+    <p class="lede">Every authorable node in <code>src/pipelines/pipeline1-validate/schema/</code> follows one contract. See <code>CLAUDE.md</code> for the canonical writeup.</p>
+    <div class="grid three">
+      <article class="card">
+        <h3>1. Everything has an id</h3>
+        <p><code>scene.assets[].id</code> is <strong>required</strong>. Anything referenceable — <code>relativeToAsset</code>, <code>anchor.followAssetId</code>, <code>transitionOut.params.carryAssetId(s)</code>, physics <code>towardAssetId</code>/<code>targetAssetId</code>/<code>carryFromScene.assetId</code> — targets a stable id.</p>
+      </article>
+      <article class="card">
+        <h3>2. Everything can be relative</h3>
+        <p>Spatial: named corner + signed % nudge (<code>ANCHOR_ALIGN</code>), or <code>followAssetId</code> + <code>anchorEdge</code> to anchor off another asset's box. One shared resolver: <code>resolveAnchorPoint</code> (<code>src/templating/anchor.js</code>) — used by both asset anchors and camera anchors.</p>
+      </article>
+      <article class="card">
+        <h3>3. Everything times the same way</h3>
+        <p>One <code>timingAnchor</code> vocabulary (<code>shared.schema.json</code>): <code>relativeToAsset</code>, <code>relativeToCameraAction</code>, <code>relativeToWord</code>, <code>offsetPercent</code>. Resolved by one function, <code>resolveTimingAnchor</code>, from asset <code>enterAt</code>/<code>exitAt</code>, scene <code>effects[]</code>, and camera <code>actions[].at</code>.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="assets">
+    <h2>Assets <span class="count">20</span></h2>
+    <p class="lede">Every registered <code>assetType</code> under <code>studio/assets/</code> and <code>studio/graphics/</code>. Discover live: <code>node scripts/discovery.mjs assets</code> / <code>asset &lt;type&gt;</code>.</p>
+    <div class="grid">
+    <article class="card" data-search="assetboilerplate a starter asset for new scene elements. it renders a title/body panel with a reusable enter/exit animation so authors can adapt it quickly without reworking the underlying contract.">
+      <h3>AssetBoilerplate</h3>
+      <p>A starter asset for new scene elements. It renders a title/body panel with a reusable enter/exit animation so authors can adapt it quickly without reworking the underlying contract.</p>
+      <div class="meta">
+        <span class="pill">720×220</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="codeblock a monospace code panel with an optional mac-style window chrome and language badge. content.code is split on newlines and revealed line by line on a staggered spring, like a terminal typing itself out. optional content.highlightlines (1-indexed) tints specific rows for callouts.">
+      <h3>CodeBlock</h3>
+      <p>A monospace code panel with an optional mac-style window chrome and language badge. content.code is split on newlines and revealed line by line on a staggered spring, like a terminal typing itself out. Optional content.highlightLines (1-indexed) tints specific rows for callouts.</p>
+      <div class="meta">
+        <span class="pill">1100×620</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="imagereveal an image that reveals with a clip-path wipe and settles with a slight scale-in.">
+      <h3>ImageReveal</h3>
+      <p>An image that reveals with a clip-path wipe and settles with a slight scale-in.</p>
+      <div class="meta">
+        <span class="pill">640×640</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="kinetictext text that pops in one word at a time instead of fading in as a single block — for beats, emphasis, or narration-synced callouts. when content.text is word-for-word identical to the scene's narration, each word pops at the real moment it's spoken (from tts/whisperx timing); otherwise falls back to an even stagger that auto-compresses to always resolve before the asset's exit.">
+      <h3>KineticText</h3>
+      <p>Text that pops in one word at a time instead of fading in as a single block — for beats, emphasis, or narration-synced callouts. When content.text is word-for-word identical to the scene's narration, each word pops at the real moment it's spoken (from TTS/WhisperX timing); otherwise falls back to an even stagger that auto-compresses to always resolve before the asset's exit.</p>
+      <div class="meta">
+        <span class="pill">1100×260</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="physicsshape a minimal svg circle/rect. has no physics logic itself — pairing it with a `physics` block on the asset spec is what makes it fall/bounce; any other asset type works identically since resolvephysics.js only ever reads/writes an asset's box (resolvedposition + width/height).">
+      <h3>PhysicsShape</h3>
+      <p>A minimal SVG circle/rect. Has no physics logic itself — pairing it with a `physics` block on the asset spec is what makes it fall/bounce; any other asset type works identically since resolvePhysics.js only ever reads/writes an asset's box (resolvedPosition + width/height).</p>
+      <div class="meta">
+        <span class="pill">120×120</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="svgimage embeds one static svg image (staticfile, defaults to svg/bitcoin.svg), optionally applies an svg-native shader (tone/blur/tint/glow/metallic-texture/shine-sweep via styleoverride.shader — literal values, no tokens), and self-draws an animated dashed/dotted boundary line around its measured bounds using the shared assets/_shared/boundarydrawer.jsx component.">
+      <h3>SvgImage</h3>
+      <p>Embeds one static SVG image (staticFile, defaults to svg/Bitcoin.svg), optionally applies an SVG-native shader (tone/blur/tint/glow/metallic-texture/shine-sweep via styleOverride.shader — literal values, no tokens), and self-draws an animated dashed/dotted boundary line around its measured bounds using the shared assets/_shared/boundaryDrawer.jsx component.</p>
+      <div class="meta">
+        <span class="pill">250×250</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="textblock a single block of text with its own entrance/exit animation.">
+      <h3>TextBlock</h3>
+      <p>A single block of text with its own entrance/exit animation.</p>
+      <div class="meta">
+        <span class="pill">900×200</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="textemerge standalone, cinematic materialize text card for b-roll: no per-word 'pop' overshoot like kinetictext — each word fades up out of a soft blur on a slow monotonic ease while the whole block lifts+scales into frame as one coordinated mass, then dissolves back out (blur+drift+fade) on exit instead of a flat cut. built for scripts/curate/solutions/composition/b-roll-sequence.md step 7 (title/statement cards) when a plain textblock fade-up is too flat and kinetictext's caption-energy pop is too busy for a standalone shot with no narration sync needed. same two timing modes as kinetictext: narration-synced per-word timing when content.text is word-for-word identical to the scene's narration, otherwise an even stagger auto-compressed to the asset's timing budget.">
+      <h3>TextEmerge</h3>
+      <p>Standalone, cinematic materialize text card for b-roll: no per-word 'pop' overshoot like KineticText — each word fades up out of a soft blur on a slow monotonic ease while the whole block lifts+scales into frame as one coordinated mass, then dissolves back out (blur+drift+fade) on exit instead of a flat cut. Built for scripts/curate/solutions/composition/b-roll-sequence.md step 7 (title/statement cards) when a plain TextBlock fade-up is too flat and KineticText's caption-energy pop is too busy for a standalone shot with no narration sync needed. Same two timing modes as KineticText: narration-synced per-word timing when content.text is word-for-word identical to the scene's narration, otherwise an even stagger auto-compressed to the asset's timing budget.</p>
+      <div class="meta">
+        <span class="pill">1500×320</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="wavyline a self-drawing line (default red) connecting two endpoints. built for the 'curvy line leading from one asset to another' recipe: declare fromassetid + toassetid in contentoverride and pass 2's resolvescenerefs writes both endpoints' centers into content.points. styleoverride.variant picks the shape: 'wavy' (default) turns the two points into a smooth cubic-bezier curve by offsetting the control points perpendicular to the segment, so it bows rather than being a straight diagonal; 'elbow' routes with straight, axis-aligned segments and 90-degree turns, stubbing straight out of each endpoint before turning, like a flowchart connector. either variant can carry arrowstart/arrowend arrowheads, auto-oriented to the direction the line is actually traveling at that end -- no manual angle authoring. the line draws itself in via stroke-dashoffset over drawdurationfraction of its active window, then holds.">
+      <h3>WavyLine</h3>
+      <p>A self-drawing line (default red) connecting two endpoints. Built for the 'curvy line leading from one asset to another' recipe: declare fromAssetId + toAssetId in contentOverride and pass 2's resolveSceneRefs writes both endpoints' centers into content.points. styleOverride.variant picks the shape: 'wavy' (default) turns the two points into a smooth cubic-bezier curve by offsetting the control points perpendicular to the segment, so it bows rather than being a straight diagonal; 'elbow' routes with straight, axis-aligned segments and 90-degree turns, stubbing straight out of each endpoint before turning, like a flowchart connector. Either variant can carry arrowStart/arrowEnd arrowheads, auto-oriented to the direction the line is actually traveling at that end -- no manual angle authoring. The line draws itself in via stroke-dashoffset over drawDurationFraction of its active window, then holds.</p>
+      <div class="meta">
+        <span class="pill">1920×1080</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="barchartrace animated vertical bar chart for finance metrics — revenue, aum, quarterly results. bars grow from 0 to their value over the asset's enter window, each on a short staggered spring; the numeric label above each bar counts from 0 to its value in lockstep so the figure visibly ticks up with the rise. optional sort (asc|desc) lays the chart out small→large or large→small.">
+      <h3>BarChartRace</h3>
+      <p>Animated vertical bar chart for finance metrics — revenue, AUM, quarterly results. Bars grow from 0 to their value over the asset's enter window, each on a short staggered spring; the numeric label above each bar counts from 0 to its value in lockstep so the figure visibly ticks up with the rise. Optional sort (asc|desc) lays the chart out small→large or large→small.</p>
+      <div class="meta">
+        <span class="pill">1400×520</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="piechart animated donut/pie chart built on recharts (@recharts/pie), driven entirely by frame-computed props so it stays seek-safe in remotion's render model. slices sweep in clockwise from 12 o'clock on one spring, each slice's fill fades in as the sweep passes its start angle, the donut hole counts up a running total in lockstep, and a legend row fades/rises in with a per-entry stagger. good for share-of-total beats (market share, budget breakdown, vote split) where barchartrace's magnitude-comparison framing is the wrong shape.">
+      <h3>PieChart</h3>
+      <p>Animated donut/pie chart built on Recharts (@recharts/pie), driven entirely by frame-computed props so it stays seek-safe in Remotion's render model. Slices sweep in clockwise from 12 o'clock on one spring, each slice's fill fades in as the sweep passes its start angle, the donut hole counts up a running total in lockstep, and a legend row fades/rises in with a per-entry stagger. Good for share-of-total beats (market share, budget breakdown, vote split) where BarChartRace's magnitude-comparison framing is the wrong shape.</p>
+      <div class="meta">
+        <span class="pill">900×640</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="signalbloom experimental generative signal field: a radial constellation of nodes connected by faint lines, with staggered pulses that bloom outward from the center and drift in a slow orbital rhythm.">
+      <h3>SignalBloom</h3>
+      <p>Experimental generative signal field: a radial constellation of nodes connected by faint lines, with staggered pulses that bloom outward from the center and drift in a slow orbital rhythm.</p>
+      <div class="meta">
+        <span class="pill">1200×720</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="tickertape a horizontally scrolling market ticker tape — the canonical finance graphic. renders content.tickers (each { symbol, price, change }) as a seamless marquee that scrolls for the asset's full timing window; change colors each price green/red and each symbol gets a short staggered pop so the row feels live.">
+      <h3>TickerTape</h3>
+      <p>A horizontally scrolling market ticker tape — the canonical finance graphic. Renders content.tickers (each { symbol, price, change }) as a seamless marquee that scrolls for the asset's full timing window; change colors each price green/red and each symbol gets a short staggered pop so the row feels live.</p>
+      <div class="meta">
+        <span class="pill">1600×96</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="backdropimage a supporting background-image primitive: an image anchored to any corner of the composition, sized in composition-percent, fully behind foreground content. optional vignette dim keeps foreground legible. designed to be paired with `layer: &quot;background&quot;` so it never occludes foreground/skybox content, but works at any layer.">
+      <h3>BackdropImage</h3>
+      <p>A supporting background-image primitive: an image anchored to any corner of the composition, sized in composition-percent, fully behind foreground content. Optional vignette dim keeps foreground legible. Designed to be paired with `layer: &quot;background&quot;` so it never occludes foreground/skybox content, but works at any layer.</p>
+      <div class="meta">
+        <span class="pill">700×700</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="drawline a thick stroke that draws itself across the composition from one anchor spec to another over a configurable fraction of the scene. built for background support beats (image top-right -&gt; line draws to center-left, then camera follows). pair with the scene's camera `actions` array — author one camera action per anchor the line passes through to make the camera track the live line tip. each endpoint is an anchor spec identical to a camera anchor ({position, offsetxpercent, offsetypercent}).">
+      <h3>DrawLine</h3>
+      <p>A thick stroke that draws itself across the composition from one anchor spec to another over a configurable fraction of the scene. Built for background support beats (image top-right -&gt; line draws to center-left, then camera follows). Pair with the scene's camera `actions` array — author one camera action per anchor the line passes through to make the camera track the live line tip. Each endpoint is an anchor spec identical to a camera anchor ({position, offsetXPercent, offsetYPercent}).</p>
+      <div class="meta">
+        <span class="pill">1920×1080</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="linedrawsequence chained drawline strokes within a single asset — drop one asset onto a scene to draw a thick line from anchor a to anchor b, then a second from anchor b to anchor c. built for the 'image top-right -&gt; line draws to center-left, then bottom-left graphic -&gt; second line draws and camera follows' pattern. the scene's camera.actions can mirror each segment's draw window exactly so the camera tracks the line tip across both strokes. also exposes per-segment glow.">
+      <h3>LineDrawSequence</h3>
+      <p>Chained DrawLine strokes within a single asset — drop one asset onto a scene to draw a thick line from anchor A to anchor B, then a second from anchor B to anchor C. Built for the 'image top-right -&gt; line draws to center-left, then bottom-left graphic -&gt; second line draws and camera follows' pattern. The scene's camera.actions can mirror each segment's draw window exactly so the camera tracks the line tip across both strokes. Also exposes per-segment glow.</p>
+      <div class="meta">
+        <span class="pill">1920×1080</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="pathflow particles sliding along one or more svg dashed paths, like electrons on a subway-line diagram. the path itself optionally draws itself in via stroke-dashoffset, then particles flow along it with offset-path motion. built for vox-style microscopic/macroscopic motion-diagram scenes.">
+      <h3>PathFlow</h3>
+      <p>Particles sliding along one or more SVG dashed paths, like electrons on a subway-line diagram. The path itself optionally draws itself in via stroke-dashoffset, then particles flow along it with offset-path motion. Built for vox-style microscopic/macroscopic motion-diagram scenes.</p>
+      <div class="meta">
+        <span class="pill">900×520</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="routedraw self-drawing route lines on a map background — one or more svg paths animated via stroke-dashoffset, with an optional base image displayed underneath. built for the vox global-supply-chain scene where cyan routes draw themselves between regions.">
+      <h3>RouteDraw</h3>
+      <p>Self-drawing route lines on a map background — one or more SVG paths animated via stroke-dashoffset, with an optional base image displayed underneath. Built for the vox global-supply-chain scene where cyan routes draw themselves between regions.</p>
+      <div class="meta">
+        <span class="pill">1280×720</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="scalecomparison a compare-to-scale ruler pairing: a fixed reference bar (e.g. 'human hair width') slides in alongside a unit scale bar (e.g. 'chip feature size in nm') to demonstrate proportion. built for the vox '8 nanometers' scale comparison beat.">
+      <h3>ScaleComparison</h3>
+      <p>A compare-to-scale ruler pairing: a fixed reference bar (e.g. 'human hair width') slides in alongside a unit scale bar (e.g. 'chip feature size in nm') to demonstrate proportion. Built for the vox '8 NANOMETERS' scale comparison beat.</p>
+      <div class="meta">
+        <span class="pill">1200×360</span>
+        
+      </div>
+    </article>
+
+    <article class="card" data-search="texthighlight a neon marker stroke that animates horizontally across an existing text label, like a highlighter dragged left-to-right. use it on top of an already-rendered text asset (anchors and timing intentionally overlap) for the classic vox 'finfet architecture' callout beat.">
+      <h3>TextHighlight</h3>
+      <p>A neon marker stroke that animates horizontally across an existing text label, like a highlighter dragged left-to-right. Use it on top of an already-rendered text asset (anchors and timing intentionally overlap) for the classic vox 'FinFET Architecture' callout beat.</p>
+      <div class="meta">
+        <span class="pill">720×96</span>
+        
+      </div>
+    </article></div>
+  </section>
+
+  <section id="transitions">
+    <h2>Transitions <span class="count">8</span></h2>
+    <p class="lede">Registered <code>transitionOut.type</code> values. <code>params.carryAssetId</code>/<code>carryAssetIds</code> carry a shared asset id across the cut (must exist in both scenes). Discover live: <code>node scripts/discovery.mjs transitions</code> / <code>transition &lt;type&gt;</code>.</p>
+    <div class="grid">
+    <article class="card" data-search="transitionboilerplate expressive starter transition: directional translate, scale, rotate, motion blur, and fade, all sharing one eased progress curve for cross-cut continuity. optionally pivots scale/rotate around a carried asset's position via carryassetid.">
+      <h3>TransitionBoilerplate</h3>
+      <p>Expressive starter transition: directional translate, scale, rotate, motion blur, and fade, all sharing one eased progress curve for cross-cut continuity. Optionally pivots scale/rotate around a carried asset's position via carryAssetId.</p>
+      <div class="meta"><span class="pill">20 frames default</span></div>
+    </article>
+
+    <article class="card" data-search="default just cuts to the next scene, with no continuity of motion or carried assets. used when a scene doesn't request continuity with a specific carried asset.">
+      <h3>default</h3>
+      <p>Just cuts to the next scene, with no continuity of motion or carried assets. Used when a scene doesn't request continuity with a specific carried asset.</p>
+      <div class="meta"><span class="pill">18 frames default</span></div>
+    </article>
+
+    <article class="card" data-search="fade a fade+slight-slide handoff. used when a scene doesn't request continuity with a specific carried asset.">
+      <h3>fade</h3>
+      <p>A fade+slight-slide handoff. Used when a scene doesn't request continuity with a specific carried asset.</p>
+      <div class="meta"><span class="pill">18 frames default</span></div>
+    </article>
+
+    <article class="card" data-search="pivotzoom push-through cut built on transitionboilerplate: outgoing scene recedes/rotates away, incoming scene continues the same spin/depth, both pivoting around a carried asset's position (or frame center as fallback). reads as the camera pushing through a shared element rather than a plain cut.">
+      <h3>pivotZoom</h3>
+      <p>Push-through cut built on TransitionBoilerplate: outgoing scene recedes/rotates away, incoming scene continues the same spin/depth, both pivoting around a carried asset's position (or frame center as fallback). Reads as the camera pushing through a shared element rather than a plain cut.</p>
+      <div class="meta"><span class="pill">20 frames default</span></div>
+    </article>
+
+    <article class="card" data-search="slidecontinuity carries a named asset's resolved color + position across the cut so it visually 'becomes' the next scene's version of itself, instead of cutting and re-entering.">
+      <h3>slideContinuity</h3>
+      <p>Carries a named asset's resolved color + position across the cut so it visually 'becomes' the next scene's version of itself, instead of cutting and re-entering.</p>
+      <div class="meta"><span class="pill">24 frames default</span></div>
+    </article>
+
+    <article class="card" data-search="shapewipe a solid neon shape (circle by default) expands from frame center, momentarily filling the frame, then collapses into a target anchor point on the incoming scene (e.g. the dot of an exclamation mark). built on transitionboilerplate's motion model added to a centerfiller overlay.">
+      <h3>ShapeWipe</h3>
+      <p>A solid neon shape (circle by default) expands from frame center, momentarily filling the frame, then collapses into a target anchor point on the incoming scene (e.g. the dot of an exclamation mark). Built on TransitionBoilerplate's motion model added to a CenterFiller overlay.</p>
+      <div class="meta"><span class="pill">28 frames default</span></div>
+    </article>
+
+    <article class="card" data-search="splitscreen match-cut split: the frame splits down the center, right side slides up and left side slides down (or vice versa), revealing a side-by-side comparison. built for the vox paper-collage to microscopic-layering cut.">
+      <h3>SplitScreen</h3>
+      <p>Match-cut split: the frame splits down the center, right side slides up and left side slides down (or vice versa), revealing a side-by-side comparison. Built for the vox paper-collage to microscopic-layering cut.</p>
+      <div class="meta"><span class="pill">24 frames default</span></div>
+    </article>
+
+    <article class="card" data-search="whippan quick lateral motion-blur whip pan right, landing on the next scene. built on transitionboilerplate: aggressive horizontal translate + heavy motion blur on the cut's midpoint + a brief afterimage smear.">
+      <h3>WhipPan</h3>
+      <p>Quick lateral motion-blur whip pan right, landing on the next scene. Built on TransitionBoilerplate: aggressive horizontal translate + heavy motion blur on the cut's midpoint + a brief afterimage smear.</p>
+      <div class="meta"><span class="pill">14 frames default</span></div>
+    </article></div>
+  </section>
+
+  <section id="motion">
+    <h2>Motion</h2>
+    <p class="lede">Per-asset entrance/exit/rotation, authored on <code>asset.motion</code> (<code>scene.schema.json#/definitions/motionSpec</code>). Resolved by <code>src/motion/motion.js</code>.</p>
+    <div class="grid two">
+      <div class="schema-card">
+        <h3>motionSpec</h3>
+        <dl class="props"><dt><code>in</code> <span class="opt">optional</span></dt><dd><span class="kind">enum(&quot;none&quot; | &quot;fade&quot; | &quot;fadeUp&quot; | &quot;fadeDown&quot; | &quot;fadeLeft&quot; | &quot;fadeRight&quot;) | object { alias, distancePx, durationInFrames, rotateFromDeg }</span></dd><dt><code>out</code> <span class="opt">optional</span></dt><dd><span class="kind">enum(&quot;none&quot; | &quot;fadeOut&quot; | &quot;fadeOutUp&quot; | &quot;fadeOutDown&quot; | &quot;fadeOutLeft&quot; | &quot;fadeOutRight&quot;) | object { alias, distancePx, durationInFrames, rotateFromDeg }</span></dd><dt><code>rotateDeg</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Static base rotation (degrees) held once mounted. Used as the default `rotate.fromDeg` when an animated rotate phase is also authored.</dd><dt><code>rotate</code> <span class="opt">optional</span></dt><dd><span class="kind">object { fromDeg, toDeg, durationInFrames, delayFrames, startAt, atFrame, easing }</span></dd></dl>
+      </div>
+      <div class="schema-card">
+        <h3>motion aliases <span class="count">6</span></h3>
+        <ul class="alias-list"><li><code>motion.fadeIn</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Fade-in entrance (directional if 'direction' var is set). Expands to the motion.in alias name.</span><br><span class="vars">vars: <code>direction</code></span></li><li><code>motion.fadeInHalf</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Half-duration fade-in — uses 9-frame duration instead of the default 18.</span></li><li><code>motion.fadeInOut</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Fade-in then fade-out. 'direction' sets the in direction; 'outDirection' the out direction.</span><br><span class="vars">vars: <code>direction</code>, <code>outDirection</code></span></li><li><code>motion.spinIn</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Fade in while rotating from 'fromDeg' (default 0) to 'toDeg' (default 360).</span><br><span class="vars">vars: <code>in</code>, <code>fromDeg</code>, <code>toDeg</code>, <code>durationInFrames</code>, <code>easing</code></span></li><li><code>motion.clearIn</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Fade-out while clearing the spin from 'fromDeg'/'toDeg' (defaults to 360-&gt;0).</span><br><span class="vars">vars: <code>out</code>, <code>fromDeg</code>, <code>toDeg</code>, <code>durationInFrames</code>, <code>easing</code></span></li><li><code>motion.settle</code> <span class="src builtin">builtin</span><br><span class="alias-desc">fadeUp entrance + a brief rotate from -8deg to 0 (water 'settle' wobble).</span><br><span class="vars">vars: <code>inDuration</code>, <code>rotateDuration</code>, <code>fromDeg</code>, <code>toDeg</code></span></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="camera">
+    <h2>Camera</h2>
+    <p class="lede">Scene-level pan/zoom, authored on <code>scene.camera</code>. Multi-leg moves use <code>actions[]</code> keyframes; <code>at</code> accepts a bare fraction <em>or</em> a <code>timingAnchor</code> (word/percent-anchored keyframes, exact-first — see the pattern above). Resolved by <code>src/templating/camera.js</code>.</p>
+    <div class="grid two">
+      <div class="schema-card">
+        <h3>cameraSpec</h3>
+        <dl class="props"><dt><code>start</code> <span class="opt">optional</span></dt><dd><span class="kind">object { position, offsetXPercent, offsetYPercent } | object { followAssetId, edge, offsetXPercent, offsetYPercent }</span></dd><dt><code>end</code> <span class="opt">optional</span></dt><dd><span class="kind">object { position, offsetXPercent, offsetYPercent } | object { followAssetId, edge, offsetXPercent, offsetYPercent }</span></dd><dt><code>durationInFrames</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd><dt><code>speed</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd><dt><code>actions</code> <span class="opt">optional</span></dt><dd><span class="kind">object { id, at, anchor, zoomPercent, easing }[]</span></dd><dt><code>zoomStartPercent</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd><dt><code>zoomEndPercent</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd><dt><code>zoomPercent</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd><dt><code>easeZoom</code> <span class="opt">optional</span></dt><dd><span class="kind">boolean</span></dd><dt><code>easing</code> <span class="opt">optional</span></dt><dd><span class="kind">enum(&quot;linear&quot; | &quot;easeIn&quot; | &quot;easeOut&quot; | &quot;easeInOut&quot;)</span> — Shapes the pace of the leg LEAVING this action (or, on the top-level start/end shorthand, the whole move) toward the next action. Default 'linear'. 'easeOut' gives a fast launch settling into place — the 'swoosh' zoom. Applies to both anchor pan and, when easeZoom is true, zoom.</dd></dl>
+      </div>
+      <div class="schema-card">
+        <h3>cameraAction (one keyframe)</h3>
+        <dl class="props"><dt><code>id</code> <span class="opt">optional</span></dt><dd><span class="kind">string</span></dd><dt><code>at</code> <span class="req">required</span></dt><dd><span class="kind">number | object { offsetPercent, relativeToAsset, relativeToWord, relativeToCameraAction, edge, offsetFrames } | object { $alias }</span></dd><dt><code>anchor</code> <span class="opt">optional</span></dt><dd><span class="kind">object { position, offsetXPercent, offsetYPercent } | object { followAssetId, edge, offsetXPercent, offsetYPercent }</span></dd><dt><code>zoomPercent</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd><dt><code>easing</code> <span class="opt">optional</span></dt><dd><span class="kind">enum(&quot;linear&quot; | &quot;easeIn&quot; | &quot;easeOut&quot; | &quot;easeInOut&quot;)</span> — Shapes the pace of the leg LEAVING this action (or, on the top-level start/end shorthand, the whole move) toward the next action. Default 'linear'. 'easeOut' gives a fast launch settling into place — the 'swoosh' zoom. Applies to both anchor pan and, when easeZoom is true, zoom.</dd></dl>
+      </div>
+      <div class="schema-card">
+        <h3>cameraAnchor</h3>
+        <p>Two shapes: named <code>position</code> (frame corner) or <code>followAssetId</code> (track another asset's box, via <code>anchorEdge</code>). Same vocabulary as an asset's own <code>anchor</code>.</p>
+        <div class="meta"><span class="pill">center</span><span class="pill">top</span><span class="pill">bottom</span><span class="pill">left</span><span class="pill">right</span><span class="pill">top-left</span><span class="pill">top-right</span><span class="pill">bottom-left</span><span class="pill">bottom-right</span></div>
+      </div>
+      <div class="schema-card">
+        <h3>camera aliases <span class="count">3</span></h3>
+        <ul class="alias-list"><li><code>camera.dollyIn</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Slow zoom-in from zoomStartPercent to zoomEndPercent (defaults 1 → 1.25).</span><br><span class="vars">vars: <code>startAnchor</code>, <code>endAnchor</code>, <code>zoomStart</code>, <code>zoomEnd</code></span></li><li><code>camera.overshootHold</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Zoom overshoot then hold — zoom in to ~1.15, optional mid-point action pauses to zoom 1.0.</span><br><span class="vars">vars: <code>startAnchor</code>, <code>zoomStart</code>, <code>zoomEnd</code>, <code>durationInFrames</code>, <code>actionIndex</code></span></li><li><code>camera.swooshSnap</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Vox-style camera taste recipe: snap-zoom halfway, subtly continue zooming, then snap fully in. Four actions sharing one anchor; requires easeZoom (set automatically).</span><br><span class="vars">vars: <code>anchor</code>, <code>zoomStart</code>, <code>zoomHalf</code>, <code>zoomSubtle</code>, <code>zoomFinal</code>, <code>durationInFrames</code>, <code>snapAt</code>, <code>settleAt</code></span></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="physics">
+    <h2>Physics</h2>
+    <p class="lede">Matter.js simulation baked at resolve time into a per-frame track (never runs live at render — see <code>src/physics/resolvePhysics.js</code>). Scene-level gravity/solver via <code>scene.physics</code>; per-asset body via <code>asset.physics</code>.</p>
+    <div class="grid two">
+      <div class="schema-card">
+        <h3>scenePhysicsSpec</h3>
+        <dl class="props"><dt><code>gravity</code> <span class="opt">optional</span></dt><dd><span class="kind">object { x, y }</span></dd><dt><code>gravityScale</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Override for engine.gravity.scale. Leave unset to use Matter's default (0.001).</dd><dt><code>iterations</code> <span class="opt">optional</span></dt><dd><span class="kind">integer</span> — Matter constraint/position/velocity solver iterations. Default: Matter's own default (6).</dd><dt><code>startFrame</code> <span class="opt">optional</span></dt><dd><span class="kind">integer</span> — Scene-local frame the simulation begins stepping at. Every frame before this holds all dynamic bodies at their initial resolved position (pre-drop).</dd></dl>
+      </div>
+      <div class="schema-card">
+        <h3>assetPhysicsSpec</h3>
+        <dl class="props"><dt><code>bodyType</code> <span class="req">required</span></dt><dd><span class="kind">enum(&quot;dynamic&quot; | &quot;static&quot;)</span> — 'dynamic': simulated — falls/bounces under gravity and collisions, and gets a baked resolvedPhysics.frames[] track. 'static': an immovable anchor other bodies can collide with (a ledge, floor, wall); never moves regardless of gravity, and gets NO resolvedPhysics track — it renders at its normal resolvedPosition, unchanged. Note: shape: 'path' requires bodyType: 'static'.</dd><dt><code>shape</code> <span class="opt">optional</span></dt><dd><span class="kind">enum(&quot;rectangle&quot; | &quot;circle&quot; | &quot;path&quot;)</span></dd><dt><code>pathSegments</code> <span class="opt">optional</span></dt><dd><span class="kind">integer</span> — Only used with shape:'path'. Number of straight sub-segments the resolved curve (asset.content._path, e.g. a WavyLine) is chopped into to approximate a collision surface — Matter has no native bezier body. Higher = smoother collisions, more bodies.</dd><dt><code>radius</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Circle radius in px. Only used when shape is 'circle'; defaults to min(width,height)/2.</dd><dt><code>restitution</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Bounciness. 0 = no bounce, 1 = elastic.</dd><dt><code>friction</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd><dt><code>frictionAir</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Air resistance. 0 lets a dynamic body fall/slide forever without damping.</dd><dt><code>density</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd><dt><code>initialVelocity</code> <span class="opt">optional</span></dt><dd><span class="kind">object { x, y }</span></dd><dt><code>initialAngularVelocity</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Radians/frame at simulation start. Default 0.</dd><dt><code>angle</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Starting rotation in degrees. Default 0.</dd><dt><code>fixedRotation</code> <span class="opt">optional</span></dt><dd><span class="kind">boolean</span> — Body never rotates (infinite inertia) — e.g. a card that should slide/bounce but stay upright.</dd><dt><code>collidesWith</code> <span class="opt">optional</span></dt><dd><span class="kind">string[]</span> — Asset ids (same scene) this body may collide with. Omit to collide with every other physics body in the scene (default).</dd><dt><code>force</code> <span class="opt">optional</span></dt><dd><span class="kind">any | any</span></dd><dt><code>magnet</code> <span class="opt">optional</span></dt><dd><span class="kind">object { targetAssetId, strength, falloff, maxDistance, startFrame, endFrame, attractTo }</span></dd><dt><code>carryFromScene</code> <span class="opt">optional</span></dt><dd><span class="kind">object { sceneId, assetId }</span></dd></dl>
+      </div>
+    </div>
+    <p class="note">Relational fields — <code>force.towardAssetId</code>, <code>magnet.targetAssetId</code>, <code>carryFromScene.assetId</code> — all target another asset's <code>id</code> in the same scene (or, for <code>carryFromScene</code>, an earlier scene), the same "everything can be relative" pattern as anchors and timing.</p>
+  </section>
+
+  <section id="effects">
+    <h2>Effects</h2>
+    <p class="lede">Three non-overlapping effect surfaces — don't confuse them. Per-asset visual effects (<code>asset.effects[]</code>: filter/grain/scanlines scoped to one asset's box) vs. detached scene-level effects (<code>scene.effects[]</code>: sfx/visual anchored to an exact scene-local <code>frame</code>) vs. <code>config.postEffects</code> (a whole-video ffmpeg pass after render). This section covers scene-level effects — the newest, exact-frame-first member of the timing pattern.</p>
+    <div class="grid two">
+      <div class="schema-card">
+        <h3>sfxEffect</h3>
+        <dl class="props"><dt><code>durationInFrames</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Optional explicit duration. When omitted the &lt;Audio&gt; plays to the file's end.</dd><dt><code>frame</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Exact scene-local frame at which the SFX starts. 0 = scene start; the scene's last frame equals scene.durationInFrames.</dd><dt><code>id</code> <span class="req">required</span></dt><dd><span class="kind">string</span> — Unique effect id within the scene. Used for idempotent replace by `inject-effects`.</dd><dt><code>kind</code> <span class="req">required</span></dt><dd><span class="kind">enum(&quot;sfx&quot;)</span></dd><dt><code>offsetPercent</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Backward-compat legacy percent-of-scene-end (see effectTiming.js resolveEffectFrame). Deprecated — prefer `frame`. Used only when both `frame` and `timing` are absent.</dd><dt><code>path</code> <span class="req">required</span></dt><dd><span class="kind">string</span> — Path under public/, e.g. &quot;audio/sfx.mp3&quot;. Resolved via Remotion staticFile().</dd><dt><code>timing</code> <span class="opt">optional</span></dt><dd><span class="kind">object { offsetPercent, relativeToAsset, relativeToWord, relativeToCameraAction, edge, offsetFrames } | object { $alias }</span> — A timing anchor for an effect/camera event. Exactly one of: offsetPercent, relativeToAsset, relativeToCameraAction, relativeToWord (relativeToWord may also be combined with relativeToAsset to read that asset's own word timing instead of the scene's narration). Alternatively, a &quot;$alias&quot;: &quot;timing.&lt;name&gt;&quot; shorthand (e.g. timing.withPreviousExit, timing.atCameraAction) — expanded to the object shape below by resolveAliasesDeep in pipeline2, before any sub-resolver sees it.</dd><dt><code>volume</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd></dl>
+      </div>
+      <div class="schema-card">
+        <h3>visualEffect</h3>
+        <dl class="props"><dt><code>anchor</code> <span class="opt">optional</span></dt><dd><span class="kind">object { offsetXPercent, offsetYPercent, position }</span></dd><dt><code>assetType</code> <span class="req">required</span></dt><dd><span class="kind">string</span> — Anything registered under studio/assets/ or studio/graphics/ that exposes an AssetComponent.</dd><dt><code>contentOverride</code> <span class="opt">optional</span></dt><dd><span class="kind">object</span></dd><dt><code>durationInFrames</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Visible lifetime of the effect before it exits.</dd><dt><code>frame</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Exact scene-local frame at which the visual effect enters (becomes visible).</dd><dt><code>id</code> <span class="req">required</span></dt><dd><span class="kind">string</span></dd><dt><code>kind</code> <span class="req">required</span></dt><dd><span class="kind">enum(&quot;visual&quot;)</span></dd><dt><code>offsetPercent</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — Backward-compat legacy percent-of-scene-end. Deprecated — prefer `frame`.</dd><dt><code>styleOverride</code> <span class="opt">optional</span></dt><dd><span class="kind">object</span></dd><dt><code>timing</code> <span class="opt">optional</span></dt><dd><span class="kind">object { offsetPercent, relativeToAsset, relativeToWord, relativeToCameraAction, edge, offsetFrames } | object { $alias }</span> — A timing anchor for an effect/camera event. Exactly one of: offsetPercent, relativeToAsset, relativeToCameraAction, relativeToWord (relativeToWord may also be combined with relativeToAsset to read that asset's own word timing instead of the scene's narration). Alternatively, a &quot;$alias&quot;: &quot;timing.&lt;name&gt;&quot; shorthand (e.g. timing.withPreviousExit, timing.atCameraAction) — expanded to the object shape below by resolveAliasesDeep in pipeline2, before any sub-resolver sees it.</dd></dl>
+      </div>
+      <div class="schema-card">
+        <h3>effects aliases <span class="count">5</span></h3>
+        <ul class="alias-list"><li><code>effects.oldComputer</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Grainy old computer/CRT look — desaturated, grain, scanlines.</span><br><span class="vars">vars: <code>grayscale</code>, <code>contrast</code>, <code>brightness</code>, <code>sepia</code>, <code>grainIntensity</code>, <code>scanlineOpacity</code>, <code>scanlineHeight</code></span></li><li><code>effects.warmPhoto</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Warm, sepia-toned photo filter.</span><br><span class="vars">vars: <code>sepia</code>, <code>contrast</code>, <code>brightness</code></span></li><li><code>effects.coldMonochrome</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Cold grayscale filter with subtle scanlines.</span><br><span class="vars">vars: <code>grayscale</code>, <code>contrast</code>, <code>brightness</code>, <code>scanlineOpacity</code></span></li><li><code>effects.minified</code> <span class="src custom">custom</span><br><span class="alias-desc">Cheap, minified-JSON-friendly single-filter dim look — one effect entry instead of the 3-entry oldComputer stack. Useful when generation budget/token count for the resolved scene matters.</span></li><li><code>effects.tokenGreen</code> <span class="src custom">custom</span><br><span class="alias-desc">Normalizes a photo/ImageReveal asset toward the token-green brand color (theme accentGreen #16C784) using only CSS filter primitives: grayscale(1) sepia(1) flattens to a warm monochrome base, then hue-rotate(62deg) spins that base hue to green. Pairs with shader.tokenGreen (the SVG-native tint equivalent for SvgImage logos) so stock photos and brand SVGs read as the same color family in a scene.</span></li></ul>
+      </div>
+      <div class="schema-card">
+        <h3>shader aliases <span class="count">9</span></h3>
+        <ul class="alias-list"><li><code>shader.goldTint</code> <span class="src custom">custom</span><br><span class="alias-desc">Warm gold multiply-tint over the image, slight contrast/brightness lift. Good for coin/currency logos (e.g. Bitcoin.svg).</span></li><li><code>shader.coldGlow</code> <span class="src custom">custom</span><br><span class="alias-desc">Cool blue glow halo traced around the image's real alpha silhouette, slightly desaturated/dimmed base image.</span></li><li><code>shader.softBlurGlow</code> <span class="src custom">custom</span><br><span class="alias-desc">Subtle soft-focus blur plus a soft white glow halo — gentle, ungimmicky highlight.</span></li><li><code>shader.desaturatedMono</code> <span class="src custom">custom</span><br><span class="alias-desc">Full grayscale desaturation with a contrast/brightness nudge — flat monochrome look.</span></li><li><code>shader.hueShiftNeon</code> <span class="src custom">custom</span><br><span class="alias-desc">Aggressive hue-rotate + saturation boost plus a hot pink glow — neon/cyberpunk accent look.</span></li><li><code>shader.brushedMetal</code> <span class="src custom">custom</span><br><span class="alias-desc">Static brushed-metal/foil texture (specular-lit bump noise) plus a slightly desaturated, higher-contrast base — a dull steel/foil look with no motion.</span></li><li><code>shader.chromeShine</code> <span class="src custom">custom</span><br><span class="alias-desc">Chrome look: desaturated + contrasty base, static specular metal texture, plus one animated white shine sweep across the image on entrance.</span></li><li><code>shader.goldCoinShiny</code> <span class="src custom">custom</span><br><span class="alias-desc">Gold-tinted coin with a static brushed-metal specular texture (warm light color) plus an animated cream-white shine sweep — the 'shiny gold coin' combo look.</span></li><li><code>shader.tokenGreen</code> <span class="src custom">custom</span><br><span class="alias-desc">Normalizes an SVG asset toward the token-green brand color (theme accentGreen #16C784): multiply-tint + a matching green glow halo, slight contrast/brightness lift. Pairs with effects.tokenGreen (the CSS-filter equivalent for div-based ImageReveal photos) so SVG logos and stock photos read as the same color family in a scene.</span></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="timing">
+    <h2>Timing</h2>
+    <p class="lede">The one shared vocabulary for "fire at this moment" — <code>shared.schema.json#/definitions/timingAnchor</code>. Consumed by asset <code>enterAt</code>/<code>exitAt</code>, scene <code>effects[].timing</code> (legacy bridge), and camera <code>actions[].at</code>. Resolved by <code>src/timing/effectTiming.js</code>'s <code>resolveTimingAnchor</code>.</p>
+    <div class="grid two">
+      <div class="schema-card">
+        <h3>timingAnchor</h3>
+        <dl class="props"><dt><code>offsetPercent</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd><dt><code>relativeToAsset</code> <span class="opt">optional</span></dt><dd><span class="kind">string</span></dd><dt><code>relativeToWord</code> <span class="opt">optional</span></dt><dd><span class="kind">integer | string | integer | string[]</span> — A word index, exact word text, or array of words/indices (a phrase/set) to anchor to. Without relativeToAsset, resolves against the SCENE's own narration word timing (requires scene.narrationRef with word-level alignment) — use this to place something at a spoken word/phrase with no asset needing to display that text. With relativeToAsset, resolves against that asset's own resolved timing.words instead. For an array, edge 'enter' (default) anchors to the FIRST word's start frame and edge 'exit' anchors to the LAST word's end frame.</dd><dt><code>relativeToCameraAction</code> <span class="opt">optional</span></dt><dd><span class="kind">number | string</span></dd><dt><code>edge</code> <span class="opt">optional</span></dt><dd><span class="kind">enum(&quot;enter&quot; | &quot;exit&quot;)</span></dd><dt><code>offsetFrames</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span></dd></dl>
+      </div>
+      <div class="schema-card">
+        <h3>timing aliases <span class="count">5</span></h3>
+        <ul class="alias-list"><li><code>timing.withPreviousExit</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Fires this asset/effect when another asset exits. Provide 'assetId' required.</span><br><span class="vars">vars: <code>assetId</code>, <code>offsetFrames</code></span></li><li><code>timing.withPreviousEnter</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Fires this asset/effect when another asset enters. 'assetId' required.</span><br><span class="vars">vars: <code>assetId</code>, <code>offsetFrames</code></span></li><li><code>timing.atCameraAction</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Fires relative to a camera action. 'action' is the index (number) or id (string).</span><br><span class="vars">vars: <code>action</code>, <code>offsetFrames</code></span></li><li><code>timing.nearEnd</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Legacy offsetPercent form: 0 = scene's last frame; negative = earlier. Default -10.</span><br><span class="vars">vars: <code>offsetPercent</code></span></li><li><code>timing.quickFollow</code> <span class="src custom">custom</span><br><span class="alias-desc">Fixed-offset follow-on timing anchor for a chained reveal (0.15s-ish at 30fps): fires 5 frames after asset id 'prev'. Static (no vars) — for a parametrized version use timing.withPreviousExit instead.</span></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="aliases">
+    <h2>"$alias" shorthand</h2>
+    <p class="lede">Any of <code>motion</code>, <code>camera</code>, <code>transitionOut</code>, per-asset <code>effects</code>, or a <code>timingAnchor</code> field can be written as <code>{ "$alias": "category.name", ...vars }</code> instead of the full object — expanded by <code>resolveAliasesDeep</code> in pipeline2, <strong>before</strong> validate's shaped schemas see it. Hand-authored files must write the expanded shape (validate rejects a bare <code>$alias</code> key); only the agent CLIs (<code>agent-cli.mjs add-asset</code>/<code>add-scene</code>, etc.) resolve aliases before validating. Discover: <code>node scripts/discovery.mjs aliases</code> / <code>alias &lt;name&gt;</code>.</p>
+    <div class="grid two">
+      <div class="schema-card">
+        <h3>text aliases <span class="count">1</span></h3>
+        <ul class="alias-list"><li><code>text.emergeCard</code> <span class="src custom">custom</span><br><span class="alias-desc">Standalone b-roll statement/title card recipe for TextEmerge: slow blur-drift-lift materialize, no pop/spring overshoot, center-aligned wide block. Use as styleOverride: { &quot;$alias&quot;: &quot;text.emergeCard&quot; } on a TextEmerge asset for the default 'less pop, more appear' b-roll look from scripts/curate/solutions/composition/b-roll-sequence.md step 7.</span></li></ul>
+      </div>
+      <div class="schema-card">
+        <h3>transition aliases <span class="count">2</span></h3>
+        <ul class="alias-list"><li><code>transition.quickCut</code> <span class="src builtin">builtin</span><br><span class="alias-desc">Default transition with a short (6-frame default) duration.</span><br><span class="vars">vars: <code>durationInFrames</code></span></li><li><code>transition.smoothSlide</code> <span class="src builtin">builtin</span><br><span class="alias-desc">slideContinuity transition; default 24-frame duration. Pass 'params' for carryAssetId etc.</span><br><span class="vars">vars: <code>durationInFrames</code>, <code>params</code></span></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="background">
+    <h2>Backgrounds & style tokens</h2>
+    <p class="lede"><code>scene.background</code> — a color token, a literal hex, or an object with texture/blend/opacity (<code>shared.schema.json#/definitions/backgroundSpec</code>). Tokens resolve against <code>styles/theme.json</code> — colors, typography, spacing, easing, textures.</p>
+    <div class="grid two">
+      <div class="schema-card">
+        <h3>backgroundSpec</h3>
+        <dl class="props"><dt><code>color</code> <span class="opt">optional</span></dt><dd><span class="kind">string</span> — color token or literal #RRGGBB; resolved via resolveColorToken</dd><dt><code>texture</code> <span class="opt">optional</span></dt><dd><span class="kind">string</span> — texture token from styles.textures; resolved to a public/ path via resolveTextureToken</dd><dt><code>blendMode</code> <span class="opt">optional</span></dt><dd><span class="kind">enum(&quot;normal&quot; | &quot;multiply&quot; | &quot;screen&quot; | &quot;overlay&quot; | &quot;darken&quot; | &quot;lighten&quot; | &quot;color-dodge&quot; | &quot;color-burn&quot; | &quot;hard-light&quot; | &quot;soft-light&quot; | &quot;difference&quot; | &quot;exclusion&quot; | &quot;hue&quot; | &quot;saturation&quot; | &quot;color&quot; | &quot;luminosity&quot;)</span> — CSS mix-blend-mode applied to the texture overlay. Defaults to 'normal'.</dd><dt><code>opacity</code> <span class="opt">optional</span></dt><dd><span class="kind">number</span> — opacity of the texture overlay, 0–1. Defaults to 1.</dd></dl>
+      </div>
+      <div class="schema-card">
+        <h3>themes <span class="count">2</span></h3>
+        <ul class="alias-list"><li><code>default</code> — 10 colors, 5 typography, 2 easing</li><li><code>finance-dark</code> — 10 colors, 5 typography, 2 easing</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="collections">
+    <h2>Asset gathering <span class="count">5</span></h2>
+    <p class="lede">Workflows for pulling stock video, images, and audio into <code>public/</code> before authoring scenes. Discover live: <code>node scripts/discovery.mjs collections</code> / <code>collection &lt;type&gt;</code>. Docs under <code>docs/skills/assetlibrary/</code>.</p>
+    <div class="grid">
+    <article class="card" data-search="youtubesearch youtube search find candidate youtube tracks or sfx by keyword before downloading them into public/audio/sources.">
+      <h3>YouTube search</h3>
+      <p>Find candidate YouTube tracks or SFX by keyword before downloading them into public/audio/sources.</p>
+      <div class="meta"><span class="pill">audio</span><span class="pill">public/audio/sources/</span></div>
+    </article>
+
+    <article class="card" data-search="ytdlpdownload yt-dlp download download a chosen youtube source into public/audio/sources and keep the final referenced file in public/audio.">
+      <h3>yt-dlp download</h3>
+      <p>Download a chosen YouTube source into public/audio/sources and keep the final referenced file in public/audio.</p>
+      <div class="meta"><span class="pill">audio</span><span class="pill">public/audio/ and public/audio/sources/</span></div>
+    </article>
+
+    <article class="card" data-search="sfxsplit sfx pack slicing split one pack video into one-hit clips using silence detection and write each clip to public/audio/split.">
+      <h3>SFX pack slicing</h3>
+      <p>Split one pack video into one-hit clips using silence detection and write each clip to public/audio/split.</p>
+      <div class="meta"><span class="pill">audio</span><span class="pill">public/audio/split/</span></div>
+    </article>
+
+    <article class="card" data-search="imagesearch yandex image search search for still-image sources through the browser-backed yandex images adapter, then download to public/assets.">
+      <h3>Yandex image search</h3>
+      <p>Search for still-image sources through the browser-backed Yandex Images adapter, then download to public/assets.</p>
+      <div class="meta"><span class="pill">image</span><span class="pill">public/assets/</span></div>
+    </article>
+
+    <article class="card" data-search="manifestwiring manifest wiring validate the path contract and write finalized files from public/audio or public/assets into scene manifests.">
+      <h3>Manifest wiring</h3>
+      <p>Validate the path contract and write finalized files from public/audio or public/assets into scene manifests.</p>
+      <div class="meta"><span class="pill">manifest</span><span class="pill">Scene manifest paths relative to public/</span></div>
+    </article></div>
+  </section>
+
+  <section id="schemas">
+    <h2>Schema files <span class="count">8</span></h2>
+    <p class="lede"><code>src/pipelines/pipeline1-validate/schema/*.schema.json</code> — the Ajv contract every manifest/scene file is checked against. Fully dereferenced, live: <code>node scripts/schema-cli.mjs schema &lt;file&gt;</code>, <code>definition &lt;file&gt; &lt;name&gt;</code>, <code>search &lt;term&gt;</code>.</p>
+    <div class="grid">
+    <article class="card" data-search="camera.schema.json">
+      <h3>camera.schema.json</h3>
+      
+      
+      <p><strong>definitions:</strong> <code>cameraSpec</code>, <code>cameraAction</code>, <code>cameraEasing</code>, <code>cameraAnchor</code></p>
+    </article>
+
+    <article class="card" data-search="effects.schema.json">
+      <h3>effects.schema.json</h3>
+      
+      
+      <p><strong>definitions:</strong> <code>effectSpec</code>, <code>effectsArray</code>, <code>sfxEffect</code>, <code>visualEffect</code></p>
+    </article>
+
+    <article class="card" data-search="manifest.schema.json">
+      <h3>manifest.schema.json</h3>
+      <p><strong>required:</strong> <code>projectId</code>, <code>config</code>, <code>styles</code>, <code>scenes</code></p>
+      <p><strong>properties:</strong> <code>projectId</code>, <code>config</code>, <code>styles</code>, <code>narration</code>, <code>audioOverlay</code>, <code>music</code>, <code>scenes</code>, <code>physicsPresets</code></p>
+      
+    </article>
+
+    <article class="card" data-search="physics.schema.json">
+      <h3>physics.schema.json</h3>
+      
+      
+      <p><strong>definitions:</strong> <code>vector2</code>, <code>scenePhysicsSpec</code>, <code>assetPhysicsSpec</code></p>
+    </article>
+
+    <article class="card" data-search="scene.schema.json">
+      <h3>scene.schema.json</h3>
+      <p><strong>required:</strong> <code>id</code>, <code>assets</code></p>
+      <p><strong>properties:</strong> <code>id</code>, <code>narrationRef</code>, <code>transitionIn</code>, <code>transitionOut</code>, <code>effects</code>, <code>background</code>, <code>camera</code>, <code>physics</code>, <code>assets</code></p>
+      <p><strong>definitions:</strong> <code>assetEffect</code>, <code>motionSpec</code>, <code>motionRotatePhase</code>, <code>motionInPhase</code>, <code>motionOutPhase</code></p>
+    </article>
+
+    <article class="card" data-search="shared.schema.json">
+      <h3>shared.schema.json</h3>
+      
+      
+      <p><strong>definitions:</strong> <code>tokenOrLiteral</code>, <code>backgroundSpec</code>, <code>timingAnchor</code>, <code>aliasRef</code></p>
+    </article>
+
+    <article class="card" data-search="style.schema.json">
+      <h3>style.schema.json</h3>
+      <p><strong>required:</strong> <code>colors</code>, <code>typography</code>, <code>spacing</code></p>
+      <p><strong>properties:</strong> <code>colors</code>, <code>typography</code>, <code>spacing</code>, <code>easing</code>, <code>textures</code></p>
+      
+    </article>
+
+    <article class="card" data-search="transition.schema.json">
+      <h3>transition.schema.json</h3>
+      
+      
+      <p><strong>definitions:</strong> <code>transitionRef</code></p>
+    </article></div>
+  </section>
+
+  <section id="cli">
+    <h2>CLI surfaces</h2>
+    <div class="grid three">
+      <div class="schema-card">
+        <h3><code>scripts/discovery.mjs</code></h3>
+        <p>Read-only discovery + build/verify/render. Backed by the registries (<code>studio/assets</code>, <code>studio/graphics</code>, <code>studio/transitions</code>, <code>src/registry/aliasRegistry.js</code>, <code>src/registry/themeLibrary.js</code>).</p>
+        <pre>assets / asset &lt;type&gt;
+transitions / transition &lt;type&gt;
+anchors
+envelope / manifest
+pitfalls [topic]
+aliases [category] / alias &lt;name&gt;
+alias-categories
+themes / theme &lt;name&gt;
+collections / collection &lt;type&gt;
+projects / show &lt;id&gt;</pre>
+      </div>
+      <div class="schema-card">
+        <h3><code>scripts/timeline-cli.mjs</code></h3>
+        <p>Dynamic, per-project frame-axis introspection + injection — resolves fresh from disk every call. <code>outline</code> returns a compact hierarchical (DAG-shaped) view for cheap first reads; <code>scene</code> drills into one scene's full detail.</p>
+        <pre>outline &lt;id&gt; / scene &lt;id&gt; &lt;sceneId&gt;
+timeline &lt;id&gt; / describe-frame &lt;id&gt; &lt;frame&gt;
+open-ranges &lt;id&gt; &lt;scene&gt;
+inject-effects &lt;id&gt; '&lt;rules&gt;'</pre>
+      </div>
+      <div class="schema-card">
+        <h3><code>scripts/schema-cli.mjs</code></h3>
+        <p>Read-only discovery over <code>src/pipelines/pipeline1-validate/schema/</code> directly. $ref-dereferenced, oneOf-flattened. Zero second source of truth — a new schema field shows up here automatically.</p>
+        <pre>schemas
+schema &lt;file|id&gt;
+definitions &lt;file|id&gt;
+definition &lt;file|id&gt; &lt;name&gt;
+search &lt;term&gt;</pre>
+      </div>
+      <div class="schema-card">
+        <h3><code>scripts/cli.js</code> / <code>project-cli.js</code></h3>
+        <p>Mutation surface — creates/edits projects, scenes, assets, styles, themes, aliases against an ACTIVE project. <code>project-cli.js create</code> is the dedicated scaffolding entry point.</p>
+        <pre>project create|current|validate
+scene create|...
+asset create|get|delete
+styles * / theme * / alias *
+manifest export
+batch</pre>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>json.mp4 · generated reference · see <code>CLAUDE.md</code> for the authoring pattern and <code>scripts/curate/</code> for worked solutions</footer>
+<script>
+  const input = document.getElementById('search');
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    document.querySelectorAll('[data-search]').forEach((el) => {
+      el.classList.toggle('hidden', q.length > 0 && !el.dataset.search.includes(q));
+    });
+  });
+</script>
+</body>
+</html>

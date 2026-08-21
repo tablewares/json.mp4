@@ -1,0 +1,24 @@
+{
+  "background": "shade1",
+  "transitionOut": {
+    "type": "slideContinuity",
+    "durationInFrames": 24,
+    "params": {
+      "carryAssetId": "heroTitle"
+    }
+  },
+  "id": "scene1",
+  "assets": [
+    {
+      "assetType": "TextBlock",
+      "contentOverride": {
+        "text": "CARRY ME"
+      },
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 10
+      },
+      "id": "heroTitle"
+    }
+  ]
+}

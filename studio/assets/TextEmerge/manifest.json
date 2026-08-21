@@ -1,0 +1,72 @@
+{
+  "assetType": "TextEmerge",
+  "component": "TextEmerge.jsx",
+  "description": "Standalone, cinematic materialize text card for b-roll: no per-word 'pop' overshoot like KineticText — each word fades up out of a soft blur on a slow monotonic ease while the whole block lifts+scales into frame as one coordinated mass, then dissolves back out (blur+drift+fade) on exit instead of a flat cut. Built for scripts/curate/solutions/composition/b-roll-sequence.md step 7 (title/statement cards) when a plain TextBlock fade-up is too flat and KineticText's caption-energy pop is too busy for a standalone shot with no narration sync needed. Same two timing modes as KineticText: narration-synced per-word timing when content.text is word-for-word identical to the scene's narration, otherwise an even stagger auto-compressed to the asset's timing budget.",
+  "defaultSize": { "width": 1500, "height": 320 },
+  "defaultStyle": {
+    "typography": "heading1",
+    "curve": "easeOutExpo",
+    "staggerFrames": 8,
+    "revealDurationFrames": 26,
+    "driftDirection": "up",
+    "driftDistance": 34,
+    "blurAmount": 16,
+    "scaleFrom": 0.985,
+    "containerLift": true,
+    "containerDriftDistance": 26,
+    "containerScaleFrom": 0.975,
+    "useNarrationTiming": true,
+    "highlighter": null
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": ["text"],
+    "properties": {
+      "text": { "type": "string" }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "typography": { "type": "string" },
+      "curve": {
+        "type": "string",
+        "enum": ["easeOutCubic", "easeOutQuart", "easeOutExpo"],
+        "description": "Named monotonic ease curve for both the per-word materialize and the container lift. Deliberately NOT named 'easing' — that key is globally reserved by the style registry for spring-config tokens (styles.easing.<name>) and would collide/throw 'Unknown easing token' at resolve. No spring/overshoot options by design — this asset is the 'less pop, more appear' sibling of KineticText. Default easeOutExpo (slowest start, most 'drift into focus' feel)."
+      },
+      "staggerFrames": { "type": "number", "description": "fallback: target frames between word starts when narration-sync isn't used; auto-shrunk to fit the timing budget (looser budget fraction than KineticText: 0.7 vs 0.6, so the cascade has room to breathe)" },
+      "revealDurationFrames": { "type": "number", "description": "how many frames EACH word takes to go from fully-blurred/hidden to fully-resolved, independent of the stagger between word starts. Larger = slower, more deliberate per-word materialize." },
+      "driftDirection": { "type": "string", "enum": ["up", "down", "left", "right"], "description": "axis words (and the container) arrive FROM / dissolve back TOWARD. Default 'up' (classic fade-up-into-place)." },
+      "driftDistance": { "type": "number", "description": "px each WORD travels along driftDirection while materializing (halved for the exit drift)." },
+      "blurAmount": { "type": "number", "description": "peak gaussian blur (px) each word starts fully-hidden at, then sharpens to 0 as it resolves. This is the primary 'appear'/'fade into existence' mechanism — set to 0 for a pure fade with no defocus." },
+      "scaleFrom": { "type": "number", "description": "per-word starting scale (materializes up to 1.0). Keep close to 1 (e.g. 0.98) — this is a subtle settle, not a pop." },
+      "containerLift": { "type": "boolean", "description": "when true (default), the WHOLE text block also lifts+scales into frame as one coordinated motion on top of the per-word cascade, so the group reads as a single mass drifting into view rather than only a sequence of independent word pops. Set false to isolate the per-word materialize with no container-level motion." },
+      "containerDriftDistance": { "type": "number", "description": "px the whole block travels along driftDirection on entrance/exit (container-level, independent of per-word driftDistance)." },
+      "containerScaleFrom": { "type": "number", "description": "container's starting scale before settling to 1 — a very subtle overall zoom-in-to-place, distinct from each word's own scaleFrom." },
+      "align": { "type": "string", "enum": ["left", "center", "right"] },
+      "backgroundColorToken": { "type": "string" },
+      "width": { "type": "number" },
+      "useNarrationTiming": {
+        "type": "boolean",
+        "description": "When true (default) and content.text exactly matches the scene's narration text, materialize each word at its real spoken time instead of an even stagger. Set false to force the stagger even when the text matches."
+      },
+      "highlighter": {
+        "type": ["object", "null"],
+        "description": "Optional inline highlighter stroke identical to KineticText's — see studio/assets/KineticText/manifest.json for the full field reference. Omit or set null (default) for no marker; this asset leans on blur/drift/lift for emphasis rather than a highlighter sweep, so most standalone b-roll cards should leave this off.",
+        "properties": {
+          "enabled": { "type": "boolean" },
+          "color": { "type": "string" },
+          "colorToken": { "type": "string" },
+          "mode": { "type": "string", "enum": ["band", "underline"] },
+          "height": { "type": "number" },
+          "barThickness": { "type": "number" },
+          "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+          "blur": { "type": "number" },
+          "direction": { "type": "string", "enum": ["left", "right"] },
+          "sweepStartFraction": { "type": "number", "minimum": 0, "maximum": 1 },
+          "sweepDurationFraction": { "type": "number", "minimum": 0.01, "maximum": 1 }
+        }
+      }
+    }
+  }
+}

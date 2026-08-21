@@ -1,0 +1,23 @@
+{
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "defaultSceneDurationInFrames": 120,
+  "compositionPlugins": [
+    {
+      "name": "overlapGuard",
+      "options": {
+        "overlapSeverity": "error",
+        "offscreenSeverity": "error",
+        "tinySizeSeverity": "warn"
+      }
+    },
+    {
+      "name": "similarSceneGuard",
+      "options": {
+        "maxConsecutiveSimilar": 2,
+        "severity": "error"
+      }
+    }
+  ]
+}

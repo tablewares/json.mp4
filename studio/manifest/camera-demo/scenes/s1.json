@@ -1,0 +1,25 @@
+{
+  "narrationRef": "",
+  "camera": {
+    "$alias": "camera.swooshSnap",
+    "anchor": {
+      "position": "center"
+    },
+    "durationInFrames": 60
+  },
+  "assets": [
+    {
+      "id": "swoosh_title",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "SWOOSH ZOOM"
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "id": "s1"
+}

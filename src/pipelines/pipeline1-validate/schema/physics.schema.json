@@ -9,6 +9,37 @@
         "y": { "type": "number" }
       }
     },
+    "attachToSpec": {
+      "type": "object",
+      "required": ["followAssetId"],
+      "additionalProperties": false,
+      "description": "Deterministic kinematic follow: reuses scene.assets[].anchor's own vocabulary (position/followAssetId + % offsets + edge), resolved fresh every frame against the followed asset's LIVE box (its baked resolvedPhysics position when it's itself a dynamic body, or its static resolvedPosition otherwise) instead of once at scene start.",
+      "properties": {
+        "followAssetId": { "type": "string", "description": "Asset id (this scene) whose live per-frame box this asset rides along with. May be a Matter-simulated dynamic body, a static anchor, or a plain non-physics asset (e.g. a moving motion.js asset) — any asset with a resolvedPosition/resolvedPhysics track." },
+        "anchorEdge": {
+          "$ref": "shared.schema.json#/definitions/cornerPosition",
+          "default": "center",
+          "description": "Which point on the FOLLOWED asset's box to ride. Same vocabulary as scene.assets[].anchor.anchorEdge."
+        },
+        "offsetXPercent": { "$ref": "shared.schema.json#/definitions/offsetXPercent" },
+        "offsetYPercent": { "$ref": "shared.schema.json#/definitions/offsetYPercent" }
+      }
+    },
+    "landAtSpec": {
+      "type": "object",
+      "required": ["atFrame"],
+      "additionalProperties": false,
+      "description": "Deterministic parabolic toss: computes the exact initial velocity needed (closed-form, given scenePhysicsSpec.gravity) so this body's Matter-simulated trajectory reaches the target position at EXACTLY atFrame — no more hand-tuning initialVelocity/angle to eyeball a landing spot. The body is still stepped through Matter each frame (so it can still collide/bounce with OTHER bodies en route), but its launch velocity is solved rather than authored.",
+      "properties": {
+        "atFrame": { "type": "integer", "minimum": 1, "description": "Scene-local frame the body must reach the target position at. Must be > startFrame." },
+        "targetAssetId": { "type": "string", "description": "Asset id (this scene) whose anchor-resolved center is the landing point, read once at resolve time (not live-tracked — for a live-tracked ride, use attachTo on the ARRIVING asset instead, or land at this asset then attachTo it afterward). Mutually exclusive with target." },
+        "target": { "$ref": "#/definitions/vector2", "description": "Absolute composition-space landing point in px. Mutually exclusive with targetAssetId." }
+      },
+      "oneOf": [
+        { "required": ["targetAssetId"] },
+        { "required": ["target"] }
+      ]
+    },
     "scenePhysicsSpec": {
       "type": "object",
       "additionalProperties": false,
@@ -19,7 +50,71 @@
         },
         "gravityScale": { "type": "number", "minimum": 0, "description": "Override for engine.gravity.scale. Leave unset to use Matter's default (0.001)." },
         "iterations": { "type": "integer", "minimum": 1, "description": "Matter constraint/position/velocity solver iterations. Default: Matter's own default (6)." },
-        "startFrame": { "type": "integer", "minimum": 0, "default": 0, "description": "Scene-local frame the simulation begins stepping at. Every frame before this holds all dynamic bodies at their initial resolved position (pre-drop)." }
+        "startFrame": { "type": "integer", "minimum": 0, "default": 0, "description": "Scene-local frame the simulation begins stepping at. Every frame before this holds all dynamic bodies at their initial resolved position (pre-drop)." },
+        "constraints": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/constraintSpec" },
+          "description": "Point-to-point joints (Matter.Constraint) linking two physics bodies, or one body to a fixed world point — the primitive a free-body/force/magnet vocabulary alone can't express: a rigid pivot a beam swings around (a balance scale's fulcrum, a see-saw, a pendulum), as opposed to a body merely accelerating toward a target. Resolved AFTER every scene.assets[].physics body exists but BEFORE the simulation steps, so both endpoints must reference asset ids that carry a physics block in THIS scene."
+        }
+      }
+    },
+    "constraintSpec": {
+      "type": "object",
+      "required": ["bodyA"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Optional label, for error messages only — not referenced elsewhere." },
+        "bodyA": { "type": "string", "description": "Asset id (this scene) of the first body the joint attaches to. Must carry a physics block." },
+        "pointA": {
+          "$ref": "#/definitions/vector2",
+          "description": "Attachment point on bodyA, as a LOCAL offset in px from bodyA's own center (NOT world-space, NOT a percent — Matter's own convention). Default { x: 0, y: 0 } — the body's center, e.g. a beam pinned at its own midpoint."
+        },
+        "bodyB": {
+          "type": "string",
+          "description": "Asset id (this scene) of the second body the joint attaches to. Omit to anchor bodyA to a FIXED WORLD POINT instead (see pointB) — the common 'pin this beam to an immovable fulcrum' shape, cheaper than authoring a second static body when the anchor point doesn't need its own rendered asset."
+        },
+        "pointB": {
+          "$ref": "#/definitions/vector2",
+          "description": "When bodyB is set: a LOCAL offset in px from bodyB's own center, same convention as pointA. When bodyB is omitted: an absolute WORLD-SPACE point (composition px) the joint anchors bodyA's pointA to — resolve this against the composition's own coordinate space, not a percent. Default { x: 0, y: 0 }."
+        },
+        "length": {
+          "type": "number",
+          "minimum": 0,
+          "default": 0,
+          "description": "Rest distance the joint tries to maintain between pointA and pointB, in px. 0 (default) pins the two points together — a rigid hinge/pivot (the point stays fixed, but the body remains free to ROTATE about it, since a single point constraint doesn't resist rotation). A nonzero length behaves like a rigid rod holding the two points that far apart — e.g. a swinging pendulum arm."
+        },
+        "stiffness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 1,
+          "description": "1 (default) = rigid, effectively unstretchable — the correct value for a pivot/hinge. Lower values behave like a soft spring instead (bouncier, stretches under load) — rarely what a 'pivot' interaction wants, but available for a springy-tether look."
+        },
+        "damping": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0,
+          "description": "Resists relative velocity along the constraint (reduces oscillation). 0 = undamped. Only meaningful when stiffness < 1 — a rigid (stiffness:1) pin has no oscillation to damp."
+        }
+      }
+    },
+    "followPathSpec": {
+      "type": "object",
+      "required": ["points", "atFrame"],
+      "additionalProperties": false,
+      "description": "Deterministic 'plot points, smooth curve, follow it' primitive: an authored sequence of 3+ points becomes a Catmull-Rom spline (same math WavyLine/resolveWavyPath uses) and the asset travels along that curve's actual arc length, reaching the LAST point at exactly atFrame — no velocity/gravity involved, just a point-in-time-along-the-curve lookup. Like landAt/attachTo, this excludes the asset from the Matter world entirely.",
+      "properties": {
+        "points": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "shared.schema.json#/definitions/anchorPointSpec" },
+          "description": "Waypoints in scene-assets authoring order (NOT resolved-pixel order — each item uses the shared named-corner/followAssetId/raw-{x,y} vocabulary, shared.schema.json#/definitions/anchorPointSpec). 2 points is a straight/wavy line (same as WavyLine's 2-point case); 3+ points is smoothed into one continuous Catmull-Rom curve — no hand-authored bezier control points needed."
+        },
+        "atFrame": { "type": "integer", "minimum": 1, "description": "Scene-local frame the asset reaches the FINAL point. Must be greater than scene.physics.startFrame. Travel is paced by real arc length along the curve (not by point index), so unevenly-spaced waypoints don't cause uneven speed." },
+        "curveAmount": { "type": "number", "default": 0, "description": "Same bow/offset knob as WavyLine's styleOverride.curveAmount — only meaningful with exactly 2 points (ignored once smoothCurve's 3+-point spline kicks in, matching buildWavyPathD's own precedence)." },
+        "rotateToPath": { "type": "boolean", "default": false, "description": "When true, the asset's rotateDeg each frame follows the curve's own tangent angle (nose pointed the direction of travel) instead of staying at 0 — e.g. an arrow or vehicle following a route." },
+        "startFrame": { "type": "integer", "minimum": 0, "default": 0, "description": "Scene-local frame the asset LEAVES the first point (travel begins). Default 0 — travel spans the asset's full [0, atFrame] window. Distinct from scene.physics.startFrame (which only gates the Matter simulation) — this asset isn't simulated at all." }
       }
     },
     "assetPhysicsSpec": {
@@ -30,7 +125,19 @@
         "bodyType": {
           "type": "string",
           "enum": ["dynamic", "static"],
-          "description": "'dynamic': simulated — falls/bounces under gravity and collisions, and gets a baked resolvedPhysics.frames[] track. 'static': an immovable anchor other bodies can collide with (a ledge, floor, wall); never moves regardless of gravity, and gets NO resolvedPhysics track — it renders at its normal resolvedPosition, unchanged. Note: shape: 'path' requires bodyType: 'static'."
+          "description": "'dynamic': simulated — falls/bounces under gravity and collisions, and gets a baked resolvedPhysics.frames[] track. 'static': an immovable anchor other bodies can collide with (a ledge, floor, wall); never moves regardless of gravity, and gets NO resolvedPhysics track — it renders at its normal resolvedPosition, unchanged. Note: shape: 'path' requires bodyType: 'static'. Ignored (but still required) when attachTo, landAt, or followPath is set — those fields opt this asset OUT of the Matter simulation entirely in favor of a deterministic kinematic track; author bodyType: 'dynamic' by convention in that case."
+        },
+        "attachTo": {
+          "$ref": "#/definitions/attachToSpec",
+          "description": "Deterministic 'ride along' primitive: this asset's position is recomputed every frame from another asset's LIVE box (simulated or static) via the same anchor vocabulary scene.assets[].anchor uses, instead of being simulated by Matter. Mutually exclusive in effect with landAt (author at most one); when set, this asset is excluded from the Matter world entirely — no mass/friction/collision — so it cannot itself be the target of another body's magnet/force/collidesWith, and it cannot follow another attachTo/landAt asset (no chaining)."
+        },
+        "landAt": {
+          "$ref": "#/definitions/landAtSpec",
+          "description": "Deterministic 'cartoon toss' primitive: a closed-form parabolic arc from this asset's anchor-resolved start position to an exact target point/asset, guaranteed to land exactly on time — no velocity/gravity tuning needed. Like attachTo, this excludes the asset from the Matter world (no collisions/bounce once landAt is used) and cannot target another attachTo/landAt asset."
+        },
+        "followPath": {
+          "$ref": "#/definitions/followPathSpec",
+          "description": "Deterministic 'plot points, smooth curve, follow it' primitive: author 2+ waypoints, get a Catmull-Rom spline, the asset travels it and reaches the final point at exactly atFrame. Mutually exclusive with attachTo/landAt (author at most one); excludes the asset from the Matter world entirely, same as attachTo/landAt."
         },
         "shape": { "type": "string", "enum": ["rectangle", "circle", "path"], "default": "rectangle" },
         "pathSegments": {
@@ -55,13 +162,21 @@
         },
         "force": {
           "type": "object",
-          "required": ["vector"],
           "additionalProperties": false,
+          "oneOf": [
+            { "required": ["vector"] },
+            { "required": ["towardAssetId", "magnitude"] }
+          ],
           "properties": {
             "vector": {
               "$ref": "#/definitions/vector2",
-              "description": "Acceleration in px/frame² — the SAME units as initialVelocity, deliberately NOT Matter's mass-scaled applyForce() API, so this stays predictable and composes cleanly with gravity/initialVelocity instead of needing a separate mental model."
+              "description": "Raw acceleration in px/frame² — the SAME units as initialVelocity, deliberately NOT Matter's mass-scaled applyForce() API, so this stays predictable and composes cleanly with gravity/initialVelocity instead of needing a separate mental model. Prefer towardAssetId/magnitude when the push direction is meant to track another asset instead of a fixed compass heading."
             },
+            "towardAssetId": {
+              "type": "string",
+              "description": "Another asset id in this scene that ALSO carries a `physics` block (dynamic or static). Direction is recomputed every simulated step toward that target's LIVE centroid position, same targeting model as physics.magnet.targetAssetId — use this instead of `vector` so the push stays relative to a body rather than a fixed absolute heading."
+            },
+            "magnitude": { "type": "number", "minimum": 0, "description": "Acceleration in px/frame², applied along the live direction toward towardAssetId. Only used with towardAssetId; ignored/invalid alongside vector." },
             "oneShot": {
               "type": "boolean",
               "default": false,

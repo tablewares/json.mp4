@@ -241,7 +241,9 @@ Multiple `ImageReveal` assets in shared band, timed sequentially.
 
 ## 7. Title card without KineticText
 
-Use centered `TextBlock`, `motion: { in: "fadeUp" }`. No `narrationRef` anchor. `enterAt: 0`.
+Two options, both with no `narrationRef` anchor and `enterAt: 0`:
+
+**Plain fade-up** — centered `TextBlock`, `motion: { in: "fadeUp" }`.
 
 ```jsonc
 {
@@ -259,6 +261,29 @@ Use centered `TextBlock`, `motion: { in: "fadeUp" }`. No `narrationRef` anchor. 
   "motion": { "in": "fadeUp" }
 }
 ```
+
+**Cinematic materialize** — `TextEmerge` (`studio/assets/TextEmerge/`), for
+a standalone b-roll statement/title card that wants more weight than a flat
+fade-up: each word fades up out of a soft blur on a slow monotonic ease
+(no spring/pop) while the whole block lifts+scales into frame as one
+coordinated mass, then dissolves back out (blur+drift+fade) on exit. Use
+the curated `text.emergeCard` alias for the default recipe:
+
+```jsonc
+{
+  "id": "title_qe",
+  "assetType": "TextEmerge",
+  "anchor": { "position": "center" },
+  "contentOverride": { "text": "Quantitative Easing" },
+  "styleOverride": { "$alias": "text.emergeCard" },
+  "enterAt": 0, "exitAt": 1, "z": 10
+}
+```
+
+See `studio/assets/TextEmerge/README.md` for the full field reference
+(`curve`, `blurAmount`, `driftDirection`/`driftDistance`,
+`containerLift`, etc.) and why the ease field is named `curve` not
+`easing`.
 
 ## 8. Transitions
 

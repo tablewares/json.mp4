@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { CliError } = require('./errors');
 const { MANIFEST_ROOT, rel } = require('./paths');
-const { readJSON } = require('./fsutil');
+const { readJSON, isMinifyExplicit, getDefaultMinify } = require('./fsutil');
 const state = require('./state');
 const { Workspace } = require('./workspace');
 const { validateRef } = require('./schema');
@@ -34,6 +34,21 @@ function projectCreate(id, opts = {}) {
   };
   for (const [k, v] of Object.entries(config)) {
     if (typeof v !== 'number') throw new CliError('BadArguments', `--${k} must be a number.`, { field: k, received: v });
+  }
+  // Persist the chosen JSON format as a per-project SETTING (not just a
+  // one-off flag on this invocation) — Workspace._resolveMinify() reads
+  // this on every later scene/asset/styles/batch command for this project,
+  // so `--minify` at creation time means "this project stays minified"
+  // rather than something that has to be repeated on every future command.
+  // Reads the SAME global --minify state cli.js's main() set via
+  // setDefaultMinify() (falling back to opts.minify for callers that pass
+  // it directly, e.g. tests) — only persisted when the invocation actually
+  // opted in one way or the other, so an untouched project falls through
+  // to the process-wide default (pretty) exactly like before this setting
+  // existed.
+  const minifyChoice = opts.minify !== undefined ? opts.minify : (isMinifyExplicit() ? getDefaultMinify() : undefined);
+  if (minifyChoice !== undefined) {
+    config.jsonFormat = minifyChoice ? 'minified' : 'pretty';
   }
 
   // Theme sourcing: --theme <name> pulls a preset from
@@ -129,6 +144,8 @@ function projectValidate() {
   }
 
   const seenAssetIds = new Map(); // assetId -> sceneId
+  let prevScene = null;
+  let prevSceneId = null;
   for (const entry of manifest.scenes || []) {
     const scenePath = path.join(projectDir, entry.path);
     let scene;
@@ -140,14 +157,33 @@ function projectValidate() {
     }
     const { valid, errors } = validateRef('scene.schema.json', scene);
     if (!valid) issues.push({ file: rel(scenePath), errors });
+
+    // An id carried from the immediately preceding scene via
+    // transitionOut.params.carryAssetId / carryAssetIds (slideContinuity,
+    // pivotZoom, ...) is INTENTIONALLY reused - that's the whole mechanism
+    // (resolveTransitions.js's buildTransitionBundle matches by id across
+    // both scenes to interpolate position/style through the cut). Don't
+    // flag those as accidental duplicates; only a same-id reuse the
+    // previous scene's transition doesn't declare is still a real
+    // ambiguous-CLI-addressing bug.
+    const carryParams = prevScene?.transitionOut?.params;
+    const carriedIds = new Set([
+      ...(typeof carryParams?.carryAssetId === 'string' ? [carryParams.carryAssetId] : []),
+      ...(Array.isArray(carryParams?.carryAssetIds) ? carryParams.carryAssetIds : []),
+    ]);
+
     for (const asset of scene.assets || []) {
       if (!asset.id) continue;
       if (seenAssetIds.has(asset.id)) {
+        if (seenAssetIds.get(asset.id) === prevSceneId && carriedIds.has(asset.id)) {
+          seenAssetIds.set(asset.id, entry.id); // keep tracking through a carry chain
+          continue;
+        }
         issues.push({
           file: rel(scenePath),
           errors: [
             {
-              message: `Duplicate asset id "${asset.id}" also used in scene "${seenAssetIds.get(asset.id)}". Asset ids must be unique across the project for CLI addressing to stay unambiguous.`,
+              message: `Duplicate asset id "${asset.id}" also used in scene "${seenAssetIds.get(asset.id)}". Asset ids must be unique across the project for CLI addressing to stay unambiguous (unless the preceding scene's transitionOut.params.carryAssetId/carryAssetIds declares this id as carried).`,
             },
           ],
         });
@@ -155,6 +191,9 @@ function projectValidate() {
         seenAssetIds.set(asset.id, entry.id);
       }
     }
+
+    prevScene = scene;
+    prevSceneId = entry.id;
   }
 
   return { projectId: id, ok: issues.length === 0, issues };

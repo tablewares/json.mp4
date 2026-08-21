@@ -3,6 +3,7 @@
 const fs = require('fs');
 const { CliError } = require('./errors');
 const { STATE_FILE, MANIFEST_ROOT } = require('./paths');
+const { writeJSONAtomic } = require('./fsutil');
 const path = require('path');
 
 function readState() {
@@ -15,7 +16,12 @@ function readState() {
 }
 
 function writeState(state) {
-  fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2) + '\n', 'utf8');
+  // Tiny file (just { projectId, ... }), but routed through the same
+  // atomic + minify-aware writer as every project file so there's no
+  // "one JSON file in the repo that's always pretty and never atomic"
+  // exception. Minify has no real size benefit here, but consistency
+  // means fsutil.js stays the single place this behavior is decided.
+  writeJSONAtomic(STATE_FILE, state);
 }
 
 function getProjectId() {

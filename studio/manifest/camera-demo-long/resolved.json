@@ -1,0 +1,153 @@
+{
+  "projectId": "camera-demo-long",
+  "config": {
+    "fps": 30,
+    "width": 1280,
+    "height": 720,
+    "defaultSceneDurationInFrames": 240
+  },
+  "audioOverlay": [],
+  "scenes": [
+    {
+      "id": "s1",
+      "durationInFrames": 240,
+      "effects": [],
+      "camera": {
+        "actions": [
+          {
+            "at": 0,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 100,
+            "easing": "easeOut"
+          },
+          {
+            "at": 0.08,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 130,
+            "easing": "linear"
+          },
+          {
+            "at": 0.92,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 140,
+            "easing": "easeIn"
+          },
+          {
+            "at": 1,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 165,
+            "easing": "easeIn"
+          }
+        ],
+        "durationInFrames": 240,
+        "speed": 1,
+        "easeZoom": true
+      },
+      "narrationWords": null,
+      "ttsWindow": null,
+      "background": "#05070C",
+      "assets": [
+        {
+          "id": "backdrop",
+          "assetType": "ImageReveal",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/ImageReveal/ImageReveal.jsx",
+          "content": {
+            "src": "assets/neon-city-skyline.jpg"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 0,
+            "top": 0,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "borderRadius": 0,
+            "easing": {
+              "damping": 18,
+              "mass": 0.8,
+              "stiffness": 100
+            },
+            "revealDirection": "center-out",
+            "width": 1280,
+            "height": 720
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 240,
+            "enterAtFrame": 0,
+            "exitAtFrame": 240,
+            "words": null
+          }
+        },
+        {
+          "id": "title",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "THE LONGER SWOOSH"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 190,
+            "top": 44,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 88,
+              "fontWeight": 800,
+              "lineHeight": 1.02,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 18,
+              "mass": 0.8,
+              "stiffness": 100
+            },
+            "align": "center",
+            "width": 900,
+            "height": 200
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 240,
+            "enterAtFrame": 12,
+            "exitAtFrame": 228,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": null
+    }
+  ]
+}

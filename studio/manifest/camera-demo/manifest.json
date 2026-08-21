@@ -1,0 +1,11 @@
+{
+  "projectId": "camera-demo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1",
+      "path": "scenes/s1.json"
+    }
+  ]
+}

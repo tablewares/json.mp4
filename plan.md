@@ -1,55 +1,13 @@
-All three ideas reduce to the same missing primitive: **right now, nothing resolved within a scene can see anything else resolved in that same scene.** `resolveScene` maps over `scene.assets` and produces each asset's `resolvedPosition`/`resolvedStyle`/`timing` in isolation — the only place the pipeline lets one resolved thing reference another is the pass-2 `buildTransitionBundle` cross-scene bundling for `carryAssetId`, and that's scoped specifically to "same asset id in two adjacent scenes," not general reference resolution.
+Real gaps — these need pipeline work, not just careful authoring:
 
-So:
+1. No pivot/joint mechanics. physics.schema.json has free bodies + directional/magnet forces, no constraint/hinge definition. A balance scale tilting under weight, or a see-saw, needs two bodies pinned to a rotating beam — Matter supports constraints natively but nothing in resolvePhysics.js exposes them. This is the single hard blocker for Scene 2's actual mechanic (not "coins near a scale," but "scale visibly tips because of accumulated weight").
 
-- **Highlighter trailing a KineticText** needs the highlighter's per-word position/timing derived from the text asset's already-computed `timing.words` and `resolvedPosition`.
-- **Curvy line leading to another asset** needs its endpoint(s) derived from two other assets' `resolvedPosition`/`resolvedStyle` (for width/height/center).
-- **Effect/camera event tied to when an asset "arrives"** needs to anchor to an asset's `enterAtFrame`/`exitAtFrame` or a camera action's resolved frame, not just `offsetPercent` of scene duration (which is all `effectTiming.js` currently understands).
+2. No particle/spawn primitive. "Streams of coins," "digital code streams" pouring from a ticker — today every dynamic body is one hand-authored asset. A stream of N coins needs either N manually staggered assets (unworkable past ~10) or a spec that pipeline2 expands into N baked bodies at generation time — same "sugar expands to existing primitives" pattern oldComputerEffectsSpec() already uses for effects, just for physics bodies instead.
 
-That's one gap, not three. The fix is a single new pass, structurally identical to the existing carried-assets pattern but scoped *inside* `resolveScene` instead of across scenes:
+3. No asset-triggered effects — only time-triggered. "Skyscrapers pulse gold when the lattice connects," "cracks emit red light as the pyramid presses down" are effects that should fire off ANOTHER asset's live simulated state (contact, magnet distance closing), not a fixed enterAt fraction. Today's only anchors are relativeToAsset (enter/exit of a MOTION window) and exact frame — nothing reads resolvedPhysics.frames[] back into timing. Needs a relativeToCollision/relativeToMagnetThreshold timing anchor, or a documented two-pass workflow: resolve physics-only first, inspect the baked frame track for contact/proximity, then hand-write the triggered effect's frame.
 
-**1. Two-pass resolution within a scene**
+4. No continuous multi-stage value track for a single asset. A pie slice going 10%→90% across specific keyframes, a pyramid's tip pressing down progressively — motion.rotate only interpolates two points (fromDeg→toDeg); there's no equivalent for "grow this Bar's value through 3 keyframes over the scene," the way camera.actions[] lets a CAMERA hit N keyframes. This is the same shape gap as #1 conceptually — camera already solved "N keyframes, eased legs" for one field (anchor+zoom); an asset-level valueTrack reusing that exact actions[] contract for a Bar/Arc's own reveal value would close it.
 
-Pass 1 stays exactly as it is today — resolve every asset that doesn't declare a reference. Pass 2, new: for any asset/effect/camera-action that declares something like `refAssetId` (or `fromAssetId`/`toAssetId` for a connector), look it up in the pass-1 result map and compute its own geometry/timing from that. This is `buildTransitionBundle`'s trick, just moved one level in.
+What I'd actually build, in priority order: (1) is the one true hard gap for the interactions this brief specifically calls "interactive objects, not decoration" — a scale that doesn't pivot isn't communicating what the brief wants. (2) and (4) are close seconds since 3 of the 5 scenes need them. (3) is real but can be worked around by hand-timing today; it's the nice-to-have.
 
-```js
-// pipeline2-resolve/resolveRefs.js — single responsibility: resolve
-// asset-to-asset references within one already-pass-1-resolved scene.
-export function resolveSceneRefs(resolvedAssetsById, refSpecs) {
-  return refSpecs.map((spec) => resolveOneRef(spec, resolvedAssetsById));
-}
-```
-
-Ordering constraint: a referencing asset must be authored (and thus resolved) after its target within `scene.assets`. That's an acceptable authoring rule for `ProjectBuilder.addAsset` to enforce (throw if `refAssetId` isn't already in the scene) rather than a general topological sort — none of your three cases need chained references (A follows B follows C), and enforcing "target must exist first" is a one-line check consistent with how `carryAssetId` already requires the asset to be present in both scenes.
-
-**2. Generalize `effectTiming.js` into an anchor resolver**
-
-`resolveEffectFrame(offsetPercent, sceneDurationInFrames)` only understands "percent of scene end." Widen it to a small discriminated resolver that also accepts "relative to asset X's enter/exit" or "relative to camera action N's resolved frame":
-
-```js
-// still one function, still one file — just a wider input shape
-export function resolveTimingAnchor(anchor, ctx) {
-  if (anchor.relativeToAsset) {
-    const a = ctx.resolvedAssetsById[anchor.relativeToAsset];
-    const base = anchor.edge === "exit" ? a.timing.exitAtFrame : a.timing.enterAtFrame;
-    return clamp(base + (anchor.offsetFrames ?? 0), 0, ctx.sceneDurationInFrames);
-  }
-  if (anchor.relativeToCameraAction) { /* look up resolved camera action frame */ }
-  return resolveEffectFrame(anchor.offsetPercent ?? 0, ctx.sceneDurationInFrames); // existing behavior, untouched
-}
-```
-
-Existing `effects: [{ offsetPercent }]` manifests keep working unchanged — `offsetPercent` stays the default branch, so this is additive per your no-op rule.
-
-**3. Camera gets the same anchor upgrade**
-
-`camera.js`'s `cameraAnchor` currently only resolves `{position, offsetXPercent, offsetYPercent}` against composition size. Add an alternate shape — `{ followAssetId, edge? }` — resolved against `ctx.resolvedAssetsById` the same way. That's what lets "camera snap-zooms onto asset X" and "shutter effect fires right before that zoom lands" share one coordinate system instead of you hand-computing percentages that drift whenever the asset's `enterAt` changes.
-
-**Where each idea lands on top of this:**
-
-- *Highlighter*: new asset (or `styleOverride` flag on an existing one) with `contentOverride.refAssetId` → pass 2 pulls the target's `timing.words`, generates its own per-word `enterAtFrame`/position segments from that array. No changes to `KineticText` itself needed — it already produces `timing.words`.
-- *Curvy line*: new `Connector`/`LeaderLine` asset type with `fromAssetId`/`toAssetId` in its content schema → pass 2 computes both endpoints' centers from `resolvedPosition`/`resolvedStyle`, feeds them in as `content.points` (SVG path asset, similar shape to how `carryFrom`/`carryTo` get handed to `TransitionBoilerplate`).
-- *Shutter-before-snap-zoom*: `transitionOut.effects[].offsetPercent` becomes optional in favor of `{ relativeToCameraAction: <index or id> }`; `camera.actions[].anchor` gains the `followAssetId` variant so the zoom target itself is asset-driven instead of a hardcoded anchor position.
-
-This keeps every touched file doing the one thing it already does (`effectTiming.js` owns effect-frame math, `camera.js` owns camera math, a new `resolveRefs.js` owns cross-asset lookups) rather than smearing "look up another asset" logic into `resolve.js`'s `resolveScene`.
-
+Want me to scope and implement one of these — I'd start with the valueTrack (#4, cheapest: reuses camera's own actions[]/easing contract, no new render primitive) or the physics constraint/joint (#1, the one scene-2 genuinely can't be built without)?

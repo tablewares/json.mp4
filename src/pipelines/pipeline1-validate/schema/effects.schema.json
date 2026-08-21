@@ -76,26 +76,13 @@
           "additionalProperties": false,
           "properties": {
             "offsetXPercent": {
-              "default": 0,
-              "type": "number"
+              "$ref": "shared.schema.json#/definitions/offsetXPercent"
             },
             "offsetYPercent": {
-              "default": 0,
-              "type": "number"
+              "$ref": "shared.schema.json#/definitions/offsetYPercent"
             },
             "position": {
-              "enum": [
-                "center",
-                "top",
-                "bottom",
-                "left",
-                "right",
-                "top-left",
-                "top-right",
-                "bottom-left",
-                "bottom-right"
-              ],
-              "type": "string"
+              "$ref": "shared.schema.json#/definitions/cornerPosition"
             }
           },
           "type": "object"

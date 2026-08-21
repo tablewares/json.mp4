@@ -1,0 +1,43 @@
+{
+  "background": "shade1",
+  "id": "s1_market_share",
+  "assets": [
+    {
+      "assetType": "PieChart",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "title": "Cloud Market Share 2024",
+        "centerLabel": "total share",
+        "slices": [
+          {
+            "label": "AWS",
+            "value": 32
+          },
+          {
+            "label": "Azure",
+            "value": 23
+          },
+          {
+            "label": "Google Cloud",
+            "value": 11
+          },
+          {
+            "label": "Other",
+            "value": 34
+          }
+        ]
+      },
+      "styleOverride": {
+        "width": 1000,
+        "height": 760,
+        "valueFormat": "percent"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 5,
+      "id": "pie1"
+    }
+  ]
+}

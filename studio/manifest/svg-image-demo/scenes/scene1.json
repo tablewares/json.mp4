@@ -1,0 +1,15 @@
+{
+  "background": "shade1",
+  "id": "scene1",
+  "assets": [
+    {
+      "assetType": "SvgImage",
+      "anchor": {
+        "position": "center"
+      },
+      "enterAt": 0.05,
+      "exitAt": 0.9,
+      "id": "bc1"
+    }
+  ]
+}

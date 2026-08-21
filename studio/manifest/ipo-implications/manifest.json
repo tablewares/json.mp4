@@ -1,0 +1,42 @@
+{
+  "projectId": "ipo-implications",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1_hook",
+      "path": "scenes/s1_hook.json"
+    },
+    {
+      "id": "s2_context",
+      "path": "scenes/s2_context.json"
+    },
+    {
+      "id": "s3_build",
+      "path": "scenes/s3_build.json"
+    },
+    {
+      "id": "s4_build",
+      "path": "scenes/s4_build.json"
+    },
+    {
+      "id": "s5_payoff",
+      "path": "scenes/s5_payoff.json"
+    },
+    {
+      "id": "s6_cta",
+      "path": "scenes/s6_cta.json"
+    }
+  ],
+  "narration": {
+    "entries": [
+      { "id": "n1", "text": "SpaceX just went public at a one point seven seven trillion dollar valuation. Now Anthropic wants to beat it." },
+      { "id": "n2", "text": "For three years, the AI trade had no public price. In October, that changes." },
+      { "id": "n3", "text": "Anthropic's revenue run rate exploded from nine billion to forty seven billion dollars in just five months." },
+      { "id": "n4", "text": "Bankers are pricing the deal off twenty twenty eight revenue, not this year's results, betting the growth curve holds for years." },
+      { "id": "n5", "text": "SpaceX and Cerebras both fell over forty percent from their post I P O peaks once real quarterly numbers arrived." },
+      { "id": "n6", "text": "A two trillion dollar bet on a curve that hasn't happened yet. Follow for more finance deep dives." }
+    ],
+    "fullTranscript": "SpaceX just went public at a one point seven seven trillion dollar valuation. Now Anthropic wants to beat it. For three years, the AI trade had no public price. In October, that changes. Anthropic's revenue run rate exploded from nine billion to forty seven billion dollars in just five months. Bankers are pricing the deal off twenty twenty eight revenue, not this year's results, betting the growth curve holds for years. SpaceX and Cerebras both fell over forty percent from their post I P O peaks once real quarterly numbers arrived. A two trillion dollar bet on a curve that hasn't happened yet. Follow for more finance deep dives."
+  }
+}

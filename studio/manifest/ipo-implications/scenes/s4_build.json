@@ -1,0 +1,111 @@
+{
+  "narrationRef": "n4",
+  "id": "s4_build",
+  "background": "deepBlue",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 4,
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "src": "assets/img_New_York_Stock_Exchange_building_28962712.jpg",
+        "alt": "New York Stock Exchange facade with columns and flags"
+      },
+      "styleOverride": {
+        "width": 480,
+        "height": 640,
+        "borderRadius": 16,
+        "revealDirection": "top-to-bottom"
+      },
+      "enterAt": 0.1,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "img_nyse2"
+    },
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -4,
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "src": "assets/img_stock_market_trading_floor_16594725.jpg",
+        "alt": "Financial trading screen with colorful charts and data"
+      },
+      "styleOverride": {
+        "width": 480,
+        "height": 640,
+        "borderRadius": 16,
+        "revealDirection": "top-to-bottom"
+      },
+      "enterAt": 0.3,
+      "exitAt": 1,
+      "z": 2,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "img_trading2"
+    },
+    {
+      "assetType": "SvgImage",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 4
+      },
+      "contentOverride": {
+        "src": "svg/anthropic.svg"
+      },
+      "styleOverride": {
+        "width": 140,
+        "height": 140,
+        "showBoundary": true,
+        "boundaryStrokeColorToken": "accentBg",
+        "boundaryStrokeWidth": 2,
+        "boundaryDashArray": 6,
+        "boundaryDashGap": 6,
+        "boundaryInset": 10
+      },
+      "enterAt": 0.5,
+      "exitAt": 1,
+      "z": 6,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "svg_anthropic"
+    },
+    {
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom",
+        "offsetYPercent": -6
+      },
+      "contentOverride": {
+        "text": "Both bet on future growth, not booked revenue"
+      },
+      "styleOverride": {
+        "typography": "body1",
+        "width": 900,
+        "height": 130,
+        "align": "center"
+      },
+      "enterAt": 0.65,
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "txt_build"
+    }
+  ],
+  "transitionOut": {
+    "type": "WhipPan",
+    "durationInFrames": 14
+  }
+}

@@ -99,6 +99,72 @@ include this in the sceen for global gravity.
 }
 ```
 
+## 9. Constraints — pivots, hinges, and pendulum arms
+
+A free body (dynamic + force/magnet) can accelerate toward things but can't be
+RIGIDLY PINNED to swing around a fixed point — that needs a constraint.
+`scene.physics.constraints[]` is a point-to-point joint (Matter.Constraint)
+linking two physics bodies, or one body to a fixed world point. This is what
+makes a balance scale, a see-saw, or a pendulum actually work: the pinned
+point stays fixed while the body remains free to ROTATE about it.
+
+**Field:** `physics.constraints` (array, on the SCENE-level `physics` block,
+sibling to `gravity`/`startFrame` — not on an individual asset's `physics`).
+
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `bodyA` | `string` | **Required** | Asset id (this scene) of the first body. Must carry its own `physics` block. |
+| `pointA` | `vector2` | `{x:0,y:0}` | LOCAL offset in px from bodyA's own center (not world-space, not a percent). `{x:0,y:0}` = pin at the body's own center. |
+| `bodyB` | `string` | *(omit for a fixed anchor)* | Asset id of the second body. Omitting `bodyB` anchors `bodyA` to a fixed WORLD point instead — the common "pin this beam to an immovable fulcrum" shape. |
+| `pointB` | `vector2` | `{x:0,y:0}` | When `bodyB` is set: LOCAL offset from bodyB's center. When `bodyB` is omitted: an ABSOLUTE world/composition-px point. |
+| `length` | `number` | `0` | Rest distance between pointA/pointB. `0` = pins the two points together (rigid hinge — free to rotate). Nonzero = a rigid rod holding that distance (pendulum arm). |
+| `stiffness` | `number` | `1` | `1` = rigid pivot (correct for a hinge). `<1` = springy/stretchy tether — rarely what a pivot wants. |
+| `damping` | `number` | `0` | Resists oscillation. Only meaningful when `stiffness < 1`. |
+
+### Balance-scale recipe (beam pinned at center, two payloads pinned at each end)
+
+```json
+"physics": {
+  "gravity": { "x": 0, "y": 0.6 },
+  "iterations": 20,
+  "constraints": [
+    { "bodyA": "beam", "pointA": { "x": 0, "y": 0 }, "bodyB": "fulcrum", "pointB": { "x": 0, "y": 0 } },
+    { "bodyA": "beam", "pointA": { "x": -320, "y": 0 }, "bodyB": "portfolio", "pointB": { "x": 0, "y": 0 } },
+    { "bodyA": "beam", "pointA": { "x": 320, "y": 0 }, "bodyB": "paycheck", "pointB": { "x": 0, "y": 0 } }
+  ]
+}
+```
+
+`fulcrum` is a `static` body (never moves) at the beam's pivot point. `beam`
+is a `dynamic` rectangle pinned to the fulcrum at its OWN center — free to
+rotate, position fixed. `portfolio`/`paycheck` are `dynamic` circles pinned
+to points on the beam's own local coordinate space (`{x:-320,y:0}` = the
+beam's left end, given a 640px-wide beam) — as they fall under gravity they
+drag their pinned end of the beam down with them, and the heavier one wins.
+Worked, rendered case: `studio/manifest/balance-scale-demo/` — beam starts
+level (`rotateDeg ≈ 0`), tilts progressively as the heavier `portfolio` body
+(density 0.006 vs `paycheck`'s 0.0015) pulls its side down, settles around
+`-30°`. Verify a pivot is actually rigid (not silently degrading into a free
+body) by checking the pinned body's center distance from its anchor point
+across all baked frames — it should stay ~0px regardless of rotation.
+
+### Pitfalls
+- **`constraints` lives on `scene.physics`, not `asset.physics`.** Each
+  entry references bodies by id but the array itself is scene-level — same
+  place `gravity`/`startFrame` live.
+- **Both `bodyA` and (if set) `bodyB` must carry their own `physics` block
+  in the SAME scene**, resolved before constraints are built. Referencing an
+  asset with no physics throws `constraints references bodyA "..." which
+  was not found among this scene's physics bodies`.
+- **A wobbly/unstable spin instead of a clean tip usually means gravity or
+  density is too aggressive for the beam's mass**, not a broken constraint —
+  raise `scene.physics.iterations` (try 20) and/or `frictionAir` on the
+  dynamic bodies, or lower `gravity.y`, before suspecting the pivot itself.
+- **`length: 0` is a hinge (rotates freely); a nonzero `length` is a rigid
+  ROD** (the two points stay exactly that far apart, like a pendulum arm) —
+  don't reach for a nonzero length expecting spring behavior; use `stiffness
+  < 1` for that instead.
+
 ## 4. Important Notes
 - **Clipping:** Assets that fall below the composition bounds are naturally clipped by the `AbsoluteFill` overflow: "hidden" logic.
 - **Timing:** `enterAt` and `exitAt` control opacity and entrance motion, but **not** the physics simulation. The physics track is indexed by absolute scene-local frames.

@@ -1,0 +1,20 @@
+{
+  "background": "shade1",
+  "id": "scene1",
+  "assets": [
+    {
+      "assetType": "SvgImage",
+      "anchor": {
+        "position": "center"
+      },
+      "styleOverride": {
+        "shader": {
+          "$alias": "shader.goldCoinShiny"
+        }
+      },
+      "enterAt": 0.05,
+      "exitAt": 0.9,
+      "id": "shinyCoin"
+    }
+  ]
+}

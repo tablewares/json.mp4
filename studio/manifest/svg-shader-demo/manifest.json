@@ -1,0 +1,11 @@
+{
+  "projectId": "svg-shader-demo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene1",
+      "path": "scenes/scene1.json"
+    }
+  ]
+}

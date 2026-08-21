@@ -292,6 +292,22 @@ registerAliases(
       durationInFrames: v.durationInFrames ?? 24,
       actions: v.actionIndex != null ? [{ at: 0.5, anchor: v.startAnchor ?? { position: "center" }, zoomPercent: 1.0 }] : undefined,
     }),
+    // Vox-style "swoosh" zoom: snap-in halfway, drift subtly, snap fully in.
+    // Three legs sharing one anchor — the first and third legs cover a short
+    // `at` window with `easeOut`/`easeIn` (reads as a fast snap), the middle
+    // leg covers most of the duration with `linear` (reads as a slow, subtle
+    // continued push). Requires easeZoom: true (set here) so the per-action
+    // `easing` actually shapes the zoom, not just the anchor pan.
+    "camera.swooshSnap": (v) => ({
+      easeZoom: true,
+      durationInFrames: v.durationInFrames ?? 30,
+      actions: [
+        { at: 0, anchor: v.anchor ?? { position: "center" }, zoomPercent: v.zoomStart ?? 100, easing: "easeOut" },
+        { at: v.snapAt ?? 0.12, anchor: v.anchor ?? { position: "center" }, zoomPercent: v.zoomHalf ?? 130, easing: "linear" },
+        { at: v.settleAt ?? 0.88, anchor: v.anchor ?? { position: "center" }, zoomPercent: v.zoomSubtle ?? 140, easing: "easeIn" },
+        { at: 1, anchor: v.anchor ?? { position: "center" }, zoomPercent: v.zoomFinal ?? 165, easing: "easeIn" },
+      ],
+    }),
 
     // --- effects presets (same shape as the exported helper) ---
     "effects.oldComputer": (v) => [
@@ -375,6 +391,10 @@ registerAliases(
     "camera.overshootHold": {
       description: "Zoom overshoot then hold — zoom in to ~1.15, optional mid-point action pauses to zoom 1.0.",
       vars: ["startAnchor", "zoomStart", "zoomEnd", "durationInFrames", "actionIndex"],
+    },
+    "camera.swooshSnap": {
+      description: "Vox-style camera taste recipe: snap-zoom halfway, subtly continue zooming, then snap fully in. Four actions sharing one anchor; requires easeZoom (set automatically).",
+      vars: ["anchor", "zoomStart", "zoomHalf", "zoomSubtle", "zoomFinal", "durationInFrames", "snapAt", "settleAt"],
     },
     "effects.oldComputer": {
       description: "Grainy old computer/CRT look — desaturated, grain, scanlines.",

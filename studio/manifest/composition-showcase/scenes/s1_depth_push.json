@@ -1,0 +1,170 @@
+{
+  "background": "shade1",
+  "id": "s1_depth_push",
+  "assets": [
+    {
+      "assetType": "BackdropImage",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/silicon-macro.jpg",
+        "alt": "macro silicon wafer texture"
+      },
+      "styleOverride": {
+        "depth": 0.35,
+        "blurPx": 6,
+        "dim": 0.45,
+        "width": 100,
+        "height": 100
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "id": "bg_plate"
+    },
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/bitcoin_gold.png",
+        "alt": "gold bitcoin coin"
+      },
+      "styleOverride": {
+        "width": 560,
+        "height": 560,
+        "borderRadius": 280,
+        "revealDirection": "center-out",
+        "depth": 1
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": {
+          "alias": "fadeUp",
+          "distancePx": 100,
+          "rotateFromDeg": -8
+        },
+        "rotate": {
+          "toDeg": 6,
+          "durationInFrames": 30
+        }
+      },
+      "id": "subject_coin"
+    },
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 8,
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "src": "assets/bitcoin_logo.png",
+        "alt": "bitcoin logo mark"
+      },
+      "styleOverride": {
+        "width": 120,
+        "height": 120,
+        "borderRadius": 60,
+        "revealDirection": "none",
+        "depth": 1.4
+      },
+      "enterAt": 0.05,
+      "exitAt": 1,
+      "z": 8,
+      "motion": {
+        "in": "fade",
+        "rotate": {
+          "toDeg": 360,
+          "startAt": "withIn",
+          "durationInFrames": 90,
+          "easing": "linear"
+        }
+      },
+      "id": "accent_logo1"
+    },
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "bottom-right",
+        "offsetXPercent": -6,
+        "offsetYPercent": -8
+      },
+      "contentOverride": {
+        "src": "assets/btc-coin.png",
+        "alt": "bitcoin coin icon"
+      },
+      "styleOverride": {
+        "width": 90,
+        "height": 90,
+        "borderRadius": 45,
+        "revealDirection": "none",
+        "depth": 1.4
+      },
+      "enterAt": 0.12,
+      "exitAt": 1,
+      "z": 8,
+      "motion": {
+        "in": "fade",
+        "rotate": {
+          "toDeg": -360,
+          "startAt": "withIn",
+          "durationInFrames": 110,
+          "easing": "linear"
+        }
+      },
+      "id": "accent_logo2"
+    },
+    {
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top-right"
+      },
+      "contentOverride": {
+        "text": "LIVE COMPOSITE"
+      },
+      "styleOverride": {
+        "typography": "caption1",
+        "width": 420,
+        "height": 60,
+        "align": "right",
+        "backgroundColorToken": "transparent",
+        "depth": 0
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 10,
+      "motion": {
+        "in": "fadeDown"
+      },
+      "id": "hud_label"
+    }
+  ],
+  "camera": {
+    "easeZoom": true,
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 135
+      }
+    ]
+  },
+  "transitionOut": {
+    "type": "WhipPan",
+    "durationInFrames": 14
+  }
+}

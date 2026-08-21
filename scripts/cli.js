@@ -126,6 +126,15 @@ function handleConfig(args) {
   return ok(commands.configSet(args[0]));
 }
 
+function handleNarration(args) {
+  const sub = args[0];
+  if (sub === 'set') return ok(commands.narration.set(args[1]));
+  if (sub === 'clear') return ok(commands.narration.clear());
+  throw new CliError('UnknownCommand', `Unknown "narration" subcommand "${sub}".`, {
+    allowed: ['set', 'clear'],
+  });
+}
+
 function handleTheme(args) {
   const { switches, rest } = extractSwitches(args, ['overwrite', 'replace']);
   const sub = rest[0];
@@ -196,6 +205,13 @@ Global flags (any position):
   project create <projectId> [--width N] [--height N] [--fps N] [--duration N] [--theme <name>]
       --theme seeds styles/theme.json from studio/library/themes/<name>.json
               instead of the hardcoded default (see \`theme list\`).
+      Combine with the global --minify flag to persist the choice as this
+      project's config.json \`jsonFormat\` ("minified"|"pretty") — every later
+      scene/asset/styles/config/narration/batch write to THIS project then
+      defaults to that format without repeating --minify on every command.
+      Change it later with \`config '{"jsonFormat":"minified"}'\` (or "pretty").
+      An explicit --minify flag on any single invocation still overrides the
+      project's stored setting for that one call.
   project set <projectId>
   project current
   project validate
@@ -218,6 +234,17 @@ Global flags (any position):
 
   config '<json>'
       merges keys into config.json, e.g. '{"fps":60}'
+
+  narration set '<json>'
+      merges keys into manifest.narration (creates the block if absent), e.g.
+      '{"entries":[{"id":"n1","text":"Hello."}],"fullTranscript":"Hello."}'
+      entries/fullTranscript each replace wholesale on conflict (same "last
+      write wins per key" contract as \`config\`/\`styles\`). Routes through the
+      same Workspace commit as every other manifest field, so it inherits
+      --minify and atomic writes — no more hand-editing manifest.json for this.
+  narration clear
+      removes manifest.narration entirely (scenes fall back to
+      config.defaultSceneDurationInFrames, same as a project that never had it)
 
   theme list
       list every named theme preset in studio/library/themes/
@@ -256,6 +283,8 @@ Global flags (any position):
         {"type":"asset.setFields","assetId":"...","fields":{"position":{...}},"scene":"..."}
         {"type":"styles.setFields","fields":{"colors":{...}},"replace":false}
         {"type":"config.set","value":{...}}
+        {"type":"narration.set","value":{"entries":[...],"fullTranscript":"..."}}
+        {"type":"narration.clear"}
 
 Every command prints a single JSON object to stdout on success (exit 0) or stderr on failure (exit 1).
 
@@ -286,6 +315,8 @@ function main() {
       return handleStyles(argv.slice(1));
     case 'config':
       return handleConfig(argv.slice(1));
+    case 'narration':
+      return handleNarration(argv.slice(1));
     case 'theme':
       return handleTheme(argv.slice(1));
     case 'alias':
@@ -296,7 +327,7 @@ function main() {
       return handleBatch(argv.slice(1));
     default:
       throw new CliError('UnknownCommand', `Unknown command "${top}".`, {
-        allowed: ['project', 'scene', 'asset', 'styles', 'config', 'theme', 'alias', 'manifest', 'batch', 'help'],
+        allowed: ['project', 'scene', 'asset', 'styles', 'config', 'narration', 'theme', 'alias', 'manifest', 'batch', 'help'],
       });
   }
 }

@@ -226,7 +226,6 @@ export function listAssetCollections() {
     description,
     destination,
     prerequisites,
-    docs,
   }));
 }
 
@@ -258,15 +257,15 @@ export function describeSceneEnvelope() {
       id: "string, unique within the project",
       narrationRef: "optional: id into manifest.narration.entries — drives this scene's duration via TTS (or, for a `kind: 'silence'` entry, via that entry's own durationSeconds — see the 'manifest' command)",
       background: "color token (e.g. 'shade1'), a literal #RRGGBB hex string, or an object { color?, texture?, blendMode?, opacity? } — texture pulls a textures.* token overlaid above the color, behind all assets",
-      camera: "optional: { start, end, zoomStartPercent, zoomEndPercent, zoomPercent } — start/end are anchor specs",
+      camera: "optional: { start, end, zoomStartPercent, zoomEndPercent, zoomPercent, actions?, easeZoom?, easing? } — start/end are anchor specs; actions is an array of { at, anchor, zoomPercent, easing? } keyframes for multi-leg moves; easing (per-action or top-level start/end shorthand) is one of 'linear'|'easeIn'|'easeOut'|'easeInOut' (default 'linear'), shaping the pace of the leg LEAVING that action — 'easeOut' gives a fast-launch 'swoosh'. See scripts/curate/components/parallax.md and scripts/curate/solutions/taste/vox-camera-work.md.",
       transitionOut: "optional: { type, durationInFrames?, params? } — type MUST be one of the 'transitions' command's output; omit the whole field for a hard cut (effects live on scene.effects, not here — see below)",
       effects: "optional: detached scene-level effects array (effects.schema.json). Each entry { id, kind, frame, ... } anchors to an EXACT scene-local frame (not a percent). Append via add-effect / inject-effects; resolve via resolveSceneEffects.",
       assets: "array of asset specs, see 'asset' below (managed via add-asset, not set directly)",
     },
     asset: {
-      id: "optional (auto-generated if omitted), unique within the scene",
+      id: "REQUIRED, unique within the scene — every asset needs a stable id to be a valid target for relativeToAsset/relativeToWord timing anchors, anchor.followAssetId, transitionOut carryAssetId(s), and physics towardAssetId/targetAssetId/carryFromScene references.",
       assetType: "must be a registered asset type — see the 'assets' command",
-      anchor: "{ position, offsetXPercent?, offsetYPercent? } — position is one of the 'anchors' command's output",
+      anchor: "{ position, offsetXPercent?, offsetYPercent?, followAssetId?, anchorEdge? } — position is one of the 'anchors' command's output and also picks the alignment point on THIS asset's own box. followAssetId (optional): an EARLIER asset's id in this scene — when set, the anchor point is computed relative to that asset's resolved box (at anchorEdge, default 'center') instead of a frame corner; offsetXPercent/offsetYPercent still nudge from that point in composition-space %. Same vocabulary/resolver as camera anchors' followAssetId.",
       contentOverride: "asset-specific — see `asset <type>` command's 'content' field. NOTE: for any asset whose content renders as a <video> (ImageReveal auto-detects .mp4/.webm/.mov/.m4v by extension), the JSX component ALSO reads contentOverride.muted (default true) and contentOverride.volume (default 1) even though neither key is declared in that asset's contentOverrideSchema — the schema's `additionalProperties` is unset so they pass validate silently. A scene with NO narration relying on the video's own audio (e.g. a found-footage/news clip) MUST set muted: false or the render is silent.",
       styleOverride: "asset-specific — see `asset <type>` command's 'style' field; width/height also settable here",
       enterAt: "fraction 0-1 of the scene's duration (default 0), OR a timing anchor object: { relativeToAsset, edge?: 'enter'|'exit', offsetFrames? } to fire relative to an EARLIER asset's edge, { relativeToWord, edge?, offsetFrames? } to fire at a specific spoken word or phrase in the SCENE's own narration (relativeToWord: a word index, exact word text, or array of words/indices for a phrase — no asset needs to display that text), { relativeToAsset, relativeToWord, edge?, offsetFrames? } to read word timing from a specific asset's own resolved words instead, { relativeToCameraAction, offsetFrames? } to fire relative to a camera action, or { offsetPercent } for scene-end-relative percent — same shape as transitionEffect timing anchors",

@@ -1,0 +1,40 @@
+{
+  "narrationRef": "n5",
+  "id": "s5_payoff",
+  "background": "midnightBlue",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/img_rocket_launch_night_sky_23788.jpg",
+        "alt": "Dramatic rocket launch at night with reflection over the ocean"
+      },
+      "styleOverride": {
+        "width": 900,
+        "height": 1200,
+        "borderRadius": 24,
+        "revealDirection": "center-out"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "img_rocket2"
+    }
+  ],
+  "camera": {
+    "actions": [
+      { "at": 0, "anchor": { "position": "center" }, "zoomPercent": 100 },
+      { "at": 1, "anchor": { "position": "center" }, "zoomPercent": 112, "easing": "easeInOut" }
+    ]
+  },
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

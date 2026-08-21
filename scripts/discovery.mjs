@@ -36,12 +36,13 @@
 //
 //
 // Verify / render:
-//   timeline <projectId>                  resolve + build the global-frame timeline (read-only)
-//   describe-frame <projectId> <frame>    "what's on screen at this global frame" — active scene/assets/effects/audio
-//   open-ranges <projectId> <sceneId> ['<opts>']  "where's a safe gap in this scene" — frame ranges not covered by an asset/effect; opts: { minGapFrames?, includeEffects? }
-//   inject-effects <projectId> '<rules>'  fan sfx/visual effects out across matching asset SEGMENTS or every scene boundary — writes them to the DETACHED scene.effects[] array with an exact scene-local `frame` (no percent math), after first resolving + reading the project's timeline.
 //   validate <projectId>                  schema + cross-reference check (no render)
 //   render <projectId> [outputMp4]        validate -> registry -> resolve -> render
+//
+// Timeline introspection + injection moved to scripts/timeline-cli.mjs
+// (outline/scene/timeline/describe-frame/open-ranges/inject-effects) — this
+// file stays about static registry/schema discovery; that one owns the
+// dynamic per-project frame-axis queries.
 //
 // Any '<json>' argument may be the literal JSON text, or "-" to read JSON
 // from stdin (use this for large contentOverride payloads to avoid shell
@@ -55,11 +56,10 @@
 //   node scripts/agent-cli.mjs add-asset demo scene-001 '{"assetType":"TextBlock","anchor":{"position":"center"},"contentOverride":{"text":"Hello."}}'
 //   node scripts/agent-cli.mjs update-asset demo scene-001 TextBlock-1 '{"contentOverride":{"text":"Hello again."}}'
 //   node scripts/agent-cli.mjs list-assets demo
-//   node scripts/agent-cli.mjs timeline demo
-//   node scripts/agent-cli.mjs inject-effects demo '[{"match":{"assetType":"KineticText"},"anchor":"enter","effect":{"id":"kt-whoosh","kind":"sfx","path":"audio/sfx.mp3","volume":0.6}}]'
 //   node scripts/agent-cli.mjs render demo out/demo.mp4
+//   node scripts/timeline-cli.mjs outline demo
+//   node scripts/timeline-cli.mjs inject-effects demo '[{"match":{"assetType":"KineticText"},"anchor":"enter","effect":{"id":"kt-whoosh","kind":"sfx","path":"audio/sfx.mp3","volume":0.6}}]'
 
-import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -84,6 +84,7 @@ import {
 } from "../src/registry/aliasRegistry.js";
 import { loadAliasLibrary } from "../src/registry/aliasLibrary.js";
 import { listThemes, describeTheme } from "../src/registry/themeLibrary.js";
+import { ok, fail, printHelpFromSource } from "./builder/textOutput.js";
 
 // Registers studio/library/aliases/*.json into the same runtime registry
 // the built-ins live in, BEFORE any `aliases`/`alias` discovery command
@@ -94,97 +95,22 @@ loadAliasLibrary();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
-const builder = new ProjectBuilder({ repoRoot });
 
-function readStdinSync() {
-  try {
-    return fs.readFileSync(0, "utf-8");
-  } catch {
-    return "";
-  }
-}
+// --minify: only inject-effects (and any future mutating discovery.mjs
+// command) actually writes files — same convention as cli.js/project-cli.js's
+// global --minify switch. Stripped out of argv before positional parsing so
+// it can appear anywhere, matching cli.js's extractSwitches() behavior.
+// IMPORTANT: only set when the flag is actually present — passing an
+// explicit `false` here (instead of leaving it undefined) would override
+// ProjectIO's per-project config.json `jsonFormat` fallback (see
+// projectio.js's _resolveMinify) with a hard "never minify", defeating the
+// whole point of that fallback for every discovery.mjs call that doesn't
+// pass --minify.
+const minifyFlagIdx = process.argv.indexOf("--minify");
+const minify = minifyFlagIdx !== -1 ? true : undefined;
+if (minifyFlagIdx !== -1) process.argv.splice(minifyFlagIdx, 1);
 
-function parseJsonArg(raw, label) {
-  if (raw === undefined) throw new Error(`missing required JSON argument: ${label}`);
-  const text = raw === "-" ? readStdinSync() : raw;
-  try {
-    return JSON.parse(text);
-  } catch (e) {
-    throw new Error(`invalid JSON for ${label}: ${e.message}`);
-  }
-}
-
-function renderText(value, indent = 0) {
-  const pad = " ".repeat(indent);
-
-  if (value === null) return "null";
-  if (value === undefined) return "undefined";
-  if (typeof value === "string") return value.includes("\n") ? `"${value}"` : value;
-  if (typeof value === "number" || typeof value === "boolean") return String(value);
-
-  // Handle Arrays
-  if (Array.isArray(value)) {
-    if (value.length === 0) return "[]";
-    return value
-      .map((item) => {
-        // Primitive values in lists stay on one line
-        if (typeof item !== "object" || item === null) {
-          return `${pad}- ${renderText(item, 0)}`;
-        }
-        // Nested objects start on a new indented block
-        return `${pad}-\n${renderText(item, indent + 2)}`;
-      })
-      .join("\n");
-  }
-
-  // Handle Objects. `undefined` values (e.g. a schema field with no
-  // `description`/`enum`) are OMITTED entirely rather than printed as the
-  // literal string "undefined" — a field simply not being present in the
-  // schema shouldn't cost a line of noise on every discovery call.
-  if (typeof value === "object") {
-    const entries = Object.entries(value).filter(([, val]) => val !== undefined);
-    if (entries.length === 0) return "{}";
-    return entries
-      .map(([key, val]) => {
-        if (val === null) return `${pad}${key}: ${val}`;
-
-        // Handle nested primitives inline
-        if (typeof val !== "object") {
-          return `${pad}${key}: ${renderText(val, 0)}`;
-        }
-
-        // Empty array/object stays inline (`key: []` / `key: {}`) instead of
-        // dropping to a lone bracket on its own line — matches how a
-        // populated array/object already renders relative to its key.
-        if (Array.isArray(val) && val.length === 0) return `${pad}${key}: []`;
-        if (!Array.isArray(val) && Object.keys(val).length === 0) return `${pad}${key}: {}`;
-
-        // Handle nested structures with clear clean indentation
-        return `${pad}${key}:\n${renderText(val, indent + 2)}`;
-      })
-      .join("\n");
-  }
-
-  return String(value);
-}
-
-function ok(value) {
-  console.log(renderText(value));
-  process.exit(0);
-}
-
-function fail(err) {
-  console.log(`error: ${err.message ?? String(err)}`);
-  process.exit(1);
-}
-
-function printHelp() {
-  // Re-emit the header comment block above as the help text.
-  const src = fs.readFileSync(new URL(import.meta.url), "utf-8");
-  const header = src.split("\n").filter((l) => l.startsWith("//")).map((l) => l.replace(/^\/\/ ?/, ""));
-  console.log(header.join("\n"));
-  process.exit(0);
-}
+const builder = new ProjectBuilder({ repoRoot, minify });
 
 const [, , command, ...rest] = process.argv;
 
@@ -195,7 +121,7 @@ try {
     case "help":
     case "-h":
     case "--help":
-      printHelp();
+      printHelpFromSource(import.meta.url);
       break;
 
     // -- discovery -----------------------------------------------------------
@@ -252,22 +178,6 @@ try {
       break;
     case "list-transitions":
       ok(builder.listCurrentTransitions(rest[0]));
-      break;
-
-
-
-    // -- verify / render ---------------------------------------------------------
-    case "timeline":
-      ok(await builder.getTimeline(rest[0]));
-      break;
-    case "describe-frame":
-      ok(await builder.describeFrame(rest[0], rest[1]));
-      break;
-    case "open-ranges":
-      ok(await builder.findOpenFrameRanges(rest[0], rest[1], rest[2] !== undefined ? parseJsonArg(rest[2], "open-ranges opts") : undefined));
-      break;
-    case "inject-effects":
-      ok(await builder.injectTimelineEffects(rest[0], parseJsonArg(rest[1], "effects rules array")));
       break;
 
     default:

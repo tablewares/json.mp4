@@ -1,0 +1,77 @@
+{
+  "narrationRef": "n3",
+  "id": "s3_build",
+  "background": "shade2",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/img_financial_chart_screen_data_6770610.jpg",
+        "alt": "Close-up of stock market trading screen showing financial growth charts"
+      },
+      "styleOverride": {
+        "width": 880,
+        "height": 1160,
+        "borderRadius": 24,
+        "revealDirection": "top-to-bottom"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "img_data"
+    }
+  ],
+  "camera": {
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "at": 0.15,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 130,
+        "easing": "easeOut"
+      },
+      {
+        "at": 0.55,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 145,
+        "easing": "easeInOut"
+      },
+      {
+        "at": 0.85,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 170,
+        "easing": "easeOut"
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 170,
+        "easing": "linear"
+      }
+    ]
+  },
+  "transitionOut": {
+    "type": "fade",
+    "durationInFrames": 18
+  }
+}

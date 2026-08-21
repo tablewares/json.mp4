@@ -1,0 +1,8 @@
+{
+  "projectId": "cartoon-physics-test",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    { "id": "main", "path": "scenes/main.json" }
+  ]
+}

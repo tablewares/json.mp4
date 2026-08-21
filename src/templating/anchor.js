@@ -18,26 +18,47 @@ export const ANCHOR_ALIGN = {
 };
 
 /**
- * @param {object} anchor - { position, offsetXPercent = 0, offsetYPercent = 0 }
+ * @param {object} anchor - { position, offsetXPercent = 0, offsetYPercent = 0, followAssetId?, anchorEdge? }
  * @param {{width:number, height:number}} composition - full frame size in px
  * @param {{width:number, height:number}} assetSize - the asset's own box size in px
+ * @param {{resolvedAssetsById?: Record<string, object>, sceneId?: string}=} ctx
+ *   Only needed when anchor.followAssetId is set — same shape resolveAnchorPoint
+ *   already accepts for camera followAssetId anchors.
  * @returns {{ left: number, top: number, transformOrigin: string, position: 'absolute' }}
  */
-export function resolveAnchor(anchor, composition, assetSize) {
+export function resolveAnchor(anchor, composition, assetSize, ctx) {
   const { position, offsetXPercent = 0, offsetYPercent = 0 } = anchor;
   const align = ANCHOR_ALIGN[position];
   if (!align) {
     throw new Error(`Unknown anchor position "${position}". Valid: ${Object.keys(ANCHOR_ALIGN).join(", ")}`);
   }
 
-  // Anchor point in the composition, then nudge by the signed % offsets
-  // (percentages are relative to composition dimensions, not asset size —
-  // this keeps offsets predictable regardless of asset content).
-  const anchorX = align.x * composition.width + (offsetXPercent / 100) * composition.width;
-  const anchorY = align.y * composition.height + (offsetYPercent / 100) * composition.height;
+  // followAssetId: the anchor *point* is computed relative to another
+  // resolved asset's box (via the shared resolveAnchorPoint, same code path
+  // camera anchors use) instead of a frame corner. offsetXPercent/YPercent
+  // still nudge from that point, in composition-space %, exactly as before.
+  let anchorX;
+  let anchorY;
+  if (typeof anchor.followAssetId === "string") {
+    const point = resolveAnchorPoint(
+      { followAssetId: anchor.followAssetId, anchorEdge: anchor.anchorEdge, offsetXPercent, offsetYPercent },
+      composition,
+      ctx,
+    );
+    anchorX = point.x;
+    anchorY = point.y;
+  } else {
+    // Anchor point in the composition, then nudge by the signed % offsets
+    // (percentages are relative to composition dimensions, not asset size —
+    // this keeps offsets predictable regardless of asset content).
+    anchorX = align.x * composition.width + (offsetXPercent / 100) * composition.width;
+    anchorY = align.y * composition.height + (offsetYPercent / 100) * composition.height;
+  }
 
   // Pull the asset's own box back so the *anchor point*, not its top-left
-  // corner, lands where requested.
+  // corner, lands where requested. `position` still controls this pull-back
+  // alignment on the asset's OWN box even when followAssetId supplies the
+  // anchor point itself.
   const left = anchorX - align.x * assetSize.width;
   const top = anchorY - align.y * assetSize.height;
 

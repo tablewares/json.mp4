@@ -74,6 +74,22 @@ function configSet(json) {
   return withWorkspace((ws) => ops.configSet(ws, json));
 }
 
+// ---- narration --------------------------------------------------------
+//
+// manifest.narration — { entries: [...], fullTranscript }. `set` merges
+// (shallow, entries/fullTranscript each replace wholesale — same "field
+// wins on conflict" contract `styles`/`config` use); `clear` removes the
+// block entirely (falls back to config.defaultSceneDurationInFrames per
+// scene, same as a project that never had narration).
+
+function narrationSet(json) {
+  return withWorkspace((ws) => ops.narrationSet(ws, json));
+}
+
+function narrationClear() {
+  return withWorkspace((ws) => ops.narrationClear(ws));
+}
+
 // ---- theme library ------------------------------------------------------
 //
 // Named, reusable style presets that live OUTSIDE any one project (see
@@ -172,6 +188,7 @@ module.exports = {
   assetSetFields,
   stylesSetFields,
   configSet,
+  narration: { set: narrationSet, clear: narrationClear },
   project,
   theme: { list: themeList, show: themeShow, create: themeCreate, delete: themeDelete, use: themeUse },
   alias: { list: aliasList, show: aliasShow, create: aliasCreate, delete: aliasDelete },

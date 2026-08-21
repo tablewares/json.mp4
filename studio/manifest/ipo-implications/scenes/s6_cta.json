@@ -1,0 +1,33 @@
+{
+  "narrationRef": "n6",
+  "id": "s6_cta",
+  "background": "shade1",
+  "assets": [
+    {
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "Follow for more finance deep dives"
+      },
+      "styleOverride": {
+        "typography": "heading2",
+        "width": 900,
+        "height": 220,
+        "align": "center"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "txt_cta"
+    }
+  ],
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

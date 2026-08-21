@@ -1,0 +1,70 @@
+{
+  "assetType": "SvgImage",
+  "component": "SvgImage.jsx",
+  "description": "Embeds one static SVG image (staticFile, defaults to svg/Bitcoin.svg), optionally applies an SVG-native shader (tone/blur/tint/glow/metallic-texture/shine-sweep via styleOverride.shader — literal values, no tokens), and self-draws an animated dashed/dotted boundary line around its measured bounds using the shared assets/_shared/boundaryDrawer.jsx component.",
+  "defaultSize": { "width": 250, "height": 250 },
+  "defaultStyle": {
+    "easing": "snappySpring",
+    "showBoundary": true,
+    "boundaryStrokeColorToken": "main1",
+    "boundaryStrokeWidth": 2,
+    "boundaryDashArray": 6,
+    "boundaryDashGap": 6,
+    "boundaryInset": 10,
+    "boundaryDrawDurationFraction": 0.6,
+    "boundaryDelayFraction": 0.15,
+    "boundaryRotate": false
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "src": { "type": "string", "description": "path relative to public/ (or an http(s) URL) of the SVG image to render. Defaults to svg/Bitcoin.svg." }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "easing": { "type": "string" },
+      "width": { "type": "number" },
+      "height": { "type": "number" },
+      "showBoundary": { "type": "boolean", "description": "toggle the self-drawing dashed boundary line around the measured image (default true)" },
+      "boundaryStrokeColorToken": { "type": "string", "description": "color token (or raw hex) for the dashed boundary line" },
+      "boundaryStrokeWidth": { "type": "number" },
+      "boundaryDashArray": { "type": "number", "description": "dash length in SVG user units" },
+      "boundaryDashGap": { "type": "number", "description": "gap length in SVG user units" },
+      "boundaryInset": { "type": "number", "description": "px gap between the measured image edge and the drawn boundary line" },
+      "boundaryDrawDurationFraction": { "type": "number", "minimum": 0, "maximum": 1, "description": "fraction of the asset's active window spent drawing the boundary in" },
+      "boundaryDelayFrames": { "type": "number", "description": "absolute frames after the image's own enterAtFrame before the boundary starts drawing (image lands first, then the outline traces in). Overrides boundaryDelayFraction when set." },
+      "boundaryDelayFraction": { "type": "number", "minimum": 0, "maximum": 1, "description": "fraction of the asset's active window to wait after the image enters before the boundary starts drawing (default 0.15). Ignored when boundaryDelayFrames is set." },
+      "boundaryRotate": { "type": "boolean", "description": "keep the dash pattern crawling (marching ants) once fully drawn" },
+      "shader": {
+        "type": "object",
+        "description": "Optional SVG-native shader (assets/_shared/svgShader.jsx) — literal values only, NOT style-registry tokens. Absent/empty = no-op (byte-identical to no shader). Author by hand or via a curated preset, e.g. { \"$alias\": \"shader.goldTint\" } (see scripts/cli.js alias / studio/library/aliases/*.json, category 'shader').",
+        "properties": {
+          "blur": { "type": "number", "minimum": 0, "description": "literal px, feGaussianBlur stdDeviation. Default 0 (off)." },
+          "brightness": { "type": "number", "minimum": 0, "description": "literal multiplier, 1 = identity." },
+          "contrast": { "type": "number", "minimum": 0, "description": "literal multiplier pivoting around mid-gray, 1 = identity." },
+          "saturate": { "type": "number", "minimum": 0, "description": "literal multiplier, 1 = identity, 0 = grayscale." },
+          "hueRotateDeg": { "type": "number", "description": "literal degrees, 0 = identity." },
+          "tintFill": { "type": "string", "description": "literal raw hex (e.g. \"#D4AF37\") multiply-blended over the image. Named *Fill (not *Color) so it is never mistaken for a style-registry token. Absent = no tint." },
+          "tintStrength": { "type": "number", "minimum": 0, "maximum": 1, "description": "literal 0-1 opacity of the tint flood before blending. Default 0.35." },
+          "glowFill": { "type": "string", "description": "literal raw hex glow color, painted as a blurred copy of the image's traced alpha silhouette (real pixel shape, not a rectangular drop-shadow) behind the image. Absent = no glow." },
+          "glowStrength": { "type": "number", "minimum": 0, "description": "literal px, glow feGaussianBlur stdDeviation. Default 12." },
+          "metallicStrength": { "type": "number", "minimum": 0, "description": "literal 0+ intensity of a STATIC brushed-metal/foil specular-lighting texture (feTurbulence bump map + feSpecularLighting), masked to the image's own alpha and added on top. 0 (default) = off. Does not animate — see shineFill for a moving highlight." },
+          "metallicLightFill": { "type": "string", "description": "literal raw hex color of the simulated light catching the metallic bump texture. Default \"#FFFFFF\"." },
+          "metallicSurfaceScale": { "type": "number", "description": "literal feSpecularLighting surfaceScale — height of the simulated bump ridges. Default 2." },
+          "metallicSpecularConstant": { "type": "number", "minimum": 0, "description": "literal feSpecularLighting specularConstant — overall specular brightness multiplier. Default 1." },
+          "metallicAzimuth": { "type": "number", "description": "literal degrees, feDistantLight azimuth (light direction in the image plane). Default 235." },
+          "metallicElevation": { "type": "number", "description": "literal degrees, feDistantLight elevation (light height above the image plane). Default 40." },
+          "metallicFrequency": { "type": "number", "minimum": 0, "description": "literal feTurbulence baseFrequency — grain size of the bump texture; smaller = coarser brushed-metal streaks, larger = finer grain. Default 0.015." },
+          "shineFill": { "type": "string", "description": "literal raw hex color of an ANIMATED diagonal highlight band that sweeps across the image's traced silhouette once (light-catching-a-moving-surface shimmer). Absent = no sweep rendered. Distinct from the static metallic* texture above." },
+          "shineWidth": { "type": "number", "minimum": 0, "description": "literal px width of the sweeping highlight band. Default 40." },
+          "shineAngleDeg": { "type": "number", "description": "literal degrees, sweep direction off horizontal. Default 25." },
+          "shineOpacity": { "type": "number", "minimum": 0, "maximum": 1, "description": "literal 0-1 peak opacity of the sweep band. Default 0.55." },
+          "shineLoop": { "type": "boolean", "description": "when true the sweep repeats continuously at shinePeriodFrames cadence instead of a single pass timed to the asset's active window. Default false (one pass)." },
+          "shinePeriodFrames": { "type": "number", "minimum": 1, "description": "literal frames between sweeps when shineLoop is true. Default 60." }
+        }
+      }
+    }
+  }
+}

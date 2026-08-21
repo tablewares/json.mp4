@@ -1,0 +1,64 @@
+{
+  "narrationRef": "n2",
+  "id": "s2_context",
+  "background": "navyAccent",
+  "assets": [
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "src": "assets/img_New_York_Stock_Exchange_building_34862859.jpg",
+        "alt": "New York Stock Exchange facade with American flags"
+      },
+      "styleOverride": {
+        "width": 860,
+        "height": 1140,
+        "borderRadius": 24,
+        "revealDirection": "left-to-right"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 1,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "img_nyse"
+    },
+    {
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "top",
+        "offsetYPercent": 10
+      },
+      "contentOverride": {
+        "text": "Two private giants, one public test"
+      },
+      "styleOverride": {
+        "typography": "caption1",
+        "width": 800,
+        "height": 60,
+        "align": "center"
+      },
+      "enterAt": 0.2,
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "txt_context"
+    }
+  ],
+  "camera": {
+    "actions": [
+      { "at": 0, "anchor": { "position": "center" }, "zoomPercent": 100 },
+      { "at": 1, "anchor": { "position": "center" }, "zoomPercent": 108, "easing": "easeInOut" }
+    ]
+  },
+  "transitionOut": {
+    "type": "default",
+    "durationInFrames": 18
+  }
+}

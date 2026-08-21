@@ -19,5 +19,141 @@
       "edge": "exit",
       "offsetFrames": 5
     }
+  },
+  "shader.goldTint": {
+    "description": "Warm gold multiply-tint over the image, slight contrast/brightness lift. Good for coin/currency logos (e.g. Bitcoin.svg).",
+    "vars": [],
+    "expansion": {
+      "tintFill": "#D4AF37",
+      "tintStrength": 0.4,
+      "contrast": 1.1,
+      "brightness": 1.05
+    }
+  },
+  "shader.coldGlow": {
+    "description": "Cool blue glow halo traced around the image's real alpha silhouette, slightly desaturated/dimmed base image.",
+    "vars": [],
+    "expansion": {
+      "glowFill": "#3D7BFD",
+      "glowStrength": 18,
+      "saturate": 0.85,
+      "brightness": 0.95
+    }
+  },
+  "shader.softBlurGlow": {
+    "description": "Subtle soft-focus blur plus a soft white glow halo — gentle, ungimmicky highlight.",
+    "vars": [],
+    "expansion": {
+      "blur": 1.5,
+      "glowFill": "#FFFFFF",
+      "glowStrength": 10,
+      "tintStrength": 0
+    }
+  },
+  "shader.desaturatedMono": {
+    "description": "Full grayscale desaturation with a contrast/brightness nudge — flat monochrome look.",
+    "vars": [],
+    "expansion": {
+      "saturate": 0,
+      "contrast": 1.15,
+      "brightness": 0.95
+    }
+  },
+  "shader.hueShiftNeon": {
+    "description": "Aggressive hue-rotate + saturation boost plus a hot pink glow — neon/cyberpunk accent look.",
+    "vars": [],
+    "expansion": {
+      "hueRotateDeg": 140,
+      "saturate": 1.6,
+      "glowFill": "#FF3B8D",
+      "glowStrength": 16
+    }
+  },
+  "shader.brushedMetal": {
+    "description": "Static brushed-metal/foil texture (specular-lit bump noise) plus a slightly desaturated, higher-contrast base — a dull steel/foil look with no motion.",
+    "vars": [],
+    "expansion": {
+      "metallicStrength": 0.7,
+      "metallicSurfaceScale": 3,
+      "metallicSpecularConstant": 1.1,
+      "metallicFrequency": 0.02,
+      "saturate": 0.6,
+      "contrast": 1.1
+    }
+  },
+  "shader.chromeShine": {
+    "description": "Chrome look: desaturated + contrasty base, static specular metal texture, plus one animated white shine sweep across the image on entrance.",
+    "vars": [],
+    "expansion": {
+      "metallicStrength": 0.5,
+      "metallicSurfaceScale": 2.5,
+      "saturate": 0.3,
+      "contrast": 1.2,
+      "shineFill": "#FFFFFF",
+      "shineWidth": 55,
+      "shineAngleDeg": 30,
+      "shineOpacity": 0.7
+    }
+  },
+  "shader.goldCoinShiny": {
+    "description": "Gold-tinted coin with a static brushed-metal specular texture (warm light color) plus an animated cream-white shine sweep — the 'shiny gold coin' combo look.",
+    "vars": [],
+    "expansion": {
+      "tintFill": "#D4AF37",
+      "tintStrength": 0.35,
+      "metallicStrength": 0.55,
+      "metallicSurfaceScale": 2.5,
+      "metallicLightFill": "#FFE9A8",
+      "contrast": 1.1,
+      "shineFill": "#FFF6D8",
+      "shineWidth": 45,
+      "shineOpacity": 0.6
+    }
+  },
+  "text.emergeCard": {
+    "description": "Standalone b-roll statement/title card recipe for TextEmerge: slow blur-drift-lift materialize, no pop/spring overshoot, center-aligned wide block. Use as styleOverride: { \"$alias\": \"text.emergeCard\" } on a TextEmerge asset for the default 'less pop, more appear' b-roll look from scripts/curate/solutions/composition/b-roll-sequence.md step 7.",
+    "vars": [],
+    "expansion": {
+      "typography": "heading1",
+      "curve": "easeOutExpo",
+      "staggerFrames": 8,
+      "revealDurationFrames": 26,
+      "driftDirection": "up",
+      "driftDistance": 34,
+      "blurAmount": 16,
+      "scaleFrom": 0.985,
+      "containerLift": true,
+      "containerDriftDistance": 26,
+      "containerScaleFrom": 0.975,
+      "align": "center",
+      "width": 1500
+    }
+  },
+  "shader.tokenGreen": {
+    "description": "Normalizes an SVG asset toward the token-green brand color (theme accentGreen #16C784): multiply-tint + a matching green glow halo, slight contrast/brightness lift. Pairs with effects.tokenGreen (the CSS-filter equivalent for div-based ImageReveal photos) so SVG logos and stock photos read as the same color family in a scene.",
+    "vars": [],
+    "expansion": {
+      "tintFill": "#16C784",
+      "tintStrength": 0.4,
+      "saturate": 0.9,
+      "contrast": 1.1,
+      "brightness": 1.02,
+      "glowFill": "#16C784",
+      "glowStrength": 14
+    }
+  },
+  "effects.tokenGreen": {
+    "description": "Normalizes a photo/ImageReveal asset toward the token-green brand color (theme accentGreen #16C784) using only CSS filter primitives: grayscale(1) sepia(1) flattens to a warm monochrome base, then hue-rotate(62deg) spins that base hue to green. Pairs with shader.tokenGreen (the SVG-native tint equivalent for SvgImage logos) so stock photos and brand SVGs read as the same color family in a scene.",
+    "vars": [],
+    "expansion": [
+      {
+        "type": "filter",
+        "grayscale": 1,
+        "sepia": 1,
+        "hueRotateDeg": 62,
+        "contrast": 1.1,
+        "brightness": 1
+      }
+    ]
   }
 }

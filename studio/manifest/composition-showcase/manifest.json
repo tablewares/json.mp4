@@ -1,0 +1,15 @@
+{
+  "projectId": "composition-showcase",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1_depth_push",
+      "path": "scenes/s1_depth_push.json"
+    },
+    {
+      "id": "s2_image_panel",
+      "path": "scenes/s2_image_panel.json"
+    }
+  ]
+}

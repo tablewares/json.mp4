@@ -36,7 +36,22 @@ Field: `scene.camera.easeZoom` (boolean). Default: false.
 
 `zoomPercent` is in percent (≥ 1), not a fraction — 100 is unity, 200 is 2x, etc.
 
-## 3. Design recipe (Vox-style "2.5D map push")
+## 3. Per-action easing (`easing`) — the "swoosh" zoom
+
+Each camera action (or the top-level `start`/`end` shorthand) accepts an
+`easing` field: `'linear'` (default) | `'easeIn'` | `'easeOut'` | `'easeInOut'`.
+It shapes the pace of the leg LEAVING that action toward the next one — same
+convention as `motion.rotate.easing`. It affects the anchor pan always, and
+the zoom too when `easeZoom: true`.
+
+`easeOut` on a short `at` window reads as a fast "snap"; `linear` (or a very
+long window) reads as a slow, continuous drift. Combining short eased legs
+with one long linear leg is how you build the Vox-style "snap halfway →
+subtly continue zooming → snap fully in" camera move
+(see `scripts/curate/solutions/taste/vox-camera-work.md`) without any new
+render logic — it's the `camera.swooshSnap` alias below.
+
+## 4. Design recipe (Vox-style "2.5D map push")
 
 To get a high-end documentary collage look:
 
@@ -79,6 +94,30 @@ node scripts/agent-cli.mjs set-camera <projectId> <sceneId> '{
 }'
 ```
 
+Vox-style "snap halfway → subtly continue zooming → snap fully in" via the `camera.swooshSnap` alias (see `discovery.mjs alias camera.swooshSnap` for the full var list):
+
+```bash
+node scripts/agent-cli.mjs set-camera <projectId> <sceneId> '{
+  "$alias": "camera.swooshSnap",
+  "anchor": { "position": "center" },
+  "durationInFrames": <frames-≲-1.5s-at-project-fps>
+}'
+```
+
+Or author the four actions directly for full control over the snap/drift/snap timing:
+
+```bash
+node scripts/agent-cli.mjs set-camera <projectId> <sceneId> '{
+  "easeZoom": true,
+  "actions": [
+    { "at": 0,    "anchor": { "position": "center" }, "zoomPercent": 100, "easing": "easeOut" },
+    { "at": 0.12, "anchor": { "position": "center" }, "zoomPercent": 130, "easing": "linear"  },
+    { "at": 0.88, "anchor": { "position": "center" }, "zoomPercent": 140, "easing": "easeIn"  },
+    { "at": 1,    "anchor": { "position": "center" }, "zoomPercent": 165, "easing": "easeIn"  }
+  ]
+}'
+```
+
 Append one camera action without disturbing existing ones:
 
 ```bash
@@ -104,3 +143,4 @@ node scripts/agent-cli.mjs remove-camera <projectId> <sceneId>
 - Camera anchors accept `followAssetId` ( follow another asset's resolved center, nudge by composition-space %) in addition to the named-corner form — useful when the camera should track a moving element.
 - `zoomPercent` is in percent (≥ 1, minimum enforced by schema). 100 = unity. Fractions like 1.5 will fail validation.
 - `easeZoom` is additive — disabling it on a previously continuous camera restores the legacy snap behavior, it does not error.
+- `easing` on an action only has a visible effect on ZOOM when `easeZoom: true` is also set; it always affects the anchor pan regardless. A camera with only one action (or all actions at the same `zoomPercent`) won't show any easing difference since there's nothing to interpolate.

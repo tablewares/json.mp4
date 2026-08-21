@@ -1,0 +1,138 @@
+{
+  "assetType": "PieChart",
+  "component": "PieChart.jsx",
+  "description": "Animated donut/pie chart built on Recharts (@recharts/pie), driven entirely by frame-computed props so it stays seek-safe in Remotion's render model. Slices sweep in clockwise from 12 o'clock on one spring, each slice's fill fades in as the sweep passes its start angle, the donut hole counts up a running total in lockstep, and a legend row fades/rises in with a per-entry stagger. Good for share-of-total beats (market share, budget breakdown, vote split) where BarChartRace's magnitude-comparison framing is the wrong shape.",
+  "defaultSize": {
+    "width": 900,
+    "height": 640
+  },
+  "defaultStyle": {
+    "typography": "body1",
+    "easing": "gentleSpring",
+    "canvasFill": "transparent",
+    "borderLine": "transparent",
+    "borderRadius": 24,
+    "padding": 32,
+    "outerRadiusRatio": 0.92,
+    "innerRadiusRatio": 0.62,
+    "strokeColor": "#0B0E14",
+    "strokeWidth": 2,
+    "valueFill": "#F5F7FA",
+    "labelFill": "#8B93A7",
+    "valueFormat": "number",
+    "staggerFrames": 6,
+    "legendStaggerFrames": 3,
+    "showLegend": true,
+    "palette": ["#3D7BFD", "#16C784", "#EA3943", "#C04CFD", "#FFD166", "#33C3F0", "#FF7A59", "#8B93A7"]
+  },
+  "contentOverrideSchema": {
+    "type": "object",
+    "required": ["slices"],
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "Optional heading rendered above the donut"
+      },
+      "centerLabel": {
+        "type": "string",
+        "description": "Optional small caption under the center count-up total (e.g. 'total votes')"
+      },
+      "slices": {
+        "type": "array",
+        "minItems": 1,
+        "description": "Slices of { label, value, fillStyle? }. value drives sweep share + count-up target.",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "value"],
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "Legend/category label for this slice"
+            },
+            "value": {
+              "type": "number",
+              "description": "Magnitude; sets slice's angular share of the total"
+            },
+            "fillStyle": {
+              "type": "string",
+              "description": "Per-slice override hex; falls back to styleOverride.palette by index"
+            }
+          }
+        }
+      }
+    }
+  },
+  "styleOverrideSchema": {
+    "type": "object",
+    "properties": {
+      "typography": {
+        "type": "string",
+        "description": "typography token (fontFamily + color feed title/legend/center label; sizes derive from typography.fontSize)"
+      },
+      "easing": {
+        "type": "string",
+        "description": "easing token for the sweep-reveal spring"
+      },
+      "canvasFill": {
+        "type": "string",
+        "description": "raw hex (or 'transparent') for the chart canvas background"
+      },
+      "borderLine": {
+        "type": "string",
+        "description": "raw hex for the canvas border; 'transparent' for none"
+      },
+      "borderRadius": {
+        "type": "number"
+      },
+      "padding": {
+        "type": "number",
+        "description": "internal px padding around title + donut + legend"
+      },
+      "outerRadiusRatio": {
+        "type": "number",
+        "description": "outer radius as a fraction of the plot's half-size, 0-1"
+      },
+      "innerRadiusRatio": {
+        "type": "number",
+        "description": "inner (donut hole) radius as a fraction of outerRadius, 0-1. Set to 0 for a full pie (no hole, no center total shown)"
+      },
+      "strokeColor": {
+        "type": "string",
+        "description": "raw hex for the thin separator stroke between slices"
+      },
+      "strokeWidth": {
+        "type": "number"
+      },
+      "valueFill": {
+        "type": "string",
+        "description": "raw hex for the center count-up total"
+      },
+      "labelFill": {
+        "type": "string",
+        "description": "raw hex for legend text and center sub-label"
+      },
+      "valueFormat": {
+        "type": "string",
+        "enum": ["number", "compact", "percent"],
+        "description": "number=plain grouped | compact=1.2B/3.4M | percent=round%'d (use when slice values are already percentages)"
+      },
+      "staggerFrames": {
+        "type": "number",
+        "description": "degrees of sweep lead-in used to fade each slice's fill in as the sweep reaches it (reused unit from BarChartRace's frame-stagger, expressed in degrees here since this asset's timeline is angle-driven, not index-driven)"
+      },
+      "legendStaggerFrames": {
+        "type": "number",
+        "description": "frames between each legend chip's own entrance spring start"
+      },
+      "showLegend": {
+        "type": "boolean"
+      },
+      "palette": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "ordered raw-hex fallback colors, cycled by slice index when a slice has no fillStyle"
+      }
+    }
+  }
+}

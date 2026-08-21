@@ -1,0 +1,107 @@
+{
+  "projectId": "piechart-test",
+  "config": {
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "defaultSceneDurationInFrames": 150
+  },
+  "audioOverlay": [],
+  "scenes": [
+    {
+      "id": "s1_market_share",
+      "durationInFrames": 150,
+      "effects": [],
+      "camera": null,
+      "narrationWords": null,
+      "ttsWindow": null,
+      "background": "#0B0E14",
+      "assets": [
+        {
+          "id": "pie1",
+          "assetType": "PieChart",
+          "componentPath": "/home/tablewares/json.mp4/studio/graphics/PieChart/PieChart.jsx",
+          "content": {
+            "title": "Cloud Market Share 2024",
+            "centerLabel": "total share",
+            "slices": [
+              {
+                "label": "AWS",
+                "value": 32
+              },
+              {
+                "label": "Azure",
+                "value": 23
+              },
+              {
+                "label": "Google Cloud",
+                "value": 11
+              },
+              {
+                "label": "Other",
+                "value": 34
+              }
+            ]
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 460,
+            "top": 160,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 36,
+              "fontWeight": 400,
+              "lineHeight": 1.35,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "canvasFill": "transparent",
+            "borderLine": "transparent",
+            "borderRadius": 24,
+            "padding": 32,
+            "outerRadiusRatio": 0.92,
+            "innerRadiusRatio": 0.62,
+            "strokeColor": "#0B0E14",
+            "strokeWidth": 2,
+            "valueFill": "#F5F7FA",
+            "labelFill": "#8B93A7",
+            "valueFormat": "percent",
+            "staggerFrames": 6,
+            "legendStaggerFrames": 3,
+            "showLegend": true,
+            "palette": [
+              "#3D7BFD",
+              "#16C784",
+              "#EA3943",
+              "#C04CFD",
+              "#FFD166",
+              "#33C3F0",
+              "#FF7A59",
+              "#8B93A7"
+            ],
+            "width": 1000,
+            "height": 760
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 150,
+            "enterAtFrame": 0,
+            "exitAtFrame": 150,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": null
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "projectId": "piechart-test",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "s1_market_share",
+      "path": "scenes/s1_market_share.json"
+    }
+  ]
+}

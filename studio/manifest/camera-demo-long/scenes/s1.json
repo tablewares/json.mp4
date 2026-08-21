@@ -1,0 +1,53 @@
+{
+  "narrationRef": "",
+  "background": "shade1",
+  "camera": {
+    "$alias": "camera.swooshSnap",
+    "anchor": {
+      "position": "center"
+    },
+    "durationInFrames": 240,
+    "snapAt": 0.08,
+    "settleAt": 0.92
+  },
+  "assets": [
+    {
+      "id": "backdrop",
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "src": "assets/neon-city-skyline.jpg"
+      },
+      "styleOverride": {
+        "width": 1280,
+        "height": 720,
+        "borderRadius": 0,
+        "revealDirection": "center-out"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 0
+    },
+    {
+      "id": "title",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -30
+      },
+      "contentOverride": {
+        "text": "THE LONGER SWOOSH"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "align": "center"
+      },
+      "enterAt": 0.05,
+      "exitAt": 0.95,
+      "z": 1
+    }
+  ],
+  "id": "s1"
+}

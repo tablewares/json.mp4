@@ -1,0 +1,137 @@
+{
+  "background": "shade2",
+  "id": "s2_image_panel",
+  "assets": [
+    {
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": -30
+      },
+      "contentOverride": {
+        "text": "COMPOSITION & MOTION"
+      },
+      "styleOverride": {
+        "typography": "heading1",
+        "width": 1500,
+        "height": 140,
+        "align": "center",
+        "backgroundColorToken": "transparent"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 10,
+      "motion": {
+        "in": "fadeUp"
+      },
+      "id": "title_text"
+    },
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "left",
+        "offsetXPercent": 6,
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "src": "assets/central_bank.jpg",
+        "alt": "central bank building"
+      },
+      "styleOverride": {
+        "width": 520,
+        "height": 420,
+        "borderRadius": 20,
+        "revealDirection": "left-to-right"
+      },
+      "enterAt": 0.12,
+      "exitAt": 1,
+      "z": 4,
+      "motion": {
+        "in": {
+          "alias": "fadeUp",
+          "distancePx": 90
+        }
+      },
+      "id": "panel_1"
+    },
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "center",
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "src": "assets/inequality-chart.jpg",
+        "alt": "wealth inequality chart"
+      },
+      "styleOverride": {
+        "width": 520,
+        "height": 420,
+        "borderRadius": 260,
+        "revealDirection": "center-out"
+      },
+      "enterAt": 0.3,
+      "exitAt": 1,
+      "z": 5,
+      "motion": {
+        "in": {
+          "alias": "fadeDown",
+          "distancePx": 90
+        },
+        "rotate": {
+          "toDeg": 3,
+          "durationInFrames": 20
+        }
+      },
+      "id": "panel_2"
+    },
+    {
+      "assetType": "ImageReveal",
+      "anchor": {
+        "position": "right",
+        "offsetXPercent": -6,
+        "offsetYPercent": 6
+      },
+      "contentOverride": {
+        "src": "assets/silicon-macro.jpg",
+        "alt": "silicon chip macro texture"
+      },
+      "styleOverride": {
+        "width": 520,
+        "height": 420,
+        "borderRadius": 20,
+        "revealDirection": "top-to-bottom"
+      },
+      "enterAt": 0.48,
+      "exitAt": 1,
+      "z": 4,
+      "motion": {
+        "in": {
+          "alias": "fadeUp",
+          "distancePx": 90,
+          "rotateFromDeg": 6
+        }
+      },
+      "id": "panel_3"
+    }
+  ],
+  "camera": {
+    "easeZoom": true,
+    "actions": [
+      {
+        "at": 0,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 100
+      },
+      {
+        "at": 1,
+        "anchor": {
+          "position": "center"
+        },
+        "zoomPercent": 112
+      }
+    ]
+  }
+}

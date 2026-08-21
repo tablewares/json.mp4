@@ -1,0 +1,85 @@
+{
+  "video": "out/piechart-test.mp4",
+  "outdir": "tmp/qa/piechart-test",
+  "stream": {
+    "width": "1920",
+    "height": "1080",
+    "r_frame_rate": "30/1"
+  },
+  "durationSeconds": 5.056,
+  "blackFrameEvents": [
+    {
+      "start": 0,
+      "end": 1.166667,
+      "duration": 1.166667
+    }
+  ],
+  "freezeFrameEvents": [
+    {
+      "start": 0,
+      "end": null,
+      "duration": null
+    }
+  ],
+  "sampleCount": 3,
+  "flaggedUniformFrames": [
+    {
+      "path": "tmp/qa/piechart-test/frames/f000_s1_market_share_0.4s.png",
+      "meanBrightness": 15.74,
+      "stdBrightness": 10.67,
+      "dominantColorShare": 0.9885,
+      "width": 1920,
+      "height": 1080,
+      "label": "s1_market_share@0.08 (0.4s)"
+    },
+    {
+      "path": "tmp/qa/piechart-test/frames/f001_s1_market_share_2.5s.png",
+      "meanBrightness": 22.26,
+      "stdBrightness": 30.65,
+      "dominantColorShare": 0.9324,
+      "width": 1920,
+      "height": 1080,
+      "label": "s1_market_share@0.50 (2.5s)"
+    },
+    {
+      "path": "tmp/qa/piechart-test/frames/f002_s1_market_share_4.6s.png",
+      "meanBrightness": 23.06,
+      "stdBrightness": 32.17,
+      "dominantColorShare": 0.9261,
+      "width": 1920,
+      "height": 1080,
+      "label": "s1_market_share@0.92 (4.6s)"
+    }
+  ],
+  "transitionChecks": [],
+  "contactSheet": "tmp/qa/piechart-test/contact_sheet.png",
+  "frames": [
+    {
+      "path": "tmp/qa/piechart-test/frames/f000_s1_market_share_0.4s.png",
+      "label": "s1_market_share@0.08 (0.4s)",
+      "meanBrightness": 15.74,
+      "stdBrightness": 10.67,
+      "dominantColorShare": 0.9885,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "path": "tmp/qa/piechart-test/frames/f001_s1_market_share_2.5s.png",
+      "label": "s1_market_share@0.50 (2.5s)",
+      "meanBrightness": 22.26,
+      "stdBrightness": 30.65,
+      "dominantColorShare": 0.9324,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "path": "tmp/qa/piechart-test/frames/f002_s1_market_share_4.6s.png",
+      "label": "s1_market_share@0.92 (4.6s)",
+      "meanBrightness": 23.06,
+      "stdBrightness": 32.17,
+      "dominantColorShare": 0.9261,
+      "width": 1920,
+      "height": 1080
+    }
+  ]
+}

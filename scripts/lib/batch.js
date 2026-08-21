@@ -38,6 +38,10 @@ function runOne(ws, item, index, pendingUnlinks) {
       return ops.stylesSetFields(ws, fieldsToPairs(item.fields, `batch[${index}].fields`), !!item.replace);
     case 'config.set':
       return ops.configSet(ws, item.value);
+    case 'narration.set':
+      return ops.narrationSet(ws, item.value);
+    case 'narration.clear':
+      return ops.narrationClear(ws);
     default:
       throw new CliError('UnknownBatchCommand', `Batch item ${index} has unknown type "${item.type}".`, {
         index,
@@ -51,6 +55,8 @@ function runOne(ws, item, index, pendingUnlinks) {
           'asset.setFields',
           'styles.setFields',
           'config.set',
+          'narration.set',
+          'narration.clear',
         ],
       });
   }

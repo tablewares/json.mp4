@@ -152,11 +152,18 @@ export async function resolveProject(manifestPath) {
     );
   }
 
-  // Opt-in, config-driven composition checks (e.g. similarSceneGuard).
-  // config.compositionPlugins is absent on every existing project, so
-  // this is a strict no-op — runCompositionPlugins short-circuits on an
-  // empty/missing array and enforceCompositionPlugins never throws.
-  // enforceCompositionPlugins(resolvedScenes, config.compositionPlugins);
+  // Opt-in, config-driven composition checks (overlapGuard,
+  // similarSceneGuard, ...). config.compositionPlugins is absent on most
+  // existing projects, so this is a strict no-op for them —
+  // runCompositionPlugins short-circuits on an empty/missing array and
+  // enforceCompositionPlugins never throws. A project turns a check on by
+  // naming it in config.json, e.g.:
+  //   "compositionPlugins": ["overlapGuard"]
+  // or with per-plugin options / severity overrides:
+  //   "compositionPlugins": [{ "name": "overlapGuard", "options": { "overlapSeverity": "error" } }]
+  enforceCompositionPlugins(resolvedScenes, config.compositionPlugins, {
+    compositionSize: { width: config.width, height: config.height },
+  });
 
   const musicTracks = (manifest.music ?? []).map((m) => ({
     id: m.id,

@@ -39,6 +39,17 @@ function resolveOne(spec, i) {
         brightness: spec.brightness ?? 1,
         sepia: spec.sepia ?? 0,
         blur: spec.blur ?? 0,
+        // hueRotateDeg: standard CSS filter function, no token resolution
+        // (a plain number, same treatment as contrast/brightness). Combined
+        // with sepia(1) upstream this is the well-known "fake color tint via
+        // CSS filters alone" recipe — sepia flattens the image to a warm
+        // monochrome base, then hue-rotate spins that base hue to whatever
+        // target color is wanted. Lets a div-based ImageReveal photo share
+        // the same color-normalization vocabulary an SvgImage gets natively
+        // via src/svg's SvgShaderFilter (tintFill/hueRotateDeg there too) —
+        // see effects.tokenGreen / shader.tokenGreen aliases for the
+        // matched-pair worked example.
+        hueRotateDeg: spec.hueRotateDeg ?? 0,
       };
     default:
       return spec;
@@ -82,6 +93,7 @@ function buildCssFilter(resolvedEffects) {
   const parts = [];
   if (f.grayscale) parts.push(`grayscale(${f.grayscale})`);
   if (f.sepia) parts.push(`sepia(${f.sepia})`);
+  if (f.hueRotateDeg) parts.push(`hue-rotate(${f.hueRotateDeg}deg)`);
   if (f.contrast !== 1) parts.push(`contrast(${f.contrast})`);
   if (f.brightness !== 1) parts.push(`brightness(${f.brightness})`);
   if (f.blur) parts.push(`blur(${f.blur}px)`);

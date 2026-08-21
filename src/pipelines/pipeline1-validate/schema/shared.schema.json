@@ -1,6 +1,33 @@
 {
   "$id": "shared.schema.json",
   "definitions": {
+    "cornerPosition": {
+      "type": "string",
+      "description": "Named frame/box corner + center vocabulary shared by every anchor-like spec (scene asset anchor, camera anchor, scene-effect visual anchor).",
+      "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]
+    },
+    "offsetXPercent": { "type": "number", "default": 0, "description": "Signed % nudge along X from the resolved anchor point." },
+    "offsetYPercent": { "type": "number", "default": 0, "description": "Signed % nudge along Y from the resolved anchor point." },
+    "enterExitEdge": {
+      "type": "string",
+      "enum": ["enter", "exit"],
+      "default": "enter",
+      "description": "Which edge of the referenced asset/action to resolve against."
+    },
+    "anchorPointSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One point in the shared 'named corner / follow another asset / raw pixels' vocabulary — the same shape WavyLine's contentOverride.points items and camera/asset anchors accept, resolved by resolveAnchorPoint (src/templating/anchor.js) with a raw-{x,y}-passthrough bridge for backward compatibility. Exactly one of: {x,y} raw composition-space pixels; {position, offsetXPercent?, offsetYPercent?} named frame corner + nudge; {followAssetId, anchorEdge?, offsetXPercent?, offsetYPercent?} follow an earlier-authored asset's box.",
+      "properties": {
+        "x": { "type": "number", "description": "Raw composition-space pixel X. Backward-compat passthrough; prefer position/followAssetId for new authoring." },
+        "y": { "type": "number", "description": "Raw composition-space pixel Y." },
+        "position": { "$ref": "#/definitions/cornerPosition" },
+        "followAssetId": { "type": "string", "description": "Id of an earlier-authored asset in this scene to resolve this point against instead of a frame corner." },
+        "anchorEdge": { "$ref": "#/definitions/cornerPosition", "default": "center", "description": "Only used with followAssetId. Which point on the followed asset's box to resolve to." },
+        "offsetXPercent": { "$ref": "#/definitions/offsetXPercent" },
+        "offsetYPercent": { "$ref": "#/definitions/offsetYPercent" }
+      }
+    },
     "tokenOrLiteral": {
       "oneOf": [
         { "type": "string", "description": "a style registry token, e.g. 'shade1'" },
@@ -49,7 +76,7 @@
               "description": "A word index, exact word text, or array of words/indices (a phrase/set) to anchor to. Without relativeToAsset, resolves against the SCENE's own narration word timing (requires scene.narrationRef with word-level alignment) — use this to place something at a spoken word/phrase with no asset needing to display that text. With relativeToAsset, resolves against that asset's own resolved timing.words instead. For an array, edge 'enter' (default) anchors to the FIRST word's start frame and edge 'exit' anchors to the LAST word's end frame."
             },
             "relativeToCameraAction": { "oneOf": [{ "type": "number" }, { "type": "string" }] },
-            "edge": { "type": "string", "enum": ["enter", "exit"], "default": "enter" },
+            "edge": { "$ref": "#/definitions/enterExitEdge" },
             "offsetFrames": { "type": "number", "default": 0 }
           }
         },

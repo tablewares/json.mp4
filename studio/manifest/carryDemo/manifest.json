@@ -1,0 +1,15 @@
+{
+  "projectId": "carryDemo",
+  "config": "config.json",
+  "styles": "styles/theme.json",
+  "scenes": [
+    {
+      "id": "scene1",
+      "path": "scenes/scene1.json"
+    },
+    {
+      "id": "scene2",
+      "path": "scenes/scene2.json"
+    }
+  ]
+}

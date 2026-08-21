@@ -16,22 +16,28 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["assetType", "anchor"],
+        "required": ["id", "assetType", "anchor"],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string" },
+          "id": { "type": "string", "description": "Required — every asset needs a stable id so it can be the target of relativeToAsset timing, anchor.followAssetId, transitionOut carry, and physics towardAssetId/targetAssetId/carryFromScene references." },
           "assetType": { "type": "string" },
           "anchor": {
             "type": "object",
             "required": ["position"],
             "additionalProperties": false,
+            "description": "position + signed % nudge, always required (position also picks the alignment point on THIS asset's own box that lands on the computed anchor point). Optionally add followAssetId to compute the anchor point relative to an earlier-authored asset's box instead of a frame corner — same vocabulary as camera.cameraAnchor's followAssetId branch, resolved by the shared resolveAnchorPoint.",
             "properties": {
               "position": {
-                "type": "string",
-                "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"]
+                "$ref": "shared.schema.json#/definitions/cornerPosition"
               },
-              "offsetXPercent": { "type": "number", "default": 0 },
-              "offsetYPercent": { "type": "number", "default": 0 }
+              "offsetXPercent": { "$ref": "shared.schema.json#/definitions/offsetXPercent" },
+              "offsetYPercent": { "$ref": "shared.schema.json#/definitions/offsetYPercent" },
+              "followAssetId": { "type": "string", "description": "Id of an earlier-authored asset in this scene. When set, the anchor point is computed relative to that asset's resolved box (at anchorEdge) plus the composition-space % offsets, instead of a frame corner." },
+              "anchorEdge": {
+                "$ref": "shared.schema.json#/definitions/cornerPosition",
+                "default": "center",
+                "description": "Only used with followAssetId. Which point on the FOLLOWED asset's box to anchor to."
+              }
             }
           },
           "contentOverride": { "type": "object" },
@@ -50,9 +56,18 @@
             ],
             "description": "Same shape as enterAt; legacy default 1 (scene's TTS/duration window end)."
           },
-          "z": { "type": "number" },
+          "z": {
+            "type": "number",
+            "description": "Stacking order, resolved at render time. Lower z paints first (further from viewer), higher z paints last (on top). Default 0 when omitted. Stable sort — assets sharing a z value keep their authored scene.assets order. Applied per-scene only (not global across the whole video). Implemented by Composition.jsx's layeredAssets sort (`[...scene.assets].sort((a, b) => (a.z ?? 0) - (b.z ?? 0))`); carried through resolve by buildTimeline.js."
+          },
           "motion": { "$ref": "#/definitions/motionSpec" },
-          "physics": { "$ref": "physics.schema.json#/definitions/assetPhysicsSpec" },
+          "physics": {
+            "description": "An assetPhysicsSpec, or a \"$alias\": \"physics.<name>\" shorthand (e.g. physics.parabolaThrow) expanded to the object shape below by resolveAliasesDeep in pipeline2. Prefer an alias over hand-picking initialVelocity/angle/gravity numbers when the goal is a natural-looking arc/toss rather than a precisely engineered trajectory — see the `physics` alias category.",
+            "oneOf": [
+              { "$ref": "physics.schema.json#/definitions/assetPhysicsSpec" },
+              { "$ref": "shared.schema.json#/definitions/aliasRef" }
+            ]
+          },
           "effects": {
             "description": "Array of per-asset visual effects, or a \"$alias\": \"effects.<name>\" shorthand (e.g. effects.oldComputer) that expands to the array. Individual array items may also each be a \"$alias\".",
             "oneOf": [
@@ -87,6 +102,7 @@
         "contrast": { "type": "number", "minimum": 0 },
         "brightness": { "type": "number", "minimum": 0 },
         "sepia": { "type": "number", "minimum": 0, "maximum": 1 },
+        "hueRotateDeg": { "type": "number" },
         "blur": { "type": "number", "minimum": 0 }
       }
     },

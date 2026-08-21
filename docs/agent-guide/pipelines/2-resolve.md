@@ -79,21 +79,43 @@ Source: `src/pipelines/pipeline2-resolve/resolve.js`
 Written to `resolved.json` at the repo root by default; pass a third CLI
 arg to control the output path.
 
-## Overlap warnings
+## Overlap / composition warnings
 
-Resolve also emits `[overlap-warning]` lines via
-`src/pipelines/pipeline2-resolve/overlap_warn.js`. These are `console.warn`
-(exits 0), not errors — render still proceeds, but two assets visibly overlap
-on screen.
+Resolve used to emit `[overlap-warning]`/`[composition-warning]` lines
+unconditionally on every project. That check is now the **opt-in**
+`overlapGuard` composition plugin
+(`src/pipelines/pipeline2-resolve/plugins/overlapGuard.js`) — silent unless a
+project's `config.json` names it:
 
-A warning means both assets are on screen at the same time AND their resolved
-bounding rectangles intersect. Computation:
+```json
+{ "compositionPlugins": ["overlapGuard"] }
+```
 
-- Per asset pair, take the temporal overlap window (`max(enterAtFrame)` to
-  `min(exitAtFrame)`); skip pairs that don't coexist in time.
-- Build a rect `{left, top, width, height}` per asset from `resolvedPosition`
-  + `resolvedStyle`.
-- If rects intersect AND timing overlaps → warn. Area/percent is informational.
+or with per-check severity/threshold overrides:
+
+```json
+{
+  "compositionPlugins": [
+    { "name": "overlapGuard", "options": { "overlapSeverity": "error" } }
+  ]
+}
+```
+
+Findings are `console.warn`'d (severity `"warn"`, the default for every
+check) unless promoted to `"error"`, in which case `enforceCompositionPlugins`
+throws and blocks resolve/render — see `../conventions/` or
+`plugins/index.js`'s header doc for the full plugin contract. The underlying
+detection is unchanged: temporal overlap window intersected with a
+`{left, top, width, height}` rect built from `resolvedPosition` +
+`resolvedStyle` (see `plugins/overlapGuard.js` / `overlap_warn.js`'s
+`rectIntersectionArea`).
+
+Checks bundled in `overlapGuard`: `checkOverlap` (two assets on screen at
+once with intersecting rects), `checkOffscreen` (asset cut off by the frame),
+`checkTinySize` (asset under ~4% of composition width/height),
+`checkShortDuration` (asset on screen too briefly), `checkLowActivity`
+(narrated scene with little visual presence). Each is independently
+toggleable and severity-tunable via `options`.
 
 ## CLI
 

@@ -296,6 +296,40 @@ function configSet(ws, json) {
   return { config: next, file: rel(configPath) };
 }
 
+// ---- narration ------------------------------------------------------------
+//
+// manifest.narration is validated by manifest.schema.json#/properties/narration
+// (entries[] oneOf spoken {id,text} / silence {id,kind:"silence",durationSeconds},
+// plus fullTranscript). There was previously no CLI surface for it — every
+// project that used narration had it hand-edited into manifest.json, which
+// bypassed Workspace/writeJSONAtomic entirely (always pretty-printed, never
+// minified, never atomic). This routes it through the same commit path as
+// every other manifest field.
+
+function narrationSet(ws, json) {
+  const manifest = ws.getManifest();
+  const manifestPath = ws.manifestPath();
+  const parsed = parseJson(json, 'narration');
+  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+    throw new CliError('BadArguments', 'narration must be a JSON object ({ entries, fullTranscript }).', { received: parsed });
+  }
+
+  const next = { ...(manifest.narration || {}), ...parsed };
+  assertValid('manifest.schema.json#/properties/narration', next, 'narration');
+
+  manifest.narration = next;
+  ws.markDirty(manifestPath);
+  return { narration: next, file: rel(manifestPath) };
+}
+
+function narrationClear(ws) {
+  const manifest = ws.getManifest();
+  const manifestPath = ws.manifestPath();
+  delete manifest.narration;
+  ws.markDirty(manifestPath);
+  return { narration: null, file: rel(manifestPath) };
+}
+
 module.exports = {
   parseJson,
   assertValid,
@@ -310,5 +344,7 @@ module.exports = {
   locateAssetOrThrow,
   stylesSetFields,
   configSet,
+  narrationSet,
+  narrationClear,
   STYLE_FIELDS,
 };

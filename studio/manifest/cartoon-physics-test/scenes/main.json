@@ -1,0 +1,63 @@
+{
+  "id": "main",
+  "background": "shade1",
+  "assets": [
+    {
+      "id": "basket",
+      "assetType": "PhysicsShape",
+      "anchor": { "position": "bottom-right", "offsetXPercent": -10, "offsetYPercent": -10 },
+      "styleOverride": { "shape": "rectangle", "width": 100, "height": 60, "fillColorToken": "main2" },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ball",
+      "assetType": "PhysicsShape",
+      "anchor": { "position": "top-left", "offsetXPercent": 10, "offsetYPercent": 10 },
+      "styleOverride": { "shape": "circle", "width": 40, "height": 40, "fillColorToken": "accentBg" },
+      "physics": {
+        "bodyType": "dynamic",
+        "shape": "circle",
+        "landAt": { "atFrame": 60, "targetAssetId": "basket" }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "sticker",
+      "assetType": "PhysicsShape",
+      "anchor": { "position": "center" },
+      "styleOverride": { "shape": "circle", "width": 14, "height": 14, "fillColorToken": "accentRed" },
+      "physics": {
+        "bodyType": "dynamic",
+        "attachTo": { "followAssetId": "ball", "anchorEdge": "top", "offsetYPercent": -1 }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "plane",
+      "assetType": "PhysicsShape",
+      "anchor": { "position": "left", "offsetXPercent": 5, "offsetYPercent": -30 },
+      "styleOverride": { "shape": "rectangle", "width": 60, "height": 24, "fillColorToken": "accentGreen" },
+      "physics": {
+        "bodyType": "dynamic",
+        "followPath": {
+          "atFrame": 90,
+          "rotateToPath": true,
+          "points": [
+            { "position": "left", "offsetXPercent": 5, "offsetYPercent": -30 },
+            { "position": "top", "offsetXPercent": -20, "offsetYPercent": 5 },
+            { "position": "center", "offsetXPercent": 20, "offsetYPercent": -10 },
+            { "followAssetId": "basket", "anchorEdge": "top", "offsetYPercent": -5 }
+          ]
+        }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ],
+  "physics": {
+    "gravityScale": 0.001
+  }
+}

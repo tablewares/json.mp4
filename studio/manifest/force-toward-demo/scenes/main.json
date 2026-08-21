@@ -1,0 +1,63 @@
+{
+  "id": "main",
+  "background": "shade1",
+  "physics": {
+    "gravity": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "assets": [
+    {
+      "id": "target",
+      "assetType": "TextBlock",
+      "anchor": {
+        "position": "bottom-right",
+        "offsetXPercent": -12,
+        "offsetYPercent": -15
+      },
+      "contentOverride": {
+        "text": "HIT ME"
+      },
+      "styleOverride": {
+        "backgroundColorToken": "transparent"
+      },
+      "physics": {
+        "bodyType": "dynamic",
+        "shape": "rectangle",
+        "restitution": 0.7
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    },
+    {
+      "id": "ball",
+      "assetType": "PhysicsShape",
+      "anchor": {
+        "position": "top-left",
+        "offsetXPercent": 10,
+        "offsetYPercent": 12
+      },
+      "contentOverride": {},
+      "styleOverride": {
+        "shape": "circle",
+        "fillColorToken": "accentRed",
+        "width": 60,
+        "height": 60
+      },
+      "physics": {
+        "bodyType": "dynamic",
+        "shape": "circle",
+        "restitution": 0.7,
+        "friction": 0,
+        "frictionAir": 0,
+        "force": {
+          "towardAssetId": "target",
+          "magnitude": 0.55
+        }
+      },
+      "enterAt": 0,
+      "exitAt": 1
+    }
+  ]
+}

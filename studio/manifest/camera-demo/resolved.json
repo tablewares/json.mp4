@@ -1,0 +1,118 @@
+{
+  "projectId": "camera-demo",
+  "config": {
+    "fps": 30,
+    "width": 960,
+    "height": 540,
+    "defaultSceneDurationInFrames": 60
+  },
+  "audioOverlay": [],
+  "scenes": [
+    {
+      "id": "s1",
+      "durationInFrames": 60,
+      "effects": [],
+      "camera": {
+        "actions": [
+          {
+            "at": 0,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 100,
+            "easing": "easeOut"
+          },
+          {
+            "at": 0.12,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 130,
+            "easing": "linear"
+          },
+          {
+            "at": 0.88,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 140,
+            "easing": "easeIn"
+          },
+          {
+            "at": 1,
+            "anchor": {
+              "position": "center",
+              "offsetXPercent": 0,
+              "offsetYPercent": 0,
+              "followAssetId": null,
+              "edge": "enter"
+            },
+            "zoomPercent": 165,
+            "easing": "easeIn"
+          }
+        ],
+        "durationInFrames": 60,
+        "speed": 1,
+        "easeZoom": true
+      },
+      "narrationWords": null,
+      "ttsWindow": null,
+      "assets": [
+        {
+          "id": "TextBlock-a9le3t",
+          "assetType": "TextBlock",
+          "componentPath": "/home/tablewares/json.mp4/studio/assets/TextBlock/TextBlock.jsx",
+          "content": {
+            "text": "SWOOSH ZOOM"
+          },
+          "resolvedPosition": {
+            "position": "absolute",
+            "left": 30,
+            "top": 170,
+            "transformOrigin": "50% 50%"
+          },
+          "resolvedStyle": {
+            "typography": {
+              "fontFamily": "Inter, sans-serif",
+              "fontSize": 84,
+              "fontWeight": 800,
+              "lineHeight": 1.05,
+              "colorToken": "main1",
+              "color": "#F5F7FA"
+            },
+            "backgroundColorToken": "#00000000",
+            "easing": {
+              "damping": 16,
+              "mass": 0.7,
+              "stiffness": 110
+            },
+            "width": 900,
+            "height": 200
+          },
+          "resolvedMotion": null,
+          "resolvedEffects": null,
+          "timing": {
+            "durationInFrames": 60,
+            "enterAtFrame": 0,
+            "exitAtFrame": 60,
+            "words": null
+          }
+        }
+      ],
+      "transitionIn": null,
+      "transitionOut": null
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T23:09:03.135Z",
+  "generatedAt": "2026-08-21T01:54:53.781Z",
   "assetRoots": [
     "../../studio/assets",
     "../../studio/graphics",
@@ -35,9 +35,19 @@
       "entryFile": "PhysicsShape.jsx",
       "rootIndex": 0
     },
+    "SvgImage": {
+      "folderName": "SvgImage",
+      "entryFile": "SvgImage.jsx",
+      "rootIndex": 0
+    },
     "TextBlock": {
       "folderName": "TextBlock",
       "entryFile": "TextBlock.jsx",
+      "rootIndex": 0
+    },
+    "TextEmerge": {
+      "folderName": "TextEmerge",
+      "entryFile": "TextEmerge.jsx",
       "rootIndex": 0
     },
     "WavyLine": {
@@ -48,6 +58,11 @@
     "BarChartRace": {
       "folderName": "BarChartRace",
       "entryFile": "BarChartRace.jsx",
+      "rootIndex": 1
+    },
+    "PieChart": {
+      "folderName": "PieChart",
+      "entryFile": "PieChart.jsx",
       "rootIndex": 1
     },
     "SignalBloom": {

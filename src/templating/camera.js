@@ -1,8 +1,30 @@
 import { resolveAnchorPoint } from "./anchor.js";
+import { resolveTimingAnchor } from "../timing/effectTiming.js";
 
 function clamp01(value) {
   if (value == null || Number.isNaN(Number(value))) return 0;
   return Math.min(Math.max(Number(value), 0), 1);
+}
+
+// Same curve shapes as motion.js's EASINGS (kept as an independent copy —
+// camera.js and motion.js are deliberately decoupled modules, same split
+// rationale as the rest of this file). Governs how a segment's progress is
+// shaped before it's used to interpolate anchor position and (when
+// cameraSpec.easeZoom is true) zoom — this is what makes a "swoosh" zoom
+// (fast start/settle, e.g. easeOut) possible instead of only linear.
+const EASINGS = {
+  linear: (t) => t,
+  easeIn: (t) => t * t * t,
+  easeOut: (t) => 1 - Math.pow(1 - t, 3),
+  easeInOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+};
+
+function resolveEasing(name) {
+  const easingName = name ?? "linear";
+  if (!EASINGS[easingName]) {
+    throw new Error(`Unknown camera action easing "${easingName}". Available: ${Object.keys(EASINGS).join(", ")}`);
+  }
+  return easingName;
 }
 
 function normalizeAnchor(anchor) {
@@ -33,15 +55,59 @@ function interpolateAnchor(startAnchor, endAnchor, progress, composition, ctx) {
   };
 }
 
-function normalizeCameraActions(cameraSpec) {
+/**
+ * Resolves a camera action's `at` into a fraction [0,1] of the camera's own
+ * motion duration. `at` is exact-first: a bare number is used as-is
+ * (legacy, unchanged). An object form uses the shared timingAnchor
+ * vocabulary (shared.schema.json#/definitions/timingAnchor) — but only the
+ * `relativeToWord` and `offsetPercent` branches are reachable here.
+ * `relativeToAsset`/`relativeToCameraAction` are rejected with a clear
+ * error: camera resolves BEFORE the asset loop in resolveScene.js (so
+ * asset enterAt/exitAt can anchor to a camera action's frame), which means
+ * no resolvedAssetsById exists yet for a camera action to anchor back to an
+ * asset, and camera actions have no stable frame of their own to
+ * cross-reference each other by, until this very function runs.
+ *
+ * `motionDuration` mirrors the formula resolveCameraTransform uses at
+ * render time (cameraSpec.durationInFrames, else sceneDurationInFrames /
+ * speed) so an authored word/percent anchor lands on the same frame at
+ * normalize time and at render time.
+ */
+function resolveActionAt(raw, cameraSpec, ctx) {
+  if (typeof raw === "number" || raw == null) return clamp01(raw ?? 0);
+
+  if (raw.relativeToAsset !== undefined || raw.relativeToCameraAction !== undefined) {
+    throw new Error(
+      `Camera action "at" cannot use relativeToAsset/relativeToCameraAction — camera resolves before ` +
+        `the asset loop (so assets can anchor enterAt/exitAt to a camera action), so no resolved asset ` +
+        `positions or sibling camera-action frames exist yet to anchor back to. Use relativeToWord or ` +
+        `offsetPercent instead (scene "${ctx?.sceneId ?? "?"}").`,
+    );
+  }
+
+  const sceneDurationInFrames = ctx?.sceneDurationInFrames ?? 1;
+  const motionDuration =
+    cameraSpec?.durationInFrames ?? Math.max(sceneDurationInFrames / (cameraSpec?.speed ?? 1), 1);
+
+  const frame = resolveTimingAnchor(raw, {
+    sceneDurationInFrames,
+    words: ctx?.words,
+    sceneId: ctx?.sceneId,
+  });
+
+  return motionDuration <= 1 ? 0 : clamp01(frame / (motionDuration - 1));
+}
+
+function normalizeCameraActions(cameraSpec, ctx) {
   if (!cameraSpec) return [];
 
   if (Array.isArray(cameraSpec)) {
     return cameraSpec
       .map((entry) => ({
-        at: clamp01(entry.at ?? 0),
+        at: resolveActionAt(entry.at, cameraSpec, ctx),
         anchor: normalizeAnchor(entry.anchor ?? entry),
         zoomPercent: entry.zoomPercent ?? entry.zoomEndPercent ?? entry.zoomStartPercent ?? 100,
+        easing: resolveEasing(entry.easing),
         ...(entry.id != null ? { id: entry.id } : {}),
       }))
       .sort((a, b) => a.at - b.at);
@@ -50,9 +116,10 @@ function normalizeCameraActions(cameraSpec) {
   if (Array.isArray(cameraSpec.actions) && cameraSpec.actions.length > 0) {
     return cameraSpec.actions
       .map((entry) => ({
-        at: clamp01(entry.at ?? 0),
+        at: resolveActionAt(entry.at, cameraSpec, ctx),
         anchor: normalizeAnchor(entry.anchor ?? entry),
         zoomPercent: entry.zoomPercent ?? entry.zoomEndPercent ?? entry.zoomStartPercent ?? 100,
+        easing: resolveEasing(entry.easing),
         ...(entry.id != null ? { id: entry.id } : {}),
       }))
       .sort((a, b) => a.at - b.at);
@@ -64,14 +131,16 @@ function normalizeCameraActions(cameraSpec) {
   const zoomEndPercent = cameraSpec.zoomEndPercent ?? cameraSpec.zoomPercent ?? 100;
 
   return [
-    { at: 0, anchor: normalizeAnchor(start), zoomPercent: zoomStartPercent },
-    { at: 1, anchor: normalizeAnchor(end), zoomPercent: zoomEndPercent },
+    { at: 0, anchor: normalizeAnchor(start), zoomPercent: zoomStartPercent, easing: resolveEasing(cameraSpec.easing) },
+    { at: 1, anchor: normalizeAnchor(end), zoomPercent: zoomEndPercent, easing: resolveEasing(cameraSpec.easing) },
   ];
 }
 
 /**
  * @typedef {object} ResolveCameraCtx
  * @property {Record<string, object>=} resolvedAssetsById  pass-1 asset map; needed for `followAssetId` anchors
+ * @property {number=} sceneDurationInFrames  needed to resolve relativeToWord/offsetPercent `at` anchors
+ * @property {Array=} words  scene-level narration word timing; needed for relativeToWord `at` anchors
  * @property {string=} sceneId  for error messages
  */
 
@@ -86,7 +155,7 @@ function normalizeCameraActions(cameraSpec) {
 export function resolveCamera(cameraSpec, ctx) {
   if (!cameraSpec) return null;
 
-  const actions = normalizeCameraActions(cameraSpec);
+  const actions = normalizeCameraActions(cameraSpec, ctx);
   if (actions.length === 0) return null;
 
   return {
@@ -125,7 +194,7 @@ export function resolveCameraTransform(cameraSpec, composition, frame, durationI
     };
   }
 
-  const actions = normalizeCameraActions(cameraSpec);
+  const actions = normalizeCameraActions(cameraSpec, ctx);
   if (actions.length === 0) {
     return {
       translateX: 0,
@@ -157,14 +226,23 @@ export function resolveCameraTransform(cameraSpec, composition, frame, durationI
     ? 0
     : Math.min(Math.max((progress - current.at) / (next.at - current.at), 0), 1);
 
-  const anchor = interpolateAnchor(current.anchor, next.anchor, segmentProgress, composition, ctx);
+  // Per-action `easing` (default "linear", byte-identical to the pre-easing
+  // formula) shapes the pace FROM `current` TO `next` — the same "timing
+  // function describes the leg leaving this keyframe" convention CSS
+  // keyframes use. This is what makes a "swoosh" possible: e.g. `easeOut`
+  // on the start action gives a fast launch that settles into the next
+  // keyframe, instead of a constant-speed pan/zoom.
+  const easedProgress = EASINGS[current.easing](segmentProgress);
+
+  const anchor = interpolateAnchor(current.anchor, next.anchor, easedProgress, composition, ctx);
 
   // Zoom: snaps instantly by default (unchanged legacy behavior — see the
   // original comment this replaces). Opt-in continuous easing across the
-  // segment via cameraSpec.easeZoom: true. Every camera spec that doesn't
-  // set easeZoom keeps the exact old snap behavior.
+  // segment via cameraSpec.easeZoom: true, shaped by the same per-action
+  // `easing` as the anchor above. Every camera spec that doesn't set
+  // easeZoom keeps the exact old snap behavior.
   const zoomPercent = cameraSpec.easeZoom
-    ? current.zoomPercent + (next.zoomPercent - current.zoomPercent) * segmentProgress
+    ? current.zoomPercent + (next.zoomPercent - current.zoomPercent) * easedProgress
     : current.zoomPercent;
   const baseScale = zoomPercent / 100;
 

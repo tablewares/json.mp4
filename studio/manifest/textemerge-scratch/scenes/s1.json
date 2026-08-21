@@ -1,0 +1,21 @@
+{
+  "id": "s1",
+  "assets": [
+    {
+      "assetType": "TextEmerge",
+      "anchor": {
+        "position": "center"
+      },
+      "contentOverride": {
+        "text": "Quantitative Easing"
+      },
+      "styleOverride": {
+        "$alias": "text.emergeCard"
+      },
+      "enterAt": 0,
+      "exitAt": 1,
+      "z": 10,
+      "id": "title1"
+    }
+  ]
+}

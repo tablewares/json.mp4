@@ -1,0 +1,13 @@
+{
+  "background": "shade2",
+  "id": "scene2",
+  "assets": [
+    {
+      "id": "heroTitle",
+      "assetType": "TextBlock",
+      "contentOverride": { "text": "CARRY ME" },
+      "anchor": { "position": "bottom", "offsetYPercent": -10 },
+      "styleOverride": { "typography": "heading1" }
+    }
+  ]
+}

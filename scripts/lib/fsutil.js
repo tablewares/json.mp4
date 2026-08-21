@@ -10,14 +10,26 @@ const { rel } = require('./paths');
 // everything downstream (Workspace.commit -> writeJSONAtomic) picks it up
 // without threading an option through every call site. Per-call `minify`
 // arguments (if ever passed explicitly) still win over this default.
+//
+// `_minifyExplicit` distinguishes "the user actually passed --minify (or
+// --minify=false) on THIS invocation" from "nobody said anything, fall
+// back further" — Workspace.commit() uses this to let a project's own
+// config.json `jsonFormat` setting win when the invocation itself didn't
+// ask for a specific format (see lib/workspace.js `_resolveMinify`).
 let _defaultMinify = false;
+let _minifyExplicit = false;
 
 function setDefaultMinify(minify) {
   _defaultMinify = !!minify;
+  _minifyExplicit = minify !== undefined;
 }
 
 function getDefaultMinify() {
   return _defaultMinify;
+}
+
+function isMinifyExplicit() {
+  return _minifyExplicit;
 }
 
 function readJSON(absPath) {
@@ -62,4 +74,4 @@ function writeJSONAtomic(absPath, obj, opts = {}) {
   fs.renameSync(tmp, absPath);
 }
 
-module.exports = { readJSON, writeJSONAtomic, setDefaultMinify, getDefaultMinify };
+module.exports = { readJSON, writeJSONAtomic, setDefaultMinify, getDefaultMinify, isMinifyExplicit };

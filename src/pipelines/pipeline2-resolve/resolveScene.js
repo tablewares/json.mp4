@@ -9,7 +9,6 @@ import { resolveTimingAnchor } from "../../timing/effectTiming.js";
 import { findSceneDurationVideoAsset, probeVideoDurationSeconds } from "../../timing/videoTiming.js";
 import { indexAssetsById, resolveSceneRefs } from "./resolveRefs.js";
 import { resolveScenePhysics, getFinalPhysicsState } from "../../physics/resolvePhysics.js";
-import { warnOnAssetOverlaps } from "./overlap_warn.js";
 
 function resolveKineticWordTimings(assetSpec, assetManifest, sceneWords, narrationText) {
   if (assetSpec.assetType !== "KineticText" || !sceneWords?.length || !narrationText) return null;
@@ -99,7 +98,11 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
   // resolveCameraTransform needs resolvedAssetsById, for followAssetId
   // anchors), so calling it here produces byte-identical output to calling
   // it after assets are resolved, as the code did before this change.
-  const camera = resolveCamera(scene.camera, { sceneId: scene.id });
+  const camera = resolveCamera(scene.camera, {
+    sceneId: scene.id,
+    sceneDurationInFrames: timing.durationInFrames,
+    words: timing.words,
+  });
 
   // Built up as assets resolve so a later asset's enterAt/exitAt can
   // anchor to an EARLIER asset's edge — same \"target must come first\"
@@ -118,7 +121,10 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
       width: assetSpec.styleOverride?.width ?? assetManifest.defaultSize.width,
       height: assetSpec.styleOverride?.height ?? assetManifest.defaultSize.height,
     };
-    const resolvedPosition = resolveAnchor(assetSpec.anchor, compositionSize, size);
+    const resolvedPosition = resolveAnchor(assetSpec.anchor, compositionSize, size, {
+      resolvedAssetsById,
+      sceneId: scene.id,
+    });
     const resolvedStyle = {
       ...resolveAssetStyle(styles, assetManifest, assetSpec.styleOverride),
       ...size,
@@ -166,10 +172,12 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
     if (assetSpec.physics) physicsSpecsById[resolvedAsset.id] = assetSpec.physics;
   }
   
-  warnOnAssetOverlaps(scene.id, resolvedAssets, sceneDurationInFrames, {
-    compositionSize,
-    hasNarration,
-  });
+  // Composition-plugin checks (overlapGuard, similarSceneGuard, ...) run
+  // once over the whole resolved scene graph after this per-scene loop
+  // completes — see resolveProject in resolve.js. Per-scene overlap/
+  // offscreen/tiny/short-duration/low-activity checks used to run
+  // unconditionally right here; they're now part of the opt-in
+  // config.compositionPlugins seam instead (see plugins/overlapGuard.js).
 
   // resolveSceneRefs/indexAssetsById still run as a distinct pass-2 over the
   // FULL resolved array (unchanged) — content/connector resolution is
@@ -206,7 +214,7 @@ export function resolveScene(scene, { styles, assetRegistry, config, timingById,
     physicsInitialOverridesById[assetId] = finalState;
   }
 
-  resolveScenePhysics(resolvedAssets, physicsSpecsById, scene.physics, sceneDurationInFrames, config.fps, physicsInitialOverridesById);
+  resolveScenePhysics(resolvedAssets, physicsSpecsById, scene.physics, sceneDurationInFrames, config.fps, physicsInitialOverridesById, compositionSize);
 
   return {
     id: scene.id,
